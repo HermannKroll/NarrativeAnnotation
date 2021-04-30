@@ -8,24 +8,14 @@ GIT_ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__fi
 DATA_DIR = os.path.join(GIT_ROOT_DIR, "data")
 RESOURCE_DIR = os.path.join(GIT_ROOT_DIR, "resources")
 CONFIG_DIR = os.path.join(GIT_ROOT_DIR, "config")
-LOG_DIR = os.path.join(GIT_ROOT_DIR, "logs")
 TMP_DIR = os.path.join(GIT_ROOT_DIR, "tmp")
 TMP_DIR_TAGGER = os.path.join(TMP_DIR, 'tagger')
-CACHE_DIR = os.path.join(GIT_ROOT_DIR, 'cache')
-CODE_DIR = os.path.join(GIT_ROOT_DIR, 'narraint')
 
 if not os.path.isdir(TMP_DIR):
     os.makedirs(TMP_DIR)
 
 if not os.path.isdir(TMP_DIR_TAGGER):
     os.makedirs(TMP_DIR_TAGGER)
-
-# UMLS
-UMLS_DATA = os.path.join(DATA_DIR, "umls/MRCONSO.RRF.gz")
-UMLS_MAPPING = os.path.join(DATA_DIR, "umls/mapping.json")
-
-# SemMed
-SEMMEDDB_CONFIG = os.path.join(CONFIG_DIR, 'semmed.json')
 
 # MeSH Ontology Index File
 MESH_ONTOLOGY_INDEX_FILE = os.path.join(TMP_DIR, "mesh_ontology_index.pkl")
@@ -40,9 +30,9 @@ MESH_SUPPLEMENTARY_ID_TO_HEADING_INDEX_FILE = os.path.join(TMP_DIR, 'supp2021_id
 DRUGBASE_XML_DUMP = os.path.join(DATA_DIR, "drugbank2021.xml")
 
 # GENE
-GENE_FILE = os.path.join(DATA_DIR, 'gene_info_2020.gz')
-GENE_INDEX_FILE = os.path.join(TMP_DIR, 'gene_info_2020_id2name.pkl')
-GENE_TO_HUMAN_ID_FILE = os.path.join(TMP_DIR, 'gene_to_human_id.pkl')
+GENE_FILE = os.path.join(DATA_DIR, 'gene_info_2021.gz')
+GENE_INDEX_FILE = os.path.join(TMP_DIR, 'gene_info_2021_id2name.pkl')
+GENE_TO_HUMAN_ID_FILE = os.path.join(TMP_DIR, 'gene_2021_to_human_id.pkl')
 
 # Taxonomy Names 2020
 TAXONOMY_FILE = os.path.join(RESOURCE_DIR, 'taxonomy_names_2020.gz')
@@ -56,9 +46,6 @@ DRUGBANK_ID_2_MESH_MAPPING_INDEX = os.path.join(TMP_DIR, 'drugbank2mesh.pkl')
 
 # Preprocessing
 PREPROCESS_CONFIG = os.path.join(CONFIG_DIR, 'preprocess.json')
-
-# NLP
-NLP_DATA = os.path.join(DATA_DIR, "stanfordnlp_resources")
 
 # Backend for Tagging
 BACKEND_CONFIG = os.path.join(CONFIG_DIR, "backend.json")
@@ -98,16 +85,5 @@ LAB_METHOD_TAGGER_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, 'lab_method_cache.p
 PLANT_FAMILTY_DATABASE_FILE = os.path.join(RESOURCE_DIR, 'plant_families_2020.txt')
 PLANT_FAMILTY_INDEX_CACHE = os.path.join(TMP_DIR, 'plant_families_cache.pkl')
 
-# MeSH SubHeadings for MEDLINE PubMed
-MESH2DOC_INDEX_Pubmed = os.path.join(TMP_DIR, "pubmed_medline_index.pickle")
-MESH2Doc_INDEX_PMC = os.path.join(TMP_DIR, "pmc_index.pkl")
-
 # Entity Tagging index
 ENTITY_TAGGING_INDEX = os.path.join(TMP_DIR, 'entity_tagging_index.pkl')
-
-# Autocompletion Index
-AUTOCOMPLETION_TMP_INDEX = os.path.join(TMP_DIR, 'autocompletion.pkl')
-
-# NLP Config
-NLP_CONFIG = os.path.join(CONFIG_DIR, 'nlp.json')
-
