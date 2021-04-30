@@ -147,7 +147,7 @@ python3 narrant/preprocessing/dictpreprocess.py ~/test.pubtator --corpus test --
 
 ## Database scheme
 
-![DB Scheme](../../docs/dbdiagram.png)
+![DB Scheme](dbschema.png)
 created with app.quickdatabasediagrams.com
 ### Export XML UB
 If you want to export in our specified XML format, use the following script. You need to create some indexes before you can use the xml export.
