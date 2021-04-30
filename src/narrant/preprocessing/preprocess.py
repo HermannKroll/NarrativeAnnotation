@@ -12,7 +12,7 @@ import datetime as dti
 
 from narrant.preprocessing import enttypes
 from narrant.backend.database import Session
-from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, CHEMICAL, DISEASE, SPECIES, GENE
+from narrant.preprocessing.enttypes import CHEMICAL, DISEASE, SPECIES, GENE
 from narrant.backend.export import export
 from narrant.backend.load_document import document_bulk_load
 from narrant.backend.models import DocTaggedBy
@@ -55,19 +55,18 @@ def init_preprocess_logger(log_filename, log_level, log_format=LOGGING_FORMAT, w
     return logger
 
 
-def get_tagger_by_ent_type(tag_types, use_tagger_one):
+def get_tagger_by_ent_type(tag_types):
     tagger_by_ent_type = {}
 
     if enttypes.GENE in tag_types and enttypes.SPECIES in tag_types:
         tagger_by_ent_type[enttypes.GENE] = GNormPlus
         tagger_by_ent_type[enttypes.SPECIES] = GNormPlus
-
     if (enttypes.GENE in tag_types) != (enttypes.SPECIES in tag_types):
         raise ValueError("GNormPlus does not support tagging of Species and Genes separately")
-    if enttypes.CHEMICAL in tag_types and enttypes.DISEASE in tag_types and use_tagger_one:
+    if enttypes.CHEMICAL in tag_types and enttypes.DISEASE in tag_types:
         tagger_by_ent_type[enttypes.CHEMICAL] = TaggerOne
         tagger_by_ent_type[enttypes.DISEASE] = TaggerOne
-    if (enttypes.CHEMICAL in tag_types) != (enttypes.DISEASE in tag_types) and use_tagger_one:
+    if (enttypes.CHEMICAL in tag_types) != (enttypes.DISEASE in tag_types):
         raise ValueError("TaggerOne does not support Tagging of Chemicals or Diseases separately!")
 
     return tagger_by_ent_type
@@ -106,8 +105,7 @@ def get_untagged_doc_ids_by_ent_type(collection, target_ids, ent_type, tagger_cl
     return missing_ids
 
 
-def preprocess(collection, root_dir, input_dir, log_dir, logger, output_filename, conf, *tag_types,
-               resume=False, use_tagger_one=False):
+def preprocess(collection, root_dir, input_dir, log_dir, logger, output_filename, conf, *tag_types):
     """
     Method creates a single PubTator file with the documents from in ``in_dir`` and its tags.
 
@@ -116,10 +114,8 @@ def preprocess(collection, root_dir, input_dir, log_dir, logger, output_filename
     :param root_dir: Root directory (i.e., working directory)
     :param input_dir: Input directory containing PubTator files to tag
     :param collection: Collection ID (e.g., PMC)
-    :param use_tagger_one: Flag to use TaggerOne instead of tmChem and DNorm
     :param output_filename: Filename of PubTator to create
     :param conf: config object
-    :param resume: flag, if method should resume (if True, tag_genes, tag_chemicals and tag_diseases must
     be set accordingly)
     """
     logger.info("=== STEP 1 - Preparation ===")
@@ -129,16 +125,18 @@ def preprocess(collection, root_dir, input_dir, log_dir, logger, output_filename
     missing_files_type = dict()
 
     # Get tagger classes
-    tagger_by_ent_type = get_tagger_by_ent_type(tag_types, use_tagger_one)
+    tagger_by_ent_type = get_tagger_by_ent_type(tag_types)
 
     # Gather target IDs
     target_ids, mapping_file_id, mapping_id_file = collect_ids_from_dir(input_dir, logger)
     logger.info("Preprocessing {} documents".format(len(target_ids)))
 
     # Get input documents for each tagger
+    all_missing_ids = set()
     for tag_type in tag_types:
         tagger_cls = tagger_by_ent_type[tag_type]
         missing_ids = get_untagged_doc_ids_by_ent_type(collection, target_ids, tag_type, tagger_cls, logger)
+        all_missing_ids.update(missing_ids)
         missing_files_type[tag_type] = frozenset(mapping_id_file[x] for x in missing_ids)
         task_list_fn = os.path.join(root_dir, "tasklist_{}.txt".format(tag_type.lower()))
         with open(task_list_fn, "w") as f:
@@ -157,15 +155,18 @@ def preprocess(collection, root_dir, input_dir, log_dir, logger, output_filename
         logger.info("Preparing {}".format(tagger.name))
         for target_type in tagger.get_types():
             tagger.add_files(*missing_files_type[target_type])
-        tagger.prepare(resume)
+        tagger.prepare()
         preptime = dti.datetime.now() - start
         logger.info(f"{tagger.name} used {preptime} for preparation")
-    logger.info("=== STEP 2 - Tagging ===")
-    for tagger in taggers:
-        logger.info("Starting {}".format(tagger.name))
-        tagger.start()
-    for tagger in taggers:
-        tagger.join()
+    if len(all_missing_ids) > 0:
+        logger.info("=== STEP 2 - Tagging ===")
+        for tagger in taggers:
+            logger.info("Starting {}".format(tagger.name))
+            tagger.start()
+        for tagger in taggers:
+            tagger.join()
+    else:
+        logger.info('No files need to be annotated - finished')
     logger.info("=== STEP 3 - Post-processing ===")
     for tagger in taggers:
         logger.info("Finalizing {}".format(tagger.name))
@@ -174,15 +175,13 @@ def preprocess(collection, root_dir, input_dir, log_dir, logger, output_filename
         export(output_filename, tag_types, target_ids, collection=collection, content=True, logger=logger)
     logger.info("=== Finished ===")
 
-#TODO:
+
 def main(arguments=None):
     parser = ArgumentParser(description="Tag given documents in pubtator format and insert tags into database")
 
-    parser.add_argument("--resume", action="store_true", help="Resume tagging")
     parser.add_argument("--composite", action="store_true",
                         help="Check for composite pubtator files in input. Automatically enabled if input is a file.")
 
-    parser.add_argument("-t", "--tag", choices=TAG_TYPE_MAPPING.keys(), nargs="+", required=True)
     parser.add_argument("-c", "--corpus", required=True)
     parser.add_argument("--tagger-one", action="store_true", help='Enables Tagging of Chemicals and Diseases with TaggerOne')
     parser.add_argument("--gnormplus", action="store_true", help="Enables Tagging of Genes and Species with GNormPlus")
@@ -201,11 +200,15 @@ def main(arguments=None):
     parser.add_argument("-o", "--output", help="export file")
     args = parser.parse_args(arguments)
 
+    if not args.tagger_one and not args.gnormplus:
+        print("At least --tagger-one or --gnormplus must be specified for tagging")
+        sys.exit(1)
+
     # Create configuration wrapper
     conf = Config(args.config)
 
     # Prepare directories and logging
-    root_dir = os.path.abspath(args.workdir) if args.workdir or args.resume else tempfile.mkdtemp()
+    root_dir = os.path.abspath(args.workdir) if args.workdir else tempfile.mkdtemp()
     ext_in_dir = args.input
     in_dir = os.path.join(root_dir, "input")
     log_dir = os.path.abspath(os.path.join(root_dir, "log"))
@@ -234,7 +237,6 @@ def main(arguments=None):
         ignored, sanitized = sanitize(ext_in_dir, output_dir=in_dir)
     logger.info(f"{len(ignored)} files ignored because of wrong format or missing abstract")
     logger.info(f"{len(sanitized)} files sanitized")
-
 
     # Add documents to database
     if args.skip_load:
@@ -275,8 +277,7 @@ def main(arguments=None):
                 args.corpus, sub_root_dir, sub_in_dir, sub_log_dir, sub_logger,
                 sub_output, conf, *tag_types
             )
-            kwargs = dict(resume=args.resume, use_tagger_one=not args.no_tagger_one)
-            process = multiprocessing.Process(target=preprocess, args=process_args, kwargs=kwargs)
+            process = multiprocessing.Process(target=preprocess, args=process_args, kwargs=dict())
             processes.append(process)
             process.start()
 
@@ -294,8 +295,7 @@ def main(arguments=None):
                             output_file.write(line)
                     os.remove(sub_out_path)
     else:
-        preprocess(args.corpus, root_dir, in_dir, log_dir, logger, args.output, conf, *tag_types,
-                   resume=args.resume, use_tagger_one=not args.no_tagger_one)
+        preprocess(args.corpus, root_dir, in_dir, log_dir, logger, args.output, conf, *tag_types)
 
     if not args.workdir:
         logger.info("Done. Deleting tmp project directory.")
