@@ -1,6 +1,6 @@
 import logging
 
-from narraint.config import MESH_DESCRIPTORS_FILE
+from narrant.config import MESH_DESCRIPTORS_FILE
 from narrant.mesh.data import MeSHDB
 
 DOSAGE_FORM_TREE_NUMBERS = ["D26.255", "E02.319.300", "J01.637.512.600", "J01.637.512.850", "J01.637.512.925"]

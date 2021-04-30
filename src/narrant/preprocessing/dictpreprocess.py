@@ -14,7 +14,7 @@ from narrant.backend.load_document import document_bulk_load
 from narrant.preprocessing.tagging.metadictagger import MetaDicTagger, MetaDicTaggerFactory
 from narrant.progress import print_progress_with_eta
 from narrant.pubtator import count
-from narraint.config import PREPROCESS_CONFIG
+from narrant.config import PREPROCESS_CONFIG
 from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, DALL
 from narrant.preprocessing.config import Config
 from narrant.pubtator.document import TaggedDocument

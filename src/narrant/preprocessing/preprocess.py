@@ -16,7 +16,7 @@ from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING
 from narrant.backend.export import export
 from narrant.backend.load_document import document_bulk_load
 from narrant.backend.models import DocTaggedBy
-from narraint.config import PREPROCESS_CONFIG
+from narrant.config import PREPROCESS_CONFIG
 from narrant.preprocessing.config import Config
 from narrant.preprocessing.tagging.base import BaseTagger
 from narrant.preprocessing.tagging.dnorm import DNorm

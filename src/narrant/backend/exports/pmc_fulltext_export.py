@@ -3,7 +3,7 @@ import os
 import shutil
 import tempfile
 
-from narraint.config import PREPROCESS_CONFIG
+from narrant.config import PREPROCESS_CONFIG
 from narrant.preprocessing.collect import PMCCollector
 from narrant.preprocessing.config import Config
 from narrant.preprocessing.convertids import load_pmcids_to_pmid_index

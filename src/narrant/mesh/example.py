@@ -1,7 +1,7 @@
 """
 This is an example file how to use the package.
 """
-from narraint.config import MESH_DESCRIPTORS_FILE
+from narrant.config import MESH_DESCRIPTORS_FILE
 from narrant.mesh.data import MeSHDB
 
 db = MeSHDB.instance()

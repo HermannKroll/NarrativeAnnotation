@@ -1,6 +1,6 @@
 import logging
 
-from narraint.config import MESH_DESCRIPTORS_FILE
+from narrant.config import MESH_DESCRIPTORS_FILE
 from narrant.mesh.data import MeSHDB
 
 METHODS_QUALIFIER = 'Q000379'

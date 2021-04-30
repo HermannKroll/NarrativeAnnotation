@@ -9,7 +9,7 @@ from datetime import datetime
 
 from typing import List
 
-from narraint.config import TMP_DIR, DICT_TAGGER_BLACKLIST
+from narrant.config import TMP_DIR, DICT_TAGGER_BLACKLIST
 from narrant.preprocessing.tagging.base import BaseTagger
 from narrant.progress import print_progress_with_eta
 from narrant.preprocessing.utils import get_document_id, DocumentError

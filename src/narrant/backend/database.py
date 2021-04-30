@@ -11,7 +11,7 @@ from sqlalchemy.orm import sessionmaker
 
 from narrant import tools
 from narrant.backend.models import Base
-import narraint.config as cnf
+import narrant.config as cnf
 
 
 from sqlalchemy.ext.compiler import compiles

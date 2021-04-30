@@ -2,7 +2,7 @@ import argparse
 import os
 import pickle
 
-from narraint import config
+from narrant import config
 
 
 def count_lines(filename):

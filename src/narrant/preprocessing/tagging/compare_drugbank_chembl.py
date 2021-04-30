@@ -1,11 +1,11 @@
 import os
 import csv
 
-from narraint.entity.entityresolver import EntityResolver
+from narrant.entity.entityresolver import EntityResolver
 from narrant.preprocessing.tagging.vocabularies import DrugTaggerVocabulary
 from narrant.tools import  reverse_set_index
 from narrant.preprocessing.enttypes import DRUG
-import narraint.config as cnf
+import narrant.config as cnf
 
 def main():
     vocab_without_chembl = reverse_set_index(DrugTaggerVocabulary.create_drugbank_vocabulary_from_source())

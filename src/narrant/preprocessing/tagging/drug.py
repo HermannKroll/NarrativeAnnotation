@@ -4,7 +4,7 @@ import logging
 import tempfile
 import lxml.etree as ET
 
-from narraint import config
+from narrant import config
 from narrant.preprocessing import enttypes
 from narrant.preprocessing.tagging.dictagger import DictTagger
 from narrant.preprocessing.tagging.vocabularies import DrugTaggerVocabulary

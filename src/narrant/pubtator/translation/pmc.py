@@ -8,7 +8,7 @@ import logging
 from argparse import ArgumentParser
 from typing import List
 from lxml import etree, html
-from narraint.config import PREPROCESS_CONFIG
+from narrant.config import PREPROCESS_CONFIG
 from narrant.preprocessing.collect import PMCCollector
 from narrant.preprocessing.config import Config
 from narrant.preprocessing.convertids import load_pmcids_to_pmid_index

@@ -9,8 +9,8 @@ from typing import List
 
 import lxml.etree as ET
 
-from narraint import config
-from narraint.config import MESH_DESCRIPTORS_FILE, METHOD_CLASSIFICATION_FILE
+from narrant import config
+from narrant.config import MESH_DESCRIPTORS_FILE, METHOD_CLASSIFICATION_FILE
 from narrant.preprocessing.enttypes import METHOD, LAB_METHOD
 from narrant.mesh.data import MeSHDB
 from narrant.preprocessing.tagging.dictagger import clean_vocab_word_by_split_rules

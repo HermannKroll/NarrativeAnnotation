@@ -13,7 +13,7 @@ from narrant.backend.load_document import document_bulk_load
 from narrant.preprocessing.tagging.stanza import StanzaTagger
 from narrant.progress import print_progress_with_eta
 from narrant.pubtator import count
-from narraint.config import PREPROCESS_CONFIG
+from narrant.config import PREPROCESS_CONFIG
 from narrant.preprocessing.config import Config
 from narrant.pubtator.document import TaggedDocument
 from narrant.pubtator.extract import read_pubtator_documents
