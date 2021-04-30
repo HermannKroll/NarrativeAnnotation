@@ -23,9 +23,9 @@ from narrant.preprocessing.tagging.dnorm import DNorm
 from narrant.preprocessing.tagging.gnormplus import GNormPlus
 from narrant.preprocessing.tagging.taggerone import TaggerOne
 from narrant.preprocessing.tagging.tmchem import TMChem
-from narraint.pubtator.distribute import distribute_workload, create_parallel_dirs, split_composites
-from narraint.pubtator.extract import collect_ids_from_dir
-from narraint.pubtator.sanitize import sanitize
+from narrant.pubtator.distribute import distribute_workload, create_parallel_dirs, split_composites
+from narrant.pubtator.extract import collect_ids_from_dir
+from narrant.pubtator.sanitize import sanitize
 
 LOGGING_FORMAT = '%(asctime)s %(levelname)s %(threadName)s %(module)s:%(lineno)d %(message)s'
 

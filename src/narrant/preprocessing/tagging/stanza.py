@@ -4,7 +4,7 @@ from datetime import datetime
 import stanza
 
 from narrant.preprocessing.tagging.base import BaseTagger
-from narraint.pubtator.document import TaggedDocument, TaggedEntity
+from narrant.pubtator.document import TaggedDocument, TaggedEntity
 
 
 class StanzaTagger(BaseTagger):

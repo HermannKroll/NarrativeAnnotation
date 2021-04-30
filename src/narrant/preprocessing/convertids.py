@@ -8,9 +8,9 @@ from datetime import datetime, timedelta
 from itertools import islice
 
 from narrant.preprocessing.config import Config
-from narraint.pubtator.count import count_documents
-from narraint.pubtator.extract import read_pubtator_documents
-from narraint.pubtator.regex import DOCUMENT_ID, TAG_LINE_NORMAL
+from narrant.pubtator.count import count_documents
+from narrant.pubtator.extract import read_pubtator_documents
+from narrant.pubtator.regex import DOCUMENT_ID, TAG_LINE_NORMAL
 from narraint.progress import print_progress_with_eta
 
 

@@ -10,7 +10,7 @@ from sqlalchemy import Column, String, Float, Integer, DateTime, ForeignKeyConst
 from sqlalchemy.ext.declarative import declarative_base
 
 from narrant.preprocessing.enttypes import GENE, SPECIES
-from narraint.pubtator.regex import ILLEGAL_CHAR
+from narrant.pubtator.regex import ILLEGAL_CHAR
 
 Base = declarative_base()
 

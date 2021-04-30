@@ -1,4 +1,4 @@
-from narraint.pubtator.regex import DOCUMENT_ID
+from narrant.pubtator.regex import DOCUMENT_ID
 
 
 class DocumentError(Exception):

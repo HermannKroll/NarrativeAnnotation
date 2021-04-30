@@ -13,7 +13,7 @@ from narraint.config import TMP_DIR, DICT_TAGGER_BLACKLIST
 from narrant.preprocessing.tagging.base import BaseTagger
 from narraint.progress import print_progress_with_eta
 from narrant.preprocessing.utils import get_document_id, DocumentError
-from narraint.pubtator.document import TaggedDocument, TaggedEntity
+from narrant.pubtator.document import TaggedDocument, TaggedEntity
 
 
 class DictIndex:

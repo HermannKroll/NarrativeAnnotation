@@ -7,7 +7,7 @@ import narrant.preprocessing.tagging.dictagger as dt
 import narrant.preprocessing.enttypes as et
 from narrant.preprocessing.tagging import drug, dosage, excipient, plantfamily, drugbankchemical, disease, method,\
     labmethod
-from narraint.pubtator.document import TaggedEntity
+from narrant.pubtator.document import TaggedEntity
 
 """
 Modified version of the dict tagger, that can run on the vocabularies of multiple dicttaggers

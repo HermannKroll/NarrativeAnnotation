@@ -13,13 +13,13 @@ from narrant.backend.database import Session
 from narrant.backend.load_document import document_bulk_load
 from narrant.preprocessing.tagging.metadictagger import MetaDicTagger, MetaDicTaggerFactory
 from narraint.progress import print_progress_with_eta
-from narraint.pubtator import count
+from narrant.pubtator import count
 from narraint.config import PREPROCESS_CONFIG
 from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, DALL
 from narrant.preprocessing.config import Config
-from narraint.pubtator.document import TaggedDocument
-from narraint.pubtator.extract import read_pubtator_documents
-from narraint.pubtator.sanitize import filter_and_sanitize
+from narrant.pubtator.document import TaggedDocument
+from narrant.pubtator.extract import read_pubtator_documents
+from narrant.pubtator.sanitize import filter_and_sanitize
 from narrant.preprocessing.preprocess import init_preprocess_logger, init_sqlalchemy_logger, \
     get_untagged_doc_ids_by_ent_type
 from narraint.util.multiprocessing.ConsumerWorker import ConsumerWorker

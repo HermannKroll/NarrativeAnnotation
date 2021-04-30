@@ -9,8 +9,8 @@ from narrant.backend.database import Session
 from narrant.backend.load_document import insert_taggers
 from narrant.backend.models import Tag, DocTaggedBy
 from narrant.preprocessing.config import Config
-from narraint.pubtator.document import TaggedDocument
-from narraint.pubtator.regex import TAG_LINE_NORMAL
+from narrant.pubtator.document import TaggedDocument
+from narrant.pubtator.regex import TAG_LINE_NORMAL
 
 
 # TODO: Add estimation when tagging is done

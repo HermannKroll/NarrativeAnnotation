@@ -13,7 +13,7 @@ from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, SPECIES, GENE
 from narrant.backend.models import Tag
 from narraint.entity.entityresolver import EntityResolver
 from narraint.progress import print_progress_with_eta
-from narraint.pubtator.translation.patent import PatentConverter
+from narrant.pubtator.translation.patent import PatentConverter
 
 CONTENT_BUFFER_SIZE = 10000
 TAG_BUFFER_SIZE = 100000
