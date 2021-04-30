@@ -66,19 +66,20 @@ class EntityTagger:
     __instance = None
 
     @staticmethod
-    def instance():
+    def instance(load_index=True):
         if EntityTagger.__instance is None:
-            EntityTagger()
+            EntityTagger(load_index=load_index)
         return EntityTagger.__instance
 
-    def __init__(self):
+    def __init__(self, load_index=True):
         if EntityTagger.__instance is not None:
             raise Exception('This class is a singleton - use EntityTagger.instance()')
         else:
             logging.info('Initialize EntityTagger...')
             self.term2entity = defaultdict(set)
             self.mesh_ontology = MeSHOntology.instance()
-            self._load_index()
+            if load_index:
+                self._load_index()
             EntityTagger.__instance = self
 
     def _load_index(self, index_path=ENTITY_TAGGING_INDEX):

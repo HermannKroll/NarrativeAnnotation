@@ -15,7 +15,7 @@ class GeneMapper:
 
     __instance = None
 
-    def __init__(self):
+    def __init__(self, load_index=True):
         if GeneMapper.__instance is not None:
             raise Exception('This class is a singleton - use EntityResolver.instance()')
         else:
@@ -28,9 +28,9 @@ class GeneMapper:
             GeneMapper.__instance = self
 
     @staticmethod
-    def instance():
+    def instance(load_index=True):
         if GeneMapper.__instance is None:
-            GeneMapper()
+            GeneMapper(load_index=True)
         return GeneMapper.__instance
 
     def _build_human_gene_name_dict(self, gene_file=GENE_FILE):

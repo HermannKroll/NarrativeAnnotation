@@ -46,19 +46,20 @@ class MeSHOntology:
 
     __instance = None
 
-    def __init__(self):
+    def __init__(self, load_index=True):
         if MeSHOntology.__instance is not None:
             raise Exception('This class is a singleton - use EntityOntology.instance()')
         else:
             self.treeno2desc = {}
             self.descriptor2treeno = {}
-            self.load_index()
+            if load_index:
+                self.load_index()
             MeSHOntology.__instance = self
 
     @staticmethod
-    def instance():
+    def instance(load_index=True):
         if MeSHOntology.__instance is None:
-            MeSHOntology()
+            MeSHOntology(load_index=load_index)
         return MeSHOntology.__instance
 
     def _clear_index(self):
@@ -192,8 +193,11 @@ class MeSHOntology:
         :param index_path: Path for pickle dump (default in project's config)
         :return: None
         """
-        with open(index_path, 'rb') as f:
-            self.__dict__ = pickle.load(f)
+        try:
+            with open(index_path, 'rb') as f:
+                self.__dict__ = pickle.load(f)
+        except FileNotFoundError:
+            logging.warning('MeSH Ontology Index not found...')
 
     def retrieve_subdescriptors(self, decriptor_id: str) -> [(str)]:
         """

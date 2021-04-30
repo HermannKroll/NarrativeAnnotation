@@ -14,7 +14,7 @@ from narrant.config import GENE_FILE, GENE_INDEX_FILE, MESH_DESCRIPTORS_FILE, ME
     TAXONOMY_INDEX_FILE, TAXONOMY_FILE, DOSAGE_FID_DESCS, MESH_SUPPLEMENTARY_FILE, \
     MESH_SUPPLEMENTARY_ID_TO_HEADING_INDEX_FILE, DRUGBANK_ID2NAME_INDEX, DRUGBASE_XML_DUMP
 from narrant.preprocessing.enttypes import GENE, CHEMICAL, DISEASE, SPECIES, DOSAGE_FORM, DRUG, EXCIPIENT, PLANT_FAMILY, \
-    DRUGBANK_CHEMICAL
+    DRUGBANK_CHEMICAL, LAB_METHOD, METHOD
 from narrant.entity.meshontology import MeSHOntology
 from narrant.mesh.data import MeSHDB
 from narrant.mesh.supplementary import MeSHDBSupplementary
@@ -390,13 +390,13 @@ class EntityResolver:
         :param resolve_gene_by_id:
         :return: uses the corresponding resolver for the entity type
         """
-        if entity_type in [CHEMICAL, DISEASE, DOSAGE_FORM] and not entity_id.startswith('MESH:') and \
+        if entity_type in [CHEMICAL, DISEASE, DOSAGE_FORM, METHOD, LAB_METHOD] and not entity_id.startswith('MESH:') and \
                 not entity_id.startswith('FIDX'):
             if not self.mesh_ontology:
                 self.mesh_ontology = MeSHOntology.instance()
             entity_mesh_id = 'MESH:{}'.format(self.mesh_ontology.get_descriptor_for_tree_no(entity_id)[0])
             return self.mesh.descriptor_to_heading(entity_mesh_id)
-        if entity_id.startswith('MESH:') or entity_type in [CHEMICAL, DISEASE]:
+        if entity_id.startswith('MESH:'):
             return self.mesh.descriptor_to_heading(entity_id)
         if entity_type == GENE:
             if resolve_gene_by_id:
@@ -414,7 +414,10 @@ class EntityResolver:
         if entity_type == PLANT_FAMILY:
             return self.plantfamily.plant_family_id_to_name(entity_id)
         if entity_type == DRUGBANK_CHEMICAL:
-            return self.drugbank.drugbank_id_to_name(entity_id)
+            if entity_id.startswith('DB'):
+                return self.drugbank.drugbank_id_to_name(entity_id)
+            else:
+                return entity_id
         return entity_id
 
 
