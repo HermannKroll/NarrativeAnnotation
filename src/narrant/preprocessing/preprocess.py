@@ -12,17 +12,15 @@ import datetime as dti
 
 from narrant.preprocessing import enttypes
 from narrant.backend.database import Session
-from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING
+from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, CHEMICAL, DISEASE, SPECIES, GENE
 from narrant.backend.export import export
 from narrant.backend.load_document import document_bulk_load
 from narrant.backend.models import DocTaggedBy
 from narrant.config import PREPROCESS_CONFIG
 from narrant.preprocessing.config import Config
 from narrant.preprocessing.tagging.base import BaseTagger
-from narrant.preprocessing.tagging.dnorm import DNorm
 from narrant.preprocessing.tagging.gnormplus import GNormPlus
 from narrant.preprocessing.tagging.taggerone import TaggerOne
-from narrant.preprocessing.tagging.tmchem import TMChem
 from narrant.pubtator.distribute import distribute_workload, create_parallel_dirs, split_composites
 from narrant.pubtator.extract import collect_ids_from_dir
 from narrant.pubtator.sanitize import sanitize
@@ -66,18 +64,11 @@ def get_tagger_by_ent_type(tag_types, use_tagger_one):
 
     if (enttypes.GENE in tag_types) != (enttypes.SPECIES in tag_types):
         raise ValueError("GNormPlus does not support tagging of Species and Genes separately")
-
-    if enttypes.DISEASE in tag_types and not use_tagger_one:
-        tagger_by_ent_type[enttypes.DISEASE] = DNorm
-    if enttypes.CHEMICAL in tag_types and not use_tagger_one:
-        tagger_by_ent_type[enttypes.CHEMICAL] = TMChem
     if enttypes.CHEMICAL in tag_types and enttypes.DISEASE in tag_types and use_tagger_one:
         tagger_by_ent_type[enttypes.CHEMICAL] = TaggerOne
         tagger_by_ent_type[enttypes.DISEASE] = TaggerOne
     if (enttypes.CHEMICAL in tag_types) != (enttypes.DISEASE in tag_types) and use_tagger_one:
         raise ValueError("TaggerOne does not support Tagging of Chemicals or Diseases separately!")
-
-
 
     return tagger_by_ent_type
 
@@ -191,11 +182,10 @@ def main(arguments=None):
     parser.add_argument("--composite", action="store_true",
                         help="Check for composite pubtator files in input. Automatically enabled if input is a file.")
 
-    group_tag = parser.add_argument_group("Tagging")
     parser.add_argument("-t", "--tag", choices=TAG_TYPE_MAPPING.keys(), nargs="+", required=True)
     parser.add_argument("-c", "--corpus", required=True)
-    group_tag.add_argument("--no-tagger-one", action="store_true",
-                           help="Tag diseases and chemicals with TaggerOne instead of DNorm and tmChem.")
+    parser.add_argument("--tagger-one", action="store_true", help='Enables Tagging of Chemicals and Diseases with TaggerOne')
+    parser.add_argument("--gnormplus", action="store_true", help="Enables Tagging of Genes and Species with GNormPlus")
 
     group_settings = parser.add_argument_group("Settings")
     group_settings.add_argument("--config", default=PREPROCESS_CONFIG,
@@ -252,7 +242,14 @@ def main(arguments=None):
     else:
         document_bulk_load(in_dir, args.corpus, logger=logger)
     # Create list of tagging ent types
-    tag_types = enttypes.ENT_TYPES_SUPPORTED_BY_TAGGERS if "A" in args.tag else [TAG_TYPE_MAPPING[x] for x in args.tag]
+
+    tag_types = set()
+    if args.tagger_one:
+        tag_types.add(CHEMICAL)
+        tag_types.add(DISEASE)
+    if args.gnormplus:
+        tag_types.add(SPECIES)
+        tag_types.add(GENE)
 
     # Run actual preprocessing
     if args.workers > 1:

@@ -1,0 +1,7 @@
+sqlalchemy
+lxml
+psycopg2
+psycopg2-binary
+psutil
+pytest
+spacy

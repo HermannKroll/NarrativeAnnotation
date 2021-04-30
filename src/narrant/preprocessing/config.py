@@ -61,36 +61,6 @@ class Config:
     def gnorm_jar(self):
         return os.path.join(self.gnorm_root, "GNormPlus.jar")
 
-    # DNorm
-    @property
-    def dnorm_root(self):
-        return self.config["dnorm"]
-
-    @property
-    def dnorm_script(self):
-        return os.path.join(self.dnorm_root, "RunDNorm.sh")
-
-    @property
-    def dnorm_config(self):
-        return os.path.join(self.dnorm_root, "config/banner_NCBIDisease_TEST.xml")
-
-    @property
-    def dnorm_lexicon(self):
-        return os.path.join(self.dnorm_root, "data/CTD_diseases.tsv")
-
-    @property
-    def dnorm_matrix(self):
-        return os.path.join(self.dnorm_root, "output/simmatrix_NCBIDisease_e4.bin")
-
-    # tmChem
-    @property
-    def tmchem_root(self):
-        return self.config["tmchem"]
-
-    @property
-    def tmchem_script(self):
-        return os.path.join(self.tmchem_root, "run.sh")
-
     @property
     def dict_max_words(self):
         return self.config["dict"]["max_words"]

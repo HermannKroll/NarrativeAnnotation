@@ -10,10 +10,8 @@
   },
   "gnormPlus": {
     "root": "/home/kroll/tools/tagger/GNormPlusJava",
-    "javaArgs": "-Xmx100G -Xms30G"
+    "javaArgs": "-Xmx32G -Xms16G"
   },
-  "dnorm": "/home/kroll/tools/tagger/DNorm-0.0.7",
-  "tmchem": "/home/kroll/tools/tagger/tmChemM1-0.0.2",
   "dict": {
     "max_words": 5,
     "check_abbreviation": "true",

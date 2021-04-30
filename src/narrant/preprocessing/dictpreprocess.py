@@ -45,7 +45,6 @@ def prepare_input(in_file: str, out_file: str, logger: logging.Logger, ent_types
 def main(arguments=None):
     parser = ArgumentParser(description="Tag given documents in pubtator format and insert tags into database")
 
-    group_tag = parser.add_argument_group("Tagging")
     parser.add_argument("-t", "--tag", choices=TAG_TYPE_MAPPING.keys(), nargs="+", default="DA")
     parser.add_argument("-c", "--collection", required=True)
 
