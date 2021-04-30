@@ -61,7 +61,6 @@ class Session:
     is_postgres = False
 
     def _load_config(self):
-        print(cnf.BACKEND_CONFIG)
         with open(cnf.BACKEND_CONFIG) as f:
             config = json.load(f)
         # TODO: why tf is there no wrapper?
