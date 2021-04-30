@@ -8,8 +8,6 @@ from narrant.pubtator.document import TaggedDocument
 from narrant.pubtator.regex import CONTENT_ID_TIT_ABS, ILLEGAL_CHAR
 from narrant.pubtator.extract import read_pubtator_documents
 
-from collections.abc import Sequence
-
 
 def filter_and_sanitize(in_file:str, out_file:str, filter_ids, logger=logging, ignore_tags=True):
     os.makedirs(os.path.dirname(out_file), exist_ok=True)
