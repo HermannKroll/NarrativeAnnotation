@@ -10,7 +10,7 @@ from sqlalchemy.dialects.postgresql import insert
 from narrant.preprocessing import enttypes
 from narrant.backend.database import Session
 from narrant.backend.models import Document, Tag, Tagger, DocTaggedBy
-from narraint.progress import print_progress_with_eta
+from narrant.progress import print_progress_with_eta
 from narrant.pubtator.count import count_documents
 from narrant.pubtator.document import TaggedDocument
 from narrant.pubtator.extract import read_pubtator_documents

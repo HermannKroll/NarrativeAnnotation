@@ -9,7 +9,7 @@ from time import sleep
 
 from narrant.preprocessing import enttypes
 from narrant.preprocessing.tagging.base import BaseTagger
-from narraint.progress import print_progress_with_eta
+from narrant.progress import print_progress_with_eta
 from narrant.pubtator.count import get_document_ids
 from narrant.preprocessing.utils import get_document_id
 

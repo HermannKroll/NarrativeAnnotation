@@ -16,7 +16,7 @@ from narrant.backend.export import create_tag_query, TAG_BUFFER_SIZE
 from narrant.preprocessing import enttypes
 from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING
 from narrant.pubtator.regex import ILLEGAL_CHAR
-from narraint.progress import print_progress_with_eta
+from narrant.progress import print_progress_with_eta
 from narrant.pubtator.translation.cord19.cord19ft2pubtator import NEXT_DOCUMENT_ID_OFFSET, PARAGRAPH_TITLE_DUMMY
 from narrant.pubtator.translation.cord19.filereader import FileReader
 from narrant.pubtator.translation.cord19.metareader import MetaReader

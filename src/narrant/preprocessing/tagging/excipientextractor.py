@@ -7,7 +7,7 @@ import re
 import logging
 from bs4 import BeautifulSoup
 
-from narraint.progress import print_progress_with_eta
+from narrant.progress import print_progress_with_eta
 from narraint.tools import proj_rel_path
 
 

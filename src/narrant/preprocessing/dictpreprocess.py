@@ -12,7 +12,7 @@ from typing import Iterable
 from narrant.backend.database import Session
 from narrant.backend.load_document import document_bulk_load
 from narrant.preprocessing.tagging.metadictagger import MetaDicTagger, MetaDicTaggerFactory
-from narraint.progress import print_progress_with_eta
+from narrant.progress import print_progress_with_eta
 from narrant.pubtator import count
 from narraint.config import PREPROCESS_CONFIG
 from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, DALL
@@ -22,9 +22,9 @@ from narrant.pubtator.extract import read_pubtator_documents
 from narrant.pubtator.sanitize import filter_and_sanitize
 from narrant.preprocessing.preprocess import init_preprocess_logger, init_sqlalchemy_logger, \
     get_untagged_doc_ids_by_ent_type
-from narraint.util.multiprocessing.ConsumerWorker import ConsumerWorker
-from narraint.util.multiprocessing.ProducerWorker import ProducerWorker
-from narraint.util.multiprocessing.Worker import Worker
+from narrant.util.multiprocessing.ConsumerWorker import ConsumerWorker
+from narrant.util.multiprocessing.ProducerWorker import ProducerWorker
+from narrant.util.multiprocessing.Worker import Worker
 
 
 def prepare_input(in_file: str, out_file: str, logger: logging.Logger, ent_types: Iterable[str],
