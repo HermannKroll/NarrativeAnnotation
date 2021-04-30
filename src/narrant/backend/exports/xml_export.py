@@ -9,7 +9,7 @@ from xml.dom import minidom
 
 from narrant.preprocessing import enttypes
 from narrant.backend.database import Session
-from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, SPECIES, GENE
+from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, SPECIES, GENE, EXCIPIENT, DALL
 from narrant.backend.models import Tag
 from narrant.entity.entityresolver import EntityResolver
 from narrant.progress import print_progress_with_eta
@@ -31,14 +31,15 @@ def get_entity_source(entity_id, entity_type):
         return "MeSH"
     if entity_id_str.startswith('fid'):
         return "FID"
+    if entity_id_str.startswith('db'):
+        return "DrugBank"
     if entity_type == GENE:
         return "NCBI Gene"
     if entity_type == SPECIES:
         return "NCBI Taxonomy"
-    return ValueError('Don not know the source for entity: {} {}'.format(entity_id, entity_type))
-
-
-
+    if entity_type in DALL:
+        return "Own Vocabularies"
+    return ValueError('Do not not know the source for entity: {} {}'.format(entity_id, entity_type))
 
 
 def export_xml(output_dir, tag_types, document_ids=None, collection=None, logger=None, patent_ids=False):
@@ -143,7 +144,7 @@ def main():
     parser.add_argument("-c", "--collection", help="Collection")
     parser.add_argument("-p", "--patents", action="store_true",
                         help="Will replace the patent prefix ids by country codes")
-    parser.add_argument("-t", "--tag", choices=TAG_TYPE_MAPPING.keys(), nargs="+")
+    parser.add_argument("-t", "--tag", choices=TAG_TYPE_MAPPING.keys(), nargs="+", default="A")
     parser.add_argument("--sqllog", action="store_true", help='logs sql commands')
     args = parser.parse_args()
 
@@ -164,7 +165,7 @@ def main():
         tag_types = enttypes.ALL if "A" in args.tag else [TAG_TYPE_MAPPING[x] for x in args.tag]
 
     export_xml(abs_path, tag_types, document_ids=None, collection=args.collection, logger=logger,
-                   patent_ids=args.patents)
+               patent_ids=args.patents)
     logging.info('Finished')
 
 
