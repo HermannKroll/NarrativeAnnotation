@@ -3,48 +3,16 @@
 ### Hardware Configuration
 We recommend to have at least 32GB of RAM available. 
 ### Checkout or download the GitHub project
+
+Then,additional data must be downloaded. Switch to the NarrativeAnnotation directory and execute the bash script_
 ```
 cd NarrativeAnnotation/
-# Download important data
 ./download_data.sh
 ```
-### Create a directory for the tagger tools
-```
-mkdir ~/tools
-```
-### Taggers
-Download [GNormPlus](https://www.ncbi.nlm.nih.gov/research/bionlp/Tools/gnormplus/) and [TaggerOne](https://www.ncbi.nlm.nih.gov/research/bionlp/tools/taggerone/). Unzip both and move the directories into tools. 
-```
-tools/
-  GNormPlusJava/
-  TaggerOne-0.2.1/
-```
-Both tools require an Java installation. 
 
-### Tagger Configuration
-Configure the tagger locations for the project
-```
-cd projectroot/config/
-cp preprocess.prod.json preprocess.json
-nano preprocess.json
-```
-Enter your GNormPlus and TaggerOne root paths
-```
-{
-  "taggerOne": {
-    "root": "/home/kroll/tools/tagger/TaggerOne-0.2.1",
-    "model": "models/model_BC5CDRJ_011.bin",
-    "batchSize": 10000,
-    "timeout": 15,
-    "max_retries": 1
-  },
-  "gnormPlus": {
-    "root": "/home/kroll/tools/tagger/GNormPlusJava",
-    "javaArgs": "-Xmx100G -Xms30G"
-  }
-}
-```
-You can ignore the pmcid2pmid setting.
+Besides, we need a DrugBank XML Download. The download is not publicly avaiable. We provide a DrugBank Version in our [OneDrive](https://1drv.ms/u/s!ArDgbq3ak3Zuh6B_vO0IntgtJGfThA?e=phtZLH).
+Please download the zip file, put the zip file in NarrativeAnnotation/data und unzip the file. Now you should obtain a drugbank2021.xml file in data.
+
 
 ### Database Setup
 1. Setup a PostgresDB environment (see [official instructions](https://www.postgresql.org)). Tagging results, documents and more will be stored in this relational database. 
@@ -108,13 +76,82 @@ document_id_3|a|abstract text here
 ```
 The files are separated by two new line characters *\\n*. ATTENTION: the PubTator file must end with two *\\n* characters. 
 
+## Database Schema
+
+![DB Scheme](dbschema.png)
+created with app.quickdatabasediagrams.com
+
 # Running the Annotators
 
-## TaggerOne and GNormPlus
-Finally we can start tagging our documents. Assume we have a test document test.pubtator.
+## Dictionary-based Taggers (Own Vocabularies)
+You can invoke our own dictionary-based tagger pipeline via
 ```
 cd ~/NarrativeAnnotation/
-python3 narrant/preprocessing/preprocess.py ~/test.pubtator  --corpus test --tagger-one --gnormplus
+python3 src/narrant/preprocessing/dictpreprocess.py test.pubtator --corpus test
+```
+The pipeline annotates Diseases, Dosage Forms, Drugs, DrugBank Chemicals, Excipients, Methods, LebMethods and Plant Families.
+The first run will build all necessary indexes that will speed up further runs. So, the first run may take a bit.
+
+
+The pipeline will work in a temporary directory and remove it if the task is completed. If you want to work in a specified directory, use
+```
+cd ~/NarrativeAnnotation/
+python3 src/narrant/preprocessing/dictpreprocess.py test.pubtator --corpus test --workdir temp/
+```
+The temporary created files as well as all logs won't be removed then. 
+
+
+You can specify a working directory and the number of parallel workers:
+```
+cd ~/NarrativeAnnotation/
+python3 src/narrant/preprocessing/dictpreprocess.py test.pubtator --corpus test --workdir test/ --workers 10
+```
+
+
+## TaggerOne and GNormPlus (ThirdParty)
+### Create a directory for the tagger tools
+```
+mkdir ~/tools
+```
+### Third-Party Taggers
+Download [GNormPlus](https://www.ncbi.nlm.nih.gov/research/bionlp/Tools/gnormplus/) and [TaggerOne](https://www.ncbi.nlm.nih.gov/research/bionlp/tools/taggerone/). Unzip both and move the directories into tools. 
+```
+tools/
+  GNormPlusJava/
+  TaggerOne-0.2.1/
+```
+Both tools require an Java installation. 
+
+### Tagger Configuration
+Configure the tagger locations for the project
+```
+cd projectroot/config/
+cp preprocess.prod.json preprocess.json
+nano preprocess.json
+```
+Enter your GNormPlus and TaggerOne root paths
+```
+{
+  "taggerOne": {
+    "root": "/home/kroll/tools/tagger/TaggerOne-0.2.1",
+    "model": "models/model_BC5CDRJ_011.bin",
+    "batchSize": 10000,
+    "timeout": 15,
+    "max_retries": 1
+  },
+  "gnormPlus": {
+    "root": "/home/kroll/tools/tagger/GNormPlusJava",
+    "javaArgs": "-Xmx100G -Xms30G"
+  }
+}
+```
+You can ignore the pmcid2pmid setting.
+
+### Run the ThirdParty Annotators
+We can annotate documents with TaggerOne and GNormPlus. Assume we have a test document test.pubtator.
+```
+cd ~/NarrativeAnnotation/
+python3 src/narrant/preprocessing/preprocess.py test.pubtator  --corpus test --tagger-one --gnormplus
 ```
 The pipeline will invoke the taggers to tag the documents. The document corpus is *test*. 
 
@@ -125,37 +162,21 @@ The pipeline will invoke the taggers to tag the documents. The document corpus i
 The pipeline will work in a temporary directory and remove it if the task is completed. If you want to work in a specified directory, use
 ```
 cd ~/NarrativeAnnotation/
-python3 narrant/preprocessing/preprocess.py ~/test.pubtator --corpus test -t A --workdir temp/
+python3 src/narrant/preprocessing/preprocess.py test.pubtator --corpus test --workdir temp/ --gnormplus --tagger-one
 ```
 The temporary created files as well as all logs won't be removed then. 
 
-## Dictionary-based Taggers (Own Vocabularies)
-You can invoke our own dictionary-based tagger pipeline via
-```
-cd ~/NarrativeAnnotation/
-python3 narrant/preprocessing/dictpreprocess.py ~/test.pubtator  --corpus test
-```
-The pipeline annotates Diseases, Dosage Forms, Drugs, DrugBank Chemicals, Excipients, Methods, LebMethods and Plant Families.
+# Export
 
-
-You can specify a working directory and the number of parallel workers:
-```
-cd ~/NarrativeAnnotation/
-python3 narrant/preprocessing/dictpreprocess.py ~/test.pubtator --corpus test --workdir test/ --workers 10
-```
-
-
-## Database scheme
-
-![DB Scheme](dbschema.png)
-created with app.quickdatabasediagrams.com
 ### Export XML UB
 If you want to export in our specified XML format, use the following script. You need to create some indexes before you can use the xml export.
+So first run:
 ```
-python3 narrant/entity/entitiyresolver.py
+python3 src/narrant/build_all_indexes.py
 ```
 This might take a while and will build all required indexes. Then, you can export the documents
 ```
-python3 narrant/backend/exports/xml_export.py
+python3 src/narrant/backend/exports/xml_export.py output_dir -c COLLECTION_NAME
 ```
 See help for parameter description. 
+
