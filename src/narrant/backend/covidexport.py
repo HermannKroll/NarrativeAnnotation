@@ -10,11 +10,11 @@ import json
 
 from sqlalchemy import func
 
-from narant.backend.database import Session
-from narant.backend.models import DocumentTranslation, Tag
-from narant.backend.export import create_tag_query, TAG_BUFFER_SIZE
-from narraint.entity import enttypes
-from narraint.entity.enttypes import TAG_TYPE_MAPPING
+from narrant.backend.database import Session
+from narrant.backend.models import DocumentTranslation, Tag
+from narrant.backend.export import create_tag_query, TAG_BUFFER_SIZE
+from narrant.preprocessing import enttypes
+from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING
 from narraint.pubtator.regex import ILLEGAL_CHAR
 from narraint.progress import print_progress_with_eta
 from narraint.pubtator.translation.cord19.cord19ft2pubtator import NEXT_DOCUMENT_ID_OFFSET, PARAGRAPH_TITLE_DUMMY

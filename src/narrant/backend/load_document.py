@@ -7,9 +7,9 @@ from typing import Tuple, Dict
 
 from sqlalchemy.dialects.postgresql import insert
 
-from narraint.entity import enttypes
-from narant.backend.database import Session
-from narant.backend.models import Document, Tag, Tagger, DocTaggedBy
+from narrant.preprocessing import enttypes
+from narrant.backend.database import Session
+from narrant.backend.models import Document, Tag, Tagger, DocTaggedBy
 from narraint.progress import print_progress_with_eta
 from narraint.pubtator.count import count_documents
 from narraint.pubtator.document import TaggedDocument

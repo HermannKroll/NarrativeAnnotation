@@ -7,10 +7,10 @@ from xml.etree.ElementTree import Element, SubElement
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
 
-from narraint.entity import enttypes
-from narant.backend.database import Session
-from narraint.entity.enttypes import TAG_TYPE_MAPPING, SPECIES, GENE
-from narant.backend.models import Tag
+from narrant.preprocessing import enttypes
+from narrant.backend.database import Session
+from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, SPECIES, GENE
+from narrant.backend.models import Tag
 from narraint.entity.entityresolver import EntityResolver
 from narraint.progress import print_progress_with_eta
 from narraint.pubtator.translation.patent import PatentConverter

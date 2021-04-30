@@ -5,12 +5,11 @@ from datetime import datetime
 import logging
 from typing import List, Tuple
 
-from sqlalchemy import Boolean, Column, String, Float, Integer, DateTime, ForeignKeyConstraint, PrimaryKeyConstraint, \
+from sqlalchemy import Column, String, Float, Integer, DateTime, ForeignKeyConstraint, PrimaryKeyConstraint, \
     BigInteger, UniqueConstraint, func
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
 
-from narraint.entity.enttypes import GENE, SPECIES
+from narrant.preprocessing.enttypes import GENE, SPECIES
 from narraint.pubtator.regex import ILLEGAL_CHAR
 
 Base = declarative_base()

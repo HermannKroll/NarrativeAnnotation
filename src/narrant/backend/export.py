@@ -1,10 +1,10 @@
 import argparse
 import logging
 
-from narraint.entity import enttypes
-from narant.backend.database import Session
-from narraint.entity.enttypes import TAG_TYPE_MAPPING
-from narant.backend.models import Document, Tag
+from narrant.preprocessing import enttypes
+from narrant.backend.database import Session
+from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING
+from narrant.backend.models import Document, Tag
 
 CONTENT_BUFFER_SIZE = 10000
 TAG_BUFFER_SIZE = 100000

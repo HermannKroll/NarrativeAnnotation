@@ -18,4 +18,4 @@ def join(query_left, query_right, on_left, on_right, mode:JoinMode):
     :return: iterator for joined table
     """
 
-#def inner_join(query_left)
+def inner_join(query_left)

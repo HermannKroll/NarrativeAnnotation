@@ -4,9 +4,9 @@ import shutil
 import tempfile
 
 from narraint.config import PREPROCESS_CONFIG
-from narraint.preprocessing.collect import PMCCollector
-from narraint.preprocessing.config import Config
-from narraint.preprocessing.convertids import load_pmcids_to_pmid_index
+from narrant.preprocessing.collect import PMCCollector
+from narrant.preprocessing.config import Config
+from narrant.preprocessing.convertids import load_pmcids_to_pmid_index
 from narraint.pubtator.enrich_docs_with_tags import enrich_pubtator_documents_with_database_tags
 from narraint.pubtator.translation.pmc import PMCConverter
 
