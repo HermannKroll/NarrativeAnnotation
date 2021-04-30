@@ -9,7 +9,7 @@ from sqlalchemy import exc
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
 
-from narraint import tools
+from narrant import tools
 from narrant.backend.models import Base
 import narraint.config as cnf
 

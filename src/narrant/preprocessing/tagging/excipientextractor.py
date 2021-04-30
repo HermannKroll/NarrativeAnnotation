@@ -8,7 +8,7 @@ import logging
 from bs4 import BeautifulSoup
 
 from narrant.progress import print_progress_with_eta
-from narraint.tools import proj_rel_path
+from narrant.tools import proj_rel_path
 
 
 def build_url(letter, offset):

@@ -3,7 +3,7 @@ import csv
 
 from narraint.entity.entityresolver import EntityResolver
 from narrant.preprocessing.tagging.vocabularies import DrugTaggerVocabulary
-from narraint.tools import  reverse_set_index
+from narrant.tools import  reverse_set_index
 from narrant.preprocessing.enttypes import DRUG
 import narraint.config as cnf
 

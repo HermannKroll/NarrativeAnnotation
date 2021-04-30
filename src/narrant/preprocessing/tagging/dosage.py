@@ -3,7 +3,7 @@ import re
 from narraint import config
 from narrant.preprocessing import enttypes
 from narraint.config import DOSAGE_ADDITIONAL_DESCS, DOSAGE_ADDITIONAL_DESCS_TERMS, DOSAGE_FID_DESCS
-from narraint.mesh.data import MeSHDB
+from narrant.mesh.data import MeSHDB
 from narrant.preprocessing.tagging.dictagger import DictTagger
 
 
