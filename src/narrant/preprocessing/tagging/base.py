@@ -109,18 +109,37 @@ class BaseTagger(Thread):
 
         self.logger.info("Add tags")
         for d_id, start, end, ent_str, ent_type, ent_id in tags_cleaned:
-            insert_tag = insert(Tag).values(
-                ent_type=ent_type,
-                start=start,
-                end=end,
-                ent_id=ent_id,
-                ent_str=ent_str,
-                document_id=d_id,
-                document_collection=self.collection,
-            )
+            # is it composite tag?
+            if ';' in ent_id or '|' in ent_id:
+                if ';' in ent_id:
+                    e_ids = ent_id.split(';')
+                else:
+                    e_ids = ent_id.split('|')
+                for e_id in e_ids:
+                    insert_tag = insert(Tag).values(
+                        ent_type=ent_type,
+                        start=start,
+                        end=end,
+                        ent_id=e_id,
+                        ent_str=ent_str,
+                        document_id=d_id,
+                        document_collection=self.collection,
+                    )
+                    session.execute(insert_tag)
+                    session.commit()
+            else:
+                insert_tag = insert(Tag).values(
+                    ent_type=ent_type,
+                    start=start,
+                    end=end,
+                    ent_id=ent_id,
+                    ent_str=ent_str,
+                    document_id=d_id,
+                    document_collection=self.collection,
+                )
 
-            session.execute(insert_tag)
-            session.commit()
+                session.execute(insert_tag)
+                session.commit()
 
         self.logger.info("Add doc_tagged_by")
         successful_ent_types = set((did, ent_type) for ent_type in self.get_types() for did in self.get_successful_ids())
