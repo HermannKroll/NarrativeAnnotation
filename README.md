@@ -134,7 +134,7 @@ The first run will build all necessary indexes that will speed up further runs. 
 You can may also speedup the tagging process. You invoke multiple parallel workers. 
 The number of parallel workers can be specified as follows:
 ```
-python3 src/narrant/preprocessing/dictpreprocess.py test.pubtator --corpus test --workdir test/ --workers 10
+python3 src/narrant/preprocessing/dictpreprocess.py test.pubtator --corpus test --workers 10
 ```
 
 If you are certain that all documents are already in the database, you may skip the loading phase by:
