@@ -238,5 +238,24 @@ Finally, you can export the documents
 ```
 python3 src/narrant/backend/exports/xml_export.py output_dir -c COLLECTION_NAME
 ```
-See help for parameter description. 
+See help for parameter description. The output format looks like: document_id.xml and the content:
 
+
+
+```
+<?xml version="1.0" ?>
+<document>
+   <tag source="NCBI Gene">eukaryotic translation initiation factor 2 alpha kinase 2</tag>
+   <tag source="NCBI Gene">Atf4</tag>
+   <tag source="NCBI Gene">DNA damage inducible transcript 3</tag>
+   <tag source="NCBI Gene">DDIT3</tag>
+   <tag source="NCBI Gene">eukaryotic translation initiation factor 2 alpha kinase 3</tag>
+   <tag source="NCBI Gene">EIF2AK3</tag>
+   <tag source="DrugBank">Toyocamycin</tag>
+   <tag source="NCBI Taxonomy">house mouse</tag>
+   <tag source="NCBI Taxonomy">Mus musculus</tag>
+   <tag source="MeSH">Wounds and Injuries</tag>
+   <tag source="MeSH">Death</tag>
+</document>
+
+```
