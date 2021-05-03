@@ -13,7 +13,8 @@ Some general remarks:
 - documents won't be tagged twice. Our pipeline checks whether the documents were tagged for the given entity types before. Only new documents will be tagged.  
 - documents must be in the PubTator format
 - documents that do not meet the above constraint may be transformed first. See the src/narrant/pubtator/translation for good examples
-- there is an additional table (DocumentTranslation) in which such a translation could be stored.
+- there is an additional table (DocumentTranslation) in which such a translation could be stored
+- Documents won't be inserted twice. There is a global setting that duplicated tuples are ignored when inserted in the database.
 
 ## Supported Document Format (PubTator)
 We assume each document to have a document id, a document collection, a title and an abstract. Document ids must be unique with a document collection. Our pipeline expects documents to be in the [PubTator format](https://www.ncbi.nlm.nih.gov/CBBresearch/Lu/Demo/PubTator/tutorial/index.html). 
@@ -120,6 +121,7 @@ The tagging pipeline produces tags. A tag represents an annotation and consists 
 
 
 ## Dictionary-based Taggers (Own Vocabularies)
+The documents must be in the database for annotation purposes. If you call an annotation script, the documents will automatically be inserted. 
 You can invoke our own dictionary-based tagger pipeline via
 ```
 python3 src/narrant/preprocessing/dictpreprocess.py test.pubtator --corpus test
@@ -135,6 +137,10 @@ The number of parallel workers can be specified as follows:
 python3 src/narrant/preprocessing/dictpreprocess.py test.pubtator --corpus test --workdir test/ --workers 10
 ```
 
+If you are certain that all documents are already in the database, you may skip the loading phase by:
+```
+python3 src/narrant/preprocessing/dictpreprocess.py test.pubtator --corpus test --skip-load
+```
 
 
 The pipeline will work in a temporary directory (random directory in /tmp/) and remove it if the task is completed. If you want to work in a specified directory, use
