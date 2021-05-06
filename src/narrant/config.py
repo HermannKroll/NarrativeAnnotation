@@ -84,6 +84,3 @@ LAB_METHOD_TAGGER_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, 'lab_method_cache.p
 # Plant Family Tagger
 PLANT_FAMILTY_DATABASE_FILE = os.path.join(RESOURCE_DIR, 'plant_families_2020.txt')
 PLANT_FAMILTY_INDEX_CACHE = os.path.join(TMP_DIR, 'plant_families_cache.pkl')
-
-# Entity Tagging index
-ENTITY_TAGGING_INDEX = os.path.join(TMP_DIR, 'entity_tagging_index.pkl')
