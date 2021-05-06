@@ -3,7 +3,6 @@ import json
 
 from narrant.entity.drugbank2mesh import DrugBank2MeSHMapper
 from narrant.entity.entityresolver import MeshResolver, GeneResolver, SpeciesResolver, DrugBankResolver
-from narrant.entity.entitytagger import EntityTagger
 from narrant.entity.genemapper import GeneMapper
 from narrant.entity.meshontology import MeSHOntology
 from narrant.config import BACKEND_CONFIG
@@ -62,10 +61,6 @@ def main():
         logging.info('Computing DrugBank Resolver index...')
         drugbank = DrugBankResolver()
         drugbank.build_index()
-
-        logging.info('Computing tagging index...')
-        entity_tagger = EntityTagger.instance(load_index=False)
-        entity_tagger.store_index()
 
         logging.info('=' * 60)
         logging.info('=' * 60)
