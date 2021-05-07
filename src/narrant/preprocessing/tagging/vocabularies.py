@@ -28,13 +28,16 @@ def expand_vocabulary_term(term: str) -> str:
         yield term[:-2] + "our"
     if term.endswith('our') and len(term) > 3:
         yield term[:-3] + "or"
+    if "-" in term:
+        yield term.replace("-", " ")
+        yield term.replace("-", "")
     yield from [term, f'{term}e', f'{term}s']
 
 
 class MeSHVocabulary:
 
     @staticmethod
-    def create_mesh_vocab(subtrees: List[str], mesh_file=MESH_DESCRIPTORS_FILE, expand_by_s_and_e=True):
+    def create_mesh_vocab(subtrees: List[str], mesh_file=MESH_DESCRIPTORS_FILE, expand_terms=True):
         desc_by_term = defaultdict(set)
 
         meshdb = MeSHDB.instance()
@@ -52,13 +55,13 @@ class MeSHVocabulary:
                 continue
 
             mesh_desc = f'MESH:{desc.unique_id}'
-            if expand_by_s_and_e:
+            if expand_terms:
                 for t_e in expand_vocabulary_term(desc.name.lower().strip()):
                     desc_by_term[t_e].add(mesh_desc)
             else:
                 desc_by_term[desc.name.lower().strip()].add(mesh_desc)
             for t in desc.terms:
-                if expand_by_s_and_e:
+                if expand_terms:
                     for t_e in expand_vocabulary_term(t.string.lower().strip()):
                         desc_by_term[t_e].add(mesh_desc)
                 else:
