@@ -26,8 +26,11 @@ MESH_SUPPLEMENTARY_FILE = os.path.join(DATA_DIR, "supp2021.xml")
 MESH_ID_TO_HEADING_INDEX_FILE = os.path.join(TMP_DIR, 'desc2021_id2heading.pkl')
 MESH_SUPPLEMENTARY_ID_TO_HEADING_INDEX_FILE = os.path.join(TMP_DIR, 'supp2021_id2heading.pkl')
 
-# Drugbase
-DRUGBASE_XML_DUMP = os.path.join(DATA_DIR, "drugbank2021.xml")
+# CHEMBL
+CHEMBL_DRUG_CSV = os.path.join(RESOURCE_DIR, "chembl2021.csv")
+
+# DrugBank
+DRUGBANK_XML_DUMP = os.path.join(DATA_DIR, "drugbank2021.xml")
 
 # GENE
 GENE_FILE = os.path.join(DATA_DIR, 'gene_info_2021.gz')
@@ -61,12 +64,13 @@ DOSAGE_FID_DESCS = os.path.join(RESOURCE_DIR, "df_fid_descriptors.txt")
 
 # Drug Tagger
 DRUG_TAGGER_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, "drug_cache.pkl")
-DRUGBANK_CHEMICAL_DATABASE_FILE = os.path.join(RESOURCE_DIR, "drugbank_chemicals.txt")
-DRUGBANK_CHEMICAL_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, "drugbank_chemical_cache.pkl")
+CHEMBL_CHEMICAL_DATABASE_FILE = os.path.join(RESOURCE_DIR, "chembl_chemicals.txt")
+CHEMBL_CHEMICAL_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, "chemical_cache.pkl")
 
 # Excipient Tagger
 EXCIPIENT_TAGGER_DATABASE_FILE = os.path.join(RESOURCE_DIR, 'excipient_database_2020.csv')
-EXCIPIENT_TAGGER_DRUGBANK_EXCIPIENT_FILE = os.path.join(RESOURCE_DIR, 'drugbank_excipients.txt')
+EXCIPIENT_CURATED_LIST_FILE = os.path.join(RESOURCE_DIR, "excipients_curated2021.txt")
+EXCIPIENT_TAGGER_DRUGBANK_EXCIPIENT_FILE = os.path.join(RESOURCE_DIR, 'chembl_excipients.txt')
 EXCIPIENT_TAGGER_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, "excipient_cache.pkl")
 
 # Disease Tagger

@@ -12,7 +12,7 @@ from narrant.backend.database import Session
 from narrant.backend.models import Tag
 from narrant.config import GENE_FILE, GENE_INDEX_FILE, MESH_DESCRIPTORS_FILE, MESH_ID_TO_HEADING_INDEX_FILE, \
     TAXONOMY_INDEX_FILE, TAXONOMY_FILE, DOSAGE_FID_DESCS, MESH_SUPPLEMENTARY_FILE, \
-    MESH_SUPPLEMENTARY_ID_TO_HEADING_INDEX_FILE, DRUGBANK_ID2NAME_INDEX, DRUGBASE_XML_DUMP
+    MESH_SUPPLEMENTARY_ID_TO_HEADING_INDEX_FILE, DRUGBANK_ID2NAME_INDEX, DRUGBANK_XML_DUMP
 from narrant.preprocessing.enttypes import GENE, CHEMICAL, DISEASE, SPECIES, DOSAGE_FORM, DRUG, EXCIPIENT, PLANT_FAMILY, \
     DRUGBANK_CHEMICAL, LAB_METHOD, METHOD
 from narrant.entity.meshontology import MeSHOntology
@@ -279,7 +279,7 @@ class DrugBankResolver:
         with open(index_path, 'wb') as f:
             pickle.dump(self.dbid2name, f)
 
-    def build_index(self, drugbank_file=DRUGBASE_XML_DUMP):
+    def build_index(self, drugbank_file=DRUGBANK_XML_DUMP):
         logging.info("checking total number of drugs...")
         # TODO real check
         drug_number = 13581

@@ -155,3 +155,20 @@ triticum
 snail
 method
 methods
+novel
+protein
+compounds
+compound
+target
+targets
+drug therapy
+drug therapies
+therapy
+therapies
+strain
+strains
+sprain
+sprains
+search
+impact
+achieve

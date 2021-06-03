@@ -81,7 +81,7 @@ class DrugBank2MeSHMapper:
         self._load_mesh_ontology()
         self.drug_terms2dbid = DrugTaggerVocabulary.create_drugbank_vocabulary_from_source(ignore_excipient_terms=False,
                                                                                            ignore_drugbank_chemicals=False,
-                                                                                           expand_term_with_e_and_s=False)
+                                                                                           expand_terms=False)
         # compute the intersection between both vocabs
         term_intersections = set(self.drug_terms2dbid.keys()).intersection(set(self.mesh_terms2meshid.keys()))
         self.dbid2meshid.clear()

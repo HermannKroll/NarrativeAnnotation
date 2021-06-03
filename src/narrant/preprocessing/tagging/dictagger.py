@@ -95,17 +95,17 @@ class DictTagger(BaseTagger, metaclass=ABCMeta):
                 if not isinstance(index, DictIndex):
                     self.logger.warning('Ignore index: expect index file to contain an DosageFormTaggerIndexObject: {}'
                                         .format(self.index_cache))
-                    pass
+                    return None
 
                 if index.tagger_version != self.version:
                     self.logger.warning('Ignore index: index does not match tagger version ({} index vs. {} tagger)'
                                         .format(index.tagger_version, self.version))
-                    pass
+                    return None
 
                 if index.source_file != self.source_file:
                     self.logger.warning('Ignore index: index created with another source file ({} index vs. {} tagger)'
                                         .format(index.source_file, self.source_file))
-                    pass
+                    return None
 
                 self.logger.debug('Use precached index from {}'.format(self.index_cache))
                 self.desc_by_term = index.desc_by_term

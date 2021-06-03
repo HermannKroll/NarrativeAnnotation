@@ -7,7 +7,7 @@ from narrant.preprocessing.tagging.vocabularies import ExcipientVocabulary
 class ExcipientTagger(DictTagger):
     TYPES = (enttypes.EXCIPIENT,)
     __name__ = "ExcipientTagger"
-    __version__ = "1.0.0"
+    __version__ = "2.0.0"
 
     def __init__(self, *args, **kwargs):
         super().__init__("excipient", "ExcipientTagger", ExcipientTagger.__version__,
@@ -21,10 +21,10 @@ class ExcipientTagger(DictTagger):
         new_excipients, drugbank_mappings_found = 0, 0
         for term, descs in self.desc_by_term.items():
             for d in descs:
-                if d.startswith('DB'):
+                if d.startswith('CHEMBL'):
                     drugbank_mappings_found += 1
                 else:
                     new_excipients += 1
         self.logger.info(
-            f'{drugbank_mappings_found} excipients could be mapped to DrugBank. {new_excipients} are not in DrugBank')
+            f'{drugbank_mappings_found} excipients could be mapped to Chebml. {new_excipients} are not in Chebml')
         self.logger.info(f'{len(self.desc_by_term)} excipients found in database')
