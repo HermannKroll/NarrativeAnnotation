@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 import warnings
 from os import environ
@@ -42,11 +43,11 @@ def add_engine_pidguard(engine):
         pid = os.getpid()
         if connection_record.info['pid'] != pid:
             # substitute log.debug() or similar here as desired
-            warnings.warn(
+            logging.debug(
                 "Parent process %(orig)s forked (%(newproc)s) with an open "
                 "database connection, "
-                "which is being discarded and recreated." %
-                {"newproc": pid, "orig": connection_record.info['pid']})
+                "which is being discarded and recreated." 
+                f'("newproc": {pid}, "orig": {connection_record.info["pid"]})')
             connection_record.connection = connection_proxy.connection = None
             raise exc.DisconnectionError(
                 "Connection record belongs to pid %s, "
