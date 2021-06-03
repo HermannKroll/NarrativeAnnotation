@@ -35,16 +35,18 @@ class Document(Base):
         return "<Document {}{}>".format(self.collection, self.id)
 
     def to_pubtator(self):
-        return Document.create_pubtator(self.title, self.abstract)
+        return Document.create_pubtator(self.id, self.title, self.abstract)
 
     @staticmethod
     def create_pubtator(did, title: str, abstract: str):
         title = unicodedata.normalize('NFD', title)
         title = ILLEGAL_CHAR.sub("", title).strip()
-        abstract = unicodedata.normalize('NFD', abstract)
-        abstract = ILLEGAL_CHAR.sub("", abstract).strip()
-        return "{id}|t|{tit}\n{id}|a|{abs}\n".format(id=did, tit=title,
-                                                     abs=abstract)
+        if abstract:
+            abstract = unicodedata.normalize('NFD', abstract)
+            abstract = ILLEGAL_CHAR.sub("", abstract).strip()
+        else:
+            abstract = ""
+        return "{id}|t|{tit}\n{id}|a|{abs}\n".format(id=did, tit=title, abs=abstract)
 
     @staticmethod
     def sanitize(to_sanitize):

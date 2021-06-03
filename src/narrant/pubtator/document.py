@@ -58,6 +58,9 @@ class TaggedDocument:
         initialize a pubtator document
         :param pubtator_content: content of a pubtator file or a pubtator filename
         """
+        self.title = None
+        self.abstract = None
+        self.id = None
         if pubtator_content:
             pubtator_content = tools.read_if_path(pubtator_content)
             match = CONTENT_ID_TIT_ABS.match(pubtator_content)
@@ -68,30 +71,24 @@ class TaggedDocument:
                 self.id = int(self.id)
             else:
                 self.id, self.title, self.abstract = None, None, None
-        elif id and title and abstract:
+        else:
             self.id = id
             self.title = title
             self.abstract = abstract
-        else:
-            self.title = None
-            self.abstract = None
-            self.id = None
-        if ignore_tags:
-            self.tags = []
-        else:
+
+        self.tags = []
+        if pubtator_content and not ignore_tags:
             self.tags = [TaggedEntity(t) for t in TAG_LINE_NORMAL.findall(pubtator_content)]
             if not self.id and self.tags:
                 self.id = self.tags[0].document
 
-        # if multiple document tags are contained in a single doc - raise error
-        if len(set([t.document for t in self.tags])) > 1:
-            raise ValueError(f'Document contains tags for multiple document ids: {self.id}')
+        if self.tags:
+            # if multiple document tags are contained in a single doc - raise error
+            if len(set([t.document for t in self.tags])) > 1:
+                raise ValueError(f'Document contains tags for multiple document ids: {self.id}')
 
-        # There are composite entity mentions like
-        # 24729111	19	33	myxoedema coma	Disease	D007037|D003128	myxoedema|coma
-        # does an entity id contain a composite delimiter |
-        if '|' in str([''.join([t.ent_id for t in self.tags])]):
-            self.split_composite_tags()
+            if TaggedDocument.pubtator_has_composite_tags(self.tags):
+                self.tags = TaggedDocument.pubtator_split_composite_tags(self.tags)
 
         self.entity_names = {t.text.lower() for t in self.tags}
         if spacy_nlp:
@@ -105,15 +102,28 @@ class TaggedDocument:
             self.entities_by_sentence = defaultdict(set)  # Use for _query processing
             self._create_index(spacy_nlp)
 
-    def split_composite_tags(self):
+    @staticmethod
+    def pubtator_has_composite_tags(tags: [TaggedEntity]) -> bool:
+        """
+        There are composite entity mentions like
+        24729111	19	33	myxoedema coma	Disease	D007037|D003128	myxoedema|coma
+        does an entity id contain a composite delimiter |
+        :param tags:
+        :return:
+        """
+        return '|' in str([''.join([t.ent_id for t in tags])])
+
+    @staticmethod
+    def pubtator_split_composite_tags(tags: [TaggedEntity]) -> [TaggedEntity]:
         """
         There are composite entity mentions like
         24729111	19	33	myxoedema coma	Disease	D007037|D003128	myxoedema|coma
         This method will split them to multiple tags (replaces self.tags)
-        :return: None
+        :param: a list of tags
+        :return: a list of split tags
         """
         cleaned_composite_tags = []
-        for t in self.tags:
+        for t in tags:
             ent_id = t.ent_id
             # composite tag detected
             ent_str_split = []
@@ -136,7 +146,7 @@ class TaggedDocument:
             else:
                 # just add the tag (it's a normal tag)
                 cleaned_composite_tags.append(t)
-        self.tags = cleaned_composite_tags
+        return cleaned_composite_tags
 
     def clean_tags(self):
         clean_tags = self.tags.copy()
