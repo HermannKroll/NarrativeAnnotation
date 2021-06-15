@@ -92,7 +92,7 @@ class TaggedDocument:
 
         self.entity_names = {t.text.lower() for t in self.tags}
         if spacy_nlp:
-            if not self.title or not self.abstract:
+            if not self.title and not self.abstract:
                 raise ValueError(f'Cannot process document ({self.id}) without title or abstract')
             # Indexes
             # self.mesh_by_entity_name = {}  # Use to select mesh descriptor by given entity
@@ -163,12 +163,17 @@ class TaggedDocument:
     def _create_index(self, spacy_nlp):
         # self.mesh_by_entity_name = {t.text.lower(): t.mesh for t in self.tags if
         #                            t.text.lower() not in self.mesh_by_entity_name}
-        if self.title[-1] == '.':
-            content = f'{self.title} {self.abstract}'
-            offset = 1
+        if self.title:
+            if self.title[-1] == '.':
+                content = f'{self.title} {self.abstract}'
+                offset = 1
+            else:
+                content = f'{self.title}. {self.abstract}'
+                offset = 2
         else:
-            content = f'{self.title}. {self.abstract}'
-            offset = 2
+            content = f'{self.abstract}'
+            offset = 0
+
         doc_nlp = spacy_nlp(content)
         for idx, sent in enumerate(doc_nlp.sents):
             sent_str = str(sent)
