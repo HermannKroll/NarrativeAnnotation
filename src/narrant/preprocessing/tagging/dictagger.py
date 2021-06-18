@@ -313,7 +313,7 @@ class DictTagger(BaseTagger, metaclass=ABCMeta):
                 yield TaggedEntity((pmid, start, end, term, self.tag_types[0], desc))
 
     def _get_term(self, term):
-        hits = self.desc_by_term.get(term)
+        hits = {hit for hit in self.desc_by_term.get(term) if len(hit)>=self.config.dict_min_full_tag_len}
         return hits if hits else set()
 
     @staticmethod
