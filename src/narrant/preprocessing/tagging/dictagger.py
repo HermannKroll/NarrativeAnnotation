@@ -199,11 +199,15 @@ class DictTagger(BaseTagger, metaclass=ABCMeta):
         # split into indexed single words
         ind_words = split_indexed_words(content)
 
+
+
         tags = []
         for spaces in range(self.config.dict_max_words):
             for word_tuple in get_n_tuples(ind_words, spaces + 1):
                 words, indexes = zip(*word_tuple)
                 term = " ".join(words)
+                if not term:
+                    continue
                 start = indexes[0]
                 end = indexes[-1] + len(words[-1])
                 if start > len(title):

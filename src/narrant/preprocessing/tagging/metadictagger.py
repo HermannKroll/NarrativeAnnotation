@@ -25,12 +25,15 @@ class MetaDicTagger(dt.DictTagger):
         """
         pass
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, vocabulary=None, *args, **kwargs):
         super().__init__(short_name="meTa", long_name="meta dict tagger", version=None, tag_types=None,
                          index_cache=None, source_file=None, *args, **kwargs)
 
         self._sub_taggers: List[dt.DictTagger] = []
         self._vocabs = {}
+        if vocabulary:
+            vocabulary.load_vocab()
+            self._vocabs = vocabulary.vocabularies
         self.tag_types = set()
         os.makedirs(self.out_dir)
 
