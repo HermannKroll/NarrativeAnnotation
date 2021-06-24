@@ -7,7 +7,7 @@ import lxml.etree as ET
 from narrant import config
 from narrant.preprocessing import enttypes
 from narrant.preprocessing.tagging.dictagger import DictTagger
-from narrant.preprocessing.tagging.vocabularies import DrugTaggerVocabulary
+from narrant.preprocessing.tagging.vocabularies import DrugVocabulary
 
 
 class DrugTagger(DictTagger):
@@ -22,7 +22,7 @@ class DrugTagger(DictTagger):
 
     def _index_from_source(self):
         self.logger.info("checking total number of drugs...")
-        self.desc_by_term = DrugTaggerVocabulary.create_drug_vocabulary_from_chembl(self.source_file)
+        self.desc_by_term = DrugVocabulary.create_drug_vocabulary_from_chembl(self.source_file)
 
             #DrugTaggerVocabulary.create_drugbank_vocabulary_from_source(self.source_file,
              #                                                                           self.config.drug_min_name_length,

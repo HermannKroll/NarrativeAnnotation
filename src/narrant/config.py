@@ -41,9 +41,6 @@ GENE_TO_HUMAN_ID_FILE = os.path.join(TMP_DIR, 'gene_2021_to_human_id.pkl')
 TAXONOMY_FILE = os.path.join(RESOURCE_DIR, 'taxonomy_names_2020.gz')
 TAXONOMY_INDEX_FILE = os.path.join(TMP_DIR, 'taxonomy_name_index.pkl')
 
-# DrugBank Resolver Index
-DRUGBANK_ID2NAME_INDEX = os.path.join(TMP_DIR, 'drugbank_id2name.pkl')
-
 # DrugBank to MeSH Mapping
 DRUGBANK_ID_2_MESH_MAPPING_INDEX = os.path.join(TMP_DIR, 'drugbank2mesh.pkl')
 

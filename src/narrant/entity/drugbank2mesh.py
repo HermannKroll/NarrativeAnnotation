@@ -4,7 +4,7 @@ from collections import defaultdict
 
 from narrant.config import MESH_DESCRIPTORS_FILE, DRUGBANK_ID_2_MESH_MAPPING_INDEX
 from narrant.mesh.data import MeSHDB
-from narrant.preprocessing.tagging.drug import DrugTaggerVocabulary
+from narrant.preprocessing.tagging.drug import DrugVocabulary
 
 DRUGBANK_TO_MESH_DISAMBIGUATION = {
     "DB01221": "MESH:D007649",
@@ -79,9 +79,9 @@ class DrugBank2MeSHMapper:
 
     def compute_mappings(self):
         self._load_mesh_ontology()
-        self.drug_terms2dbid = DrugTaggerVocabulary.create_drugbank_vocabulary_from_source(ignore_excipient_terms=False,
-                                                                                           ignore_drugbank_chemicals=False,
-                                                                                           expand_terms=False)
+        self.drug_terms2dbid = DrugVocabulary.create_drugbank_vocabulary_from_source(ignore_excipient_terms=False,
+                                                                                     ignore_drugbank_chemicals=False,
+                                                                                     expand_terms=False)
         # compute the intersection between both vocabs
         term_intersections = set(self.drug_terms2dbid.keys()).intersection(set(self.mesh_terms2meshid.keys()))
         self.dbid2meshid.clear()

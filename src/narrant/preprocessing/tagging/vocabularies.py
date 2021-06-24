@@ -145,9 +145,9 @@ class ChemicalVocabulary:
                                           chembl_db_file=config.CHEMBL_DRUG_CSV,
                                           excipient_db=config.EXCIPIENT_TAGGER_DATABASE_FILE):
         # we cannot ignore the excipient terms while reading Chembl here (else our mapping would be empty)
-        drugbank_terms = DrugTaggerVocabulary.create_drug_vocabulary_from_chembl(source_file=chembl_db_file,
-                                                                                 ignore_excipient_terms=False,
-                                                                                 ignore_drugbank_chemicals=False)
+        drugbank_terms = DrugVocabulary.create_drug_vocabulary_from_chembl(source_file=chembl_db_file,
+                                                                           ignore_excipient_terms=False,
+                                                                           ignore_drugbank_chemicals=False)
         # drugbank chemicals
         drugbank_chemicals_mapping = ChemicalVocabulary.read_drugbank_chemical_names(chemical_list)
         chembl_identifiers_for_chemical = set()
@@ -176,11 +176,11 @@ class ChemicalVocabulary:
         return {k: v for k, v in desc_by_term.items() if k not in excipient_by_term}
 
 
-class DrugTaggerVocabulary:
+class DrugVocabulary:
 
     @staticmethod
     def create_drug_vocabulary_from_chembl(source_file=config.CHEMBL_DRUG_CSV,
-                                           expand_term=True,
+                                           expand_terms=True,
                                            ignore_excipient_terms=True,
                                            ignore_drugbank_chemicals=True):
 
@@ -216,7 +216,7 @@ class DrugTaggerVocabulary:
             if chembl_id in chembl_ids_to_ignore:
                 continue
             for term in terms:
-                if expand_term:
+                if expand_terms:
                     for t in expand_vocabulary_term(term):
                         drug_by_term[t].add(chembl_id)
                 else:
@@ -383,9 +383,9 @@ class ExcipientVocabulary:
     def create_excipient_vocabulary(excipient_database=config.EXCIPIENT_TAGGER_DATABASE_FILE,
                                     chembl_db_file=config.CHEMBL_DRUG_CSV, ):
         # we cannot ignore the excipient terms while reading chembl here (else our mapping would be empty)
-        chembl_terms = DrugTaggerVocabulary.create_drug_vocabulary_from_chembl(source_file=chembl_db_file,
-                                                                               ignore_excipient_terms=False,
-                                                                               ignore_drugbank_chemicals=False)
+        chembl_terms = DrugVocabulary.create_drug_vocabulary_from_chembl(source_file=chembl_db_file,
+                                                                         ignore_excipient_terms=False,
+                                                                         ignore_drugbank_chemicals=False)
         logging.info(f'Reading excipient database: {excipient_database}...')
         excipient_terms = ExcipientVocabulary.read_excipients_names()
         chembl_identifiers_for_excipients = set()

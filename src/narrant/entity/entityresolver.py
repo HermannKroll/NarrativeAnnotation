@@ -6,19 +6,20 @@ import pickle
 from collections import defaultdict
 from datetime import datetime
 from itertools import islice
-import lxml.etree as ET
+
+import csv
 
 from narrant.backend.database import Session
 from narrant.backend.models import Tag
 from narrant.config import GENE_FILE, GENE_INDEX_FILE, MESH_DESCRIPTORS_FILE, MESH_ID_TO_HEADING_INDEX_FILE, \
     TAXONOMY_INDEX_FILE, TAXONOMY_FILE, DOSAGE_FID_DESCS, MESH_SUPPLEMENTARY_FILE, \
-    MESH_SUPPLEMENTARY_ID_TO_HEADING_INDEX_FILE, DRUGBANK_ID2NAME_INDEX, DRUGBANK_XML_DUMP
-from narrant.preprocessing.enttypes import GENE, CHEMICAL, DISEASE, SPECIES, DOSAGE_FORM, DRUG, EXCIPIENT, PLANT_FAMILY, \
+    MESH_SUPPLEMENTARY_ID_TO_HEADING_INDEX_FILE, CHEMBL_DRUG_CSV
+from narrant.preprocessing.enttypes import GENE, CHEMICAL, DISEASE, SPECIES, DOSAGE_FORM, EXCIPIENT, PLANT_FAMILY, \
     DRUGBANK_CHEMICAL, LAB_METHOD, METHOD
 from narrant.entity.meshontology import MeSHOntology
 from narrant.mesh.data import MeSHDB
 from narrant.mesh.supplementary import MeSHDBSupplementary
-from narrant.progress import print_progress_with_eta
+
 
 
 class MeshResolver:
@@ -264,78 +265,11 @@ class DosageFormResolver:
             return self.fid2name[dosage_form_id]
 
 
-class DrugBankResolver:
-
-    def __init__(self):
-        self.dbid2name = {}
-
-    def load_index(self, index_path=DRUGBANK_ID2NAME_INDEX):
-        with open(index_path, 'rb') as f:
-            self.dbid2name = pickle.load(f)
-        logging.info('{} DrugBank mappings load from index'.format(len(self.dbid2name)))
-
-    def store_index(self, index_path=DRUGBANK_ID2NAME_INDEX):
-        logging.info('Store {} DrugBank mappings to index'.format(len(self.dbid2name)))
-        with open(index_path, 'wb') as f:
-            pickle.dump(self.dbid2name, f)
-
-    def build_index(self, drugbank_file=DRUGBANK_XML_DUMP):
-        logging.info("checking total number of drugs...")
-        # TODO real check
-        drug_number = 13581
-        logging.info(f"found {drug_number}.")
-        start = datetime.now()
-        drugs_found = 0
-        logging.info(f"")
-        pref = '{http://www.drugbank.ca}'
-        for event, elem in ET.iterparse(drugbank_file, tag=f'{pref}drug'):
-            desc = ''
-            for dbid in elem.findall(f'{pref}drugbank-id'):
-                if dbid.attrib.get('primary'):
-                    desc = dbid.text
-                    break
-            if desc == '':
-                continue
-            drugs_found += 1
-            print_progress_with_eta("building index...", drugs_found, drug_number, start, print_every_k=100)
-            description_text = elem.find(f'{pref}description').text
-            if description_text and 'allergen' in description_text.lower()[0:20]:
-                continue
-            # take the first name of each drug
-            name_element = list(elem.findall(f'{pref}name'))[0]
-            self.dbid2name[str(desc)] = name_element.text
-        self.store_index()
-
-    def drugbank_id_to_name(self, drugbank_id: str):
-        """
-        Translates the DrugBank ID (string) to the name
-        :param drugbank_id: DrugBank ID as a string
-        :return: the name
-        """
-        return self.dbid2name[drugbank_id]
-
-
-class DrugBankChemicalResolver:
-
-    def __init__(self, drugbank_resolver: DrugBankResolver):
-        self.drugbank_resolver = drugbank_resolver
-
-    def drugbank_chemical_id_to_name(self, drugbank_id: str):
-        return self.drugbank_resolver.drugbank_id_to_name(drugbank_id)
-
-
 class ExcipientResolver:
 
-    def __init__(self, drugbank_resolver: DrugBankResolver):
-        self.drugbank_resolver = drugbank_resolver
-
     def excipient_id_to_name(self, excipient_id: str):
-        # if the name starts with 'DB' (it's) an DrugBank identifier
-        if excipient_id.startswith('DB'):
-            return self.drugbank_resolver.drugbank_id_to_name(excipient_id)
-        else:
-            # else the id is already the name
-            return excipient_id
+        # the id is already the name
+        return excipient_id
 
 
 class PlantFamilyResolver:
@@ -345,6 +279,26 @@ class PlantFamilyResolver:
 
     def plant_family_id_to_name(self, plant_family_to_name):
         return plant_family_to_name
+
+
+class ChEMBLDatabaseResolver:
+
+    def __init__(self):
+        self.chemblid2name = {}
+
+    def load_index(self, chembl_db_file: str = CHEMBL_DRUG_CSV):
+        self.chemblid2name.clear()
+        start_time = datetime.now()
+        with open(chembl_db_file, 'rt') as f:
+            reader = csv.reader(f, delimiter=',')
+            for row in islice(reader, 1, None):
+                chembl_id = row[0].strip()
+                pref_name = row[1].lower().strip().capitalize()
+                self.chemblid2name[chembl_id] = pref_name
+        logging.info(f'{len(self.chemblid2name)} ChEMBL id mappings load in {(datetime.now() - start_time)}s')
+
+    def chemblid_to_name(self, chembl_id: str) -> str:
+        return self.chemblid2name[chembl_id]
 
 
 class EntityResolver:
@@ -368,11 +322,10 @@ class EntityResolver:
             self.species.load_index()
             self.dosageform = DosageFormResolver(self.mesh)
             self.mesh_ontology = None
-            self.drugbank = DrugBankResolver()
-            self.drugbank.load_index()
-            self.drugbank_chemical = DrugBankChemicalResolver(drugbank_resolver=self.drugbank)
-            self.excipient = ExcipientResolver(drugbank_resolver=self.drugbank)
+            self.excipient = ExcipientResolver()
             self.plantfamily = PlantFamilyResolver()
+            self.chebml = ChEMBLDatabaseResolver()
+            self.chebml.load_index()
 
             EntityResolver.__instance = self
 
@@ -390,8 +343,11 @@ class EntityResolver:
         :param resolve_gene_by_id:
         :return: uses the corresponding resolver for the entity type
         """
-        if entity_type in [CHEMICAL, DISEASE, DOSAGE_FORM, METHOD, LAB_METHOD] and not entity_id.startswith('MESH:') and \
-                not entity_id.startswith('FIDX'):
+        if entity_id.startswith('CHEMBL'):
+            return self.chebml.chemblid_to_name(entity_id)
+        if entity_type in [CHEMICAL, DISEASE, DOSAGE_FORM, METHOD, LAB_METHOD] \
+                and not entity_id.startswith('MESH:') \
+                and not entity_id.startswith('FIDX'):
             if not self.mesh_ontology:
                 self.mesh_ontology = MeSHOntology.instance()
             entity_mesh_id = 'MESH:{}'.format(self.mesh_ontology.get_descriptor_for_tree_no(entity_id)[0])
@@ -407,17 +363,11 @@ class EntityResolver:
             return self.species.species_id_to_name(entity_id)
         if entity_type == DOSAGE_FORM:
             return self.dosageform.dosage_form_to_name(entity_id)
-        if entity_type == DRUG:
-            return self.drugbank.drugbank_id_to_name(entity_id)
         if entity_type == EXCIPIENT:
             return self.excipient.excipient_id_to_name(entity_id)
         if entity_type == PLANT_FAMILY:
             return self.plantfamily.plant_family_id_to_name(entity_id)
-        if entity_type == DRUGBANK_CHEMICAL:
-            if entity_id.startswith('DB'):
-                return self.drugbank.drugbank_id_to_name(entity_id)
-            else:
-                return entity_id
+
         return entity_id
 
 
@@ -438,9 +388,6 @@ def main():
 
     species = SpeciesResolver()
     species.build_index()
-
-    drugbank = DrugBankResolver()
-    drugbank.build_index()
 
 
 if __name__ == "__main__":
