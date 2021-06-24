@@ -63,40 +63,6 @@ def pubmed_medline_load_file(filename):
             abstract = None
 
         pubmed_articles.append(TaggedDocument(id=pmid, title=title, abstract=abstract))
-        continue
-
-        authors_list = []
-        for author in article.findall('./MedlineCitation/Article/AuthorList/Author'):
-            forename = author.findall('./ForeName')
-            lastname = author.findall('./LastName')
-            # check if only one forename and lastname is entered
-            if len(forename) != 1 or len(lastname) != 1:
-                continue
-            authors_list.append(f'{lastname[0].text}, {forename[0].text[0]}')
-
-        authors = ' | '.join(authors_list)
-
-        journal_list = []
-        publication_year = None
-        for journal in article.findall('./MedlineCitation/Article/Journal'):
-            journal_elem_title = journal.findall('./Title')
-            journal_elem_year = journal.findall('./JournalIssue/PubDate/Year')
-            journal_elem_month = journal.findall('./JournalIssue/PubDate/Month')
-            journal_elem_volume = journal.findall('./JournalIssue/Volume')
-            journal_elem_issue = journal.findall('./JournalIssue/Issue')
-
-            journal_title = journal_elem_title[0].text if len(journal_elem_title) else ""
-            journal_year = journal_elem_year[0].text if len(journal_elem_year) else None
-            journal_month = journal_elem_month[0].text if len(journal_elem_month) else None
-            journal_volume = journal_elem_volume[0].text if len(journal_elem_volume) else ""
-            journal_issue = journal_elem_issue[0].text if len(journal_elem_issue) else ""
-            journal_list.append(
-                f'{journal_title}, Vol. {journal_volume} No. {journal_issue} ({journal_month} {journal_year})')
-            if journal_year and (not publication_year or publication_year < journal_year):
-                publication_year = journal_year
-
-        journals = ' | '.join(journal_list)
-
     return pubmed_articles
 
 
