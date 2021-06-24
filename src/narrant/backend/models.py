@@ -1,21 +1,90 @@
 import unicodedata
-from collections import namedtuple
 from datetime import datetime
+from io import StringIO
 
 import logging
 from typing import List, Tuple
 
-from sqlalchemy import Column, String, Float, Integer, DateTime, ForeignKeyConstraint, PrimaryKeyConstraint, \
-    BigInteger, UniqueConstraint, func
+from sqlalchemy import Column, String, Integer, DateTime, ForeignKeyConstraint, PrimaryKeyConstraint, \
+    BigInteger, UniqueConstraint
 from sqlalchemy.ext.declarative import declarative_base
 
 from narrant.preprocessing.enttypes import GENE, SPECIES
+from narrant.progress import print_progress_with_eta
 from narrant.pubtator.regex import ILLEGAL_CHAR
 
 Base = declarative_base()
+BULK_INSERT_AFTER_K = 100000
 
 
-class Document(Base):
+def postgres_copy_insert(session, values: List[dict], table_name: str):
+    """
+    Performs a fast COPY INSERT operation for Postgres Databases
+    Do not check any constraints!
+    :param session: the current session object
+    :param values: a list of dictionary objects (they must correspond to the table)
+    :param table_name: the table name to insert into
+    :return: None
+    """
+    connection = session.connection().connection
+    memory_file = StringIO()
+    attribute_keys = list(values[0].keys())
+    for idx, v in enumerate(values):
+        mem_str = '{}'.format('\t'.join([str(v[k]) for k in attribute_keys]))
+        if idx == 0:
+            memory_file.write(mem_str)
+        else:
+            memory_file.write(f'\n{mem_str}')
+    cursor = connection.cursor()
+    logging.debug(f'Executing copy from {table_name}...')
+    memory_file.seek(0)
+    cursor.copy_from(memory_file, table_name, sep='\t', columns=attribute_keys)
+    logging.debug('Committing...')
+    connection.commit()
+    memory_file.close()
+
+
+def bulk_insert_values_to_table(session, values: List[dict], table_class):
+    """
+    Performs a bulk insert to a database table
+    :param session: the current session object
+    :param values: a list of dictionary objects that correspond to the table
+    :param table_class: the table class to insert into
+    :return: None
+    """
+    task_size = len(values)
+    start_time = datetime.now()
+    part = []
+    for i, p in enumerate(values):
+        part.append(p)
+        if i % BULK_INSERT_AFTER_K == 0:
+            session.bulk_insert_mappings(table_class, part)
+            session.commit()
+            part.clear()
+        print_progress_with_eta("Inserting values...", i, task_size, start_time)
+    session.bulk_insert_mappings(table_class, part)
+    session.commit()
+    part.clear()
+
+
+class DatabaseTable:
+    """
+    Every Database Class that inherits from this class will have this bulk insert method available as a class method
+    """
+
+    @classmethod
+    def bulk_insert_values_into_table(cls, session, values: List[dict]):
+        if not values:
+            return
+        logging.debug(f'Inserting values into {cls.__tablename__}...')
+        if session.is_postgres:
+            postgres_copy_insert(session, values, cls.__tablename__)
+        else:
+            bulk_insert_values_to_table(session, values, cls)
+        logging.debug(f'{len(values)} values have been inserted')
+
+
+class Document(Base, DatabaseTable):
     __tablename__ = "document"
     __table_args__ = (
         PrimaryKeyConstraint('collection', 'id', sqlite_on_conflict='IGNORE'),
@@ -55,7 +124,7 @@ class Document(Base):
         return to_sanitize
 
 
-class Tagger(Base):
+class Tagger(Base, DatabaseTable):
     __tablename__ = "tagger"
     __table_args__ = (
         PrimaryKeyConstraint('name', 'version', sqlite_on_conflict='IGNORE'),
@@ -64,7 +133,7 @@ class Tagger(Base):
     version = Column(String, primary_key=True)
 
 
-class DocTaggedBy(Base):
+class DocTaggedBy(Base, DatabaseTable):
     __tablename__ = "doc_tagged_by"
     __table_args__ = (
         ForeignKeyConstraint(('document_id', 'document_collection'), ('document.id', 'document.collection')
@@ -82,7 +151,7 @@ class DocTaggedBy(Base):
     date_inserted = Column(DateTime, nullable=False, default=datetime.now)
 
 
-class Tag(Base):
+class Tag(Base, DatabaseTable):
     __tablename__ = "tag"
     __table_args__ = (
         ForeignKeyConstraint(('document_id', 'document_collection'), ('document.id', 'document.collection'),
@@ -144,7 +213,7 @@ class Tag(Base):
         return gene_ids_in_db
 
 
-class DocumentTranslation(Base):
+class DocumentTranslation(Base, DatabaseTable):
     __tablename__ = "document_translation"
     __table_args__ = (
         PrimaryKeyConstraint('document_id', 'document_collection', sqlite_on_conflict='IGNORE'),
