@@ -26,16 +26,17 @@ MESH_TREE_NAMES = dict(
     Z="Geographicals"
 )
 
-MESH_TREE_TO_ENTITY_TYPE = {
-    "D26.255": DOSAGE_FORM,  # Dosage Forms
-  #  "E02.319.300": DOSAGE_FORM,  # Drug Delivery Systems
-    "J01.637.512.600": DOSAGE_FORM,  # Nanoparticles
-    "J01.637.512.850": DOSAGE_FORM,  # Nanotubes
-    "J01.637.512.925": DOSAGE_FORM, # Nanowires
-    "E": METHOD,
-    "C": DISEASE,
-    "F03": DISEASE
-}
+MESH_TREE_TO_ENTITY_TYPE = [
+    ("D26.255", DOSAGE_FORM),  # Dosage Forms
+    ("E02.319.300", DOSAGE_FORM),  # Drug Delivery Systems
+    ("E02.319.267", DOSAGE_FORM),  # Drug Administration Routes
+    ("J01.637.512.600", DOSAGE_FORM),  # Nanoparticles
+    ("J01.637.512.850", DOSAGE_FORM),  # Nanotubes
+    ("J01.637.512.925", DOSAGE_FORM),  # Nanowires
+    ("E", METHOD),
+    ("C", DISEASE),
+    ("F03", DISEASE)
+]
 
 
 class MeSHOntology:
@@ -151,9 +152,9 @@ class MeSHOntology:
         :param tree_number: the tree number to check
         :return: the entity type
         """
-        for k, v in MESH_TREE_TO_ENTITY_TYPE.items():
-            if tree_number.startswith(k):
-                return v
+        for tn, et in MESH_TREE_TO_ENTITY_TYPE:
+            if tree_number.startswith(tn):
+                return et
         raise KeyError(f'No entity type for tree number {tree_number} found')
 
     def build_index_from_mesh(self, mesh_file=MESH_DESCRIPTORS_FILE):
@@ -203,7 +204,7 @@ class MeSHOntology:
         """
         retrieves a list of all sub-descriptors for a given descriptor
         :param decriptor_id: a mesh descriptor id
-        :return: a list of sub-descritor ids
+        :return: a list of sub-descriptor (id, heading)
         """
         tree_nos = self.get_tree_numbers_for_descriptor(descriptor_id=decriptor_id)
         sub_descriptors = set()
