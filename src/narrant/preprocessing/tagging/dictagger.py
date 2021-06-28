@@ -231,24 +231,6 @@ class DictTagger(BaseTagger, metaclass=ABCMeta):
         if self.config.dict_check_abbreviation:
             tags = DictTagger.clean_abbreviation_tags(tags, self.config.dict_min_full_tag_len)
 
-        # TODO: Check for instances like "breast and ovarian cancer"
-        # if self.config.dict_resolve_conjunctions:
-        #     for word_tuples in get_n_tuples(ind_words, and_check_range):
-        #         words, indexes = zip(*word_tuples)
-        #         if any([tag.start < indexes[-1] + 1 or indexes[0] < tag.end for tag in tags]):
-        #             hits_in_group = []
-        #             conjunction_hit = False
-        #             for lt,rt in DictTagger.conjunction_product(word_tuples, seperated=True):
-        #                 hits = self.get_hits(lt+rt, abb_vocab, pmid, title)
-        #                 conjunction_hit |= not not hits and not lt == [] and not rt == []
-        #                 hits_in_group += hits
-        #             if hits_in_group and conjunction_hit:
-        #                 group_start = min(t.start for t in hits_in_group)
-        #                 group_end = max(t.end for t in hits_in_group)
-        #                 group_descs_types = {(t.ent_type, t.ent_id) for t in hits_in_group}
-        #                 ent_str = " ".join(w for w, i in word_tuples if i >= group_start and i+len(w) <= group_end)
-        #                 tags += [TaggedEntity(document=pmid, start=group_start, end=group_end, text=ent_str, ent_type=t[0],
-        #                                       ent_id=t[1]) for t in group_descs_types]
         out_doc.tags += tags
         return out_doc
 
