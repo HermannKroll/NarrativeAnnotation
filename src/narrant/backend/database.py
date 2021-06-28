@@ -88,6 +88,7 @@ class Session:
             session_cls = sessionmaker(bind=self.engine)  # python black magic: equip self with additional functions
             self.session = scoped_session(session_cls)  # session_cls()
             self.session.is_postgres = Session.is_postgres
+            self.session.is_sqlite = Session.is_sqlite
             declarative_base.metadata.create_all(self.engine)
         else:
             raise ValueError("Instance already exists: Use get()")
