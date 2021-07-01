@@ -223,9 +223,6 @@ class TaggedDocument:
             ]
         }
 
-    def to_json(self, indent=3):
-        return json.dump(self.to_dict(), indent=indent)
-
     def __str__(self):
         return Document.create_pubtator(self.id, self.title, self.abstract) + "".join(
             [str(t) for t in self.tags]) + "\n"
