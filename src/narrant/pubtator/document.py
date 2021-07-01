@@ -1,3 +1,4 @@
+import json
 from collections import defaultdict
 
 from narrant import tools
@@ -199,6 +200,31 @@ class TaggedDocument:
                     if sent.start <= entity.start <= sent.end:
                         self.sentences_by_ent_id[ent_id].add(sid)
                         self.entities_by_sentence[sid].add(entity)
+
+    def to_dict(self):
+        """
+        converts the TaggedDocument to a dictionary that is consistent with our json ouptut format.
+        Gosh, it's beautiful to formulate a json construction in python
+        :return:
+        """
+        return {
+            "id": self.id,
+            "title": self.title,
+            "abstract": self.abstract,
+            "tags": [
+                {
+                    "id": tag.ent_id,
+                    "mention": tag.text,
+                    "start": tag.start,
+                    "end": tag.end,
+                    "type": tag.ent_type,
+                }
+                for tag in self.tags
+            ]
+        }
+
+    def to_json(self, indent=3):
+        return json.dump(self.to_dict(), indent=indent)
 
     def __str__(self):
         return Document.create_pubtator(self.id, self.title, self.abstract) + "".join(
