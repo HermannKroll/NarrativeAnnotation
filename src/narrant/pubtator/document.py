@@ -76,13 +76,14 @@ class TaggedDocument:
                     self.title = self.title.strip()
                     self.abstract = self.abstract.strip()
                     self.id = int(self.id)
-
-                    if from_str and not ignore_tags:
-                        self.tags = [TaggedEntity(t) for t in TAG_LINE_NORMAL.findall(from_str)]
-                        if not self.id and self.tags:
-                            self.id = self.tags[0].document
                 else:
                     self.id, self.title, self.abstract = None, None, None
+
+                if from_str and not ignore_tags:
+                    self.tags = [TaggedEntity(t) for t in TAG_LINE_NORMAL.findall(from_str)]
+                    if not self.id and self.tags:
+                        self.id = self.tags[0].document
+
             elif str_format == "json":
                 doc_dict = json.loads(from_str)
                 self.id, self.title, self.abstract = doc_dict["id"], doc_dict["title"], doc_dict["abstract"]
