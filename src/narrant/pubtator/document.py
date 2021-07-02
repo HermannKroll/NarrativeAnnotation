@@ -2,9 +2,34 @@ import json
 from collections import defaultdict
 
 import re
+from enum import Enum, auto
+
 from narrant import tools
 from narrant.backend.models import Tag, Document
 from narrant.pubtator.regex import TAG_LINE_NORMAL, CONTENT_ID_TIT_ABS
+
+
+class DocFormat(Enum):
+    COMPOSITE_JSON = auto()
+    SINGLE_JSON = auto()
+    PUBTATOR = auto()
+
+
+def get_doc_format(f)->DocFormat:
+    first_char = f.read(1)
+    f.seek(0)
+    if first_char == "[":
+        return DocFormat.COMPOSITE_JSON
+    elif first_char == "{":
+        return DocFormat.SINGLE_JSON
+    elif re.match(r"\d", first_char):
+        return DocFormat.PUBTATOR
+    else:
+        return None
+
+
+def is_doc_file(fn):
+    return not fn.startswith(".") and any([fn.endswith(ext) for ext in [".txt", ".pubtator", "json"]])
 
 
 class TaggedEntity:
@@ -87,15 +112,16 @@ class TaggedDocument:
             elif str_format == "json":
                 doc_dict = json.loads(from_str)
                 self.id, self.title, self.abstract = doc_dict["id"], doc_dict["title"], doc_dict["abstract"]
-                self.tags = [
-                    TaggedEntity(document=self.id,
-                                 start=tag["start"],
-                                 end=tag["end"],
-                                 text=tag["mention"],
-                                 ent_type=tag["type"],
-                                 ent_id=tag["id"])
-                    for tag in doc_dict["tags"]
-                ]
+                if "tags" in doc_dict and not ignore_tags:
+                    self.tags = [
+                        TaggedEntity(document=self.id,
+                                     start=tag["start"],
+                                     end=tag["end"],
+                                     text=tag["mention"],
+                                     ent_type=tag["type"],
+                                     ent_id=tag["id"])
+                        for tag in doc_dict["tags"]
+                    ]
 
         else:
             self.id = id

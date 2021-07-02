@@ -1,32 +1,32 @@
 import argparse
+import json
 import logging
 import os
 import ijson
+import re
 
 from narrant.preprocessing.utils import get_document_id, DocumentError
 from narrant.pubtator.regex import DOCUMENT_ID
-from narrant.pubtator.document import TaggedDocument
+from narrant.pubtator.document import TaggedDocument, DocFormat, get_doc_format, is_doc_file
 
 
 # TODO: This method should be unit-tested because its used a lot
 def read_pubtator_documents(path):
     if os.path.isdir(path):
         for fn in os.listdir(path):
-            if not fn.startswith(".") and fn.endswith(".txt"):
+            if is_doc_file(fn):
                 abs_path = os.path.join(path, fn)
                 yield from read_pubtator_documents(abs_path)
     else:
         content = ""
         with open(path) as f:
-            file_format = None
-            # sj: single json, cj: composite json, p: pubtator
-            first_char = f.read(1)
-            f.seek(0)
-            if first_char== "{":
+
+            docformat = get_doc_format(f)
+            if docformat == DocFormat.SINGLE_JSON:
                 yield f.read()
-            elif first_char == "[":
-                yield from ijson.items(f)
-            else:
+            elif docformat == DocFormat.COMPOSITE_JSON:
+                yield from map(json.dumps, ijson.items(f, "item"))
+            elif docformat == DocFormat.PUBTATOR:
                 for line in f:
                     if line.strip():
                         content += line
@@ -34,6 +34,9 @@ def read_pubtator_documents(path):
                         yield content
                         content = ""
                 if content: yield content
+
+
+
 
 
 def read_tagged_documents(path):
