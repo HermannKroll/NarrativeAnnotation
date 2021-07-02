@@ -141,6 +141,8 @@ def main():
     parser.add_argument("-c", "--collection", help="Collection(s)", default=None)
     parser.add_argument("-d", "--document", action="store_true", help="Export content of document")
     parser.add_argument("-t", "--tag", choices=TAG_TYPE_MAPPING.keys(), nargs="+")
+    parser.add_argument("--format", "-f", help='export format', choices=['json', 'pubtator'], default='json')
+
 
     parser.add_argument("--sqllog", action="store_true", help='logs sql commands')
     args = parser.parse_args()
@@ -172,7 +174,8 @@ def main():
     else:
         document_ids = None
 
-    export(args.output, tag_types, document_ids, collection=args.collection, content=args.document, logger=logger)
+    export(args.output, tag_types, document_ids, collection=args.collection, content=args.document, logger=logger,
+           export_format=args.format)
     logging.info('Finished')
 
 
