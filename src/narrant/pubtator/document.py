@@ -1,6 +1,7 @@
 import json
 from collections import defaultdict
 
+import re
 from narrant import tools
 from narrant.backend.models import Tag, Document
 from narrant.pubtator.regex import TAG_LINE_NORMAL, CONTENT_ID_TIT_ABS
@@ -54,34 +55,53 @@ def parse_tag_list(path_or_str):
 
 class TaggedDocument:
 
-    def __init__(self, pubtator_content=None, spacy_nlp=None, ignore_tags=False, id=None, title=None, abstract=None):
+    def __init__(self, from_str=None, spacy_nlp=None, ignore_tags=False, id=None, title=None, abstract=None):
         """
         initialize a pubtator document
-        :param pubtator_content: content of a pubtator file or a pubtator filename
+        :param from_str: content of a pubtator file or a pubtator filename
         """
         self.title = None
         self.abstract = None
         self.id = None
-        if pubtator_content:
-            pubtator_content = tools.read_if_path(pubtator_content)
-            match = CONTENT_ID_TIT_ABS.match(pubtator_content)
-            if match:
-                self.id, self.title, self.abstract = match.group(1, 2, 3)
-                self.title = self.title.strip()
-                self.abstract = self.abstract.strip()
-                self.id = int(self.id)
-            else:
-                self.id, self.title, self.abstract = None, None, None
+        self.tags = []
+
+        if from_str:
+            from_str = tools.read_if_path(from_str)
+            str_format = "pt" if re.match(r"\d", from_str[0]) else "json"
+
+            if str_format == "pt":
+                match = CONTENT_ID_TIT_ABS.match(from_str)
+                if match:
+                    self.id, self.title, self.abstract = match.group(1, 2, 3)
+                    self.title = self.title.strip()
+                    self.abstract = self.abstract.strip()
+                    self.id = int(self.id)
+
+                    if from_str and not ignore_tags:
+                        self.tags = [TaggedEntity(t) for t in TAG_LINE_NORMAL.findall(from_str)]
+                        if not self.id and self.tags:
+                            self.id = self.tags[0].document
+                else:
+                    self.id, self.title, self.abstract = None, None, None
+            elif str_format == "json":
+                doc_dict = json.loads(from_str)
+                self.id, self.title, self.abstract = doc_dict["id"], doc_dict["title"], doc_dict["abstract"]
+                self.tags = [
+                    TaggedEntity(document=self.id,
+                                 start=tag["start"],
+                                 end=tag["end"],
+                                 text=tag["mention"],
+                                 ent_type=tag["type"],
+                                 ent_id=tag["id"])
+                    for tag in doc_dict["tags"]
+                ]
+
         else:
             self.id = id
             self.title = title
             self.abstract = abstract
 
-        self.tags = []
-        if pubtator_content and not ignore_tags:
-            self.tags = [TaggedEntity(t) for t in TAG_LINE_NORMAL.findall(pubtator_content)]
-            if not self.id and self.tags:
-                self.id = self.tags[0].document
+
 
         if self.tags:
             # if multiple document tags are contained in a single doc - raise error

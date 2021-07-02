@@ -1,6 +1,7 @@
 import argparse
 import logging
 import os
+import ijson
 
 from narrant.preprocessing.utils import get_document_id, DocumentError
 from narrant.pubtator.regex import DOCUMENT_ID
@@ -17,13 +18,22 @@ def read_pubtator_documents(path):
     else:
         content = ""
         with open(path) as f:
-            for line in f:
-                if line.strip():
-                    content += line
-                else:
-                    yield content
-                    content = ""
-            if content: yield content
+            file_format = None
+            # sj: single json, cj: composite json, p: pubtator
+            first_char = f.read(1)
+            f.seek(0)
+            if first_char== "{":
+                yield f.read()
+            elif first_char == "[":
+                yield from ijson.items(f)
+            else:
+                for line in f:
+                    if line.strip():
+                        content += line
+                    else:
+                        yield content
+                        content = ""
+                if content: yield content
 
 
 def read_tagged_documents(path):
