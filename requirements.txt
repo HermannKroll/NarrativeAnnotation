@@ -5,3 +5,4 @@ psycopg2-binary
 psutil
 pytest
 spacy
+ijson
