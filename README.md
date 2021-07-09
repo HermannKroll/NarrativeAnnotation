@@ -16,7 +16,11 @@ Some general remarks:
 - there is an additional table (DocumentTranslation) in which such a translation could be stored
 - Documents won't be inserted twice. There is a global setting that duplicated tuples are ignored when inserted in the database.
 
-## Supported Document Format (PubTator)
+## Supported Document Formats
+
+Our Pipeline supports 2 input formats (Pubtator, json) and 3 export formats (pubtator, json, xml). The import formats are explained below. For the xml export please refer to the export section at the end of this readme.
+
+### Pubtator
 We assume each document to have a document id, a document collection, a title and an abstract. Document ids must be unique with a document collection. Our pipeline expects documents to be in the [PubTator format](https://www.ncbi.nlm.nih.gov/CBBresearch/Lu/Demo/PubTator/tutorial/index.html). 
 ```
 document_id|t|title text here
@@ -57,10 +61,6 @@ Then,additional data must be downloaded. Switch to the NarrativeAnnotation direc
 cd NarrativeAnnotation/
 ./download_data.sh
 ```
-
-Besides, we need a DrugBank XML Download. The download is not publicly available. We provide a DrugBank Version in our [OneDrive](https://1drv.ms/u/s!ArDgbq3ak3Zuh6B_vO0IntgtJGfThA?e=phtZLH).
-Please download the zip file, put the zip file in NarrativeAnnotation/data und unzip the file. Now you should obtain a drugbank2021.xml file in data.
-
 
 ### Database Setup
 1. Setup a PostgresDB environment (see [official instructions](https://www.postgresql.org)). Tagging results, documents and more will be stored in this relational database. 
@@ -118,9 +118,16 @@ The tagging pipeline produces tags. A tag represents an annotation and consists 
 - entity id (string)
 - entity type (string)
 
+We provide a total of three scripts for generating annotations:
+- Two for dictionary-based Taggers
+  - Either using our own vocabulary
+  - or using a custom vocabulary read from a .tsv file
+- One for Third-Party tools (Taggerone, GNormPlus)
+
+The usage of the pipelines will be explained in the following.
 
 
-## Dictionary-based Taggers (Own Vocabularies)
+## Dictionary-based Taggers (Our Vocabularies)
 The documents must be in the database for annotation purposes. If you call an annotation script, the documents will automatically be inserted. 
 You can invoke our own dictionary-based tagger pipeline via
 ```
@@ -148,6 +155,43 @@ The pipeline will work in a temporary directory (random directory in /tmp/) and 
 python3 src/narrant/preprocessing/dictpreprocess.py test.pubtator --corpus test --workdir temp/
 ```
 The temporary created files as well as all logs won't be removed then. 
+
+It is to be noted that the dictionary-based pipelines solely create the tags and insert them into the database. If the tags are needed in a file format, an export has to be executed afterwards.
+
+## Dictionary-Based Taggers (Custom Vocabulary)
+This pipeline offers the chance to load a custom vocabulary from a tsv file.
+
+### Usage
+```
+usage: vocab_dictpreprocess.py [-h] -c COLLECTION -v--vocabulary V__VOCABULARY
+                               [--config CONFIG] [--loglevel LOGLEVEL]
+                               [--workdir WORKDIR] [--skip-load] [-w WORKERS]
+                               [-y]
+                               IN_DIR
+```
+#### Example
+```
+src/narrant/preprocessing/vocab_dictpreprocess.py input_directory/ -c test -v test_vocabulary.tsv
+```
+This pipeline supports the same options as the dictpreprocess pipeline discussed above. 
+
+However, this script also requires a vocabulary file specified with the `-v` tag.
+It's format looks like this:
+```
+id	enttype	heading	synonyms
+<entity identifier> <entity type> <entity main name> <synonyms to be tagged, separated by semicolons (;)>
+<entity identifier> <entity type> <entity main name> <synonyms to be tagged, separated by semicolons (;)>
+...
+```
+
+For more clarity, see this example bewlow:
+```
+id	enttype	heading	synonyms
+D063465	DosageForm	Cream	Lotion;Gel-cream;gel cream
+D053770	DosageForm	Nano wires	Nano wire;Nano-wires;Nano-wire
+CHEMBL1064  Drug  Simvastatin Simvastatinum;Simvastatina
+...
+```
 
 
 ## TaggerOne and GNormPlus (ThirdParty)
