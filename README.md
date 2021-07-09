@@ -20,6 +20,31 @@ Some general remarks:
 
 Our Pipeline supports 2 input formats (Pubtator, json) and 3 export formats (pubtator, json, xml). The import formats are explained below. For the xml export please refer to the export section at the end of this readme.
 
+### json
+Here is an example of our json format:
+```
+[
+  {
+  "id": 12098649,
+  "title": "Lack of association between estrogen receptor 1 gene polymorphisms and multiple sclerosis in southern Italy in humans.",
+  "abstract": "Estrogen receptor 1 gene polymorphisms (ESR1) have been found to be associated with multiple sclerosis (MS) in both Japanese and Finnish populations. We investigated the association between ESR1 polymorphisms (PvuII and XbaI) and MS in a study of 132 MS patients and 129 controls from the same geographic background (southern Italy). Allelic and genotypic frequencies were not different between MS patients and population controls for either the PvuII or XbaI polymorphism. This result suggests that the association between a given disease and a genomic characteristic must be confirmed by separate investigations in different populations.",
+  "tags": [
+    {
+      "id": "2099",
+      "mention": "estrogen receptor 1",
+      "start": 28, // Python: (title + " " + abstract)[start:end]==mention,
+      "end": 47,
+      "type": "Gene"
+    }
+    //...
+  ]
+  },
+  //...
+]
+```
+The outmost array brackets `[]` can be omitted if only a single json document should be contained within the file.
+
+
 ### Pubtator
 We assume each document to have a document id, a document collection, a title and an abstract. Document ids must be unique with a document collection. Our pipeline expects documents to be in the [PubTator format](https://www.ncbi.nlm.nih.gov/CBBresearch/Lu/Demo/PubTator/tutorial/index.html). 
 ```
@@ -265,6 +290,41 @@ python3 src/narrant/preprocessing/preprocess.py test.pubtator --corpus test --wo
 The temporary created files as well as all logs won't be removed then.
 
 # Export
+
+There are two different export scripts:
+- One for export in json or pubtator format
+- One for export in xml format
+
+### Export JSON / Pubtator
+#### Usage: 
+```
+usage: export.py [-h] [--ids [DOC_ID [DOC_ID ...]]] [--idfile IDFILE]
+                 [-c COLLECTION] [-d]
+                 [-t {DF,DR,DC,E,PF,C,MU,G,S,D,V,CL,M,LM,A,DA} [{DF,DR,DC,E,PF,C,MU,G,S,D,V,CL,M,LM,A,DA} ...]]
+                 [--format {json,pubtator}] [--sqllog]
+                 output
+
+positional arguments:
+  output
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --ids [DOC_ID [DOC_ID ...]]
+  --idfile IDFILE       file containing document ids (one id per line)
+  -c COLLECTION, --collection COLLECTION
+                        Collection(s)
+  -d, --document        Export content of document
+  -t {DF,DR,DC,E,PF,C,MU,G,S,D,V,CL,M,LM,A,DA} [{DF,DR,DC,E,PF,C,MU,G,S,D,V,CL,M,LM,A,DA} ...], --tag {DF,DR,DC,E,PF,C,MU,G,S,D,V,CL,M,LM,A,DA} [{DF,DR,DC,E,PF,C,MU,G,S,D,V,CL,M,LM,A,DA} ...]
+  --format {json,pubtator}, -f {json,pubtator}
+                        export format
+  --sqllog              logs sql commands
+
+```
+#### Example
+```
+python3 src/narrant/backend/export.py -h --ids 1 2 3 -c TEST -d -t DF DR C --format json output_file
+```
+This will export the titles, abstracts and tags for documents 1,2,3 in collection Test to outptu_file in the json format.
 
 ### Export XML UB
 If you want to export in our specified XML format, use the following script. You need to create some indexes before you can use the xml export.
