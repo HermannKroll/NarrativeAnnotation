@@ -179,7 +179,7 @@ def preprocess(collection, root_dir, input_dir, log_dir, logger, output_filename
 def main(arguments=None):
     parser = ArgumentParser(description="Tag given documents in pubtator format and insert tags into database")
 
-    parser.add_argument("--composite", action="store_true",
+    parser.add_argument("--composite", action="store_true", default=True,
                         help="Check for composite pubtator files in input. Automatically enabled if input is a file.")
 
     parser.add_argument("-c", "--corpus", required=True)

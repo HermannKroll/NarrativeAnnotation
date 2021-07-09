@@ -15,9 +15,15 @@ class DocFormat(Enum):
     PUBTATOR = auto()
 
 
-def get_doc_format(f)->DocFormat:
-    first_char = f.read(1)
-    f.seek(0)
+def get_doc_format(filehandle = None, path=None)->DocFormat:
+    if not (bool(filehandle) ^ bool(path)):
+        raise ValueError("Either filehandle or path must be filled")
+    if filehandle:
+        first_char = filehandle.read(1)
+        filehandle.seek(0)
+    elif path:
+        with open(path) as f:
+            first_char = f.read(1)
     if first_char == "[":
         return DocFormat.COMPOSITE_JSON
     elif first_char == "{":
