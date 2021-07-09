@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 import warnings
 from os import environ
@@ -42,11 +43,11 @@ def add_engine_pidguard(engine):
         pid = os.getpid()
         if connection_record.info['pid'] != pid:
             # substitute log.debug() or similar here as desired
-            warnings.warn(
+            logging.debug(
                 "Parent process %(orig)s forked (%(newproc)s) with an open "
                 "database connection, "
-                "which is being discarded and recreated." %
-                {"newproc": pid, "orig": connection_record.info['pid']})
+                "which is being discarded and recreated." 
+                f'("newproc": {pid}, "orig": {connection_record.info["pid"]})')
             connection_record.connection = connection_proxy.connection = None
             raise exc.DisconnectionError(
                 "Connection record belongs to pid %s, "
@@ -60,8 +61,8 @@ class Session:
     is_sqlite = False
     is_postgres = False
 
-    def _load_config(self):
-        with open(cnf.BACKEND_CONFIG) as f:
+    def _load_config(self, backend_config: str):
+        with open(backend_config) as f:
             config = json.load(f)
         # TODO: why tf is there no wrapper?
         Session.is_sqlite = False or ("use_SQLite" in config and config["use_SQLite"])
@@ -78,15 +79,17 @@ class Session:
             POSTGRES_DB=environ.get("NI_POSTGRES_DB", config["POSTGRES_DB"]),
         )
 
-    def __init__(self):
+    def __init__(self, connection_config, declarative_base):
         if not self._instance:
             self.sqlite_path = None
-            self._load_config()
+            self._load_config(connection_config)
             self.engine = create_engine(self.get_conn_uri())
             add_engine_pidguard(self.engine)
             session_cls = sessionmaker(bind=self.engine)  # python black magic: equip self with additional functions
             self.session = scoped_session(session_cls)  # session_cls()
-            Base.metadata.create_all(self.engine)
+            self.session.is_postgres = Session.is_postgres
+            self.session.is_sqlite = Session.is_sqlite
+            declarative_base.metadata.create_all(self.engine)
         else:
             raise ValueError("Instance already exists: Use get()")
 
@@ -104,9 +107,9 @@ class Session:
         )
 
     @classmethod
-    def get(cls):
+    def get(cls, connection_config: str = cnf.BACKEND_CONFIG, declarative_base=Base):
         if not cls._instance:
-            cls._instance = Session()
+            cls._instance = Session(connection_config, declarative_base)
         return cls._instance.session
 
     @classmethod

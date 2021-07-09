@@ -1,6 +1,9 @@
+import json
 import os
+import ijson
 from argparse import ArgumentParser
 
+from narrant.pubtator.document import get_doc_format, DocFormat, is_doc_file
 from narrant.pubtator.regex import DOCUMENT_ID, TAG_DOCUMENT_ID
 
 
@@ -8,15 +11,21 @@ def get_document_ids(path: str):
     ids = set()
     if os.path.isdir(path):
         for fn in os.listdir(path):
-            if fn.endswith(".txt"):
+            if is_doc_file(fn):
                 ids.update(get_document_ids(os.path.join(path, fn)))
     else:
         with open(path) as f:
-            for line in f:
-                ids.update(int(x) for x in DOCUMENT_ID.findall(line))
-                # search only for tag ids if no title lines were found before
-                if len(ids) == 0:
-                    ids.update(int(x) for x in TAG_DOCUMENT_ID.findall(line))
+            docformat = get_doc_format(f)
+            if docformat == DocFormat.PUBTATOR:
+                for line in f:
+                    ids.update(int(x) for x in DOCUMENT_ID.findall(line))
+                    # search only for tag ids if no title lines were found before
+                    if len(ids) == 0:
+                        ids.update(int(x) for x in TAG_DOCUMENT_ID.findall(line))
+            elif docformat == DocFormat.SINGLE_JSON:
+                ids.add(json.loads(f.read())["id"])
+            elif docformat == DocFormat.COMPOSITE_JSON:
+                ids |= {doc["id"] for doc in ijson.items(f, "item")}
     return ids
 
 

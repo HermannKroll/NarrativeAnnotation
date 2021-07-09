@@ -8,7 +8,7 @@ from narrant.util.multiprocessing.WorkerProcess import WorkerProcess
 
 
 class ProducerWorker(WorkerProcess):
-    def __init__(self, task_queue: multiprocessing.Queue, produce, no_workers:int, max_tasks: int = 1000, ):
+    def __init__(self, task_queue: multiprocessing.Queue, produce, no_workers: int, max_tasks: int = 1000, ):
         """
 
         :param task_queue:
@@ -26,7 +26,6 @@ class ProducerWorker(WorkerProcess):
         self.__running = True
 
     def run(self):
-        print("prod_start")
         task_iter = iter(self.produce())
         while self.__running:
             tasks_to_add = self.max_tasks - self.task_queue.qsize()
@@ -40,7 +39,6 @@ class ProducerWorker(WorkerProcess):
                     self.__running = False
                     break
             sleep(0.01)
-
 
     def stop(self):
         self.__running = False

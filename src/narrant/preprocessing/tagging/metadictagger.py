@@ -5,7 +5,7 @@ from typing import List, Dict
 
 import narrant.preprocessing.tagging.dictagger as dt
 import narrant.preprocessing.enttypes as et
-from narrant.preprocessing.tagging import drug, dosage, excipient, plantfamily, drugbankchemical, disease, method,\
+from narrant.preprocessing.tagging import drug, dosage, excipient, plantfamily, chemical, disease, method,\
     labmethod
 from narrant.pubtator.document import TaggedEntity
 
@@ -25,12 +25,15 @@ class MetaDicTagger(dt.DictTagger):
         """
         pass
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, vocabulary=None, *args, **kwargs):
         super().__init__(short_name="meTa", long_name="meta dict tagger", version=None, tag_types=None,
                          index_cache=None, source_file=None, *args, **kwargs)
 
         self._sub_taggers: List[dt.DictTagger] = []
         self._vocabs = {}
+        if vocabulary:
+            vocabulary.load_vocab()
+            self._vocabs = vocabulary.vocabularies
         self.tag_types = set()
         os.makedirs(self.out_dir)
 
@@ -73,7 +76,7 @@ class MetaDicTaggerFactory:
         et.DOSAGE_FORM: dosage.DosageFormTagger,
         et.EXCIPIENT: excipient.ExcipientTagger,
         et.PLANT_FAMILY: plantfamily.PlantFamilyTagger,
-        et.DRUGBANK_CHEMICAL: drugbankchemical.DrugBankChemicalTagger,
+        et.DRUGBANK_CHEMICAL: chemical.ChemicalTagger,
         et.DISEASE: disease.DiseaseTagger,
         et.METHOD: method.MethodTagger,
         et.LAB_METHOD: labmethod.LabMethodTagger

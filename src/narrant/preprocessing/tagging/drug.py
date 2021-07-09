@@ -7,28 +7,27 @@ import lxml.etree as ET
 from narrant import config
 from narrant.preprocessing import enttypes
 from narrant.preprocessing.tagging.dictagger import DictTagger
-from narrant.preprocessing.tagging.vocabularies import DrugTaggerVocabulary
+from narrant.preprocessing.tagging.vocabularies import DrugVocabulary
 
 
 class DrugTagger(DictTagger):
     TYPES = (enttypes.DRUG,)
     __name__ = "DrugTagger"
-    __version__ = "1.0.0"
+    __version__ = "2.0.0"
 
     def __init__(self, *args, **kwargs):
         super().__init__("drug", "DrugTagger", DrugTagger.__version__,
-                         enttypes.DRUG, config.DRUG_TAGGER_INDEX_CACHE, config.DRUGBASE_XML_DUMP,
+                         enttypes.DRUG, config.DRUG_TAGGER_INDEX_CACHE, config.CHEMBL_DRUG_CSV,
                          *args, **kwargs)
 
     def _index_from_source(self):
         self.logger.info("checking total number of drugs...")
-        # TODO real check
-        drug_number = 13581  # subprocess.check_output(f"grep -c '^<drug' {self.source_file}")
-        logging.info(f"found {drug_number}.")
-        self.desc_by_term = DrugTaggerVocabulary.create_drugbank_vocabulary_from_source(self.source_file,
-                                                                                        self.config.drug_min_name_length,
-                                                                                        self.config.drug_check_products,
-                                                                                        self.config.drug_max_per_product)
+        self.desc_by_term = DrugVocabulary.create_drug_vocabulary_from_chembl(self.source_file)
+
+            #DrugTaggerVocabulary.create_drugbank_vocabulary_from_source(self.source_file,
+             #                                                                           self.config.drug_min_name_length,
+              #                                                                          self.config.drug_check_products,
+               #                                                                         self.config.drug_max_per_product)
 
     def extract_dosage_forms(self):
         pref = '{http://www.drugbank.ca}'

@@ -1,3 +1,4 @@
+from narrant.pubtator.document import TaggedDocument
 from narrant.pubtator.regex import DOCUMENT_ID
 
 
@@ -10,6 +11,10 @@ def get_document_id(fn):
         line = f.readline()
     try:
         match = DOCUMENT_ID.match(line)
-        return int(match.group(1))
+        if match:
+            return int(match.group(1))
+        else:
+            doc = TaggedDocument(fn)
+            return doc.id
     except AttributeError:
         raise DocumentError(f"No ID found for {fn}")

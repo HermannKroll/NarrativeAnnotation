@@ -1,8 +1,7 @@
 import logging
 import json
 
-from narrant.entity.drugbank2mesh import DrugBank2MeSHMapper
-from narrant.entity.entityresolver import MeshResolver, GeneResolver, SpeciesResolver, DrugBankResolver
+from narrant.entity.entityresolver import MeshResolver, GeneResolver, SpeciesResolver
 from narrant.entity.genemapper import GeneMapper
 from narrant.entity.meshontology import MeSHOntology
 from narrant.config import BACKEND_CONFIG
@@ -32,11 +31,6 @@ def main():
         logging.info('=' * 60)
         logging.info('=' * 60)
 
-        logging.info('Building DrugBank2MeSHMapper....')
-        drug2mesh = DrugBank2MeSHMapper()
-        drug2mesh.compute_mappings()
-        drug2mesh.store_index()
-
         logging.info('Computing entity ontology index...')
         entity_ontology = MeSHOntology.instance(load_index=False)
         entity_ontology.build_index_from_mesh()
@@ -57,10 +51,6 @@ def main():
         logging.info('Computing Species Resolver index...')
         species = SpeciesResolver()
         species.build_index()
-
-        logging.info('Computing DrugBank Resolver index...')
-        drugbank = DrugBankResolver()
-        drugbank.build_index()
 
         logging.info('=' * 60)
         logging.info('=' * 60)

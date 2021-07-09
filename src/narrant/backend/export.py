@@ -1,17 +1,19 @@
 import argparse
+import json
 import logging
 
 from narrant.preprocessing import enttypes
 from narrant.backend.database import Session
 from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING
 from narrant.backend.models import Document, Tag
+from narrant.pubtator.document import TaggedDocument, TaggedEntity
 
 CONTENT_BUFFER_SIZE = 10000
 TAG_BUFFER_SIZE = 100000
 
 
 def export(out_fn, tag_types, document_ids=None, collection=None, content=True, logger=logging,
-           content_buffer=CONTENT_BUFFER_SIZE, tag_buffer=TAG_BUFFER_SIZE):
+           content_buffer=CONTENT_BUFFER_SIZE, tag_buffer=TAG_BUFFER_SIZE, export_format="pubtator"):
     """
     Exports tagged documents in the database as a single PubTator file
     :param out_fn: path of file
@@ -33,7 +35,7 @@ def export(out_fn, tag_types, document_ids=None, collection=None, content=True, 
     session = Session.get()
 
     if content:
-        document_query = create_document_query(session, collection,  document_ids, content_buffer)
+        document_query = create_document_query(session, collection, document_ids, content_buffer)
     if tag_types:
         tag_query = create_tag_query(session, collection, document_ids, tag_types, tag_buffer)
 
@@ -50,32 +52,54 @@ def export(out_fn, tag_types, document_ids=None, collection=None, content=True, 
     elif content and tag_types:
         content_iter = iter(document_query)
         current_document = None
+        document_builder: TaggedDocument = None
         first_doc = True
         with open(out_fn, "w") as f:
+            if export_format == "json":
+                f.write("[\n")
             for tag in tag_query:
                 # skip to tagged document
                 while not current_document or not (
                         tag.document_id == current_document.id
                         and tag.document_collection == current_document.collection):
+                    if document_builder:
+                        write_doc(document_builder, export_format, f, first_doc)
+                        first_doc = False
                     current_document = next(content_iter)
-                    if not first_doc:
-                        f.write("\n")
-                    first_doc = False
-                    f.write(Document.create_pubtator(current_document.id, current_document.title,
-                                                     current_document.abstract))
-                f.write(Tag.create_pubtator(tag.document_id, tag.start, tag.end, tag.ent_str, tag.ent_type, tag.ent_id))
+                    document_builder = TaggedDocument(id=current_document.id,
+                                                      title=current_document.title,
+                                                      abstract=current_document.abstract)
+                document_builder.tags.append(TaggedEntity(document=document_builder.id,
+                                                          start=tag.start,
+                                                          end=tag.end,
+                                                          text=tag.ent_str,
+                                                          ent_type=tag.ent_type,
+                                                          ent_id=tag.ent_id))
+
+            if document_builder:
+                write_doc(document_builder, export_format, f, first_doc)
 
             # Write tailing documents with no tags
             current_document = next(content_iter, None)
             while current_document:
-                if not first_doc:
-                    f.write("\n")
-                first_doc = False
-                f.write(Document.create_pubtator(current_document.id, current_document.title,
-                                                 current_document.abstract))
+                write_doc(TaggedDocument(id=current_document.id,
+                                         title=current_document.title,
+                                         abstract=current_document.abstract),
+                          export_format, f, first_doc
+                          )
                 current_document = next(content_iter, None)
             # end export with a new line
-            f.write("\n")
+
+            if export_format == "json":
+                f.write("\n]\n")
+
+def write_doc(document_builder, export_format, f, first_doc):
+    if export_format == "json":
+        if not first_doc:
+            f.write(",\n")
+        json.dump(document_builder.to_dict(), f, indent=1)
+    elif export_format == "pubtator":
+        f.write(str(document_builder))
 
 
 def create_tag_query(session, collection=None, document_ids=None, tag_types=None, tag_buffer=TAG_BUFFER_SIZE):
@@ -117,6 +141,8 @@ def main():
     parser.add_argument("-c", "--collection", help="Collection(s)", default=None)
     parser.add_argument("-d", "--document", action="store_true", help="Export content of document")
     parser.add_argument("-t", "--tag", choices=TAG_TYPE_MAPPING.keys(), nargs="+")
+    parser.add_argument("--format", "-f", help='export format', choices=['json', 'pubtator'], default='json')
+
 
     parser.add_argument("--sqllog", action="store_true", help='logs sql commands')
     args = parser.parse_args()
@@ -148,7 +174,8 @@ def main():
     else:
         document_ids = None
 
-    export(args.output, tag_types, document_ids, collection=args.collection, content=args.document, logger=logger)
+    export(args.output, tag_types, document_ids, collection=args.collection, content=args.document, logger=logger,
+           export_format=args.format)
     logging.info('Finished')
 
 

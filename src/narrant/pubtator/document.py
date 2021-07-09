@@ -1,8 +1,41 @@
+import json
 from collections import defaultdict
+
+import re
+from enum import Enum, auto
 
 from narrant import tools
 from narrant.backend.models import Tag, Document
 from narrant.pubtator.regex import TAG_LINE_NORMAL, CONTENT_ID_TIT_ABS
+
+
+class DocFormat(Enum):
+    COMPOSITE_JSON = auto()
+    SINGLE_JSON = auto()
+    PUBTATOR = auto()
+
+
+def get_doc_format(filehandle = None, path=None)->DocFormat:
+    if not (bool(filehandle) ^ bool(path)):
+        raise ValueError("Either filehandle or path must be filled")
+    if filehandle:
+        first_char = filehandle.read(1)
+        filehandle.seek(0)
+    elif path:
+        with open(path) as f:
+            first_char = f.read(1)
+    if first_char == "[":
+        return DocFormat.COMPOSITE_JSON
+    elif first_char == "{":
+        return DocFormat.SINGLE_JSON
+    elif re.match(r"\d", first_char):
+        return DocFormat.PUBTATOR
+    else:
+        return None
+
+
+def is_doc_file(fn):
+    return not fn.startswith(".") and any([fn.endswith(ext) for ext in [".txt", ".pubtator", "json"]])
 
 
 class TaggedEntity:
@@ -53,49 +86,67 @@ def parse_tag_list(path_or_str):
 
 class TaggedDocument:
 
-    def __init__(self, pubtator_content=None, spacy_nlp=None, ignore_tags=False, id=None, title=None, abstract=None):
+    def __init__(self, from_str=None, spacy_nlp=None, ignore_tags=False, id=None, title=None, abstract=None):
         """
         initialize a pubtator document
-        :param pubtator_content: content of a pubtator file or a pubtator filename
+        :param from_str: content of a pubtator file or a pubtator filename
         """
-        if pubtator_content:
-            pubtator_content = tools.read_if_path(pubtator_content)
-            match = CONTENT_ID_TIT_ABS.match(pubtator_content)
-            if match:
-                self.id, self.title, self.abstract = match.group(1, 2, 3)
-                self.title = self.title.strip()
-                self.abstract = self.abstract.strip()
-                self.id = int(self.id)
-            else:
-                self.id, self.title, self.abstract = None, None, None
-        elif id and title and abstract:
+        self.title = None
+        self.abstract = None
+        self.id = None
+        self.tags = []
+
+        if from_str:
+            from_str = tools.read_if_path(from_str)
+            str_format = "pt" if re.match(r"\d", from_str[0]) else "json"
+
+            if str_format == "pt":
+                match = CONTENT_ID_TIT_ABS.match(from_str)
+                if match:
+                    self.id, self.title, self.abstract = match.group(1, 2, 3)
+                    self.title = self.title.strip()
+                    self.abstract = self.abstract.strip()
+                    self.id = int(self.id)
+                else:
+                    self.id, self.title, self.abstract = None, None, None
+
+                if from_str and not ignore_tags:
+                    self.tags = [TaggedEntity(t) for t in TAG_LINE_NORMAL.findall(from_str)]
+                    if not self.id and self.tags:
+                        self.id = self.tags[0].document
+
+            elif str_format == "json":
+                doc_dict = json.loads(from_str)
+                self.id, self.title, self.abstract = doc_dict["id"], doc_dict["title"], doc_dict["abstract"]
+                if "tags" in doc_dict and not ignore_tags:
+                    self.tags = [
+                        TaggedEntity(document=self.id,
+                                     start=tag["start"],
+                                     end=tag["end"],
+                                     text=tag["mention"],
+                                     ent_type=tag["type"],
+                                     ent_id=tag["id"])
+                        for tag in doc_dict["tags"]
+                    ]
+
+        else:
             self.id = id
             self.title = title
             self.abstract = abstract
-        else:
-            self.title = None
-            self.abstract = None
-            self.id = None
-        if ignore_tags:
-            self.tags = []
-        else:
-            self.tags = [TaggedEntity(t) for t in TAG_LINE_NORMAL.findall(pubtator_content)]
-            if not self.id and self.tags:
-                self.id = self.tags[0].document
 
-        # if multiple document tags are contained in a single doc - raise error
-        if len(set([t.document for t in self.tags])) > 1:
-            raise ValueError(f'Document contains tags for multiple document ids: {self.id}')
 
-        # There are composite entity mentions like
-        # 24729111	19	33	myxoedema coma	Disease	D007037|D003128	myxoedema|coma
-        # does an entity id contain a composite delimiter |
-        if '|' in str([''.join([t.ent_id for t in self.tags])]):
-            self.split_composite_tags()
+
+        if self.tags:
+            # if multiple document tags are contained in a single doc - raise error
+            if len(set([t.document for t in self.tags])) > 1:
+                raise ValueError(f'Document contains tags for multiple document ids: {self.id}')
+
+            if TaggedDocument.pubtator_has_composite_tags(self.tags):
+                self.tags = TaggedDocument.pubtator_split_composite_tags(self.tags)
 
         self.entity_names = {t.text.lower() for t in self.tags}
         if spacy_nlp:
-            if not self.title or not self.abstract:
+            if not self.title and not self.abstract:
                 raise ValueError(f'Cannot process document ({self.id}) without title or abstract')
             # Indexes
             # self.mesh_by_entity_name = {}  # Use to select mesh descriptor by given entity
@@ -105,15 +156,28 @@ class TaggedDocument:
             self.entities_by_sentence = defaultdict(set)  # Use for _query processing
             self._create_index(spacy_nlp)
 
-    def split_composite_tags(self):
+    @staticmethod
+    def pubtator_has_composite_tags(tags: [TaggedEntity]) -> bool:
+        """
+        There are composite entity mentions like
+        24729111	19	33	myxoedema coma	Disease	D007037|D003128	myxoedema|coma
+        does an entity id contain a composite delimiter |
+        :param tags:
+        :return:
+        """
+        return '|' in str([''.join([t.ent_id for t in tags])])
+
+    @staticmethod
+    def pubtator_split_composite_tags(tags: [TaggedEntity]) -> [TaggedEntity]:
         """
         There are composite entity mentions like
         24729111	19	33	myxoedema coma	Disease	D007037|D003128	myxoedema|coma
         This method will split them to multiple tags (replaces self.tags)
-        :return: None
+        :param: a list of tags
+        :return: a list of split tags
         """
         cleaned_composite_tags = []
-        for t in self.tags:
+        for t in tags:
             ent_id = t.ent_id
             # composite tag detected
             ent_str_split = []
@@ -136,7 +200,7 @@ class TaggedDocument:
             else:
                 # just add the tag (it's a normal tag)
                 cleaned_composite_tags.append(t)
-        self.tags = cleaned_composite_tags
+        return cleaned_composite_tags
 
     def clean_tags(self):
         clean_tags = self.tags.copy()
@@ -153,12 +217,17 @@ class TaggedDocument:
     def _create_index(self, spacy_nlp):
         # self.mesh_by_entity_name = {t.text.lower(): t.mesh for t in self.tags if
         #                            t.text.lower() not in self.mesh_by_entity_name}
-        if self.title[-1] == '.':
-            content = f'{self.title} {self.abstract}'
-            offset = 1
+        if self.title:
+            if self.title[-1] == '.':
+                content = f'{self.title} {self.abstract}'
+                offset = 1
+            else:
+                content = f'{self.title}. {self.abstract}'
+                offset = 2
         else:
-            content = f'{self.title}. {self.abstract}'
-            offset = 2
+            content = f'{self.abstract}'
+            offset = 0
+
         doc_nlp = spacy_nlp(content)
         for idx, sent in enumerate(doc_nlp.sents):
             sent_str = str(sent)
@@ -184,6 +253,28 @@ class TaggedDocument:
                     if sent.start <= entity.start <= sent.end:
                         self.sentences_by_ent_id[ent_id].add(sid)
                         self.entities_by_sentence[sid].add(entity)
+
+    def to_dict(self):
+        """
+        converts the TaggedDocument to a dictionary that is consistent with our json ouptut format.
+        Gosh, it's beautiful to formulate a json construction in python
+        :return:
+        """
+        return {
+            "id": self.id,
+            "title": self.title,
+            "abstract": self.abstract,
+            "tags": [
+                {
+                    "id": tag.ent_id,
+                    "mention": tag.text,
+                    "start": tag.start,
+                    "end": tag.end,
+                    "type": tag.ent_type,
+                }
+                for tag in self.tags
+            ]
+        }
 
     def __str__(self):
         return Document.create_pubtator(self.id, self.title, self.abstract) + "".join(

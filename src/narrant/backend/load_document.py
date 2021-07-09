@@ -103,7 +103,7 @@ def document_bulk_load(path, collection, tagger_mapping=None, logger=logging):
         doc = TaggedDocument(pubtator_content, ignore_tags=ignore_tags)
         tagged_ent_types = set()
         # Add document if its not already included
-        if doc.id not in db_doc_ids and (doc.title or doc.title):
+        if doc.id not in db_doc_ids and (doc.title or doc.abstract):
             db_doc_ids.add(doc.id)
             document_inserts.append(dict(
                 collection=collection,

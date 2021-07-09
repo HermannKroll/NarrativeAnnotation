@@ -1,21 +1,90 @@
 import unicodedata
-from collections import namedtuple
 from datetime import datetime
+from io import StringIO
 
 import logging
 from typing import List, Tuple
 
-from sqlalchemy import Column, String, Float, Integer, DateTime, ForeignKeyConstraint, PrimaryKeyConstraint, \
-    BigInteger, UniqueConstraint, func
+from sqlalchemy import Column, String, Integer, DateTime, ForeignKeyConstraint, PrimaryKeyConstraint, \
+    BigInteger, UniqueConstraint
 from sqlalchemy.ext.declarative import declarative_base
 
 from narrant.preprocessing.enttypes import GENE, SPECIES
+from narrant.progress import print_progress_with_eta
 from narrant.pubtator.regex import ILLEGAL_CHAR
 
 Base = declarative_base()
+BULK_INSERT_AFTER_K = 100000
 
 
-class Document(Base):
+def postgres_copy_insert(session, values: List[dict], table_name: str):
+    """
+    Performs a fast COPY INSERT operation for Postgres Databases
+    Do not check any constraints!
+    :param session: the current session object
+    :param values: a list of dictionary objects (they must correspond to the table)
+    :param table_name: the table name to insert into
+    :return: None
+    """
+    connection = session.connection().connection
+    memory_file = StringIO()
+    attribute_keys = list(values[0].keys())
+    for idx, v in enumerate(values):
+        mem_str = '{}'.format('\t'.join([str(v[k]) for k in attribute_keys]))
+        if idx == 0:
+            memory_file.write(mem_str)
+        else:
+            memory_file.write(f'\n{mem_str}')
+    cursor = connection.cursor()
+    logging.debug(f'Executing copy from {table_name}...')
+    memory_file.seek(0)
+    cursor.copy_from(memory_file, table_name, sep='\t', columns=attribute_keys)
+    logging.debug('Committing...')
+    connection.commit()
+    memory_file.close()
+
+
+def bulk_insert_values_to_table(session, values: List[dict], table_class):
+    """
+    Performs a bulk insert to a database table
+    :param session: the current session object
+    :param values: a list of dictionary objects that correspond to the table
+    :param table_class: the table class to insert into
+    :return: None
+    """
+    task_size = len(values)
+    start_time = datetime.now()
+    part = []
+    for i, p in enumerate(values):
+        part.append(p)
+        if i % BULK_INSERT_AFTER_K == 0:
+            session.bulk_insert_mappings(table_class, part)
+            session.commit()
+            part.clear()
+        print_progress_with_eta("Inserting values...", i, task_size, start_time)
+    session.bulk_insert_mappings(table_class, part)
+    session.commit()
+    part.clear()
+
+
+class DatabaseTable:
+    """
+    Every Database Class that inherits from this class will have this bulk insert method available as a class method
+    """
+
+    @classmethod
+    def bulk_insert_values_into_table(cls, session, values: List[dict]):
+        if not values:
+            return
+        logging.debug(f'Inserting values into {cls.__tablename__}...')
+        if session.is_postgres:
+            postgres_copy_insert(session, values, cls.__tablename__)
+        else:
+            bulk_insert_values_to_table(session, values, cls)
+        logging.debug(f'{len(values)} values have been inserted')
+
+
+class Document(Base, DatabaseTable):
     __tablename__ = "document"
     __table_args__ = (
         PrimaryKeyConstraint('collection', 'id', sqlite_on_conflict='IGNORE'),
@@ -35,26 +104,27 @@ class Document(Base):
         return "<Document {}{}>".format(self.collection, self.id)
 
     def to_pubtator(self):
-        return Document.create_pubtator(self.title, self.abstract)
+        return Document.create_pubtator(self.id, self.title, self.abstract)
 
     @staticmethod
     def create_pubtator(did, title: str, abstract: str):
         title = unicodedata.normalize('NFD', title)
         title = ILLEGAL_CHAR.sub("", title).strip()
-        abstract = unicodedata.normalize('NFD', abstract)
-        abstract = ILLEGAL_CHAR.sub("", abstract).strip()
-        return "{id}|t|{tit}\n{id}|a|{abs}\n".format(id=did, tit=title,
-                                                       abs=abstract)
+        if abstract:
+            abstract = unicodedata.normalize('NFD', abstract)
+            abstract = ILLEGAL_CHAR.sub("", abstract).strip()
+        else:
+            abstract = ""
+        return "{id}|t|{tit}\n{id}|a|{abs}\n".format(id=did, tit=title, abs=abstract)
 
     @staticmethod
     def sanitize(to_sanitize):
-        to_sanitize= unicodedata.normalize('NFD', to_sanitize)
+        to_sanitize = unicodedata.normalize('NFD', to_sanitize)
         to_sanitize = ILLEGAL_CHAR.sub("", to_sanitize)
         return to_sanitize
 
 
-
-class Tagger(Base):
+class Tagger(Base, DatabaseTable):
     __tablename__ = "tagger"
     __table_args__ = (
         PrimaryKeyConstraint('name', 'version', sqlite_on_conflict='IGNORE'),
@@ -63,7 +133,7 @@ class Tagger(Base):
     version = Column(String, primary_key=True)
 
 
-class DocTaggedBy(Base):
+class DocTaggedBy(Base, DatabaseTable):
     __tablename__ = "doc_tagged_by"
     __table_args__ = (
         ForeignKeyConstraint(('document_id', 'document_collection'), ('document.id', 'document.collection')
@@ -81,7 +151,7 @@ class DocTaggedBy(Base):
     date_inserted = Column(DateTime, nullable=False, default=datetime.now)
 
 
-class Tag(Base):
+class Tag(Base, DatabaseTable):
     __tablename__ = "tag"
     __table_args__ = (
         ForeignKeyConstraint(('document_id', 'document_collection'), ('document.id', 'document.collection'),
@@ -99,7 +169,7 @@ class Tag(Base):
     ent_str = Column(String, nullable=False)
     document_id = Column(BigInteger, nullable=False, index=True)
     document_collection = Column(String, nullable=False, index=True)
-    
+
     def __eq__(self, other):
         return self.ent_type == other.ent_type and self.start == other.start and self.end == other.end and \
                self.ent_id == other.ent_id and self.ent_str == other.ent_str and \
@@ -143,120 +213,7 @@ class Tag(Base):
         return gene_ids_in_db
 
 
-PredicationResult = namedtuple('PredicationResult', ["id", "document_id", "document_collection",
-                                                     "subject_id", "subject_str", "subject_type",
-                                                     "predicate", "predicate_canonicalized",
-                                                     "object_id", "object_str", "object_type",
-                                                     "confidence", "sentence_id", "extraction_type"])
-
-
-class Predication(Base):
-    __tablename__ = "predication"
-    __table_args__ = (
-        ForeignKeyConstraint(('document_id', 'document_collection'), ('document.id', 'document.collection')),
-        ForeignKeyConstraint(('sentence_id',), ('sentence.id',)),
-        PrimaryKeyConstraint('id', sqlite_on_conflict='IGNORE'),
-        # TODO: This index will consume much disk space around 1.2 times the table size
-    #    UniqueConstraint('document_id', 'document_collection', 'subject_id', 'subject_type',
-     #                    'predicate', 'object_id', 'object_type', 'extraction_type', 'sentence_id',
-      #                   sqlite_on_conflict='IGNORE'),
-    )
-
-    id = Column(BigInteger, autoincrement=True)
-    document_id = Column(BigInteger, nullable=False)
-    document_collection = Column(String, nullable=False)
-    subject_id = Column(String, nullable=False)
-    subject_str = Column(String, nullable=False)
-    subject_type = Column(String, nullable=False)
-    predicate = Column(String, nullable=False, index=True)
-    predicate_canonicalized = Column(String, nullable=True)
-    object_id = Column(String, nullable=False)
-    object_str = Column(String, nullable=False)
-    object_type = Column(String, nullable=False)
-    confidence = Column(Float, nullable=True)
-    sentence_id = Column(BigInteger, nullable=False)
-    extraction_type = Column(String, nullable=False)
-
-    def __str__(self):
-        return "<{}>\t<{}>\t<{}>".format(self.subject_id, self.predicate, self.object_id)
-
-    def __repr__(self):
-        return "<Predication {}>".format(self.id)
-
-    @staticmethod
-    def query_predication_count(session, predicate_canonicalized = None):
-        """
-        Counts the number of rows in Predicate
-        :param session: session handle
-        :param predicate_canonicalized: if given the predication is filtered by this predicate_canonicalized
-        :return: the number of rows
-        """
-        if predicate_canonicalized:
-            return session.query(Predication).filter(Predication.predicate_canonicalized == predicate_canonicalized)\
-                .count()
-        else:
-            return session.query(Predication).count()
-
-
-    @staticmethod
-    def query_predicates_with_count(session, document_collection=None) -> List[Tuple[str, int]]:
-        """
-        Queries predicates with the corresponding count of tuples
-        :param session: session handle
-        :param document_collection: document collection
-        :return: a list of tuples (predicate, count of entries)
-        """
-        if not document_collection:
-            query = session.query(Predication.predicate, func.count(Predication.predicate))\
-                .group_by(Predication.predicate)
-        else:
-            query = session.query(Predication.predicate, func.count(Predication.predicate))\
-                .filter(Predication.document_collection == document_collection)\
-                .group_by(Predication.predicate)
-
-        predicates_with_count = []
-        start_time = datetime.now()
-        for r in session.execute(query):
-            predicates_with_count.append((r[0], int(r[1])))
-        logging.info('{} predicates queried in {}s'.format(len(predicates_with_count), datetime.now() - start_time))
-        return sorted(predicates_with_count, key=lambda x: x[1], reverse=True)
-
-
-class PredicationToDelete(Base):
-    __tablename__ = "predication_to_delete"
-    __table_args__ = (
-        PrimaryKeyConstraint('predication_id', sqlite_on_conflict='IGNORE'),
-    )
-    predication_id = Column(BigInteger)
-
-
-class Sentence(Base):
-    __tablename__ = "sentence"
-    __table_args__ = (
-        ForeignKeyConstraint(('document_id', 'document_collection'), ('document.id', 'document.collection')),
-        PrimaryKeyConstraint('id', sqlite_on_conflict='IGNORE')
-    )
-
-    id = Column(BigInteger)
-    document_id = Column(BigInteger, nullable=False, index=True)
-    document_collection = Column(String, nullable=False, index=True)
-    text = Column(String, nullable=False)
-    md5hash = Column(String, nullable=False)
-
-
-class DocProcessedByIE(Base):
-    __tablename__ = "doc_processed_by_ie"
-    __table_args__ = (
-        ForeignKeyConstraint(('document_id', 'document_collection'), ('document.id', 'document.collection')),
-        PrimaryKeyConstraint('document_id', 'document_collection', 'extraction_type', sqlite_on_conflict='IGNORE')
-    )
-    document_id = Column(BigInteger)
-    document_collection = Column(String)
-    extraction_type = Column(String)
-    date_inserted = Column(DateTime, nullable=False, default=datetime.now)
-
-
-class DocumentTranslation(Base):
+class DocumentTranslation(Base, DatabaseTable):
     __tablename__ = "document_translation"
     __table_args__ = (
         PrimaryKeyConstraint('document_id', 'document_collection', sqlite_on_conflict='IGNORE'),

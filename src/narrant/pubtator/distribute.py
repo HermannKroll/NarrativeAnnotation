@@ -3,6 +3,7 @@ import math
 import logging
 from shutil import copy
 from narrant.pubtator.count import count_documents
+from narrant.pubtator.extract import read_tagged_documents
 from narrant.pubtator.split import split
 
 
@@ -32,22 +33,13 @@ def split_composites(input_dir_or_file, output_dir=None, delete_composites=False
     :param output_dir: The directory to put the single pubtator files. Default is input_dir.
     :param delete_composites: If set to true, all composite files are deleted after splitting
     """
-    if os.path.isdir(input_dir_or_file):
-        raw_files = [os.path.join(input_dir_or_file, fn) for fn in os.listdir(input_dir_or_file)]
-        if not output_dir:
-            output_dir = input_dir_or_file
-    else:
-        raw_files = (input_dir_or_file,)
-        if not output_dir:
-            output_dir = os.path.dirname(input_dir_or_file)
-
-    for raw_file in raw_files:
-        if count_documents(raw_file) > 1:
-            split(raw_file, output_dir, logger=logger)
-            if delete_composites:
-                os.remove(raw_file)
-        else:
-            copy(raw_file, output_dir)
+    if not output_dir:
+        output_dir = input_dir_or_file if os.path.isdir(input_dir_or_file) else os.path.dirname(input_dir_or_file)
+    os.makedirs(output_dir, exist_ok=True)
+    for path, doc in read_tagged_documents(input_dir_or_file, yield_paths=True):
+        new_filename = os.path.join(output_dir, f"{doc.id}.txt")
+        with open(new_filename, "w+") as f:
+            f.write(str(doc))
 
 
 def distribute_workload(input_dir, output_root, workers_number: int, subdirs_name="batch", ):

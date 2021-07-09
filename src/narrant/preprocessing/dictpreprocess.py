@@ -93,6 +93,10 @@ def main(arguments=None):
     ent_types = DALL if "DA" in args.tag else [TAG_TYPE_MAPPING[x] for x in args.tag]
     number_of_docs = prepare_input(ext_in_file, in_file, logger, ent_types, args.collection)
 
+    if not number_of_docs:
+        logger.info('No documents to process - stopping')
+        exit(1)
+
     if not args.skip_load:
         document_bulk_load(in_file, args.collection, logger=logger)
     else:
@@ -108,7 +112,9 @@ def main(arguments=None):
 
     def generate_tasks():
         for doc in read_pubtator_documents(in_file):
-            yield TaggedDocument(doc, ignore_tags=True)
+            t_doc = TaggedDocument(doc, ignore_tags=True)
+            if t_doc.title: #or t_doc.abstract:
+                yield t_doc
 
     def do_task(in_doc: TaggedDocument):
         tagged_doc = metatag.tag_doc(in_doc)

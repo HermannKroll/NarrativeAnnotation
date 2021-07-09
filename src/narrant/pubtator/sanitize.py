@@ -4,9 +4,9 @@ from shutil import copy
 from argparse import ArgumentParser
 
 from narrant.backend.models import Document
-from narrant.pubtator.document import TaggedDocument
+from narrant.pubtator.document import TaggedDocument, get_doc_format, DocFormat
 from narrant.pubtator.regex import CONTENT_ID_TIT_ABS, ILLEGAL_CHAR
-from narrant.pubtator.extract import read_pubtator_documents
+from narrant.pubtator.extract import read_pubtator_documents, read_tagged_documents
 
 
 def filter_and_sanitize(in_file:str, out_file:str, filter_ids, logger=logging, ignore_tags=True):
@@ -35,42 +35,27 @@ def sanitize(input_dir_or_file, output_dir=None, delete_mismatched=False, logger
     """
     ignored_files = []
     sanitized_files = []
-    if os.path.isdir(input_dir_or_file):
-        raw_files = [os.path.join(input_dir_or_file, fn) for fn in os.listdir(input_dir_or_file)]
-        if not output_dir:
-            output_dir = input_dir_or_file
-    else:
-        raw_files = (input_dir_or_file,)
-        if not output_dir:
-            output_dir = os.path.dirname(input_dir_or_file)
+    if not output_dir:
+        output_dir = os.path.dirname(input_dir_or_file) if os.path.isfile(input_dir_or_file) else input_dir_or_file
 
-    for file in raw_files:
-        with open(file) as f:
-            content = f.read()
-            # content = content[0:len(content)-1] # trim \n added by read()
-            reg_result = CONTENT_ID_TIT_ABS.match(content)
-            if not reg_result:
-                ignored_files.append(file)
-                if delete_mismatched:
-                    os.remove(file)
+
+    for path, file in read_tagged_documents(input_dir_or_file, yield_paths=True):
+        if not file or not file.abstract:
+            ignored_files.append(path)
+            if delete_mismatched:
+                os.remove(path)
+        else:
+            new_filename = os.path.join(output_dir, os.path.basename(path))
+            if not ".txt" == new_filename[-4:]:
+                new_filename += ".txt"
+                sanitized_files.append(path)
+            if ILLEGAL_CHAR.search(file.title + file.abstract) or get_doc_format(open(path)) != DocFormat.PUBTATOR:
+                sanitized_files.append(path)
+                with open(new_filename, "w+") as nf:
+                    nf.write(Document.create_pubtator(file.id, file.title, file.abstract) + "\n")
             else:
-                pid, title, abstract = reg_result.groups()
-                if abstract.strip() == "":
-                    ignored_files.append(file)
-                    if delete_mismatched:
-                        os.remove(file)
-                else:
-                    new_filename = os.path.join(output_dir, os.path.basename(file))
-                    if not ".txt" == new_filename[-4:]:
-                        new_filename += ".txt"
-                        sanitized_files.append(file)
-                    if ILLEGAL_CHAR.search(title + abstract):
-                        sanitized_files.append(file)
-                        with open(new_filename, "w+") as nf:
-                            nf.write(Document.create_pubtator(pid, title, abstract) + "\n")
-                    else:
-                        if not input_dir_or_file == output_dir:
-                            copy(file, new_filename)
+                if not input_dir_or_file == output_dir:
+                    copy(path, new_filename)
     return ignored_files, sanitized_files
 
 

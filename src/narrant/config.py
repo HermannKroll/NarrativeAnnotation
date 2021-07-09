@@ -26,8 +26,11 @@ MESH_SUPPLEMENTARY_FILE = os.path.join(DATA_DIR, "supp2021.xml")
 MESH_ID_TO_HEADING_INDEX_FILE = os.path.join(TMP_DIR, 'desc2021_id2heading.pkl')
 MESH_SUPPLEMENTARY_ID_TO_HEADING_INDEX_FILE = os.path.join(TMP_DIR, 'supp2021_id2heading.pkl')
 
-# Drugbase
-DRUGBASE_XML_DUMP = os.path.join(DATA_DIR, "drugbank2021.xml")
+# CHEMBL
+CHEMBL_DRUG_CSV = os.path.join(RESOURCE_DIR, "chembl2021.csv")
+
+# DrugBank
+DRUGBANK_XML_DUMP = os.path.join(DATA_DIR, "drugbank2021.xml")
 
 # GENE
 GENE_FILE = os.path.join(DATA_DIR, 'gene_info_2021.gz')
@@ -37,12 +40,6 @@ GENE_TO_HUMAN_ID_FILE = os.path.join(TMP_DIR, 'gene_2021_to_human_id.pkl')
 # Taxonomy Names 2020
 TAXONOMY_FILE = os.path.join(RESOURCE_DIR, 'taxonomy_names_2020.gz')
 TAXONOMY_INDEX_FILE = os.path.join(TMP_DIR, 'taxonomy_name_index.pkl')
-
-# DrugBank Resolver Index
-DRUGBANK_ID2NAME_INDEX = os.path.join(TMP_DIR, 'drugbank_id2name.pkl')
-
-# DrugBank to MeSH Mapping
-DRUGBANK_ID_2_MESH_MAPPING_INDEX = os.path.join(TMP_DIR, 'drugbank2mesh.pkl')
 
 # Preprocessing
 PREPROCESS_CONFIG = os.path.join(CONFIG_DIR, 'preprocess.json')
@@ -61,12 +58,13 @@ DOSAGE_FID_DESCS = os.path.join(RESOURCE_DIR, "df_fid_descriptors.txt")
 
 # Drug Tagger
 DRUG_TAGGER_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, "drug_cache.pkl")
-DRUGBANK_CHEMICAL_DATABASE_FILE = os.path.join(RESOURCE_DIR, "drugbank_chemicals.txt")
-DRUGBANK_CHEMICAL_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, "drugbank_chemical_cache.pkl")
+CHEMBL_CHEMICAL_DATABASE_FILE = os.path.join(RESOURCE_DIR, "chembl_chemicals.txt")
+CHEMBL_CHEMICAL_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, "chemical_cache.pkl")
 
 # Excipient Tagger
 EXCIPIENT_TAGGER_DATABASE_FILE = os.path.join(RESOURCE_DIR, 'excipient_database_2020.csv')
-EXCIPIENT_TAGGER_DRUGBANK_EXCIPIENT_FILE = os.path.join(RESOURCE_DIR, 'drugbank_excipients.txt')
+EXCIPIENT_CURATED_LIST_FILE = os.path.join(RESOURCE_DIR, "excipients_curated2021.txt")
+EXCIPIENT_TAGGER_DRUGBANK_EXCIPIENT_FILE = os.path.join(RESOURCE_DIR, 'chembl_excipients.txt')
 EXCIPIENT_TAGGER_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, "excipient_cache.pkl")
 
 # Disease Tagger
@@ -83,4 +81,4 @@ LAB_METHOD_TAGGER_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, 'lab_method_cache.p
 
 # Plant Family Tagger
 PLANT_FAMILTY_DATABASE_FILE = os.path.join(RESOURCE_DIR, 'plant_families_2020.txt')
-PLANT_FAMILTY_INDEX_CACHE = os.path.join(TMP_DIR, 'plant_families_cache.pkl')
+PLANT_FAMILTY_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, 'plant_families_cache.pkl')

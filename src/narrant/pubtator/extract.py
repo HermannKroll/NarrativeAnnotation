@@ -1,34 +1,54 @@
 import argparse
+import json
 import logging
 import os
+from typing import Generator, Tuple
+
+import ijson
+import re
 
 from narrant.preprocessing.utils import get_document_id, DocumentError
 from narrant.pubtator.regex import DOCUMENT_ID
-from narrant.pubtator.document import TaggedDocument
+from narrant.pubtator.document import TaggedDocument, DocFormat, get_doc_format, is_doc_file
 
 
 # TODO: This method should be unit-tested because its used a lot
-def read_pubtator_documents(path):
+def read_pubtator_documents(path, yield_paths=False):
     if os.path.isdir(path):
         for fn in os.listdir(path):
-            if not fn.startswith(".") and fn.endswith(".txt"):
+            if is_doc_file(fn):
                 abs_path = os.path.join(path, fn)
-                yield from read_pubtator_documents(abs_path)
+                yield from read_pubtator_documents(abs_path, yield_paths)
     else:
         content = ""
         with open(path) as f:
-            for line in f:
-                if line.strip():
-                    content += line
-                else:
-                    yield content
-                    content = ""
-            if content: yield content
+
+            docformat = get_doc_format(f)
+            if docformat == DocFormat.SINGLE_JSON:
+                yield (path, f.read()) if yield_paths else f.read()
+            elif docformat == DocFormat.COMPOSITE_JSON:
+                yield from map(lambda js: (path, json.dumps(js)), ijson.items(f, "item"))\
+                    if yield_paths else map(json.dumps, ijson.items(f, "item"))
+            elif docformat == DocFormat.PUBTATOR:
+                for line in f:
+                    if line.strip():
+                        content += line
+                    else:
+                        yield (path, content) if yield_paths else content
+                        content = ""
+                if content: yield (path, content) if yield_paths else content
+            else:
+                if yield_paths:
+                    yield path, None
 
 
-def read_tagged_documents(path):
-    for content in read_pubtator_documents(path):
-        yield TaggedDocument(content)
+def read_tagged_documents(path, yield_paths = False):
+    if yield_paths:
+        for path, content in read_pubtator_documents(path, yield_paths=True):
+            yield path, TaggedDocument(content)
+    else:
+        for content in read_pubtator_documents(path):
+            yield TaggedDocument(content)
 
 
 def extract_pubtator_docs(input_file, id_file, output, logger):
