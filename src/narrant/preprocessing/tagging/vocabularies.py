@@ -31,6 +31,9 @@ def expand_vocabulary_term(term: str) -> str:
     if "-" in term:
         yield term.replace("-", " ")
         yield term.replace("-", "")
+    if " " in term:
+        yield term.replace(" ", "-")
+        yield term.replace(" ", "")
     yield from [term, f'{term}e', f'{term}s']
 
 
