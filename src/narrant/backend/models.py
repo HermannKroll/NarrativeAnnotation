@@ -224,3 +224,15 @@ class DocumentTranslation(Base, DatabaseTable):
     md5 = Column(String, nullable=False)
     date_inserted = Column(DateTime, nullable=False, default=datetime.now)
     source = Column(String)
+
+
+class DocumentClassification(Base, DatabaseTable):
+    __tablename__ = "document_classification"
+    __table_args__ = (
+        PrimaryKeyConstraint('document_id', 'document_collection', 'classification'),
+        ForeignKeyConstraint(('document_id', 'document_collection'), ('document.id', 'document.collection'))
+    )
+    document_id = Column(BigInteger)
+    document_collection = Column(String)
+    classification = Column(String)
+    reason = Column(String)

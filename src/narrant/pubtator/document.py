@@ -95,6 +95,7 @@ class TaggedDocument:
         self.abstract = None
         self.id = None
         self.tags = []
+        self.classification = []
 
         if from_str:
             from_str = tools.read_if_path(from_str)
@@ -128,6 +129,8 @@ class TaggedDocument:
                                      ent_id=tag["id"])
                         for tag in doc_dict["tags"]
                     ]
+                if "classification" in doc_dict:
+                    self.classification = [cls for cls in doc_dict["classification"]]
 
         else:
             self.id = id
@@ -264,6 +267,7 @@ class TaggedDocument:
             "id": self.id,
             "title": self.title,
             "abstract": self.abstract,
+            "classification": self.classification,
             "tags": [
                 {
                     "id": tag.ent_id,
@@ -273,7 +277,7 @@ class TaggedDocument:
                     "type": tag.ent_type,
                 }
                 for tag in self.tags
-            ]
+            ],
         }
 
     def __str__(self):
