@@ -73,11 +73,11 @@ class DatabaseTable:
     """
 
     @classmethod
-    def bulk_insert_values_into_table(cls, session, values: List[dict]):
+    def bulk_insert_values_into_table(cls, session, values: List[dict], check_constraints=False):
         if not values:
             return
         logging.debug(f'Inserting values into {cls.__tablename__}...')
-        if session.is_postgres:
+        if session.is_postgres and not check_constraints:
             postgres_copy_insert(session, values, cls.__tablename__)
         else:
             bulk_insert_values_to_table(session, values, cls)
@@ -229,10 +229,10 @@ class DocumentTranslation(Base, DatabaseTable):
 class DocumentClassification(Base, DatabaseTable):
     __tablename__ = "document_classification"
     __table_args__ = (
-        PrimaryKeyConstraint('document_id', 'document_collection', 'classification'),
+        PrimaryKeyConstraint('document_id', 'document_collection', 'classification', sqlite_on_conflict='IGNORE'),
         ForeignKeyConstraint(('document_id', 'document_collection'), ('document.id', 'document.collection'))
     )
     document_id = Column(BigInteger)
     document_collection = Column(String)
     classification = Column(String)
-    reason = Column(String)
+    explanation = Column(String)

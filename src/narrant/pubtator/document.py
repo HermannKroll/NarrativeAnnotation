@@ -95,7 +95,7 @@ class TaggedDocument:
         self.abstract = None
         self.id = None
         self.tags = []
-        self.classification = []
+        self.classification = {}
 
         if from_str:
             from_str = tools.read_if_path(from_str)
@@ -118,7 +118,7 @@ class TaggedDocument:
 
             elif str_format == "json":
                 doc_dict = json.loads(from_str)
-                self.id, self.title, self.abstract = doc_dict["id"], doc_dict["title"], doc_dict["abstract"]
+                self.id, self.title, self.abstract = doc_dict["id"], doc_dict["title"], doc_dict.get("abstract", "")
                 if "tags" in doc_dict and not ignore_tags:
                     self.tags = [
                         TaggedEntity(document=self.id,
@@ -130,7 +130,7 @@ class TaggedDocument:
                         for tag in doc_dict["tags"]
                     ]
                 if "classification" in doc_dict:
-                    self.classification = [cls for cls in doc_dict["classification"]]
+                    self.classification = {k:v for k,v in doc_dict["classification"].items()}
 
         else:
             self.id = id
@@ -279,6 +279,9 @@ class TaggedDocument:
                 for tag in self.tags
             ],
         }
+
+    def get_text_content(self):
+        return f"{self.title} {self.abstract}"
 
     def __str__(self):
         return Document.create_pubtator(self.id, self.title, self.abstract) + "".join(
