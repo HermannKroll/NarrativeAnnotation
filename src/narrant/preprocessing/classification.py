@@ -12,7 +12,7 @@ from typing import Iterable
 from narrant.backend.database import Session
 from narrant.backend.load_document import document_bulk_load
 from narrant.backend.models import DocumentClassification
-from narrant.preprocessing.classifyer import Classifyer
+from narrant.preprocessing.classifier import Classifyer
 from narrant.preprocessing.tagging.metadictagger import MetaDicTagger
 from narrant.preprocessing.tagging.vocabulary import Vocabulary
 from narrant.progress import print_progress_with_eta

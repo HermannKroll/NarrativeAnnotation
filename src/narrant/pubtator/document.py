@@ -130,7 +130,7 @@ class TaggedDocument:
                         for tag in doc_dict["tags"]
                     ]
                 if "classification" in doc_dict:
-                    self.classification = {k:v for k,v in doc_dict["classification"].items()}
+                    self.classification = {k:v for k,v in zip(doc_dict["classification"], [""]*len(doc_dict["classification"]))}
 
         else:
             self.id = id
@@ -267,7 +267,7 @@ class TaggedDocument:
             "id": self.id,
             "title": self.title,
             "abstract": self.abstract,
-            "classification": self.classification,
+            "classification": list(self.classification.keys()),
             "tags": [
                 {
                     "id": tag.ent_id,
