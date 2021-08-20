@@ -352,6 +352,8 @@ class EntityResolver:
                 self.mesh_ontology = MeSHOntology.instance()
             entity_mesh_id = 'MESH:{}'.format(self.mesh_ontology.get_descriptor_for_tree_no(entity_id)[0])
             return self.mesh.descriptor_to_heading(entity_mesh_id)
+        if entity_id.startswith('FIDXLM1') and entity_type == LAB_METHOD:
+            return "Assay"
         if entity_id.startswith('MESH:'):
             return self.mesh.descriptor_to_heading(entity_id)
         if entity_type == GENE:
