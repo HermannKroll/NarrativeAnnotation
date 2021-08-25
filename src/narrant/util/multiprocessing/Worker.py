@@ -1,7 +1,5 @@
 import multiprocessing
-import os
 import queue
-from collections import Callable
 from time import sleep
 
 from narrant.util.multiprocessing.WorkerProcess import WorkerProcess

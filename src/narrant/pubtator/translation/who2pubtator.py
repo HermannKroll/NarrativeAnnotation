@@ -36,7 +36,7 @@ def convert_who_covid19_article_database_to_pubtator(input_file, output_file):
                 output_file.write(Document.create_pubtator(doc_id, title, abstract))
 
     logging.info('The following documents have been skipped (no title and no abstract): {}'.format(skipped_documents))
-    logging.info('{} documents written in PubTator format'.format(doc_id-ARTIFICIL_IDS_START_AT))
+    logging.info('{} documents written in PubTator format'.format(doc_id - ARTIFICIL_IDS_START_AT))
 
 
 def main():

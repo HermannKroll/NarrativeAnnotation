@@ -1,10 +1,8 @@
+import logging
 import unicodedata
 from datetime import datetime
 from io import StringIO
-
-import logging
-from itertools import islice
-from typing import List, Tuple
+from typing import List
 
 from sqlalchemy import Column, String, Integer, DateTime, ForeignKeyConstraint, PrimaryKeyConstraint, \
     BigInteger, UniqueConstraint

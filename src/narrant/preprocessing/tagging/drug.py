@@ -1,7 +1,8 @@
+import logging
 import os
 import re
-import logging
 import tempfile
+
 import lxml.etree as ET
 
 from narrant import config
@@ -24,10 +25,10 @@ class DrugTagger(DictTagger):
         self.logger.info("checking total number of drugs...")
         self.desc_by_term = DrugVocabulary.create_drug_vocabulary_from_chembl(self.source_file)
 
-            #DrugTaggerVocabulary.create_drugbank_vocabulary_from_source(self.source_file,
-             #                                                                           self.config.drug_min_name_length,
-              #                                                                          self.config.drug_check_products,
-               #                                                                         self.config.drug_max_per_product)
+        # DrugTaggerVocabulary.create_drugbank_vocabulary_from_source(self.source_file,
+        #                                                                           self.config.drug_min_name_length,
+        #                                                                          self.config.drug_check_products,
+        #                                                                         self.config.drug_max_per_product)
 
     def extract_dosage_forms(self):
         pref = '{http://www.drugbank.ca}'

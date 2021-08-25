@@ -1,4 +1,5 @@
 import argparse
+import json
 import logging
 import os
 import unicodedata
@@ -6,17 +7,15 @@ from datetime import datetime
 from glob import glob
 from pathlib import Path
 
-import json
-
 from sqlalchemy import func
 
 from narrant.backend.database import Session
-from narrant.backend.models import DocumentTranslation, Tag
 from narrant.backend.export import create_tag_query, TAG_BUFFER_SIZE
+from narrant.backend.models import DocumentTranslation, Tag
 from narrant.preprocessing import enttypes
 from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING
-from narrant.pubtator.regex import ILLEGAL_CHAR
 from narrant.progress import print_progress_with_eta
+from narrant.pubtator.regex import ILLEGAL_CHAR
 from narrant.pubtator.translation.cord19.cord19ft2pubtator import NEXT_DOCUMENT_ID_OFFSET, PARAGRAPH_TITLE_DUMMY
 from narrant.pubtator.translation.cord19.filereader import FileReader
 from narrant.pubtator.translation.cord19.metareader import MetaReader
@@ -176,8 +175,8 @@ class CovExport:
             print_progress_with_eta("Reconstructing tag locations...", tag_no, tag_amount, start_time, 100000)
             par_id = tag.document_id % NEXT_DOCUMENT_ID_OFFSET
             doc_id = tag.document_id - par_id
-            #if doc_id%100000000==0:
-                #logging.info(f"At docid {doc_id}")
+            # if doc_id%100000000==0:
+            # logging.info(f"At docid {doc_id}")
 
             if tag.document_id != last_art_id:  # new paragraph has begun
                 try:
@@ -198,7 +197,7 @@ class CovExport:
                             sourcefile = self.get_get_sourcefile_by_docid(doc_id)
                             if not sourcefile:
                                 logging.warning(f"Couldn't find sourcefile for doc_id {doc_id}")
-                                current_filereader=None
+                                current_filereader = None
                                 continue
                             current_filereader = FileReader(sourcefile)
                             last_title = current_filereader.title
@@ -215,10 +214,10 @@ class CovExport:
                         if par_id == 0 and not abstract:  # abstract not included in JSON parse
                             _, abstract, _ = self.meta.get_doc_content(last_translation.source_doc_id)
                         last_abstract = abstract
-                    document_valid=True
+                    document_valid = True
                 except:
                     logging.warning(f"document {tag.document_id} is invalid, skipping")
-                    document_valid=False
+                    document_valid = False
                     continue
             elif not document_valid:
                 continue
@@ -253,16 +252,16 @@ class CovExport:
         if only_abstract:
             # Gotta love your dict comprehensions :D
             abs_tag_json = {
-                    key: [tag for tag in tag_json[key] if tag['location']['paragraph'] <= 1]
-                    for key in tag_json.keys()
-                    if [tag for tag in tag_json[key] if tag['location']['paragraph'] <= 1]
-                }
+                key: [tag for tag in tag_json[key] if tag['location']['paragraph'] <= 1]
+                for key in tag_json.keys()
+                if [tag for tag in tag_json[key] if tag['location']['paragraph'] <= 1]
+            }
             abs_translation_json = {key: translation_json[key] for key in abs_tag_json.keys()}
             logging.info(f"Writing abstract tag json to {self.out_file}.abstract ...")
             with open(self.out_file + "cord19v30_entity_mentions_title_and_abstract.json", "w+") as f:
                 json.dump(abs_tag_json, f, indent=3)
-            #logging.info(f"Writing abstract translation json to {self.out_file}.abstract.translation ...")
-            #with open(self.out_file + ".abstract.translation", "w+") as f:
+            # logging.info(f"Writing abstract translation json to {self.out_file}.abstract.translation ...")
+            # with open(self.out_file + ".abstract.translation", "w+") as f:
             #    json.dump(abs_translation_json, f, indent=3)
 
 
@@ -337,14 +336,13 @@ def test_create_sanitzized_index():
     san_end = index[tag_end]
     print(f"{tag_start}:{tag_end} -> {san_start}:{san_end}")
     print(text)
-    print(" "*tag_start + text[san_start:san_end])
+    print(" " * tag_start + text[san_start:san_end])
 
-#def test_abs_tag()
+
+# def test_abs_tag()
 #    title
-
 
 
 if __name__ == "__main__":
     main()
-    #test_create_sanitzized_index()
-
+    # test_create_sanitzized_index()

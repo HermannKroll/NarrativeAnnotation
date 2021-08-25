@@ -1,6 +1,5 @@
 import multiprocessing
 import queue
-from collections import Iterable
 from time import sleep
 
 from narrant.util.multiprocessing.Worker import SHUTDOWN_SIGNAL
@@ -8,7 +7,7 @@ from narrant.util.multiprocessing.WorkerProcess import WorkerProcess
 
 
 class FileConsumerWorker(WorkerProcess):
-    def __init__(self, result_queue: multiprocessing.Queue, out_path:str, no_workers):
+    def __init__(self, result_queue: multiprocessing.Queue, out_path: str, no_workers):
         """
 
         :param result_queue:
@@ -21,7 +20,7 @@ class FileConsumerWorker(WorkerProcess):
         self.result_queue = result_queue
         self.__file_name = out_path
         self.__running = True
-        self.__no_workers= no_workers
+        self.__no_workers = no_workers
 
     def run(self):
         shutdown_signal_count = 0

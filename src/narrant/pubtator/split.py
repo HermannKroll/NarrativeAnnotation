@@ -1,8 +1,8 @@
 import os
 from argparse import ArgumentParser
 
-from narrant.pubtator.regex import DOCUMENT_ID
 from narrant.pubtator.extract import read_pubtator_documents
+from narrant.pubtator.regex import DOCUMENT_ID
 
 
 def write_content(content, out_dir, document_prefix=""):

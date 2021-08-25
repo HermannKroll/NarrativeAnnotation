@@ -1,6 +1,4 @@
-import argparse
 import os
-import pickle
 
 from narrant import config
 

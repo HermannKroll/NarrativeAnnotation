@@ -1,8 +1,8 @@
 import csv
 import logging
+import re
 from argparse import ArgumentParser
 from itertools import islice
-import re
 
 from narrant.backend.models import Document
 
@@ -44,7 +44,7 @@ def convert_biorxiv_articles_to_pubtator(input_file, output_file):
                 output_file.write(Document.create_pubtator(doc_id, title, abstract))
 
     logging.info('The following documents have been skipped (no title and no abstract): {}'.format(skipped_documents))
-    logging.info('{} documents written in PubTator format'.format(doc_id-ARTIFICIL_IDS_START_AT_BIORXIV))
+    logging.info('{} documents written in PubTator format'.format(doc_id - ARTIFICIL_IDS_START_AT_BIORXIV))
 
 
 def main():

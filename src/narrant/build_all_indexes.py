@@ -1,10 +1,10 @@
-import logging
 import json
+import logging
 
+from narrant.config import BACKEND_CONFIG
 from narrant.entity.entityresolver import MeshResolver, GeneResolver, SpeciesResolver
 from narrant.entity.genemapper import GeneMapper
 from narrant.entity.meshontology import MeSHOntology
-from narrant.config import BACKEND_CONFIG
 
 
 def main():

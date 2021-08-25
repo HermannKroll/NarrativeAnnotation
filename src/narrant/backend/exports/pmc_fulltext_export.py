@@ -46,4 +46,3 @@ def export_pmc_fulltexts_with_tags(out_fn, tag_types, doc_ids):
             enrich_pubtator_documents_with_database_tags(tmp_dir_pmc_files, out_fn, 'PMC', tag_types)
     shutil.rmtree(tmp_dir)
     logging.info('export to {} finished -- temp directory {} removed'.format(out_fn, tmp_dir))
-

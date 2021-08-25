@@ -1,6 +1,3 @@
-import os
-from datetime import datetime
-
 import stanza
 
 from narrant.preprocessing.tagging.base import BaseTagger

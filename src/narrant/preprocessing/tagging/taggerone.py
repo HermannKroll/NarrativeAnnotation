@@ -1,7 +1,7 @@
 import os
-import signal
 import re
 import shutil
+import signal
 import subprocess
 import uuid
 from datetime import datetime
@@ -163,7 +163,7 @@ class TaggerOne(BaseTagger):
                 if new_progress > old_progress:
                     last_progress_timestamp = datetime.now()
                     old_progress = new_progress
-                elif (datetime.now() - last_progress_timestamp).total_seconds() > 60*self.config.tagger_one_timeout:
+                elif (datetime.now() - last_progress_timestamp).total_seconds() > 60 * self.config.tagger_one_timeout:
                     os.kill(process.pid, signal.SIGKILL)
                     return self.NO_PROGRESS_SIGNAL
                 print_progress_with_eta("TaggerOne tagging", self.get_progress(), len(self.files), self.start_time,
@@ -271,7 +271,7 @@ class TaggerOne(BaseTagger):
                 # out of memory exit code
                 # let's wait 5 minutes till the process tries to restart
                 self.logger.warning('Received out of memory exit code for process - restart in 5 minutes')
-                sleep(5*60)
+                sleep(5 * 60)
                 keep_tagging = self.handle_error(batch_file)
             elif exit_code == -9:
                 # Process terminated by user

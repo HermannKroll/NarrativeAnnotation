@@ -29,7 +29,7 @@ def pubmed_medline_merge_with_updates(medline_file, medline_updates_file, output
 
 def main():
     parser = ArgumentParser()
-    parser.add_argument("medline", help="PubMed Medline PubTator file",  metavar="FILE")
+    parser.add_argument("medline", help="PubMed Medline PubTator file", metavar="FILE")
     parser.add_argument("medline_updates", help="PubMed Medline Updates PubTator file", metavar="FILE")
     parser.add_argument("output", help="merged PubTator output file", metavar="FILE")
     args = parser.parse_args()
@@ -38,7 +38,7 @@ def main():
                         datefmt='%Y-%m-%d:%H:%M:%S',
                         level=logging.INFO)
 
-    #logging.info(f'Converting the PubMed Medline to PubTator ({args.input} -> {args.output})')
+    # logging.info(f'Converting the PubMed Medline to PubTator ({args.input} -> {args.output})')
     pubmed_medline_merge_with_updates(args.medline, args.medline_updates, args.output)
 
 

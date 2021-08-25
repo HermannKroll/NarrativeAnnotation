@@ -1,9 +1,8 @@
+import logging
 import sys
 import time
 from datetime import datetime, timedelta
-from typing import Optional,Callable
-
-import logging
+from typing import Optional, Callable
 
 
 class Progress:
@@ -16,7 +15,9 @@ class Progress:
     3. call print_progress(index) after having processed each individual item
     4. call done() after having processed all items.
     """
-    def __init__(self, total:int=0, print_every:int=0, text:str="Progress", print_fnc:Optional[Callable[[str], None]]=None):
+
+    def __init__(self, total: int = 0, print_every: int = 0, text: str = "Progress",
+                 print_fnc: Optional[Callable[[str], None]] = None):
         """
         Create a Progress object
         :param total: total number of items to process
@@ -28,19 +29,19 @@ class Progress:
         :param print_fnc: Can be a custom function for printing the progress string
         :type print_fnc: Optional[Callable[[str], None]]
         """
-        self.start:Optional[datetime]=None
+        self.start: Optional[datetime] = None
         self.total = total
-        self.print_every=print_every
-        self.text=text
+        self.print_every = print_every
+        self.text = text
         self.logging_fkt = print_fnc
 
-    def start_time(self)->None:
+    def start_time(self) -> None:
         """
         Call in order to start the timer
         """
-        self.start=datetime.now()
+        self.start = datetime.now()
 
-    def done(self)->None:
+    def done(self) -> None:
         """
         Call to display a finished message and total runtime
         """
@@ -56,7 +57,7 @@ class Progress:
             sys.stdout.write(f"\r{print_str}\n")
             sys.stdout.flush()
 
-    def print_progress(self, number_of_items_done:int)->None:
+    def print_progress(self, number_of_items_done: int) -> None:
         """
         Call after processing each individual item to update/print progress string
         :param number_of_items_done: How many items have already been processed.
@@ -69,10 +70,10 @@ class Progress:
         if self.print_every and number_of_items_done % self.print_every:
             return
         if self.total:
-            percent = 100*number_of_items_done/self.total
+            percent = 100 * number_of_items_done / self.total
             print_str = f"{print_str} {percent:.1f}% done ({number_of_items_done} of {self.total})"
             if percent and elapsed_seconds:
-                sec_per_doc = elapsed_seconds/number_of_items_done
+                sec_per_doc = elapsed_seconds / number_of_items_done
                 remaining_seconds = (self.total - number_of_items_done) * sec_per_doc
                 eta = (datetime.now() + timedelta(seconds=remaining_seconds))
                 print_str = f"{print_str} eta: {eta:%Y-%m-%d %H:%M}"
@@ -83,7 +84,6 @@ class Progress:
         else:
             sys.stdout.write(f"\r{print_str}")
             sys.stdout.flush()
-
 
 
 def print_progress_with_eta(text, current_idx, size, start_time, print_every_k=1000, logger=None):
@@ -118,6 +118,7 @@ def print_progress_with_eta(text, current_idx, size, start_time, print_every_k=1
         else:
             logger.info("{} ... {:0.1f} % (ETA {})".format(text, percentage, eta))
 
+
 if __name__ == '__main__':
     logging.basicConfig(level="INFO")
     p = Progress(total=5, text="Total...")
@@ -125,7 +126,7 @@ if __name__ == '__main__':
     p.print_progress(0)
     for n in range(5):
         time.sleep(1)
-        p.print_progress(n+1)
+        p.print_progress(n + 1)
     p.done()
     p = Progress(total=5, text="Total logging info", print_fnc=logging.info)
     p.start_time()
@@ -141,7 +142,7 @@ if __name__ == '__main__':
         time.sleep(1)
         p.print_progress(n + 1)
     p.done()
-    p = Progress(text="without time",total = 5)
+    p = Progress(text="without time", total=5)
     p.print_progress(0)
     for n in range(5):
         time.sleep(1)

@@ -7,9 +7,9 @@ from typing import Tuple, Dict
 
 from sqlalchemy.dialects.postgresql import insert
 
-from narrant.preprocessing import enttypes
 from narrant.backend.database import Session
 from narrant.backend.models import Document, Tag, Tagger, DocTaggedBy
+from narrant.preprocessing import enttypes
 from narrant.progress import print_progress_with_eta
 from narrant.pubtator.count import count_documents
 from narrant.pubtator.document import TaggedDocument
@@ -113,7 +113,8 @@ def document_bulk_load(path, collection, tagger_mapping=None, logger=logging):
             ))
 
         if doc.id not in db_doc_ids:
-            logger.warning("Document {} {} is not inserted into DB (no title and no abstract)".format(collection, doc.id))
+            logger.warning(
+                "Document {} {} is not inserted into DB (no title and no abstract)".format(collection, doc.id))
         # only if tagger mapping is set, tags will be inserted
         if doc.tags and tagger_mapping and doc.id in db_doc_ids:
             # Add tags

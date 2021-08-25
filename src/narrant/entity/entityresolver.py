@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import csv
 import gzip
 import logging
 import pickle
@@ -7,19 +8,16 @@ from collections import defaultdict
 from datetime import datetime
 from itertools import islice
 
-import csv
-
 from narrant.backend.database import Session
 from narrant.backend.models import Tag
 from narrant.config import GENE_FILE, GENE_INDEX_FILE, MESH_DESCRIPTORS_FILE, MESH_ID_TO_HEADING_INDEX_FILE, \
     TAXONOMY_INDEX_FILE, TAXONOMY_FILE, DOSAGE_FID_DESCS, MESH_SUPPLEMENTARY_FILE, \
     MESH_SUPPLEMENTARY_ID_TO_HEADING_INDEX_FILE, CHEMBL_DRUG_CSV
-from narrant.preprocessing.enttypes import GENE, CHEMICAL, DISEASE, SPECIES, DOSAGE_FORM, EXCIPIENT, PLANT_FAMILY, \
-    DRUGBANK_CHEMICAL, LAB_METHOD, METHOD
 from narrant.entity.meshontology import MeSHOntology
 from narrant.mesh.data import MeSHDB
 from narrant.mesh.supplementary import MeSHDBSupplementary
-
+from narrant.preprocessing.enttypes import GENE, CHEMICAL, DISEASE, SPECIES, DOSAGE_FORM, EXCIPIENT, PLANT_FAMILY, \
+    LAB_METHOD, METHOD
 
 
 class MeshResolver:

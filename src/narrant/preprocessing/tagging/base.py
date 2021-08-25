@@ -35,7 +35,7 @@ class BaseTagger(Thread):
             config: Config = None,
             mapping_id_file: Dict[int, str] = None,
             mapping_file_id: Dict[str, int] = None,
-            logger = None,
+            logger=None,
             **kwargs
     ):
         super().__init__(*args, **kwargs)
@@ -142,7 +142,8 @@ class BaseTagger(Thread):
                 session.commit()
 
         self.logger.info("Add doc_tagged_by")
-        successful_ent_types = set((did, ent_type) for ent_type in self.get_types() for did in self.get_successful_ids())
+        successful_ent_types = set(
+            (did, ent_type) for ent_type in self.get_types() for did in self.get_successful_ids())
         for did, ent_type in successful_ent_types:
             insert_doc_tagged_by = insert(DocTaggedBy).values(
                 document_id=did,
@@ -163,7 +164,7 @@ class BaseTagger(Thread):
         tagger_version = self.__version__
         insert_taggers((tagger_name, tagger_version))
 
-    def base_insert_tags(self, doc:TaggedDocument, auto_commit=True):
+    def base_insert_tags(self, doc: TaggedDocument, auto_commit=True):
         session = Session.get()
 
         tagged_ent_types = set()

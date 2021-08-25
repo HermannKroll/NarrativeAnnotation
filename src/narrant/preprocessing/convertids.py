@@ -1,17 +1,16 @@
 import argparse
 import logging
-import sys
 import os
 import re
-
-from datetime import datetime, timedelta
+import sys
+from datetime import datetime
 from itertools import islice
 
 from narrant.preprocessing.config import Config
+from narrant.progress import print_progress_with_eta
 from narrant.pubtator.count import count_documents
 from narrant.pubtator.extract import read_pubtator_documents
 from narrant.pubtator.regex import DOCUMENT_ID, TAG_LINE_NORMAL
-from narrant.progress import print_progress_with_eta
 
 
 def load_pmcids_to_pmid_index(index_file):
@@ -26,7 +25,7 @@ def load_pmcids_to_pmid_index(index_file):
             split = line.split('\t')
             try:
                 pmcid = int(split[0])
-                pmid = int(split[1][:-1]) # skip \n
+                pmid = int(split[1][:-1])  # skip \n
                 pmcid2pmid[pmcid] = pmid
             except ValueError:
                 pass

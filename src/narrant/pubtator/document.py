@@ -1,7 +1,6 @@
 import json
-from collections import defaultdict
-
 import re
+from collections import defaultdict
 from enum import Enum, auto
 
 from narrant import tools
@@ -15,7 +14,7 @@ class DocFormat(Enum):
     PUBTATOR = auto()
 
 
-def get_doc_format(filehandle = None, path=None)->DocFormat:
+def get_doc_format(filehandle=None, path=None) -> DocFormat:
     if not (bool(filehandle) ^ bool(path)):
         raise ValueError("Either filehandle or path must be filled")
     if filehandle:
@@ -130,14 +129,13 @@ class TaggedDocument:
                         for tag in doc_dict["tags"]
                     ]
                 if "classification" in doc_dict:
-                    self.classification = {k:v for k,v in zip(doc_dict["classification"], [""]*len(doc_dict["classification"]))}
+                    self.classification = {k: v for k, v in
+                                           zip(doc_dict["classification"], [""] * len(doc_dict["classification"]))}
 
         else:
             self.id = id
             self.title = title
             self.abstract = abstract
-
-
 
         if self.tags:
             # if multiple document tags are contained in a single doc - raise error

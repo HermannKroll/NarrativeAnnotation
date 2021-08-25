@@ -1,5 +1,4 @@
 import re
-
 from pathlib import Path
 from typing import Union
 
@@ -7,7 +6,7 @@ from narrant.pubtator.document import TaggedDocument
 
 
 class Classifyer:
-    def __init__(self, classification, rule_path:Union[str, Path]=None, rules=None):
+    def __init__(self, classification, rule_path: Union[str, Path] = None, rules=None):
         self.rules = []
         self.classification = classification
         if rule_path:
@@ -17,7 +16,7 @@ class Classifyer:
         else:
             raise ValueError("Either rules or rule_path must be given")
 
-    def classify_document(self, doc:TaggedDocument):
+    def classify_document(self, doc: TaggedDocument):
         content = doc.get_text_content()
         for rule in self.rules:
             match = ""
@@ -32,7 +31,7 @@ class Classifyer:
                 return doc
 
     @staticmethod
-    def read_ruleset(filepath:Union[str, Path]):
+    def read_ruleset(filepath: Union[str, Path]):
         ruleset = []
         with open(filepath, "r") as f:
             for line in f:

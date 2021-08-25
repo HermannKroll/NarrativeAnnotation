@@ -2,6 +2,7 @@ import itertools
 import sys
 from datetime import datetime
 from typing import List
+
 from lxml import etree
 
 from narrant.mesh.data import BaseNode, Concept, Term
@@ -11,11 +12,11 @@ MESH_SUPP_QUERY_DESCRIPTOR_RECORD = "/SupplementalRecordSet/SupplementalRecord"
 MESH_SUPP_QUERY_DESCRIPTOR_BY_ID = "/SupplementalRecordSet/SupplementalRecord/SupplementalRecordUI[text()='{}']/parent::*"
 
 MESH_SUPP_QUERY_DESCRIPTOR_BY_HEADING_CONTAINS = "/SupplementalRecordSet/SupplementalRecord/SupplementalRecordName" \
-                                       "/String[contains(text(),'{}')]/parent::*/parent::*"
+                                                 "/String[contains(text(),'{}')]/parent::*/parent::*"
 MESH_SUPP_QUERY_DESCRIPTOR_BY_HEADING_EXACT = "/SupplementalRecordSet/SupplementalRecord/SupplementalRecordName" \
-                                    "/String[text()='{}']/parent::*/parent::*"
+                                              "/String[text()='{}']/parent::*/parent::*"
 MESH_SUPP_QUERY_DESCRIPTOR_BY_TERM = "/SupplementalRecordSet/SupplementalRecord/ConceptList/Concept/TermList/Term" \
-                           "/String[text()='{}']/parent::*/parent::*/parent::*/parent::*/parent::*"
+                                     "/String[text()='{}']/parent::*/parent::*/parent::*/parent::*/parent::*"
 
 
 class SupplementaryRecordMappedTo(BaseNode):
@@ -199,4 +200,3 @@ class MeSHDBSupplementary:
             desc_list = self.records_by_term(name)
         # Return
         return desc_list
-

@@ -1,15 +1,15 @@
 import logging
 import os
-from shutil import copy
 from argparse import ArgumentParser
+from shutil import copy
 
 from narrant.backend.models import Document
 from narrant.pubtator.document import TaggedDocument, get_doc_format, DocFormat
-from narrant.pubtator.regex import CONTENT_ID_TIT_ABS, ILLEGAL_CHAR
 from narrant.pubtator.extract import read_pubtator_documents, read_tagged_documents
+from narrant.pubtator.regex import ILLEGAL_CHAR
 
 
-def filter_and_sanitize(in_file:str, out_file:str, filter_ids, logger=logging, ignore_tags=True):
+def filter_and_sanitize(in_file: str, out_file: str, filter_ids, logger=logging, ignore_tags=True):
     os.makedirs(os.path.dirname(out_file), exist_ok=True)
     with open(out_file, "w+") as f:
         for n, doc in enumerate(read_pubtator_documents(in_file)):
@@ -37,7 +37,6 @@ def sanitize(input_dir_or_file, output_dir=None, delete_mismatched=False, logger
     sanitized_files = []
     if not output_dir:
         output_dir = os.path.dirname(input_dir_or_file) if os.path.isfile(input_dir_or_file) else input_dir_or_file
-
 
     for path, file in read_tagged_documents(input_dir_or_file, yield_paths=True):
         if not file or not file.abstract:

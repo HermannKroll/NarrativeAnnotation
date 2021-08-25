@@ -29,4 +29,4 @@ class FileReader:
         :param art_par_id: 0 refers to abstract, >=1 to full text paragraphs
         :return:
         """
-        return self.body_texts[art_par_id-1] if art_par_id > 0 else self.abstract
+        return self.body_texts[art_par_id - 1] if art_par_id > 0 else self.abstract

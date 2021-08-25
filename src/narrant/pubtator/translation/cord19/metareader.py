@@ -2,12 +2,14 @@ import csv
 
 from narrant.pubtator.translation.md5_hasher import get_md5_hash_str
 
+
 class MetaReader:
     """
     reads a metadata.csv file of a cord19 dump. Fields vor version 29:
         cord_uid,sha,source_x,title,doi,pmcid,pubmed_id,license,abstract,publish_time,
         authors,journal,mag_id,who_covidence_id,arxiv_id,pdf_json_files,pmc_json_files,url,s2_id
     """
+
     def __init__(self, metadata_file):
         self.path = metadata_file
         self.metadata_list = self._read_metadata()
@@ -35,7 +37,7 @@ class MetaReader:
         docid_dict = {}
         for index, row in enumerate(self.metadata_list):
             for sha in row['sha']:
-                docid_dict[sha]=index
+                docid_dict[sha] = index
             for pmcid in row['pmcid']:
                 docid_dict[pmcid] = index
         return docid_dict
@@ -46,7 +48,7 @@ class MetaReader:
             dict_list = []
             for d in reader:
                 for k in d.keys():
-                    d[k] = [s.strip() for s in d[k].split(";")] # Iterpret ';'-splitted values as list
+                    d[k] = [s.strip() for s in d[k].split(";")]  # Iterpret ';'-splitted values as list
                 dict_list.append(d)
             return dict_list
 
@@ -62,4 +64,4 @@ class MetaReader:
             return None
         title = ";".join(metadata['title'])
         abstract = ";".join(metadata['abstract'])
-        return title, abstract, get_md5_hash_str(title+abstract) if generate_md5 else None
+        return title, abstract, get_md5_hash_str(title + abstract) if generate_md5 else None

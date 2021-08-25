@@ -1,23 +1,24 @@
+import datetime as dti
 import logging
+import multiprocessing
 import os
-import tempfile
-import sys
-import signal
 import shutil
-import psutil
+import signal
+import sys
+import tempfile
 from argparse import ArgumentParser
 from typing import List
-import multiprocessing
-import datetime as dti
 
-from narrant.preprocessing import enttypes
+import psutil
+
 from narrant.backend.database import Session
-from narrant.preprocessing.enttypes import CHEMICAL, DISEASE, SPECIES, GENE
 from narrant.backend.export import export
 from narrant.backend.load_document import document_bulk_load
 from narrant.backend.models import DocTaggedBy
 from narrant.config import PREPROCESS_CONFIG
+from narrant.preprocessing import enttypes
 from narrant.preprocessing.config import Config
+from narrant.preprocessing.enttypes import CHEMICAL, DISEASE, SPECIES, GENE
 from narrant.preprocessing.tagging.base import BaseTagger
 from narrant.preprocessing.tagging.gnormplus import GNormPlus
 from narrant.preprocessing.tagging.taggerone import TaggerOne
@@ -183,7 +184,8 @@ def main(arguments=None):
                         help="Check for composite pubtator files in input. Automatically enabled if input is a file.")
 
     parser.add_argument("-c", "--corpus", required=True)
-    parser.add_argument("--tagger-one", action="store_true", help='Enables Tagging of Chemicals and Diseases with TaggerOne')
+    parser.add_argument("--tagger-one", action="store_true",
+                        help='Enables Tagging of Chemicals and Diseases with TaggerOne')
     parser.add_argument("--gnormplus", action="store_true", help="Enables Tagging of Genes and Species with GNormPlus")
 
     group_settings = parser.add_argument_group("Settings")

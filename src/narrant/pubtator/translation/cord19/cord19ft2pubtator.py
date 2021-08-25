@@ -13,7 +13,7 @@ from narrant.backend.models import Document, DocumentTranslation
 from narrant.progress import print_progress_with_eta
 from narrant.pubtator.translation.cord19.filereader import FileReader
 from narrant.pubtator.translation.cord19.metareader import MetaReader
-from narrant.pubtator.translation.md5_hasher import get_md5_hash, get_md5_hash_str
+from narrant.pubtator.translation.md5_hasher import get_md5_hash
 
 UNIQUE_ID_START = 100000
 NEXT_DOCUMENT_ID_OFFSET = 100000
@@ -62,7 +62,6 @@ class Translator:
         )
         return [row.md5 for row in query]
 
-
     def translate(self):
         """
            recursively searches for all .json files in input_dir, sanitizes them and converts them to a pubtator format.
@@ -87,11 +86,11 @@ class Translator:
                     metadata = self.meta.get_metadata_by_id(file.paper_id)
                     cord_uids_without_fulltexts.discard("".join(metadata['cord_uid']))
 
-                    if md5_hash in self.excluded_hashs: #Document already translated
+                    if md5_hash in self.excluded_hashs:  # Document already translated
                         already_translated.append(md5_hash)
                         print_progress_with_eta('converting', current_id + len(already_translated), len(self.meta),
                                                 start_time)
-                        #logging.debug(f"skipping {file.paper_id}: already translated")
+                        # logging.debug(f"skipping {file.paper_id}: already translated")
                         continue
                     doc_id = self.id_offset + (NEXT_DOCUMENT_ID_OFFSET * current_id)
                     self.insert_translation(doc_id, md5_hash, metadata, os.path.basename(json_file))
@@ -129,7 +128,7 @@ class Translator:
                 print_progress_with_eta('converting', current_id + len(already_translated), len(self.meta),
                                         start_time)
 
-        logging.info(f"Done. {len(tanslated_jsons) + len(abstracts_from_meta)} docs inserted,"  
+        logging.info(f"Done. {len(tanslated_jsons) + len(abstracts_from_meta)} docs inserted,"
                      f" {len(already_translated)} docs already in database.")
         logging.info(f"{len(abstracts_from_meta)} docs constructed from abstracts in metadata file.")
 

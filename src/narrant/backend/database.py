@@ -1,23 +1,20 @@
 import json
 import logging
 import os
-import warnings
 from os import environ
 
 from sqlalchemy import create_engine
 from sqlalchemy import event
 from sqlalchemy import exc
+from sqlalchemy.dialects.postgresql.dml import OnConflictDoNothing
+from sqlalchemy.ext.compiler import compiles
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.sql.expression import Insert
 
+import narrant.config as cnf
 from narrant import tools
 from narrant.backend.models import Base
-import narrant.config as cnf
-
-
-from sqlalchemy.ext.compiler import compiles
-from sqlalchemy.sql.expression import Insert
-from sqlalchemy.dialects.postgresql.dml import OnConflictDoNothing
 
 
 @compiles(Insert, 'postgresql')
@@ -46,7 +43,7 @@ def add_engine_pidguard(engine):
             logging.debug(
                 "Parent process %(orig)s forked (%(newproc)s) with an open "
                 "database connection, "
-                "which is being discarded and recreated." 
+                "which is being discarded and recreated."
                 f'("newproc": {pid}, "orig": {connection_record.info["pid"]})')
             connection_record.connection = connection_proxy.connection = None
             raise exc.DisconnectionError(
@@ -104,7 +101,7 @@ class Session:
                 host=self.config["POSTGRES_HOST"],
                 port=self.config["POSTGRES_PORT"],
                 db=self.config["POSTGRES_DB"],
-        )
+            )
 
     @classmethod
     def get(cls, connection_config: str = cnf.BACKEND_CONFIG, declarative_base=Base):

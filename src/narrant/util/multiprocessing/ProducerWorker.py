@@ -1,6 +1,4 @@
 import multiprocessing
-import queue
-from collections import Iterable
 from time import sleep
 
 from narrant.util.multiprocessing.Worker import SHUTDOWN_SIGNAL

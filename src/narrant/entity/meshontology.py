@@ -3,8 +3,8 @@ import pickle
 from datetime import datetime
 
 from narrant.config import MESH_DESCRIPTORS_FILE, MESH_ONTOLOGY_INDEX_FILE
-from narrant.preprocessing.enttypes import DOSAGE_FORM, METHOD, DISEASE
 from narrant.mesh.data import MeSHDB
+from narrant.preprocessing.enttypes import DOSAGE_FORM, METHOD, DISEASE
 from narrant.progress import print_progress_with_eta
 
 MESH_TREE_NAMES = dict(

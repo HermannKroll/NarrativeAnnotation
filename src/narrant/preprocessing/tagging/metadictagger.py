@@ -1,11 +1,10 @@
 import logging
 import os
-
 from typing import List, Dict
 
-import narrant.preprocessing.tagging.dictagger as dt
 import narrant.preprocessing.enttypes as et
-from narrant.preprocessing.tagging import drug, dosage, excipient, plantfamily, chemical, disease, method,\
+import narrant.preprocessing.tagging.dictagger as dt
+from narrant.preprocessing.tagging import drug, dosage, excipient, plantfamily, chemical, disease, method, \
     labmethod
 from narrant.pubtator.document import TaggedEntity
 
