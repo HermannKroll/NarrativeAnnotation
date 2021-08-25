@@ -3,6 +3,7 @@ from datetime import datetime
 from io import StringIO
 
 import logging
+from itertools import islice
 from typing import List, Tuple
 
 from sqlalchemy import Column, String, Integer, DateTime, ForeignKeyConstraint, PrimaryKeyConstraint, \
@@ -15,6 +16,13 @@ from narrant.pubtator.regex import ILLEGAL_CHAR
 
 Base = declarative_base()
 BULK_INSERT_AFTER_K = 100000
+POSTGRES_COPY_LOAD_AFTER_K = 1000000
+
+
+def chunks_list(lst, n):
+    """Yield successive n-sized chunks from lst."""
+    for i in range(0, len(lst), n):
+        yield lst[i:i + n]
 
 
 def postgres_copy_insert(session, values: List[dict], table_name: str):
@@ -26,22 +34,23 @@ def postgres_copy_insert(session, values: List[dict], table_name: str):
     :param table_name: the table name to insert into
     :return: None
     """
-    connection = session.connection().connection
-    memory_file = StringIO()
-    attribute_keys = list(values[0].keys())
-    for idx, v in enumerate(values):
-        mem_str = '{}'.format('\t'.join([str(v[k]) for k in attribute_keys]))
-        if idx == 0:
-            memory_file.write(mem_str)
-        else:
-            memory_file.write(f'\n{mem_str}')
-    cursor = connection.cursor()
-    logging.debug(f'Executing copy from {table_name}...')
-    memory_file.seek(0)
-    cursor.copy_from(memory_file, table_name, sep='\t', columns=attribute_keys)
-    logging.debug('Committing...')
-    connection.commit()
-    memory_file.close()
+    for values_chunk in chunks_list(values, POSTGRES_COPY_LOAD_AFTER_K):
+        connection = session.connection().connection
+        memory_file = StringIO()
+        attribute_keys = list(values_chunk[0].keys())
+        for idx, v in enumerate(values_chunk):
+            mem_str = '{}'.format('\t'.join([str(v[k]) for k in attribute_keys]))
+            if idx == 0:
+                memory_file.write(mem_str)
+            else:
+                memory_file.write(f'\n{mem_str}')
+        cursor = connection.cursor()
+        logging.debug(f'Executing copy from {table_name}...')
+        memory_file.seek(0)
+        cursor.copy_from(memory_file, table_name, sep='\t', columns=attribute_keys)
+        logging.debug('Committing...')
+        connection.commit()
+        memory_file.close()
 
 
 def bulk_insert_values_to_table(session, values: List[dict], table_class):
