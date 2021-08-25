@@ -59,19 +59,12 @@ def bulk_insert_values_to_table(session, values: List[dict], table_class):
     :param table_class: the table class to insert into
     :return: None
     """
-    task_size = len(values)
+    task_size = 1 + int(len(values) / BULK_INSERT_AFTER_K)
     start_time = datetime.now()
-    part = []
-    for i, p in enumerate(values):
-        part.append(p)
-        if i % BULK_INSERT_AFTER_K == 0:
-            session.bulk_insert_mappings(table_class, part)
-            session.commit()
-            part.clear()
-        print_progress_with_eta("Inserting values...", i, task_size, start_time)
-    session.bulk_insert_mappings(table_class, part)
-    session.commit()
-    part.clear()
+    for idx, chunk_values in enumerate(chunks_list(values, BULK_INSERT_AFTER_K)):
+        print_progress_with_eta("Inserting values...", idx, task_size, start_time, print_every_k=1)
+        session.bulk_insert_mappings(table_class, chunk_values)
+        session.commit()
 
 
 class DatabaseTable:
