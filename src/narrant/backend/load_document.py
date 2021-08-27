@@ -142,7 +142,7 @@ def document_bulk_load(path, collection, tagger_mapping=None, logger=logging):
                     ent_type=ent_type,
                 ))
 
-        if idx % BULK_LOAD_COMMIT_AFTER == 0:
+        if (idx + 1) % BULK_LOAD_COMMIT_AFTER == 0:
             session.bulk_insert_mappings(Document, document_inserts)
             session.bulk_insert_mappings(Tag, tag_inserts)
             session.bulk_insert_mappings(DocTaggedBy, doc_tagged_by_inserts)
