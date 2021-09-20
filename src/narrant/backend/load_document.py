@@ -154,7 +154,6 @@ def document_bulk_load(path, collection, tagger_mapping=None, logger=logging):
 
         print_progress_with_eta("Adding documents", idx, n_docs, start_time, print_every_k=PRINT_ETA_EVERY_K_DOCUMENTS)
 
-    logger.info(f'inserting {len(document_inserts)}')
     session.bulk_insert_mappings(Document, document_inserts)
     session.bulk_insert_mappings(Tag, tag_inserts)
     session.bulk_insert_mappings(DocTaggedBy, doc_tagged_by_inserts)
