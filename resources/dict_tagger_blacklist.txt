@@ -194,3 +194,5 @@ salts
 medicaid
 target
 targets
+impact
+impacts
