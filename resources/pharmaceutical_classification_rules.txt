@@ -1,0 +1,300 @@
+acetylcholin*
+active constituents
+adjuvant*
+adrenergi*
+adverse effect
+adverse effects
+agonist*
+alkaloi*
+amphetami*
+analges*
+analget*
+androgen*
+anestheti*
+angiogenes*
+angiotens*
+antacid*
+antagonist*
+anthelmint*
+antiallerg*
+antiandrogen*
+antiangiogen*
+antiapoptot*
+antiarrhyt*
+antibact*
+antibakt*
+antibio*
+anticancer*
+anticarcin*
+anticholester*
+anticoag*
+anticoagul*
+anticonvuls*
+antidepress*
+antidiab*
+antidiarrh*
+antidiuret*
+antidot*
+antifibrinol*
+antifung*
+antihista*
+antihyper*
+antiinflamma*
+antileish*
+antimalar*
+antimetabol*
+antimicrob*
+antimikrob*
+antimitoti*
+antimutag*
+antimyc*
+antimyk*
+antineopla*
+antioxidan*
+antiparas*
+antiparkins*
+antiphlog*
+antiplasmod*
+antiprolif*
+antiprotoz*
+antipruri*
+antipsycho*
+antipyreti*
+antiretrovi*
+antirheumati*
+antisense
+antithromb*
+antithyroid*
+antitubercula*
+antitumor*
+antitussi*
+antivir*
+apothec*
+apothek*
+arznei*
+aseptic*
+bioacti*
+bioakti*
+bioavail*
+bioequival*
+biologically active
+biologicals*
+biologics
+biomedic*
+biomimetic*
+biopharm*
+biosimilar*
+biosynth*
+blocker*
+carcinogen*
+cardiotox*
+chemoinformat*
+chemometri*
+chemother*
+cholinergi*
+clinical guideline
+clinical guidelines
+clinical trial
+clinical trials
+clinical use
+clinical uses
+coagulant*
+cochrane
+codein*
+combinatorial chemistry
+combinatorial synthesis
+contraceptiv*
+controlled release
+controlled trial
+controlled trials
+corticoi*
+cosmeceut*
+cyclodextr*
+cyclooxygenas*
+cytochrome*
+cytokin*
+cytostati*
+cytotoxi*
+depressant*
+disinfectant*
+dispensator*
+diureti*
+dopamin*
+doping
+dosage form
+dosage forms
+drug
+drugg*
+drugs
+emetic*
+essential oils
+essential oils
+estrogen*
+ethnomedic*
+ethnopharm*
+excipient*
+expectorant*
+extended release
+farma*
+fda
+fibrinolyti*
+flavonoi*
+functional food
+functional foods
+gaba
+galeni*
+gene therapy
+gentherap*
+glucocortico*
+hallucinogen*
+heilmittel*
+heilpflanz*
+hemagglutini*
+hematologi*
+hemmstoff*
+hemodialysi*
+hemolyti*
+hemostati*
+heparin*
+herbal*
+herbicid*
+high dose
+hilfsstoff*
+histamin*
+hormon*
+hypnotic*
+hypoglycemi*
+hypolipidemi*
+immunosuppressi*
+immunotox*
+immunotherap*
+immuntherap*
+inhibitor*
+insecticid*
+interferon*
+ionophore*
+laxan*
+laxativ*
+leitstrukt*
+leukotrien*
+ligand*
+liposom*
+lipotropic
+lubricant*
+luteolyti*
+materia medica
+medical device
+medical devices
+medicamen*
+medicinal chemistry
+medicinal herb
+medicinal herbs
+medicinal plant
+medicinal plants
+medikamen*
+metabolite*
+methamphetami*
+micronutrient*
+mineralocortic*
+monoclonal antibodies
+monoclonal antibody
+morphin*
+muscarinic*
+mutagen*
+nanocaps*
+nanokaps*
+nanolipid*
+nanomaterial*
+nanomedi*
+nanoparticle*
+nanotechnolog*
+narcotic*
+natriureti*
+natural product
+natural products
+naturstoff*
+neurokinin*
+neurolept*
+neuropharm*
+neuroprotec*
+neurotoxi*
+neurotransmitt*
+nicotin*
+nonsteroidal*
+nootropi*
+nutraceut*
+ointment*
+oligonucleotid*
+ophthalmic*
+opiat*
+opioid*
+parasympatho*
+parenteral*
+peptidomimeti*
+pesticide*
+pharm*
+phosphodiesteras*
+phospholipas*
+photosensitizi*
+phytochem*
+phytoestrogen*
+phytopharm*
+phytotherap*
+pill
+pills
+placebo*
+poison*
+polyphenol*
+preclinic*
+prescribing
+prescription*
+progestin*
+prostagland*
+psychoact*
+psychopharm*
+psychotropi*
+purinergic*
+pyrogen*
+qsar
+radiopharm*
+repellent*
+rodenticid*
+schistosomicid*
+sedative*
+serotonin*
+side effect
+side effects
+small molecule
+small molecules
+steroid*
+sulfonamid*
+suppressant*
+sustained release
+sympatholyti*
+sympathomimeti*
+tablette*
+teratogen*
+therapeutic*
+total synthesis
+totalsynth*
+toxi*
+tranquilizi*
+trypanocid*
+vaccin*
+vasoconstrictor*
+vasodilator*
+virtual screening
+vitamin*
+wirkstoff*
+wirksubstanz*
+zielmolek*
+zielstrukt*
+zytostat*
+target* AND thera*
+target* AND molec*
+target* AND deliver*
+thera* AND agent*
+anti* AND agent*
+deliver* AND therap*
+cancer* AND deliver*
+personaliz* AND medic*
