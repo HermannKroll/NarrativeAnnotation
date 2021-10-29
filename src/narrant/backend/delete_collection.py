@@ -1,6 +1,7 @@
 import argparse
 import logging
 
+from narraint.backend.models import Sentence
 from narrant.backend.database import Session
 from narrant.backend.models import Tag, Document, DocTaggedBy, DocProcessedByIE, Predication
 
@@ -11,6 +12,10 @@ def delete_document_collection_from_database(document_collection: str):
 
     logging.info('Deleting doc_processed_by_ie entries...')
     session.query(DocProcessedByIE).filter(DocProcessedByIE.document_collection == document_collection).delete()
+
+    logging.info('Deleting sentences entries...')
+    sub_query = session.query(Predication.sentence_id).filter(Predication.document_collection == document_collection)
+    session.query(Sentence).filter(Sentence.id.in_(sub_query)).delete()
 
     logging.info('Deleting predication entries...')
     session.query(Predication).filter(Predication.document_collection == document_collection).delete()

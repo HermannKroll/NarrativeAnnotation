@@ -1,28 +1,24 @@
+import logging
+import multiprocessing
 import os
 import shutil
-import logging
-from argparse import ArgumentParser
-
 import tempfile
-
-import multiprocessing
+from argparse import ArgumentParser
 from datetime import datetime
-from typing import Iterable
 
 from narrant.backend.database import Session
 from narrant.backend.load_document import document_bulk_load
+from narrant.config import PREPROCESS_CONFIG
+from narrant.preprocessing.config import Config
+from narrant.preprocessing.preprocess import init_preprocess_logger, init_sqlalchemy_logger, \
+    get_untagged_doc_ids_by_ent_type
 from narrant.preprocessing.tagging.metadictagger import MetaDicTagger
 from narrant.preprocessing.tagging.vocabulary import Vocabulary
 from narrant.progress import print_progress_with_eta
 from narrant.pubtator import count
-from narrant.config import PREPROCESS_CONFIG
-from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, DALL
-from narrant.preprocessing.config import Config
 from narrant.pubtator.document import TaggedDocument
 from narrant.pubtator.extract import read_pubtator_documents
 from narrant.pubtator.sanitize import filter_and_sanitize
-from narrant.preprocessing.preprocess import init_preprocess_logger, init_sqlalchemy_logger, \
-    get_untagged_doc_ids_by_ent_type
 from narrant.util.multiprocessing.ConsumerWorker import ConsumerWorker
 from narrant.util.multiprocessing.ProducerWorker import ProducerWorker
 from narrant.util.multiprocessing.Worker import Worker
@@ -117,7 +113,7 @@ def main(arguments=None):
     def generate_tasks():
         for doc in read_pubtator_documents(in_file):
             t_doc = TaggedDocument(doc, ignore_tags=True)
-            if t_doc.title: #or t_doc.abstract:
+            if t_doc.title:  # or t_doc.abstract:
                 yield t_doc
 
     def do_task(in_doc: TaggedDocument):

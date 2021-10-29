@@ -1,21 +1,14 @@
 import argparse
-import json
 import logging
 import sys
 from datetime import datetime
-from typing import Tuple, Dict
 
-from sqlalchemy.dialects.postgresql import insert
-
-from narrant.backend.load_document import get_tagger_for_enttype, read_tagger_mapping, UNKNOWN_TAGGER, insert_taggers
-from narrant.preprocessing import enttypes
 from narrant.backend.database import Session
-from narrant.backend.models import Document, Tag, Tagger, DocTaggedBy
+from narrant.backend.load_document import get_tagger_for_enttype, read_tagger_mapping, UNKNOWN_TAGGER, insert_taggers
+from narrant.backend.models import Document, Tag, DocTaggedBy
 from narrant.progress import print_progress_with_eta
-from narrant.pubtator.count import count_documents
 from narrant.pubtator.document import TaggedDocument, TaggedEntity
-from narrant.pubtator.extract import read_pubtator_documents
-from narrant.pubtator.regex import TAG_DOCUMENT_ID, TAG_LINE_NORMAL
+from narrant.pubtator.regex import TAG_LINE_NORMAL
 
 BULK_LOAD_COMMIT_AFTER = 50000
 PRINT_ETA_EVERY_K_DOCUMENTS = 100
@@ -92,7 +85,7 @@ def tags_bulk_load(tag_file, collection, tagger_mapping=None, logger=logging):
                         tagger_name=tagger_name,
                         tagger_version=tagger_version,
                         ent_type=ent_type,
-                        ))
+                    ))
 
             if idx % BULK_LOAD_COMMIT_AFTER == 0:
                 session.bulk_insert_mappings(Tag, tag_inserts)

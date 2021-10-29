@@ -1,11 +1,10 @@
+import logging
 import os
 import re
 import sys
-
-import logging
 from argparse import ArgumentParser
-from narrant.backend.models import Document
 
+from narrant.backend.models import Document
 
 
 class PatentConverter:
@@ -36,7 +35,7 @@ class PatentConverter:
         c_code, rest = int(patent_str[0]), patent_str[1:]
         if c_code == 0 or c_code > len(PatentConverter.COUNTY_PREFIX_REVERS):
             raise ValueError('Country Code {} is unknown'.format(c_code))
-        return PatentConverter.COUNTY_PREFIX_REVERS[c_code-1] + rest
+        return PatentConverter.COUNTY_PREFIX_REVERS[c_code - 1] + rest
 
     def convert(self, in_file, out_dir):
         """
@@ -73,7 +72,7 @@ class PatentConverter:
         for did, title in title_by_id.items():
             if did in abstract_by_id:
                 out_fn = os.path.join(out_dir, "{}.txt".format(did))
-                content = Document.create_pubtator(did,title,abstract_by_id[did])
+                content = Document.create_pubtator(did, title, abstract_by_id[did])
                 with open(out_fn, "w") as f:
                     f.write(content + '\n')
             else:
@@ -86,14 +85,16 @@ class PatentConverter:
             count += 1
         logging.info(" done")
 
+
 def main():
     parser = ArgumentParser(description="Tool to convert Patent file to Pubtator format")
     parser.add_argument("input", help="Input file", metavar="INPUT_FILE_OR_DIR")
     parser.add_argument("output", help="Output file/directory", metavar="OUTPUT_FILE_OR_DIR")
-    args=parser.parse_args()
+    args = parser.parse_args()
 
     t = PatentConverter()
     t.convert(args.input, args.output)
+
 
 if __name__ == "__main__":
     main()

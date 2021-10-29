@@ -1,9 +1,9 @@
 import gzip
 import logging
-import os
 import pickle
 from itertools import islice
-from narrant.config import GENE_FILE, GENE_TO_HUMAN_ID_FILE, TMP_DIR
+
+from narrant.config import GENE_FILE, GENE_TO_HUMAN_ID_FILE
 
 
 class GeneMapper:
@@ -46,7 +46,6 @@ class GeneMapper:
                 gene_name = components[2]
                 if components[0] == self.HUMAN_SPECIES_ID and gene_name not in self.human_gene_dict:
                     self.human_gene_dict[gene_name] = gene_id
-
 
     def build_gene_mapper_index(self, gene_file=GENE_FILE, index_file=GENE_TO_HUMAN_ID_FILE):
         """

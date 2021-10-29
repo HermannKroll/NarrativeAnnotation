@@ -2,14 +2,12 @@ import argparse
 import json
 import logging
 import os
-from typing import Generator, Tuple
 
 import ijson
-import re
 
 from narrant.preprocessing.utils import get_document_id, DocumentError
-from narrant.pubtator.regex import DOCUMENT_ID
 from narrant.pubtator.document import TaggedDocument, DocFormat, get_doc_format, is_doc_file
+from narrant.pubtator.regex import DOCUMENT_ID
 
 
 # TODO: This method should be unit-tested because its used a lot
@@ -27,7 +25,7 @@ def read_pubtator_documents(path, yield_paths=False):
             if docformat == DocFormat.SINGLE_JSON:
                 yield (path, f.read()) if yield_paths else f.read()
             elif docformat == DocFormat.COMPOSITE_JSON:
-                yield from map(lambda js: (path, json.dumps(js)), ijson.items(f, "item"))\
+                yield from map(lambda js: (path, json.dumps(js)), ijson.items(f, "item")) \
                     if yield_paths else map(json.dumps, ijson.items(f, "item"))
             elif docformat == DocFormat.PUBTATOR:
                 for line in f:
@@ -42,7 +40,7 @@ def read_pubtator_documents(path, yield_paths=False):
                     yield path, None
 
 
-def read_tagged_documents(path, yield_paths = False):
+def read_tagged_documents(path, yield_paths=False):
     if yield_paths:
         for path, content in read_pubtator_documents(path, yield_paths=True):
             yield path, TaggedDocument(content)
@@ -116,5 +114,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-

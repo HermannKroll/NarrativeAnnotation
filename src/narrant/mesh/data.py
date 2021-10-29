@@ -3,8 +3,8 @@ XML Documentation: https://www.nlm.nih.gov/mesh/xml_data_elements.html
 """
 import itertools
 import sys
-from typing import List
 from datetime import datetime
+from typing import List
 
 from lxml import etree
 
@@ -13,16 +13,15 @@ from narrant.mesh.utils import get_text, get_attr, get_datetime, get_element_tex
 MESH_QUERY_DESCRIPTOR_RECORD = "/DescriptorRecordSet/DescriptorRecord"
 MESH_QUERY_DESCRIPTOR_BY_ID = "/DescriptorRecordSet/DescriptorRecord/DescriptorUI[text()='{}']/parent::*"
 MESH_QUERY_DESCRIPTOR_BY_TREE_NUMBER = "/DescriptorRecordSet/DescriptorRecord/TreeNumberList" \
-                                  "/TreeNumber[text()='{}']/parent::*/parent::*"
+                                       "/TreeNumber[text()='{}']/parent::*/parent::*"
 MESH_QUERY_DESCRIPTOR_IDS_BY_TREE_NUMBER = "/DescriptorRecordSet/DescriptorRecord/TreeNumberList" \
-                                      "/TreeNumber[starts-with(text(),'{}')]/parent::*/parent::*/DescriptorUI"
+                                           "/TreeNumber[starts-with(text(),'{}')]/parent::*/parent::*/DescriptorUI"
 MESH_QUERY_DESCRIPTOR_BY_HEADING_CONTAINS = "/DescriptorRecordSet/DescriptorRecord/DescriptorName" \
-                                       "/String[contains(text(),'{}')]/parent::*/parent::*"
+                                            "/String[contains(text(),'{}')]/parent::*/parent::*"
 MESH_QUERY_DESCRIPTOR_BY_HEADING_EXACT = "/DescriptorRecordSet/DescriptorRecord/DescriptorName" \
-                                    "/String[text()='{}']/parent::*/parent::*"
+                                         "/String[text()='{}']/parent::*/parent::*"
 MESH_QUERY_DESCRIPTOR_BY_TERM = "/DescriptorRecordSet/DescriptorRecord/ConceptList/Concept/TermList/Term" \
-                           "/String[text()='{}']/parent::*/parent::*/parent::*/parent::*/parent::*"
-
+                                "/String[text()='{}']/parent::*/parent::*/parent::*/parent::*/parent::*"
 
 
 class BaseNode:
@@ -394,4 +393,3 @@ class MeSHDB:
             desc_list = self.descs_by_term(name)
         # Return
         return desc_list
-

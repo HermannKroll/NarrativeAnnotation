@@ -26,7 +26,7 @@ def main():
 
     for desc in meshdb.get_all_descs():
         for q in desc.allowable_qualifiers:
-            if q.ui == 'Q000627':   # therapeutic usage
+            if q.ui == 'Q000627':  # therapeutic usage
                 relevant_records.append(desc)
 
     logging.info(f'exporting of {len(relevant_records)} records...')

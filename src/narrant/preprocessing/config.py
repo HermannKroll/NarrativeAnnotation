@@ -69,8 +69,8 @@ class Config:
     def dict_check_abbreviation(self):
         return self.config["dict"]["check_abbreviation"]
 
-    #@property
-    #def dict_resolve_conjunctions(self):
+    # @property
+    # def dict_resolve_conjunctions(self):
     #    return self.config["dict"]["resolve_conjunctions"].lower=="true"
 
     @property

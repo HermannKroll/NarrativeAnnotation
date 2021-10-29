@@ -1,7 +1,6 @@
-import logging
 import csv
+import logging
 import os
-
 from collections import defaultdict
 from datetime import datetime
 from itertools import islice
@@ -11,8 +10,8 @@ import lxml.etree as ET
 
 from narrant import config
 from narrant.config import MESH_DESCRIPTORS_FILE, METHOD_CLASSIFICATION_FILE
-from narrant.preprocessing.enttypes import METHOD, LAB_METHOD
 from narrant.mesh.data import MeSHDB
+from narrant.preprocessing.enttypes import METHOD, LAB_METHOD
 from narrant.preprocessing.tagging.dictagger import clean_vocab_word_by_split_rules
 from narrant.progress import print_progress_with_eta
 
@@ -31,6 +30,9 @@ def expand_vocabulary_term(term: str) -> str:
     if "-" in term:
         yield term.replace("-", " ")
         yield term.replace("-", "")
+    if " " in term:
+        yield term.replace(" ", "-")
+        yield term.replace(" ", "")
     yield from [term, f'{term}e', f'{term}s']
 
 

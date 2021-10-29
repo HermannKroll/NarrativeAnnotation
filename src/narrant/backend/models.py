@@ -1,9 +1,8 @@
+import logging
 import unicodedata
 from datetime import datetime
 from io import StringIO
-
-import logging
-from typing import List, Tuple
+from typing import List
 
 from sqlalchemy import Column, String, Integer, DateTime, ForeignKeyConstraint, PrimaryKeyConstraint, \
     BigInteger, UniqueConstraint
@@ -15,6 +14,13 @@ from narrant.pubtator.regex import ILLEGAL_CHAR
 
 Base = declarative_base()
 BULK_INSERT_AFTER_K = 100000
+POSTGRES_COPY_LOAD_AFTER_K = 1000000
+
+
+def chunks_list(lst, n):
+    """Yield successive n-sized chunks from lst."""
+    for i in range(0, len(lst), n):
+        yield lst[i:i + n]
 
 
 def postgres_copy_insert(session, values: List[dict], table_name: str):
@@ -26,22 +32,23 @@ def postgres_copy_insert(session, values: List[dict], table_name: str):
     :param table_name: the table name to insert into
     :return: None
     """
-    connection = session.connection().connection
-    memory_file = StringIO()
-    attribute_keys = list(values[0].keys())
-    for idx, v in enumerate(values):
-        mem_str = '{}'.format('\t'.join([str(v[k]) for k in attribute_keys]))
-        if idx == 0:
-            memory_file.write(mem_str)
-        else:
-            memory_file.write(f'\n{mem_str}')
-    cursor = connection.cursor()
-    logging.debug(f'Executing copy from {table_name}...')
-    memory_file.seek(0)
-    cursor.copy_from(memory_file, table_name, sep='\t', columns=attribute_keys)
-    logging.debug('Committing...')
-    connection.commit()
-    memory_file.close()
+    for values_chunk in chunks_list(values, POSTGRES_COPY_LOAD_AFTER_K):
+        connection = session.connection().connection
+        memory_file = StringIO()
+        attribute_keys = list(values_chunk[0].keys())
+        for idx, v in enumerate(values_chunk):
+            mem_str = '{}'.format('\t'.join([str(v[k]) for k in attribute_keys]))
+            if idx == 0:
+                memory_file.write(mem_str)
+            else:
+                memory_file.write(f'\n{mem_str}')
+        cursor = connection.cursor()
+        logging.debug(f'Executing copy from {table_name}...')
+        memory_file.seek(0)
+        cursor.copy_from(memory_file, table_name, sep='\t', columns=attribute_keys)
+        logging.debug('Committing...')
+        connection.commit()
+        memory_file.close()
 
 
 def bulk_insert_values_to_table(session, values: List[dict], table_class):
@@ -52,19 +59,12 @@ def bulk_insert_values_to_table(session, values: List[dict], table_class):
     :param table_class: the table class to insert into
     :return: None
     """
-    task_size = len(values)
+    task_size = 1 + int(len(values) / BULK_INSERT_AFTER_K)
     start_time = datetime.now()
-    part = []
-    for i, p in enumerate(values):
-        part.append(p)
-        if i % BULK_INSERT_AFTER_K == 0:
-            session.bulk_insert_mappings(table_class, part)
-            session.commit()
-            part.clear()
-        print_progress_with_eta("Inserting values...", i, task_size, start_time)
-    session.bulk_insert_mappings(table_class, part)
-    session.commit()
-    part.clear()
+    for idx, chunk_values in enumerate(chunks_list(values, BULK_INSERT_AFTER_K)):
+        print_progress_with_eta("Inserting values...", idx, task_size, start_time, print_every_k=1)
+        session.bulk_insert_mappings(table_class, chunk_values)
+        session.commit()
 
 
 class DatabaseTable:
@@ -73,11 +73,11 @@ class DatabaseTable:
     """
 
     @classmethod
-    def bulk_insert_values_into_table(cls, session, values: List[dict]):
+    def bulk_insert_values_into_table(cls, session, values: List[dict], check_constraints=False):
         if not values:
             return
         logging.debug(f'Inserting values into {cls.__tablename__}...')
-        if session.is_postgres:
+        if session.is_postgres and not check_constraints:
             postgres_copy_insert(session, values, cls.__tablename__)
         else:
             bulk_insert_values_to_table(session, values, cls)
@@ -224,3 +224,15 @@ class DocumentTranslation(Base, DatabaseTable):
     md5 = Column(String, nullable=False)
     date_inserted = Column(DateTime, nullable=False, default=datetime.now)
     source = Column(String)
+
+
+class DocumentClassification(Base, DatabaseTable):
+    __tablename__ = "document_classification"
+    __table_args__ = (
+        PrimaryKeyConstraint('document_id', 'document_collection', 'classification', sqlite_on_conflict='IGNORE'),
+        ForeignKeyConstraint(('document_id', 'document_collection'), ('document.id', 'document.collection'))
+    )
+    document_id = Column(BigInteger)
+    document_collection = Column(String)
+    classification = Column(String)
+    explanation = Column(String)

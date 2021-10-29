@@ -1,7 +1,6 @@
 import json
-from collections import defaultdict
-
 import re
+from collections import defaultdict
 from enum import Enum, auto
 
 from narrant import tools
@@ -15,7 +14,7 @@ class DocFormat(Enum):
     PUBTATOR = auto()
 
 
-def get_doc_format(filehandle = None, path=None)->DocFormat:
+def get_doc_format(filehandle=None, path=None) -> DocFormat:
     if not (bool(filehandle) ^ bool(path)):
         raise ValueError("Either filehandle or path must be filled")
     if filehandle:
@@ -95,6 +94,7 @@ class TaggedDocument:
         self.abstract = None
         self.id = None
         self.tags = []
+        self.classification = {}
 
         if from_str:
             from_str = tools.read_if_path(from_str)
@@ -117,7 +117,7 @@ class TaggedDocument:
 
             elif str_format == "json":
                 doc_dict = json.loads(from_str)
-                self.id, self.title, self.abstract = doc_dict["id"], doc_dict["title"], doc_dict["abstract"]
+                self.id, self.title, self.abstract = doc_dict["id"], doc_dict["title"], doc_dict.get("abstract", "")
                 if "tags" in doc_dict and not ignore_tags:
                     self.tags = [
                         TaggedEntity(document=self.id,
@@ -128,13 +128,14 @@ class TaggedDocument:
                                      ent_id=tag["id"])
                         for tag in doc_dict["tags"]
                     ]
+                if "classification" in doc_dict:
+                    self.classification = {k: v for k, v in
+                                           zip(doc_dict["classification"], [""] * len(doc_dict["classification"]))}
 
         else:
             self.id = id
             self.title = title
             self.abstract = abstract
-
-
 
         if self.tags:
             # if multiple document tags are contained in a single doc - raise error
@@ -264,6 +265,7 @@ class TaggedDocument:
             "id": self.id,
             "title": self.title,
             "abstract": self.abstract,
+            "classification": list(self.classification.keys()),
             "tags": [
                 {
                     "id": tag.ent_id,
@@ -273,8 +275,11 @@ class TaggedDocument:
                     "type": tag.ent_type,
                 }
                 for tag in self.tags
-            ]
+            ],
         }
+
+    def get_text_content(self):
+        return f"{self.title} {self.abstract}"
 
     def __str__(self):
         return Document.create_pubtator(self.id, self.title, self.abstract) + "".join(

@@ -3,8 +3,8 @@ import pickle
 from datetime import datetime
 
 from narrant.config import MESH_DESCRIPTORS_FILE, MESH_ONTOLOGY_INDEX_FILE
-from narrant.preprocessing.enttypes import DOSAGE_FORM, METHOD, DISEASE
 from narrant.mesh.data import MeSHDB
+from narrant.preprocessing.enttypes import DOSAGE_FORM, METHOD, DISEASE
 from narrant.progress import print_progress_with_eta
 
 MESH_TREE_NAMES = dict(
@@ -34,6 +34,7 @@ MESH_TREE_TO_ENTITY_TYPE = [
     ("J01.637.512.850", DOSAGE_FORM),  # Nanotubes
     ("J01.637.512.925", DOSAGE_FORM),  # Nanowires
     ("E", METHOD),
+    ("E", DOSAGE_FORM),
     ("C", DISEASE),
     ("F03", DISEASE)
 ]
@@ -150,12 +151,16 @@ class MeSHOntology:
         Computes the entity type for a given tree number
         raises a key error if no entity type was found
         :param tree_number: the tree number to check
-        :return: the entity type
+        :return: a list of entity types
         """
+        hits = []
         for tn, et in MESH_TREE_TO_ENTITY_TYPE:
             if tree_number.startswith(tn):
-                return et
-        raise KeyError(f'No entity type for tree number {tree_number} found')
+                hits.append(et)
+        if hits:
+            return hits
+        else:
+            raise KeyError(f'No entity type for tree number {tree_number} found')
 
     def build_index_from_mesh(self, mesh_file=MESH_DESCRIPTORS_FILE):
         """

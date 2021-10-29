@@ -1,6 +1,5 @@
 import multiprocessing
 import queue
-from collections import Iterable
 from time import sleep
 
 from narrant.util.multiprocessing.Worker import SHUTDOWN_SIGNAL
@@ -21,7 +20,7 @@ class ConsumerWorker(WorkerProcess):
         self.__consume = consume
         self.__shutdown = shutdown
         self.__running = True
-        self.__no_workers=no_workers
+        self.__no_workers = no_workers
 
     def run(self):
         shutdown_signal_count = 0

@@ -1,12 +1,14 @@
 from enum import Enum, auto
 
-class JoinMode(Enum):
-    INNER=auto()
-    LEFT=auto()
-    RIGHT=auto()
-    OUTER=auto()
 
-def join(query_left, query_right, on_left, on_right, mode:JoinMode):
+class JoinMode(Enum):
+    INNER = auto()
+    LEFT = auto()
+    RIGHT = auto()
+    OUTER = auto()
+
+
+def join(query_left, query_right, on_left, on_right, mode: JoinMode):
     """
     takes two queries and returns an iterator that yields the joined table. queries have to be sorted by join columns.
     :param query_left: left query sorted by on_left.
@@ -17,5 +19,6 @@ def join(query_left, query_right, on_left, on_right, mode:JoinMode):
     :param mode: Join Mode, either INNER, LEFT, RIGHT or OUTER. Missing values will be filled with None.
     :return: iterator for joined table
     """
+
 
 def inner_join(query_left)

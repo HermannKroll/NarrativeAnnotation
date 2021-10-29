@@ -1,18 +1,16 @@
-import copy
+import itertools as it
 import os
 import pickle
 import re
-import itertools as it
 from abc import ABCMeta, abstractmethod
 from collections import defaultdict
 from datetime import datetime
-
 from typing import List
 
 from narrant.config import TMP_DIR, DICT_TAGGER_BLACKLIST
 from narrant.preprocessing.tagging.base import BaseTagger
-from narrant.progress import print_progress_with_eta
 from narrant.preprocessing.utils import get_document_id, DocumentError
+from narrant.progress import print_progress_with_eta
 from narrant.pubtator.document import TaggedDocument, TaggedEntity
 
 
@@ -56,7 +54,6 @@ def split_indexed_words(content):
             word = word[:-1]
             word_offset += 1
         ind_words.append((word, ind))
-
 
         # index = last index + length of last word incl. offset
         next_index_word = next_index_word + len(word) + word_offset + 1
@@ -199,8 +196,6 @@ class DictTagger(BaseTagger, metaclass=ABCMeta):
         # split into indexed single words
         ind_words = split_indexed_words(content)
 
-
-
         tags = []
         for spaces in range(self.config.dict_max_words):
             for word_tuple in get_n_tuples(ind_words, spaces + 1):
@@ -254,7 +249,7 @@ class DictTagger(BaseTagger, metaclass=ABCMeta):
         """
         cwords_indexes = [n for n, (w, i) in enumerate(token_seq) if w in DictTagger.connector_words]
 
-        if not cwords_indexes:# or max(cwords_indexes) in [0, len(token_seq)-1]:
+        if not cwords_indexes:  # or max(cwords_indexes) in [0, len(token_seq)-1]:
             return []
         left = token_seq[:max(cwords_indexes)]
         right = token_seq[max(cwords_indexes):]
@@ -262,9 +257,9 @@ class DictTagger(BaseTagger, metaclass=ABCMeta):
         left = [(w, i) for w, i in left if w not in DictTagger.connector_words]
         right = [(w, i) for w, i in right if w not in DictTagger.connector_words]
 
-        left_tuples = [[]]+[t for n in range(0, len(left) + 1) for t in list(get_n_tuples(left, n))]
-        right_tuples = [[]]+[t for n in range(0, len(right) + 1) for t in list(get_n_tuples(right, n))]
-        yield from [(lt,rt) for lt, rt in it.product(left_tuples, right_tuples) if lt + rt]
+        left_tuples = [[]] + [t for n in range(0, len(left) + 1) for t in list(get_n_tuples(left, n))]
+        right_tuples = [[]] + [t for n in range(0, len(right) + 1) for t in list(get_n_tuples(right, n))]
+        yield from [(lt, rt) for lt, rt in it.product(left_tuples, right_tuples) if lt + rt]
 
     def _tag(self, in_file, out_file):
         with open(in_file) as f:

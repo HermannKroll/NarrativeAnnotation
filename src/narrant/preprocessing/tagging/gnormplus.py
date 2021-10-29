@@ -9,9 +9,9 @@ from time import sleep
 
 from narrant.preprocessing import enttypes
 from narrant.preprocessing.tagging.base import BaseTagger
+from narrant.preprocessing.utils import get_document_id
 from narrant.progress import print_progress_with_eta
 from narrant.pubtator.count import get_document_ids
-from narrant.preprocessing.utils import get_document_id
 
 
 class GNormPlus(BaseTagger):
@@ -90,7 +90,7 @@ class GNormPlus(BaseTagger):
                         while process.poll() is None:
                             sleep(1)
                         self.logger.warn(f"No Progress in last {self.config.tagger_one_timeout} min")
-                        no_progress=True
+                        no_progress = True
                         break
                 self.logger.debug("Exited with code {}".format(process.poll()))
 
@@ -126,4 +126,3 @@ class GNormPlus(BaseTagger):
 
     def get_successful_ids(self):
         return get_document_ids(self.out_dir)
-

@@ -1,10 +1,9 @@
-import os
-import math
 import logging
+import math
+import os
 from shutil import copy
-from narrant.pubtator.count import count_documents
+
 from narrant.pubtator.extract import read_tagged_documents
-from narrant.pubtator.split import split
 
 
 def create_parallel_dirs(root, number, prefix, *subdirs):

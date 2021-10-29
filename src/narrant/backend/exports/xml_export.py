@@ -1,17 +1,17 @@
 import argparse
 import logging
 import os
+import xml.etree.ElementTree as ET
 from collections import defaultdict
 from datetime import datetime
-from xml.etree.ElementTree import Element, SubElement
-import xml.etree.ElementTree as ET
 from xml.dom import minidom
+from xml.etree.ElementTree import Element, SubElement
 
-from narrant.preprocessing import enttypes
 from narrant.backend.database import Session
-from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, SPECIES, GENE, EXCIPIENT, DALL
 from narrant.backend.models import Tag
 from narrant.entity.entityresolver import EntityResolver
+from narrant.preprocessing import enttypes
+from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, SPECIES, GENE, DALL
 from narrant.progress import print_progress_with_eta
 from narrant.pubtator.translation.patent import PatentConverter
 

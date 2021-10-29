@@ -1,8 +1,7 @@
+import csv
 from collections import defaultdict
 from pathlib import Path
 from typing import Union
-from narrant.config import TMP_DIR
-import csv
 
 from narrant.preprocessing.tagging.vocabularies import expand_vocabulary_term
 
@@ -21,7 +20,7 @@ class Vocabulary:
                 if not line["heading"] or not line["enttype"] or not line["id"]:
                     continue
                 for syn in {s
-                            for t in (line["synonyms"].split(";") if line["synonyms"] else [] )+ [line["heading"]]
+                            for t in (line["synonyms"].split(";") if line["synonyms"] else []) + [line["heading"]]
                             for s in expand_vocabulary_term(t.lower()) if t}:
                     self.vocabularies[line["enttype"]][syn] |= {line["id"]}
             self.vocabularies = {k: dict(v) for k, v in self.vocabularies.items()}

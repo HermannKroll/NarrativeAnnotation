@@ -1,7 +1,6 @@
+import csv
 import logging
 from argparse import ArgumentParser
-
-import csv
 from itertools import islice
 
 from narrant.backend.models import Document

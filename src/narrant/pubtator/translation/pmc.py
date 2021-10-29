@@ -1,19 +1,21 @@
-import tempfile
+import logging
 import os
 import re
 import sys
+import tempfile
 import traceback
-import logging
-
 from argparse import ArgumentParser
 from typing import List
+
 from lxml import etree, html
+
+from narrant.backend.models import Document
 from narrant.config import PREPROCESS_CONFIG
 from narrant.preprocessing.collect import PMCCollector
 from narrant.preprocessing.config import Config
 from narrant.preprocessing.convertids import load_pmcids_to_pmid_index
 from narrant.pubtator import conversion_errors
-from narrant.backend.models import Document
+
 
 class PMCConverter:
     MAX_CONTENT_LENGTH = 1000000
@@ -187,6 +189,7 @@ class PMCConverter:
                 f.write("\n".join(ignored_files))
             print("See {} for a list of ignored files.".format(err_file))
 
+
 def main():
     parser = ArgumentParser(description="Collect and convert PMC files from a list of pmc-ids")
     parser.add_argument("input", help="File containing PMC IDs OR directory containing PMC files")
@@ -202,7 +205,6 @@ def main():
     logging.basicConfig(level=args.loglevel.upper())
 
     collect_dir = args.collect if args.collect else conf.pmc_dir
-
 
     # TODO: Logfile
     if args.output:

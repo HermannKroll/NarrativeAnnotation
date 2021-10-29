@@ -5,46 +5,29 @@ import shutil
 import tempfile
 from argparse import ArgumentParser
 from datetime import datetime
-from typing import Iterable
 
 from narrant.backend.database import Session
 from narrant.backend.load_document import document_bulk_load
+from narrant.backend.models import DocumentClassification
 from narrant.config import PREPROCESS_CONFIG
+from narrant.preprocessing.classifier import Classifyer
 from narrant.preprocessing.config import Config
-from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, DALL
-from narrant.preprocessing.preprocess import init_preprocess_logger, init_sqlalchemy_logger, \
-    get_untagged_doc_ids_by_ent_type
-from narrant.preprocessing.tagging.metadictagger import MetaDicTagger, MetaDicTaggerFactory
+from narrant.preprocessing.preprocess import init_preprocess_logger, init_sqlalchemy_logger
 from narrant.progress import print_progress_with_eta
 from narrant.pubtator import count
 from narrant.pubtator.document import TaggedDocument
 from narrant.pubtator.extract import read_pubtator_documents
-from narrant.pubtator.sanitize import filter_and_sanitize
 from narrant.util.multiprocessing.ConsumerWorker import ConsumerWorker
 from narrant.util.multiprocessing.ProducerWorker import ProducerWorker
 from narrant.util.multiprocessing.Worker import Worker
 
 
-def prepare_input(in_file: str, out_file: str, logger: logging.Logger, ent_types: Iterable[str],
-                  collection: str) -> int:
-    if not os.path.exists(in_file):
-        logger.error("Input file not found!")
-        return False
-    logger.info("Counting document ids...")
-    in_ids = count.get_document_ids(in_file)
-    logger.info(f"{len(in_ids)} given, checking against database...")
-    todo_ids = set()
-    for ent_type in ent_types:
-        todo_ids |= get_untagged_doc_ids_by_ent_type(collection, in_ids, ent_type, MetaDicTagger, logger)
-    filter_and_sanitize(in_file, out_file, todo_ids, logger)
-    return len(todo_ids)
-
-
 def main(arguments=None):
     parser = ArgumentParser(description="Tag given documents in pubtator format and insert tags into database")
 
-    parser.add_argument("-t", "--tag", choices=TAG_TYPE_MAPPING.keys(), nargs="+", default="DA")
     parser.add_argument("-c", "--collection", required=True)
+    parser.add_argument("-r", "--ruleset", required=True)
+    parser.add_argument("--cls", required=True)
 
     group_settings = parser.add_argument_group("Settings")
     group_settings.add_argument("--config", default=PREPROCESS_CONFIG,
@@ -66,8 +49,7 @@ def main(arguments=None):
     # create directories
     root_dir = root_dir = os.path.abspath(args.workdir) if args.workdir else tempfile.mkdtemp()
     log_dir = log_dir = os.path.abspath(os.path.join(root_dir, "log"))
-    ext_in_file = args.input
-    in_file = os.path.abspath(os.path.join(root_dir, "in.pubtator"))
+    in_file = args.input
 
     if args.workdir and os.path.exists(root_dir):
         if not args.yes_force:
@@ -88,13 +70,6 @@ def main(arguments=None):
     init_sqlalchemy_logger(os.path.join(log_dir, "sqlalchemy.log"), args.loglevel.upper())
     logger.info(f"Project directory:{root_dir}")
 
-    ent_types = DALL if "DA" in args.tag else [TAG_TYPE_MAPPING[x] for x in args.tag]
-    number_of_docs = prepare_input(ext_in_file, in_file, logger, ent_types, args.collection)
-
-    if not number_of_docs:
-        logger.info('No documents to process - stopping')
-        exit(1)
-
     if not args.skip_load:
         document_bulk_load(in_file, args.collection, logger=logger)
     else:
@@ -103,10 +78,12 @@ def main(arguments=None):
     kwargs = dict(collection=args.collection, root_dir=root_dir, input_dir=None, logger=logger,
                   log_dir=log_dir, config=conf, mapping_id_file=None, mapping_file_id=None)
 
-    metafactory = MetaDicTaggerFactory(ent_types, kwargs)
-    metatag = metafactory.create_MetaDicTagger()
-    metatag.prepare()
-    metatag.base_insert_tagger()
+    logging.info("counting documents...")
+    number_of_docs = count.count_documents(in_file)
+    logging.info(f"found {number_of_docs}")
+
+    classifier = Classifyer(classification=args.cls, rule_path=args.ruleset)
+    session = Session.get()
 
     def generate_tasks():
         for doc in read_pubtator_documents(in_file):
@@ -115,9 +92,8 @@ def main(arguments=None):
                 yield t_doc
 
     def do_task(in_doc: TaggedDocument):
-        tagged_doc = metatag.tag_doc(in_doc)
-        tagged_doc.clean_tags()
-        return tagged_doc
+        classifier.classify_document(in_doc)
+        return in_doc
 
     docs_done = multiprocessing.Value('i', 0)
     docs_to_do = multiprocessing.Value('i', number_of_docs)
@@ -125,16 +101,20 @@ def main(arguments=None):
 
     def consume_task(out_doc: TaggedDocument):
         docs_done.value += 1
-        print_progress_with_eta("Tagging...", docs_done.value, docs_to_do.value, start, print_every_k=1000,
+        print_progress_with_eta("Classifying...", docs_done.value, docs_to_do.value, start, print_every_k=1000,
                                 logger=logger)
-        if out_doc.tags:
-            metatag.base_insert_tags(out_doc, auto_commit=False)
-
-        if docs_done.value % 10000 == 0:
-            Session.get().commit()
+        if out_doc.classification:
+            for cls, rsn in out_doc.classification.items():
+                rsn = rsn.replace("\\b", "").replace("\\w+", "*")
+                DocumentClassification.bulk_insert_values_into_table(session, [{
+                    "document_id": out_doc.id,
+                    "document_collection": args.collection,
+                    "classification": cls,
+                    "explanation": rsn
+                }], check_constraints=True)
 
     def shutdown_consumer():
-        Session.get().commit()
+        pass
 
     task_queue = multiprocessing.Queue()
     result_queue = multiprocessing.Queue()

@@ -2,10 +2,10 @@ import argparse
 import json
 import logging
 
-from narrant.preprocessing import enttypes
 from narrant.backend.database import Session
-from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING
 from narrant.backend.models import Document, Tag
+from narrant.preprocessing import enttypes
+from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING
 from narrant.pubtator.document import TaggedDocument, TaggedEntity
 
 CONTENT_BUFFER_SIZE = 10000
@@ -93,6 +93,7 @@ def export(out_fn, tag_types, document_ids=None, collection=None, content=True, 
             if export_format == "json":
                 f.write("\n]\n")
 
+
 def write_doc(document_builder, export_format, f, first_doc):
     if export_format == "json":
         if not first_doc:
@@ -142,7 +143,6 @@ def main():
     parser.add_argument("-d", "--document", action="store_true", help="Export content of document")
     parser.add_argument("-t", "--tag", choices=TAG_TYPE_MAPPING.keys(), nargs="+")
     parser.add_argument("--format", "-f", help='export format', choices=['json', 'pubtator'], default='json')
-
 
     parser.add_argument("--sqllog", action="store_true", help='logs sql commands')
     args = parser.parse_args()

@@ -7,9 +7,9 @@ from typing import Tuple, Dict
 
 from sqlalchemy.dialects.postgresql import insert
 
-from narrant.preprocessing import enttypes
 from narrant.backend.database import Session
 from narrant.backend.models import Document, Tag, Tagger, DocTaggedBy
+from narrant.preprocessing import enttypes
 from narrant.progress import print_progress_with_eta
 from narrant.pubtator.count import count_documents
 from narrant.pubtator.document import TaggedDocument
@@ -113,7 +113,8 @@ def document_bulk_load(path, collection, tagger_mapping=None, logger=logging):
             ))
 
         if doc.id not in db_doc_ids:
-            logger.warning("Document {} {} is not inserted into DB (no title and no abstract)".format(collection, doc.id))
+            logger.warning(
+                "Document {} {} is not inserted into DB (no title and no abstract)".format(collection, doc.id))
         # only if tagger mapping is set, tags will be inserted
         if doc.tags and tagger_mapping and doc.id in db_doc_ids:
             # Add tags
@@ -141,7 +142,7 @@ def document_bulk_load(path, collection, tagger_mapping=None, logger=logging):
                     ent_type=ent_type,
                 ))
 
-        if idx % BULK_LOAD_COMMIT_AFTER == 0:
+        if (idx + 1) % BULK_LOAD_COMMIT_AFTER == 0:
             session.bulk_insert_mappings(Document, document_inserts)
             session.bulk_insert_mappings(Tag, tag_inserts)
             session.bulk_insert_mappings(DocTaggedBy, doc_tagged_by_inserts)
@@ -153,7 +154,6 @@ def document_bulk_load(path, collection, tagger_mapping=None, logger=logging):
 
         print_progress_with_eta("Adding documents", idx, n_docs, start_time, print_every_k=PRINT_ETA_EVERY_K_DOCUMENTS)
 
-    logger.info(f'inserting {len(document_inserts)}')
     session.bulk_insert_mappings(Document, document_inserts)
     session.bulk_insert_mappings(Tag, tag_inserts)
     session.bulk_insert_mappings(DocTaggedBy, doc_tagged_by_inserts)
@@ -166,7 +166,7 @@ def document_bulk_load(path, collection, tagger_mapping=None, logger=logging):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("input")
-    parser.add_argument("collection")
+    parser.add_argument("-c", "--collection", required=True, help="Document collection name")
     parser.add_argument("-t", "--tagger-map", help="JSON file containing mapping from entity type "
                                                    "to tuple with tagger name and tagger version")
     parser.add_argument("--logsql", action="store_true", help='logs sql statements')

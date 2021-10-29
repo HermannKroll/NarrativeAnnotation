@@ -1,11 +1,10 @@
 import re
 
 from narrant import config
-from narrant.preprocessing import enttypes
 from narrant.config import DOSAGE_ADDITIONAL_DESCS, DOSAGE_ADDITIONAL_DESCS_TERMS, DOSAGE_FID_DESCS
 from narrant.mesh.data import MeSHDB
+from narrant.preprocessing import enttypes
 from narrant.preprocessing.tagging.dictagger import DictTagger
-
 
 
 class DosageFormTagger(DictTagger):

@@ -1,8 +1,6 @@
-import typing
-from collections.abc import Callable
-import subprocess
 import logging
-import datetime
+import subprocess
+from collections.abc import Callable
 from time import sleep
 
 
@@ -15,7 +13,6 @@ class TaggerWatchdog:
         self.logger = logger
         self.output_intervall = 30
 
-
     def run(self):
         keep_tagging = True
         while keep_tagging:
@@ -27,6 +24,3 @@ class TaggerWatchdog:
                 new_progress = self.get_progress()
                 if new_progress > old_progress:
                     la
-
-
-
