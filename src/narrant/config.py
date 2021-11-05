@@ -59,6 +59,7 @@ DOSAGE_FID_DESCS = os.path.join(RESOURCE_DIR, "df_fid_descriptors.txt")
 # Drug Tagger
 DRUG_TAGGER_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, "drug_cache.pkl")
 CHEMBL_CHEMICAL_DATABASE_FILE = os.path.join(RESOURCE_DIR, "chembl_chemicals.txt")
+CHEMBL_BLACKLIST_FILE = os.path.join(RESOURCE_DIR, "chembl_blacklist.txt")
 CHEMBL_CHEMICAL_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, "chemical_cache.pkl")
 
 # Excipient Tagger
