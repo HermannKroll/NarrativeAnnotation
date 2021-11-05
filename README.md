@@ -58,9 +58,7 @@ cd NarrativeAnnotation/
 ./download_data.sh
 ```
 
-Besides, we need a DrugBank XML Download. The download is not publicly available. We provide a DrugBank Version in our [OneDrive](https://1drv.ms/u/s!ArDgbq3ak3Zuh6B_vO0IntgtJGfThA?e=phtZLH).
-Please download the zip file, put the zip file in NarrativeAnnotation/data und unzip the file. Now you should obtain a drugbank2021.xml file in data.
-
+We have switched to the ChemBL Database. No additional files are required!
 
 ### Database Setup
 1. Setup a PostgresDB environment (see [official instructions](https://www.postgresql.org)). Tagging results, documents and more will be stored in this relational database. 
