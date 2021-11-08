@@ -17,8 +17,6 @@ Some general remarks:
 - Documents won't be inserted twice. There is a global setting that duplicated tuples are ignored when inserted in the database.
 
 
-
-
 ## Database Schema
 
 ![DB Scheme](dbschema.png)
@@ -39,6 +37,7 @@ cd NarrativeAnnotation/
 
 We have switched to the ChemBL Database. 
 No additional files are required!
+
 
 ### Database Setup
 1. Setup a PostgresDB environment (see [official instructions](https://www.postgresql.org)). Tagging results, documents and more will be stored in this relational database. 
@@ -255,7 +254,6 @@ See help for parameter description. The output format looks like: document_id.xm
    <tag source="MeSH">Wounds and Injuries</tag>
    <tag source="MeSH">Death</tag>
 </document>
-
 ```
 
 # Translation 
