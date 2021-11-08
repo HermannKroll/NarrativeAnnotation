@@ -16,30 +16,6 @@ Some general remarks:
 - there is an additional table (DocumentTranslation) in which such a translation could be stored
 - Documents won't be inserted twice. There is a global setting that duplicated tuples are ignored when inserted in the database.
 
-## Supported Document Format (PubTator)
-We assume each document to have a document id, a document collection, a title and an abstract. Document ids must be unique with a document collection. Our pipeline expects documents to be in the [PubTator format](https://www.ncbi.nlm.nih.gov/CBBresearch/Lu/Demo/PubTator/tutorial/index.html). 
-```
-document_id|t|title text here
-document_id|a|abstract text here
-
-```
-ATTENTION: the PubTator file must end with two *\n* characters. 
-The document id must be an integer. Title and abstract can include special characters - the texts will be sanitized in our pipeline. 
-If you want to tag several documents, you can choose from two options:
-1. Create a PubTator file for each document and put them into a directory
-2. Create a single PubTator file with several documents
-```
-document_id_1|t|title text here
-document_id_1|a|abstract text here
-
-document_id_2|t|title text here
-document_id_2|a|abstract text here
-
-document_id_3|t|title text here
-document_id_3|a|abstract text here
-
-```
-The files are separated by two new line characters *\\n*. ATTENTION: the PubTator file must end with two *\\n* characters. 
 
 ## Database Schema
 
@@ -52,14 +28,15 @@ created with app.quickdatabasediagrams.com
 We recommend having at least 32GB of RAM available. 
 ### Checkout or download the GitHub project
 
-Then,additional data must be downloaded. Switch to the NarrativeAnnotation directory and execute the bash script_
+Then,additional data must be downloaded.
+Switch to the NarrativeAnnotation directory and execute the bash script:
 ```
 cd NarrativeAnnotation/
 ./download_data.sh
 ```
 
-Besides, we need a DrugBank XML Download. The download is not publicly available. We provide a DrugBank Version in our [OneDrive](https://1drv.ms/u/s!ArDgbq3ak3Zuh6B_vO0IntgtJGfThA?e=phtZLH).
-Please download the zip file, put the zip file in NarrativeAnnotation/data und unzip the file. Now you should obtain a drugbank2021.xml file in data.
+We have switched to the ChemBL Database. 
+No additional files are required!
 
 
 ### Database Setup
@@ -100,11 +77,77 @@ export PYTHONPATH=/home/kroll/NarrativeAnnotation/
 ```
 
 
+## Supported Document Format (PubTator)
+We assume each document to have a document id, a document collection, a title and an abstract. Document ids must be unique with a document collection. Our pipeline expects documents to be in the [PubTator format](https://www.ncbi.nlm.nih.gov/CBBresearch/Lu/Demo/PubTator/tutorial/index.html). 
+```
+document_id|t|title text here
+document_id|a|abstract text here
+
+```
+ATTENTION: the PubTator file must end with two *\n* characters. 
+The document id must be an integer. Title and abstract can include special characters - the texts will be sanitized in our pipeline. 
+If you want to tag several documents, you can choose from two options:
+1. Create a PubTator file for each document and put them into a directory
+2. Create a single PubTator file with several documents
+```
+document_id_1|t|title text here
+document_id_1|a|abstract text here
+
+document_id_2|t|title text here
+document_id_2|a|abstract text here
+
+document_id_3|t|title text here
+document_id_3|a|abstract text here
+
+```
+The files are separated by two new line characters *\\n*. ATTENTION: the PubTator file must end with two *\\n* characters. 
+
+### Document JSON Format
+Here is an example of our JSON format:
+```
+[
+  {
+      "id": 12345,
+      "title": "Barack Obama [...]",
+      "abstract": "Obama was born in Honolulu, Hawaii. After graduating from Columbia University in 1983 [..]",
+  },
+  // more documents ...
+]
+```
+The outmost array brackets `[]` can be omitted if only a single json document should be contained within the file.
+
+Note:
+- a document id must be an integer
+- id, title and abstracts field are required
+- the abstract field may be empty
+
+## Loading Documents
+You can load your documents:
+```
+python src/kgextractiontoolbox/documents/load_document.py DOCUMENTS.json --collection COLLECTION
+```
+Document ids must be unique integers within a document collection. 
+The loading procedure will automatically include entity annotations (tags) if contained in the document file. 
+If you don't want to include tags, use the **--ignore_tags** argument.
+
+```
+python src/kgextractiontoolbox/documents/load_document.py DOCUMENTS.json --collection COLLECTION --ignore_tags
+```
+
+
+
 # Running the Annotators
-In this section, we briefly describe how to user our pipeline. For the examples below, we suppose you to be in the correct directory. So,
+In this section, we briefly describe how to use our pipeline.
+For the examples below, we suppose you to be in the correct directory. So,
 ```
 cd ~/NarrativeAnnotation/
 ```
+
+First, create a copy of the preprocessing configuration.
+```
+cp config/preprocessing.prod.json config/preprocessing.json
+```
+
 The idea of our pipeline is based on entity types. For example, if a user want to annotate drugs in text, then the corresponding annotation tool will be invoked. 
 Hence, the user could specifiy which entity types she wants to annotate in texts.
 
@@ -127,7 +170,7 @@ You can invoke our own dictionary-based tagger pipeline via
 python3 src/narrant/preprocessing/dictpreprocess.py test.pubtator --corpus test
 ```
 This call will invoke the pipeline to annoate all known entity types.
-The pipeline annotates Diseases, Dosage Forms, Drugs, DrugBank Chemicals, Excipients, Methods, LebMethods and Plant Families.
+The pipeline annotates Diseases, Dosage Forms, Drugs, Chemicals, Excipients, Methods, LebMethods and Plant Families.
 The first run will build all necessary indexes that will speed up further runs. So, the first run may take a bit.
 
 
@@ -154,55 +197,9 @@ The temporary created files as well as all logs won't be removed then.
 In addition to our own annotation tools, we build support for two frequently used biomedical tools. 
 TaggerOne supports the annotation of Chemicals and Diseases.
 GNormPlus supports the annotation of Genes and Species.
-### Create a directory for the tagger tools
-```
-mkdir ~/tools
-```
-### Third-Party Taggers
-Download [GNormPlus](https://www.ncbi.nlm.nih.gov/research/bionlp/Tools/gnormplus/) and [TaggerOne](https://www.ncbi.nlm.nih.gov/research/bionlp/tools/taggerone/). Unzip both and move the directories into tools. 
-```
-tools/
-  GNormPlusJava/
-  TaggerOne-0.2.1/
-```
-Both tools require a Java installation. To use TaggerOne, see its readme file. Some models must be build manually.
 
-### Tagger Configuration
-Configure the tagger locations for the project
-```
-cd NarrativeAnnotation/config/
-cp preprocess.prod.json preprocess.json
-nano preprocess.json
-```
-Enter your GNormPlus and TaggerOne root paths
-```
-{
-  "taggerOne": {
-    "root": "/home/kroll/tools/tagger/TaggerOne-0.2.1",
-    "model": "models/model_BC5CDRJ_011.bin",
-    "batchSize": 10000,
-    "timeout": 15,
-    "max_retries": 1
-  },
-  "gnormPlus": {
-    "root": "/home/kroll/tools/tagger/GNormPlusJava",
-    "javaArgs": "-Xmx100G -Xms30G"
-  },
-  "dict": {
-    "max_words": 5,
-    "check_abbreviation": "true",
-    "custom_abbreviations": "true",
-    "min_full_tag_len": 5
-  },
-  "drug": {
-    "check_products" : 0,
-    "max_per_product": 2,
-    "min_name_length": 3,
-    "ignore_excipient_terms": 1
-  }
-}
-```
-You can ignore the other parameters for now.
+A setup guide is available here: [Setup Guide](README_BIOMEDICAL_TOOS.md).
+
 
 ### Run the ThirdParty Annotators
 You may annotate documents with TaggerOne and GNormPlus. Assume we have a test document test.pubtator.
@@ -234,7 +231,7 @@ This might take a while and will build all required indexes.
 Attention: indexes for genes and species will only be build for those tag ids that have been annotated so far. If you annotate mor documents, you must rebuild the indexes. 
 
 
-Finally, you can export the documents
+Finally, you can export the documents:
 ```
 python3 src/narrant/backend/exports/xml_export.py output_dir -c COLLECTION_NAME
 ```
@@ -257,5 +254,34 @@ See help for parameter description. The output format looks like: document_id.xm
    <tag source="MeSH">Wounds and Injuries</tag>
    <tag source="MeSH">Death</tag>
 </document>
-
 ```
+
+# Translation 
+In this section, we describe how to convert different formats into a PubTator format.
+## Patents
+Suppose you have the Patents available as a XML file (PATENT_FILE). 
+You can convert the patents by calling:
+```
+python3 src/narrant/pubtator/translation/patent.py PATENT_FILE out.pubtator
+```
+
+### Translation Info
+We do the following patent prefix conversion automatically.
+The ids will be automatically translated back when exporting the patent data.
+```
+COUNTY_PREFIX = dict(
+    AU=1,
+    CN=2,
+    WO=3,
+    GB=4,
+    US=5,
+    EP=6,
+    CA=7,
+)
+```
+### Exporting Patents
+Finally, you can export the patents via:
+```
+python3 src/narrant/backend/exports/xml_export.py output_dir -c COLLECTION_NAME --patents
+```
+The argument **--patents** will force the script to translate the patent ids back to their original ids.

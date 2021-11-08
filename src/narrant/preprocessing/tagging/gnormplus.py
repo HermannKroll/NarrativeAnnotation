@@ -125,4 +125,13 @@ class GNormPlus(BaseTagger):
         return len([f for f in os.listdir(self.out_dir) if f.endswith(".txt")])
 
     def get_successful_ids(self):
-        return get_document_ids(self.out_dir)
+        processed_ids = set()
+        # also include all logged ids
+        with open(self.log_file) as f_log:
+            content = f_log.read()
+        processed_files = re.findall(r"(\d+)(\.txt)", content)
+        for pf in processed_files:
+            processed_ids.add(int(pf[0]))
+        # get processed ids
+        processed_ids.union(get_document_ids(self.out_dir))
+        return processed_ids
