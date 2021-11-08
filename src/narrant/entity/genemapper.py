@@ -30,7 +30,7 @@ class GeneMapper:
     @staticmethod
     def instance(load_index=True):
         if GeneMapper.__instance is None:
-            GeneMapper(load_index=True)
+            GeneMapper(load_index=load_index)
         return GeneMapper.__instance
 
     def _build_human_gene_name_dict(self, gene_file=GENE_FILE):
