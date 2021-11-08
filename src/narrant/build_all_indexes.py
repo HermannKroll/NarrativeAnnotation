@@ -13,7 +13,7 @@ def main():
                         level=logging.DEBUG)
     with open(BACKEND_CONFIG) as f:
         config = json.load(f)
-    print('Some indexes rely on the tag / predication table of the database...')
+    print('Some indexes rely on the tag table of the database...')
     is_sqlite = False or ("use_SQLite" in config and config["use_SQLite"])
     if is_sqlite:
         database_name = config["SQLite_path"]
