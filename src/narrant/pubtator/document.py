@@ -1,4 +1,5 @@
 import json
+import logging
 import re
 from collections import defaultdict
 from enum import Enum, auto
@@ -219,6 +220,12 @@ class TaggedDocument:
         self.tags = sorted(self.tags, key=lambda t: (t.start, t.end, t.ent_id))
 
     def check_and_repair_tag_integrity(self):
+        """
+        Checks and repairs tags in documents. If an entity is not correctly aligned to the content, the entity
+        is searched left (-30) and right (5) from the location. If the entity could be found, then its position
+        is upated. Otherwise nothing happens
+        :return:
+        """
         text_content = self.get_text_content().lower()
         for t in self.tags:
             tag_text = t.text.lower()
@@ -232,7 +239,7 @@ class TaggedDocument:
                         t.end = t.end - off
                         repaired = True
                 if not repaired:
-                    print(f'Tag position does not match to string in text ({tag_text} vs {text_text})')
+                    logging.debug(f'Tag position does not match to string in text ({tag_text} vs {text_text})')
 
     def _create_index(self, spacy_nlp):
         # self.mesh_by_entity_name = {t.text.lower(): t.mesh for t in self.tags if
