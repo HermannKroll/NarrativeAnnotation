@@ -3,52 +3,47 @@ import glob
 
 import logging
 
-import gzip
 import bioc
 import tarfile
 
 import multiprocessing
 
-from datetime import datetime
 
+from narrant.progress import Progress
 from narrant.pubtator.document import TaggedDocument, TaggedEntity
 from narrant.util.multiprocessing.ConsumerWorker import ConsumerWorker
 from narrant.util.multiprocessing.ProducerWorker import ProducerWorker
 from narrant.util.multiprocessing.Worker import Worker
 
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("input_dir")
-    parser.add_argument("output")
-    parser.add_argument("-w", "--workers", type=int, help="Amount of parallel workers")
-    parser.add_argument("-c", "--collection", required=True, help="Document collection name")
-    parser.add_argument("--logsql", action="store_true", help='logs sql statements')
-    args = parser.parse_args()
-
-    if args.logsql:
-        logging.basicConfig(format='%(asctime)s,%(msecs)d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
-                            datefmt='%Y-%m-%d:%H:%M:%S',
-                            level=logging.INFO)
-        logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
-    else:
-        logging.basicConfig(format='%(asctime)s,%(msecs)d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
-                            datefmt='%Y-%m-%d:%H:%M:%S',
-                            level=logging.INFO)
-
-    start_time = datetime.now()
+def convert_pubtator_biocxml2pubtator(input_dir: str, output: str, workers=1, estimated_document_count=35000000):
+    """
+    Converts the PubTator Central Bioc XML Dump to a PubTator file
+    :param input_dir: the directory of the dump (files must be stored in their .gz archives)
+    :param output: Output PubTator file
+    :param workers: The number of parallel workers
+    :param estimated_document_count: the count of all documents to estimate the progress
+    :return: None
+    """
+    progress = Progress(total=estimated_document_count, print_every=10000, text="Converting...")
+    progress.start_time()
 
     def generate_tasks():
         logging.info('Counting files...')
-        all_files = list(glob.glob(f'{args.input_dir}/**/BioCXML.*.gz', recursive=True))
+        all_files = list(glob.glob(f'{input_dir}/**/BioCXML.*.gz', recursive=True))
         logging.info(f'Find {len(all_files)} files')
         for tar_file in all_files:
             yield tar_file
 
-    f_out = open(args.output, 'wt')
+    f_out = open(output, 'wt')
+    docs_done = multiprocessing.Value('i', 0)
+
     def consume_task(out_doc: TaggedDocument):
+        docs_done.value += 1
+        progress.print_progress(docs_done.value)
         f_out.write(str(out_doc) + '\n')
 
+    # generator expression that takes a tar input file and yields all annotated PubTator documents
     def do_task(tar_input_file: str):
         with tarfile.open(tar_input_file) as tar_file:
             for member in tar_file.getmembers():
@@ -110,9 +105,9 @@ def main():
 
     task_queue = multiprocessing.Queue()
     result_queue = multiprocessing.Queue()
-    producer = ProducerWorker(task_queue, generate_tasks, args.workers)
-    workers = [Worker(task_queue, result_queue, do_task) for i in range(0, args.workers)]
-    consumer = ConsumerWorker(result_queue, consume_task, args.workers)
+    producer = ProducerWorker(task_queue, generate_tasks, workers)
+    workers = [Worker(task_queue, result_queue, do_task) for i in range(0, workers)]
+    consumer = ConsumerWorker(result_queue, consume_task, workers)
 
     producer.start()
     for w in workers:
@@ -120,7 +115,30 @@ def main():
     consumer.start()
     consumer.join()
     f_out.close()
-    logging.info(f"finished in {(datetime.now() - start_time).total_seconds()} seconds")
+
+    progress.done()
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("input_dir")
+    parser.add_argument("output")
+    parser.add_argument("-w", "--workers", type=int, help="Amount of parallel workers")
+    parser.add_argument("-c", "--collection", required=True, help="Document collection name")
+    parser.add_argument("--logsql", action="store_true", help='logs sql statements')
+    args = parser.parse_args()
+
+    if args.logsql:
+        logging.basicConfig(format='%(asctime)s,%(msecs)d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
+                            datefmt='%Y-%m-%d:%H:%M:%S',
+                            level=logging.INFO)
+        logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
+    else:
+        logging.basicConfig(format='%(asctime)s,%(msecs)d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
+                            datefmt='%Y-%m-%d:%H:%M:%S',
+                            level=logging.INFO)
+
+    convert_pubtator_biocxml2pubtator(args.input_dir, args.output, args.workers)
 
 
 if __name__ == "__main__":
