@@ -12,7 +12,9 @@ class Worker(WorkerProcess):
     def __init__(self, task_queue: multiprocessing.Queue, result_queue: multiprocessing.Queue,
                  do_task, prepare=None, shutdown=None):
         """
-
+        Processes results that are transferred via the que
+        Note: if the que transfers a generator expression, the worker won't listen to shutdown signals until
+        the whole generator is consumed
         :param task_queue:
         :param result_queue:
         :param do_task: Callable, takes task, returns result
@@ -41,10 +43,6 @@ class Worker(WorkerProcess):
                 if isinstance(res, types.GeneratorType):
                     # generator result -> iterate over generator
                     for r_part in res:
-                       # task = self.task_queue.get(timeout=1)
-                       # if task == SHUTDOWN_SIGNAL:
-                       #     self.__running = False
-                       #     break
                         self.result_queue.put(r_part)
                 else:
                     # normal result
