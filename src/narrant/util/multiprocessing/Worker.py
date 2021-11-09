@@ -1,5 +1,6 @@
 import multiprocessing
 import queue
+import types
 from time import sleep
 
 from narrant.util.multiprocessing.WorkerProcess import WorkerProcess
@@ -37,7 +38,17 @@ class Worker(WorkerProcess):
                     self.result_queue.put(SHUTDOWN_SIGNAL)
                     continue
                 res = self.__do_task(task)
-                self.result_queue.put(res)
+                if isinstance(res, types.GeneratorType):
+                    # generator result -> iterate over generator
+                    for r_part in res:
+                       # task = self.task_queue.get(timeout=1)
+                       # if task == SHUTDOWN_SIGNAL:
+                       #     self.__running = False
+                       #     break
+                        self.result_queue.put(r_part)
+                else:
+                    # normal result
+                    self.result_queue.put(res)
             except queue.Empty:
                 sleep(0.1)
                 continue

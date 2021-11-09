@@ -215,6 +215,25 @@ class TaggedDocument:
                         break
         self.tags = sorted(clean_tags, key=lambda t: (t.start, t.end, t.ent_id))
 
+    def sort_tags(self):
+        self.tags = sorted(self.tags, key=lambda t: (t.start, t.end, t.ent_id))
+
+    def check_and_repair_tag_integrity(self):
+        text_content = self.get_text_content().lower()
+        for t in self.tags:
+            tag_text = t.text.lower()
+            text_text = text_content[t.start:t.end]
+            if tag_text != text_text:
+                repaired = False
+                # run backwards trough the document
+                for off in range(5, -30, -1):
+                    if tag_text == text_content[t.start+off:t.end+off]:
+                        t.start = t.start - off
+                        t.end = t.end - off
+                        repaired = True
+                if not repaired:
+                    print(f'Tag position does not match to string in text ({tag_text} vs {text_text})')
+
     def _create_index(self, spacy_nlp):
         # self.mesh_by_entity_name = {t.text.lower(): t.mesh for t in self.tags if
         #                            t.text.lower() not in self.mesh_by_entity_name}
