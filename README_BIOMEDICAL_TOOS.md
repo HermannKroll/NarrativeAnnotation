@@ -31,7 +31,7 @@ Enter your GNormPlus and TaggerOne root paths
   },
   "gnormPlus": {
     "root": "/home/kroll/tools/tagger/GNormPlusJava",
-    "javaArgs": "-Xmx100G -Xms30G"
+    "javaArgs": "-Xmx16G -Xms10G"
   },
   "dict": {
     "max_words": 5,
