@@ -214,9 +214,13 @@ class TaggedDocument:
                     if tag2.start <= tag1.start and tag2.end >= tag1.end and tag1.text.lower() != tag2.text.lower():
                         clean_tags.remove(tag1)
                         break
-        self.tags = sorted(clean_tags, key=lambda t: (t.start, t.end, t.ent_id))
+        self.sort_tags()
 
     def sort_tags(self):
+        """
+        Sort tags by their text location
+        :return:
+        """
         self.tags = sorted(self.tags, key=lambda t: (t.start, t.end, t.ent_id))
 
     def check_and_repair_tag_integrity(self):
