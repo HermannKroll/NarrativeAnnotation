@@ -15,7 +15,7 @@ from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, DALL
 from narrant.preprocessing.preprocess import init_preprocess_logger, init_sqlalchemy_logger, \
     get_untagged_doc_ids_by_ent_type
 from narrant.preprocessing.tagging.metadictagger import MetaDicTagger, MetaDicTaggerFactory
-from narrant.progress import print_progress_with_eta
+from narrant.progress import print_progress_with_eta, Progress
 from narrant.pubtator import count
 from narrant.pubtator.document import TaggedDocument
 from narrant.pubtator.extract import read_pubtator_documents
@@ -120,13 +120,12 @@ def main(arguments=None):
         return tagged_doc
 
     docs_done = multiprocessing.Value('i', 0)
-    docs_to_do = multiprocessing.Value('i', number_of_docs)
-    start = datetime.now()
+    progress = Progress(total=number_of_docs, print_every=1000, text="Tagging...")
+    progress.start_time()
 
     def consume_task(out_doc: TaggedDocument):
         docs_done.value += 1
-        print_progress_with_eta("Tagging...", docs_done.value, docs_to_do.value, start, print_every_k=1000,
-                                logger=logger)
+        progress.print_progress(docs_done.value)
         if out_doc.tags:
             metatag.base_insert_tags(out_doc, auto_commit=False)
 
@@ -147,11 +146,12 @@ def main(arguments=None):
         w.start()
     consumer.start()
     consumer.join()
-    logger.info(f"finished in {(datetime.now() - start).total_seconds()} seconds")
 
     if not args.workdir:
         logger.info(f'Remove temp directory: {root_dir}')
         shutil.rmtree(root_dir)
+
+    progress.done()
 
 
 if __name__ == '__main__':

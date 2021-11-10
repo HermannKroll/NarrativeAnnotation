@@ -1,0 +1,16 @@
+cox-2
+epidermal growth factor
+superoxide dismutase
+fluoride
+plasminogen
+luminal
+bilirubin
+pyruvate
+cytochrome c
+mpo
+pd-l1
+cofactor
+glp-1
+ngf
+vip
+all 3

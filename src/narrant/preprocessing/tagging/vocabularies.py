@@ -4,12 +4,12 @@ import os
 from collections import defaultdict
 from datetime import datetime
 from itertools import islice
-from typing import List
+from typing import List, Set
 
 import lxml.etree as ET
 
 from narrant import config
-from narrant.config import MESH_DESCRIPTORS_FILE, METHOD_CLASSIFICATION_FILE
+from narrant.config import MESH_DESCRIPTORS_FILE, METHOD_CLASSIFICATION_FILE, CHEMBL_BLACKLIST_FILE
 from narrant.mesh.data import MeSHDB
 from narrant.preprocessing.enttypes import METHOD, LAB_METHOD
 from narrant.preprocessing.tagging.dictagger import clean_vocab_word_by_split_rules
@@ -181,6 +181,14 @@ class ChemicalVocabulary:
 class DrugVocabulary:
 
     @staticmethod
+    def read_chembl_blacklist_terms(file: str = CHEMBL_BLACKLIST_FILE) -> Set[str]:
+        terms = set()
+        with open(file, 'rt') as f:
+            for line in file:
+                terms.add(line.strip().lower())
+        return terms
+
+    @staticmethod
     def create_drug_vocabulary_from_chembl(source_file=config.CHEMBL_DRUG_CSV,
                                            expand_terms=True,
                                            ignore_excipient_terms=True,
@@ -193,6 +201,10 @@ class DrugVocabulary:
         drugbank_chemicals = set()
         if ignore_drugbank_chemicals:
             drugbank_chemicals = ChemicalVocabulary.read_drugbank_chemical_names()
+
+        # read blacklisted terms
+        blacklist_terms = DrugVocabulary.read_chembl_blacklist_terms()
+
 
         drug_by_term = defaultdict(set)
         chembl_ids_to_ignore = set()
@@ -210,6 +222,8 @@ class DrugVocabulary:
                     if ignore_excipient_terms and t in excipient_terms:
                         chembl_ids_to_ignore.add(chembl_id)
                     if ignore_drugbank_chemicals and t in drugbank_chemicals:
+                        chembl_ids_to_ignore.add(chembl_id)
+                    if t in blacklist_terms:
                         chembl_ids_to_ignore.add(chembl_id)
 
         # go through all drugs

@@ -196,3 +196,5 @@ target
 targets
 impact
 impacts
+compound
+compounds

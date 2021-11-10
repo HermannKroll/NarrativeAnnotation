@@ -48,6 +48,26 @@ class GNormPlus(BaseTagger):
     def get_tags(self):
         return self._get_tags(self.out_dir)
 
+    def _delete_tagged_files_in_input(self):
+        """
+        Delete all already tagged input files for GNormPlus
+        :return: the set of document ids to process
+        """
+        self.logger.info("Cleaning up GNormPlus input directory for the next run...")
+        tagged_ids = self.get_successful_ids()
+        to_process, removed_ids = set(), set()
+        for fn in os.listdir(self.in_dir):
+            fn = os.path.join(self.in_dir, fn)
+            if fn.endswith('.txt'):
+                document_id = get_document_id(fn)
+                if document_id in tagged_ids:
+                    os.remove(fn)
+                    removed_ids.add(document_id)
+                else:
+                    to_process.add(document_id)
+        self.logger.info(f'{len(removed_ids)} documents have been removed from input (already tagged)')
+        return to_process
+
     def run(self):
         """
         Method starts a GNormPlus instance with all files from ``in_dir`` and writes the result back to ``out_dir``.
@@ -61,12 +81,20 @@ class GNormPlus(BaseTagger):
         keep_tagging = True
         files_total = len(os.listdir(self.in_dir))
         start_time = datetime.now()
-        old_progress = 0
         no_progress = False
 
         last_progress_timestamp = datetime.now()
-
+        run = 0
         while keep_tagging:
+            old_progress = 0
+            if run > 0:
+                ids_to_process = self._delete_tagged_files_in_input()
+                # stop the process if there are no files to continue
+                if len(ids_to_process) == 0:
+                    self.logger.info('No files to process - stopping GNormPlus worker')
+                    keep_tagging = False
+                    continue
+            run += 1
             with open(self.log_file, "w") as f_log:
                 # Start GNormPlus
                 sp_args = ["java", *self.config.gnorm_java_args, "-jar", self.config.gnorm_jar, self.in_dir,
@@ -105,6 +133,7 @@ class GNormPlus(BaseTagger):
                         copyfile(self.log_file, os.path.join(os.path.dirname(self.log_file), f"gnorm.{last_id}.log"))
                     except:
                         self.logger.warn("Could not conserve logfile, continuing anyway")
+                    self.logger.warning(f'No progress / exception. Deleting problematic file: {last_file}')
                     os.remove(last_file)
                 elif not no_progress:
                     # No file processed, assume another error
@@ -125,4 +154,13 @@ class GNormPlus(BaseTagger):
         return len([f for f in os.listdir(self.out_dir) if f.endswith(".txt")])
 
     def get_successful_ids(self):
-        return get_document_ids(self.out_dir)
+        processed_ids = set()
+        # also include all logged ids
+        with open(self.log_file) as f_log:
+            content = f_log.read()
+        processed_files = re.findall(r"(\d+)(\.txt)", content)
+        for pf in processed_files:
+            processed_ids.add(int(pf[0]))
+        # get processed ids
+        processed_ids.union(get_document_ids(self.out_dir))
+        return processed_ids
