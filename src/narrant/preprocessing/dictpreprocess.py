@@ -5,10 +5,11 @@ import shutil
 import tempfile
 from argparse import ArgumentParser
 from datetime import datetime
-from typing import Iterable
+from typing import Iterable, Set, List
 
 from narrant.backend.database import Session
 from narrant.backend.load_document import document_bulk_load
+from narrant.backend.models import DocTaggedBy
 from narrant.config import PREPROCESS_CONFIG
 from narrant.preprocessing.config import Config
 from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, DALL
@@ -24,12 +25,14 @@ from narrant.util.multiprocessing.ConsumerWorker import ConsumerWorker
 from narrant.util.multiprocessing.ProducerWorker import ProducerWorker
 from narrant.util.multiprocessing.Worker import Worker
 
+BULK_INSERT_AFTER_K = 100000
+
 
 def prepare_input(in_file: str, out_file: str, logger: logging.Logger, ent_types: Iterable[str],
-                  collection: str) -> int:
+                  collection: str) -> Set[int]:
     if not os.path.exists(in_file):
         logger.error("Input file not found!")
-        return False
+        return set()
     logger.info("Counting document ids...")
     in_ids = count.get_document_ids(in_file)
     logger.info(f"{len(in_ids)} given, checking against database...")
@@ -37,7 +40,34 @@ def prepare_input(in_file: str, out_file: str, logger: logging.Logger, ent_types
     for ent_type in ent_types:
         todo_ids |= get_untagged_doc_ids_by_ent_type(collection, in_ids, ent_type, MetaDicTagger, logger)
     filter_and_sanitize(in_file, out_file, todo_ids, logger)
-    return len(todo_ids)
+    return todo_ids
+
+
+def add_doc_tagged_by_infos(document_ids: Set[int], collection: str, ent_types: List[str], tagger_name, tagger_version,
+                            logger):
+    # Add DocTaggedBy
+    logger.info('Adding doc_tagged_by_info...')
+    doc_tagged_by = []
+    number_of_docs = len(document_ids)
+    progress = Progress(total=number_of_docs * len(ent_types), print_every=1000, text="Compute insert...")
+    progress.start_time()
+    progress_i = 0
+    for ent_type in ent_types:
+        for doc_id in document_ids:
+            progress_i += 1
+            progress.print_progress(progress_i)
+            doc_tagged_by.append(dict(
+                document_id=doc_id,
+                document_collection=collection,
+                tagger_name=tagger_name,
+                tagger_version=tagger_version,
+                ent_type=ent_type,
+            ))
+
+    logger.info('Inserting...')
+    session = Session.get()
+    DocTaggedBy.bulk_insert_values_into_table(session, doc_tagged_by)
+    logger.info('Finished')
 
 
 def main(arguments=None):
@@ -89,7 +119,8 @@ def main(arguments=None):
     logger.info(f"Project directory:{root_dir}")
 
     ent_types = DALL if "DA" in args.tag else [TAG_TYPE_MAPPING[x] for x in args.tag]
-    number_of_docs = prepare_input(ext_in_file, in_file, logger, ent_types, args.collection)
+    document_ids = prepare_input(ext_in_file, in_file, logger, ent_types, args.collection)
+    number_of_docs = len(document_ids)
 
     if not number_of_docs:
         logger.info('No documents to process - stopping')
@@ -127,13 +158,13 @@ def main(arguments=None):
         docs_done.value += 1
         progress.print_progress(docs_done.value)
         if out_doc.tags:
-            metatag.base_insert_tags(out_doc, auto_commit=False)
+            metatag.base_insert_tags_partial(out_doc)
 
-        if docs_done.value % 10000 == 0:
-            Session.get().commit()
+        if docs_done.value % BULK_INSERT_AFTER_K == 0:
+            metatag.bulk_insert_partial_tags()
 
     def shutdown_consumer():
-        Session.get().commit()
+        metatag.bulk_insert_partial_tags()
 
     task_queue = multiprocessing.Queue()
     result_queue = multiprocessing.Queue()
@@ -146,6 +177,9 @@ def main(arguments=None):
         w.start()
     consumer.start()
     consumer.join()
+
+    # Finally add doc tagged by infos
+    add_doc_tagged_by_infos(document_ids, args.collection, ent_types, metatag.__name__, metatag.__version__, logger)
 
     if not args.workdir:
         logger.info(f'Remove temp directory: {root_dir}')

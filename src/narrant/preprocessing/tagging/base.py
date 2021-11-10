@@ -51,6 +51,7 @@ class BaseTagger(Thread):
         self.mapping_id_file: Dict[int, str] = mapping_id_file
         self.mapping_file_id: Dict[str, int] = mapping_file_id
         self.id_set: Set[int] = set()
+        self.partial_tag_inserts = list()
 
     def get_types(self):
         return self.__class__.TYPES
@@ -163,6 +164,39 @@ class BaseTagger(Thread):
         tagger_name = self.__name__
         tagger_version = self.__version__
         insert_taggers((tagger_name, tagger_version))
+
+    def base_insert_tags_partial(self, doc: TaggedDocument):
+        """
+        Stores tags to insert in a local list
+        Does not store the data in the database
+        You need to call bulk_insert_partial_tags to perform the inserting
+        :param doc: a tagged document
+        :return: None
+        """
+        # Add tags
+        tagged_ent_types = set()
+        for tag in doc.tags:
+            tagged_ent_types.add(tag.ent_type)
+
+            self.partial_tag_inserts.append(dict(
+                ent_type=tag.ent_type,
+                start=tag.start,
+                end=tag.end,
+                ent_id=tag.ent_id,
+                ent_str=tag.text,
+                document_id=tag.document,
+                document_collection=self.collection,
+            ))
+
+    def bulk_insert_partial_tags(self):
+        """
+        Insert all partially saved tags as a large bulk insert to the database
+        :return: None
+        """
+        session = Session.get()
+        Tag.bulk_insert_values_into_table(session, self.partial_tag_inserts)
+        session.bulk_insert_mappings(Tag, self.partial_tag_inserts)
+        self.partial_tag_inserts.clear()
 
     def base_insert_tags(self, doc: TaggedDocument, auto_commit=True):
         session = Session.get()
