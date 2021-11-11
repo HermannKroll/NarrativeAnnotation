@@ -10,11 +10,12 @@ from narrant.backend.database import Session
 from narrant.backend.load_document import document_bulk_load
 from narrant.config import PREPROCESS_CONFIG
 from narrant.preprocessing.config import Config
+from narrant.preprocessing.dictpreprocess import add_doc_tagged_by_infos
 from narrant.preprocessing.preprocess import init_preprocess_logger, init_sqlalchemy_logger, \
     get_untagged_doc_ids_by_ent_type
 from narrant.preprocessing.tagging.metadictagger import MetaDicTagger
 from narrant.preprocessing.tagging.vocabulary import Vocabulary
-from narrant.progress import print_progress_with_eta
+from narrant.progress import print_progress_with_eta, Progress
 from narrant.pubtator import count
 from narrant.pubtator.document import TaggedDocument
 from narrant.pubtator.extract import read_pubtator_documents
@@ -23,6 +24,7 @@ from narrant.util.multiprocessing.ConsumerWorker import ConsumerWorker
 from narrant.util.multiprocessing.ProducerWorker import ProducerWorker
 from narrant.util.multiprocessing.Worker import Worker
 
+BULK_INSERT_AFTER_K = 100000
 
 def prepare_input(in_file: str, out_file: str, logger: logging.Logger,
                   collection: str, ent_types) -> int:
@@ -122,21 +124,22 @@ def main(arguments=None):
         return tagged_doc
 
     docs_done = multiprocessing.Value('i', 0)
-    docs_to_do = multiprocessing.Value('i', number_of_docs)
+    progress = Progress(total=number_of_docs, print_every=1000, text="Tagging...")
+    progress.start_time()
     start = datetime.now()
 
     def consume_task(out_doc: TaggedDocument):
         docs_done.value += 1
-        print_progress_with_eta("Tagging...", docs_done.value, docs_to_do.value, start, print_every_k=1000,
-                                logger=logger)
+        progress.print_progress(docs_done.value)
         if out_doc.tags:
-            metatag.base_insert_tags(out_doc, auto_commit=False)
+            metatag.base_insert_tags_partial(out_doc)
 
-        if docs_done.value % 10000 == 0:
-            Session.get().commit()
+        if docs_done.value % BULK_INSERT_AFTER_K == 0:
+            metatag.bulk_insert_partial_tags()
 
     def shutdown_consumer():
-        Session.get().commit()
+        metatag.bulk_insert_partial_tags()
+
 
     task_queue = multiprocessing.Queue()
     result_queue = multiprocessing.Queue()
@@ -150,6 +153,9 @@ def main(arguments=None):
     consumer.start()
     consumer.join()
     logger.info(f"finished in {(datetime.now() - start).total_seconds()} seconds")
+
+    # Finally add doc tagged by infos
+    # add_doc_tagged_by_infos(document_ids, args.collection, ent_types, metatag.__name__, metatag.__version__, logger)
 
     if not args.workdir:
         logger.info(f'Remove temp directory: {root_dir}')
