@@ -106,6 +106,8 @@ def main(arguments=None):
             if resp not in {"y", "Y", "j", "J", "yes", "Yes"}:
                 print("aborted")
                 exit(0)
+            else:
+                shutil.rmtree(root_dir)
         else:
             shutil.rmtree(root_dir)
         # only create root dir if workdir is set
@@ -146,9 +148,13 @@ def main(arguments=None):
                 yield t_doc
 
     def do_task(in_doc: TaggedDocument):
-        tagged_doc = metatag.tag_doc(in_doc)
-        tagged_doc.clean_tags()
-        return tagged_doc
+        try:
+            tagged_doc = metatag.tag_doc(in_doc)
+            tagged_doc.clean_tags()
+            return tagged_doc
+        except:
+            logger.error('An error has occurred when tagging...')
+            return in_doc
 
     docs_done = multiprocessing.Value('i', 0)
     progress = Progress(total=number_of_docs, print_every=1000, text="Tagging...")
@@ -179,7 +185,7 @@ def main(arguments=None):
     consumer.join()
 
     # Finally add doc tagged by infos
-    add_doc_tagged_by_infos(document_ids, args.collection, ent_types, metatag.__name__, metatag.__version__, logger)
+    #add_doc_tagged_by_infos(document_ids, args.collection, ent_types, metatag.__name__, metatag.__version__, logger)
 
     if not args.workdir:
         logger.info(f'Remove temp directory: {root_dir}')
