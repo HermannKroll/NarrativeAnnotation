@@ -51,13 +51,13 @@ def insert_taggers(*tagger_list):
     :return:
     """
     session = Session.get()
+    insert_values = []
     for tagger in tagger_list:
-        insert_stmt = insert(Tagger).values(
+        insert_values.append(dict(
             name=tagger[0],
             version=tagger[1],
-        )
-        session.execute(insert_stmt)
-    session.commit()
+        ))
+    Tagger.bulk_insert_values_into_table(session, insert_values, check_constraints=True)
 
 
 def document_bulk_load(path, collection, tagger_mapping=None, logger=logging):
@@ -163,7 +163,7 @@ def document_bulk_load(path, collection, tagger_mapping=None, logger=logging):
     logger.info("Added {} documents in {}".format(n_docs, datetime.now() - start_time))
 
 
-def main(args):
+def main(args=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("input")
     parser.add_argument("-c", "--collection", required=True, help="Document collection name")
