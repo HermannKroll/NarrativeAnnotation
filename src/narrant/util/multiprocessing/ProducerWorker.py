@@ -1,6 +1,8 @@
 import multiprocessing
 from time import sleep
 
+import logging
+
 from narrant.util.multiprocessing.Worker import SHUTDOWN_SIGNAL
 from narrant.util.multiprocessing.WorkerProcess import WorkerProcess
 
@@ -32,6 +34,7 @@ class ProducerWorker(WorkerProcess):
                     task = next(task_iter)
                     self.task_queue.put(task)
                 except StopIteration:
+                    logging.error('Stopped producer iteration - shutting down workers...')
                     for n in range(0, self.no_workers):
                         self.task_queue.put(SHUTDOWN_SIGNAL)
                     self.__running = False
