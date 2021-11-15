@@ -136,7 +136,7 @@ class DictTagger(BaseTagger, metaclass=ABCMeta):
         return blacklist_set
 
     # TODO: synchronization
-    def prepare(self, resume=False):
+    def prepare(self):
         if self._index_from_pickle():
             self.logger.info(f'{self.long_name} initialized from cache '
                              f'({len(self.desc_by_term.keys())} term mappings) - ready to start')

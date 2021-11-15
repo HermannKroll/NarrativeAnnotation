@@ -3,6 +3,7 @@ import os
 from threading import Thread
 from typing import List, Tuple, Dict, Set
 
+import multiprocessing
 from sqlalchemy.dialects.postgresql import insert
 
 from narrant.backend.database import Session
@@ -48,19 +49,19 @@ class BaseTagger(Thread):
         self.logger = logger if logger else logging.getLogger("preprocessing")
         self.name = self.__class__.__name__
         self.files = set()
-        self.mapping_id_file: Dict[int, str] = mapping_id_file
-        self.mapping_file_id: Dict[str, int] = mapping_file_id
-        self.id_set: Set[int] = set()
         self.partial_tag_inserts = list()
+        self.progress_value: multiprocessing.Value = None
+
+    def set_multiprocess_progress_value(self, progress_value):
+        self.progress_value = progress_value
 
     def get_types(self):
         return self.__class__.TYPES
 
-    def add_files(self, *files: str):
-        self.files.update(files)
-        self.id_set.update(self.mapping_file_id[fn] for fn in files)
+    def add_files(self, files: str):
+        self.files.update(set(files))
 
-    def prepare(self, resume=False):
+    def prepare(self):
         raise NotImplementedError
 
     def run(self):
