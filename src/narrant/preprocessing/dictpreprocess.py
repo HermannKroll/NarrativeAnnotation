@@ -25,7 +25,7 @@ from narrant.util.multiprocessing.ConsumerWorker import ConsumerWorker
 from narrant.util.multiprocessing.ProducerWorker import ProducerWorker
 from narrant.util.multiprocessing.Worker import Worker
 
-BULK_INSERT_AFTER_K = 100000
+BULK_INSERT_AFTER_K = 10000
 
 
 def prepare_input(in_file: str, out_file: str, logger: logging.Logger, ent_types: Iterable[str],
