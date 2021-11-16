@@ -17,17 +17,18 @@ class PatentConverter:
        IDs need to be digits, we replace the country code with a unique digit.
     """
     REGEX_ID = re.compile(r"^\d+$")
-    COUNTRIES = {"AU", "CN", "WO", "GB", "US", "EP", "CA"}
-    COUNTY_PREFIX = dict(
-        AU=1,
-        CN=2,
-        WO=3,
-        GB=4,
-        US=5,
-        EP=6,
-        CA=7,
+    COUNTRY_PREFIX = dict(
+        AU=11,
+        CN=12,
+        WO=13,
+        GB=14,
+        US=15,
+        EP=16,
+        CA=17,
+        JP=18
     )
-    COUNTY_PREFIX_REVERS = ["AU", "CN", "WO", "GB", "US", "EP", "CA"]
+    COUNTRIES = set(COUNTRY_PREFIX.keys())
+    COUNTY_PREFIX_REVERS = {v: k for k, v in COUNTRY_PREFIX.items()}
 
     @staticmethod
     def decode_patent_country_code(patent_id):
@@ -57,7 +58,7 @@ class PatentConverter:
                 patent_id = did[2:]
                 if country_code in self.COUNTRIES and self.REGEX_ID.fullmatch(patent_id):
                     count += 1
-                    did = "{}{}".format(self.COUNTY_PREFIX[country_code], patent_id)
+                    did = "{}{}".format(self.COUNTRY_PREFIX[country_code], patent_id)
                     if idx % 2 == 0:
                         title_by_id[did] = body.title()
                     else:
