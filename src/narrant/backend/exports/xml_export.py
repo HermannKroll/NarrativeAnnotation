@@ -11,7 +11,7 @@ from narrant.backend.database import Session
 from narrant.backend.models import Tag
 from narrant.entity.entityresolver import EntityResolver
 from narrant.preprocessing import enttypes
-from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, SPECIES, GENE, DALL
+from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, SPECIES, GENE, DALL, PLANT_FAMILY, EXCIPIENT
 from narrant.progress import print_progress_with_eta
 from narrant.pubtator.translation.patent import PatentConverter
 
@@ -33,6 +33,12 @@ def get_entity_source(entity_id, entity_type):
         return "FID"
     if entity_id_str.startswith('db'):
         return "DrugBank"
+    if entity_id_str.startswith('chembl'):
+        return "ChEMBL"
+    if entity_type == PLANT_FAMILY:
+        return "Plant Family Database"
+    if entity_type == EXCIPIENT:
+        return "Excipient Database"
     if entity_type == GENE:
         return "NCBI Gene"
     if entity_type == SPECIES:

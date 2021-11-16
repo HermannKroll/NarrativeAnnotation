@@ -42,6 +42,7 @@ ALL = (
 
 DALL = {
     DOSAGE_FORM,
+    CHEMICAL,
     DRUG,
     EXCIPIENT,
     PLANT_FAMILY,
