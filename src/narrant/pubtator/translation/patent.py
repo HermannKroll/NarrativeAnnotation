@@ -28,15 +28,15 @@ class PatentConverter:
         JP=18
     )
     COUNTRIES = set(COUNTRY_PREFIX.keys())
-    COUNTY_PREFIX_REVERS = {v: k for k, v in COUNTRY_PREFIX.items()}
+    COUNTRY_PREFIX_REVERSE = {v: k for k, v in COUNTRY_PREFIX.items()}
 
     @staticmethod
     def decode_patent_country_code(patent_id):
         patent_str = str(patent_id)
-        c_code, rest = int(patent_str[0]), patent_str[1:]
-        if c_code == 0 or c_code > len(PatentConverter.COUNTY_PREFIX_REVERS):
+        c_code, rest = int(patent_str[:2]), patent_str[2:]
+        if c_code not in PatentConverter.COUNTRY_PREFIX_REVERSE:
             raise ValueError('Country Code {} is unknown'.format(c_code))
-        return PatentConverter.COUNTY_PREFIX_REVERS[c_code - 1] + rest
+        return PatentConverter.COUNTRY_PREFIX_REVERSE[c_code] + rest
 
     def convert(self, in_file, out_file):
         """
