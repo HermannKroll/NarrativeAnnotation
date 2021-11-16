@@ -3,6 +3,7 @@ import os
 from threading import Thread
 from typing import List, Tuple, Dict, Set
 
+import multiprocessing
 from sqlalchemy.dialects.postgresql import insert
 
 from narrant.backend.database import Session
@@ -48,18 +49,19 @@ class BaseTagger(Thread):
         self.logger = logger if logger else logging.getLogger("preprocessing")
         self.name = self.__class__.__name__
         self.files = set()
-        self.mapping_id_file: Dict[int, str] = mapping_id_file
-        self.mapping_file_id: Dict[str, int] = mapping_file_id
-        self.id_set: Set[int] = set()
+        self.partial_tag_inserts = list()
+        self.progress_value: multiprocessing.Value = None
+
+    def set_multiprocess_progress_value(self, progress_value):
+        self.progress_value = progress_value
 
     def get_types(self):
         return self.__class__.TYPES
 
-    def add_files(self, *files: str):
-        self.files.update(files)
-        self.id_set.update(self.mapping_file_id[fn] for fn in files)
+    def add_files(self, files: str):
+        self.files.update(set(files))
 
-    def prepare(self, resume=False):
+    def prepare(self):
         raise NotImplementedError
 
     def run(self):
@@ -163,6 +165,35 @@ class BaseTagger(Thread):
         tagger_name = self.__name__
         tagger_version = self.__version__
         insert_taggers((tagger_name, tagger_version))
+
+    def base_insert_tags_partial(self, doc: TaggedDocument):
+        """
+        Stores tags to insert in a local list
+        Does not store the data in the database
+        You need to call bulk_insert_partial_tags to perform the inserting
+        :param doc: a tagged document
+        :return: None
+        """
+        # Add tags
+        for tag in doc.tags:
+            self.partial_tag_inserts.append(dict(
+                ent_type=tag.ent_type,
+                start=tag.start,
+                end=tag.end,
+                ent_id=tag.ent_id,
+                ent_str=tag.text,
+                document_id=tag.document,
+                document_collection=self.collection,
+            ))
+
+    def bulk_insert_partial_tags(self):
+        """
+        Insert all partially saved tags as a large bulk insert to the database
+        :return: None
+        """
+        session = Session.get()
+        Tag.bulk_insert_values_into_table(session, self.partial_tag_inserts, check_constraints=True)
+        self.partial_tag_inserts.clear()
 
     def base_insert_tags(self, doc: TaggedDocument, auto_commit=True):
         session = Session.get()

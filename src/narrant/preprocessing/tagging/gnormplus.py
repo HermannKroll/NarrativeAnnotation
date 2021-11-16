@@ -21,9 +21,9 @@ class GNormPlus(BaseTagger):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.in_dir = os.path.join(self.root_dir, "gnorm_in")
         self.out_dir = os.path.join(self.root_dir, "gnorm_out")
         self.log_file = os.path.join(self.log_dir, "gnorm.log")
+        self.__last_print_by_x_percent = 0
 
     # TODO: Test if function works
     def get_exception_causing_file_from_log(self):
@@ -35,15 +35,12 @@ class GNormPlus(BaseTagger):
         else:
             return None
 
-    def prepare(self, resume=False):
-        if not resume:
-            os.mkdir(self.in_dir)
-            for fn in self.files:
-                target = os.path.join(self.in_dir, fn.split("/")[-1])
-                shutil.copy(fn, target)
-            os.mkdir(self.out_dir)
-        else:
-            self.logger.info("Resuming")
+    def prepare(self,):
+        """
+        Creates the GNormPlus output directory
+        :return:
+        """
+        os.mkdir(self.out_dir)
 
     def get_tags(self):
         return self._get_tags(self.out_dir)
@@ -56,8 +53,8 @@ class GNormPlus(BaseTagger):
         self.logger.info("Cleaning up GNormPlus input directory for the next run...")
         tagged_ids = self.get_successful_ids()
         to_process, removed_ids = set(), set()
-        for fn in os.listdir(self.in_dir):
-            fn = os.path.join(self.in_dir, fn)
+        for fn in os.listdir(self.input_dir):
+            fn = os.path.join(self.input_dir, fn)
             if fn.endswith('.txt'):
                 document_id = get_document_id(fn)
                 if document_id in tagged_ids:
@@ -79,7 +76,7 @@ class GNormPlus(BaseTagger):
         """
         skipped_files = []
         keep_tagging = True
-        files_total = len(os.listdir(self.in_dir))
+        files_total = len(os.listdir(self.input_dir))
         start_time = datetime.now()
         no_progress = False
 
@@ -97,23 +94,27 @@ class GNormPlus(BaseTagger):
             run += 1
             with open(self.log_file, "w") as f_log:
                 # Start GNormPlus
-                sp_args = ["java", *self.config.gnorm_java_args, "-jar", self.config.gnorm_jar, self.in_dir,
+                sp_args = ["java", *self.config.gnorm_java_args, "-jar", self.config.gnorm_jar, self.input_dir,
                            self.out_dir, self.config.gnorm_setup]
                 process = subprocess.Popen(sp_args, cwd=self.config.gnorm_root, stdout=f_log, stderr=f_log)
                 self.logger.debug("Starting {}".format(process.args))
 
                 # Wait until finished
                 while process.poll() is None:
-
                     sleep(self.OUTPUT_INTERVAL)
-                    print_progress_with_eta("GNormPlus tagging", self.get_progress(), files_total, start_time,
-                                            print_every_k=1, logger=self.logger)
+
                     new_progress = self.get_progress()
+                    self.progress_value.value = new_progress
+                    # print every 10%
+                    if new_progress / len(self.files) > self.__last_print_by_x_percent:
+                        print_progress_with_eta("GNormPlus tagging", new_progress, files_total, start_time,
+                                                print_every_k=1, logger=self.logger)
+                        self.__last_print_by_x_percent += 10
                     if new_progress > old_progress:
                         last_progress_timestamp = datetime.now()
                         old_progress = new_progress
                     elif (datetime.now() - last_progress_timestamp).total_seconds() \
-                            > 60 * self.config.tagger_one_timeout:
+                            > 60 * self.config.gnormplus_timeout:
                         os.kill(process.pid, signal.SIGKILL)
                         while process.poll() is None:
                             sleep(1)
@@ -144,9 +145,13 @@ class GNormPlus(BaseTagger):
                 keep_tagging = False
 
         end_time = datetime.now()
+        # print one time at the end
+        new_progress = self.get_progress()
+        print_progress_with_eta("GNormPlus tagging", new_progress, files_total, start_time,
+                                print_every_k=1, logger=self.logger)
         self.logger.info("Finished in {} ({} files processed, {} files total, {} errors)".format(
             end_time - start_time,
-            self.get_progress(),
+            new_progress,
             files_total,
             len(skipped_files)))
 

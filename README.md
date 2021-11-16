@@ -167,7 +167,7 @@ The tagging pipeline produces tags. A tag represents an annotation and consists 
 The documents must be in the database for annotation purposes. If you call an annotation script, the documents will automatically be inserted. 
 You can invoke our own dictionary-based tagger pipeline via
 ```
-python3 src/narrant/preprocessing/dictpreprocess.py test.pubtator --corpus test
+python3 src/narrant/preprocessing/dictpreprocess.py test.pubtator --collection test
 ```
 This call will invoke the pipeline to annoate all known entity types.
 The pipeline annotates Diseases, Dosage Forms, Drugs, Chemicals, Excipients, Methods, LebMethods and Plant Families.
@@ -177,18 +177,18 @@ The first run will build all necessary indexes that will speed up further runs. 
 You can may also speedup the tagging process. You invoke multiple parallel workers. 
 The number of parallel workers can be specified as follows:
 ```
-python3 src/narrant/preprocessing/dictpreprocess.py test.pubtator --corpus test --workers 10
+python3 src/narrant/preprocessing/dictpreprocess.py test.pubtator --collection test --workers 10
 ```
 
 If you are certain that all documents are already in the database, you may skip the loading phase by:
 ```
-python3 src/narrant/preprocessing/dictpreprocess.py test.pubtator --corpus test --skip-load
+python3 src/narrant/preprocessing/dictpreprocess.py test.pubtator --collection test --skip-load
 ```
 
 
 The pipeline will work in a temporary directory (random directory in /tmp/) and remove it if the task is completed. If you want to work in a specified directory, use
 ```
-python3 src/narrant/preprocessing/dictpreprocess.py test.pubtator --corpus test --workdir temp/
+python3 src/narrant/preprocessing/dictpreprocess.py test.pubtator --collection test --workdir temp/
 ```
 The temporary created files as well as all logs won't be removed then. 
 
@@ -202,18 +202,25 @@ A setup guide is available here: [Setup Guide](README_BIOMEDICAL_TOOS.md).
 
 
 ### Run the ThirdParty Annotators
-You may annotate documents with TaggerOne and GNormPlus. Assume we have a test document test.pubtator.
+You may annotate documents with TaggerOne. Assume we have a test document test.pubtator.
 ```
-python3 src/narrant/preprocessing/preprocess.py test.pubtator --corpus test --tagger-one --gnormplus
+python3 src/narrant/preprocessing/preprocess.py test.pubtator --collection test --tagger-one 
 ```
+In addition, you may annotate documents with GNormPlus. 
+```
+python3 src/narrant/preprocessing/preprocess.py test.pubtator --collection test --gnormplus
+```
+
 The pipeline will invoke the taggers to tag the documents. The document corpus is *test*.
 The tools can be invoked by:
 - tagger-one means that TaggerOne will be used to annotate Chemicals and Diseases.
 - gnormplus means that GNormPlus will be used to annotate Genes and Species.
 
+Note: only one tagger can be selected in a tagging process.
+
 The pipeline will work in a temporary directory and remove it if the task is completed. If you want to work in a specified directory, use
 ```
-python3 src/narrant/preprocessing/preprocess.py test.pubtator --corpus test --workdir temp/ --gnormplus --tagger-one
+python3 src/narrant/preprocessing/preprocess.py test.pubtator --collection test --workdir temp/ --gnormplus 
 ```
 The temporary created files as well as all logs won't be removed then.
 
@@ -259,10 +266,25 @@ See help for parameter description. The output format looks like: document_id.xm
 # Translation 
 In this section, we describe how to convert different formats into a PubTator format.
 ## Patents
-Suppose you have the Patents available as a XML file (PATENT_FILE). 
+Suppose you have the Patents available text file (see the following example).
+```
+oai:tib.eu:epa:EP3423078|T-CELL MODULATORY MULTIMERIC POLYPEPTIDES AND METHODS OF USE THEREOF
+oai:tib.eu:epa:EP3423078|The present disclosure provides variant immunomodulatory polypeptides, and fusion polypeptides comprising the variant immunomodulatory peptides. The present disclosure provides T-cell modulatory multimeric polypeptides, and compositions comprising same, where the T-cell modulatory multimeric polypeptides comprise a variant immunomodulatory polypeptide of the present disclosure. The present disclosure provides nucleic acids comprising nucleotide sequences encoding the T-cell modulatory multimeric polypeptides, and host cells comprising the nucleic acids. The present disclosure provides methods of modulating the activity of a T cell; the methods comprise contacting the T cell with a T-cell modulatory multimeric polypeptide of the present disclosure.
+oai:tib.eu:epa:EP3424500|PHARMACEUTICAL COMPOSITION COMPRISING PYRROLO-FUSED SIX-MEMBERED HETEROCYCLIC COMPOUND
+oai:tib.eu:epa:EP3424500|The present invention provides a pharmaceutical composition comprising a pyrrolo-fused six-membered heterocyclic compound or a pharmaceutically acceptable salt of the compound. Specifically, the invention provides a pharmaceutical composition comprising 5-(2-diethylamino-ethyl)-2-(5-fluoro-2-oxo-1,2-dihydro-indol-3-ylidene-methyl)-3-met hyl-1,5,6,7-tetrahydro-pyrrolo[3,2-c]pyridin-4-one or a pharmaceutically acceptable salt thereof, and at least one water soluble filler. The pharmaceutical composition of the invention features rapid dissolution and good stability.
+```
 You can convert the patents by calling:
 ```
 python3 src/narrant/pubtator/translation/patent.py PATENT_FILE out.pubtator
+```
+
+The following output will be produced:
+```
+63423078|t|T-Cell Modulatory Multimeric Polypeptides And Methods Of Use Thereof
+63423078|a|The present disclosure provides variant immunomodulatory polypeptides, and fusion polypeptides comprising the variant immunomodulatory peptides. The present disclosure provides T-cell modulatory multimeric polypeptides, and compositions comprising same, where the T-cell modulatory multimeric polypeptides comprise a variant immunomodulatory polypeptide of the present disclosure. The present disclosure provides nucleic acids comprising nucleotide sequences encoding the T-cell modulatory multimeric polypeptides, and host cells comprising the nucleic acids. The present disclosure provides methods of modulating the activity of a T cell; the methods comprise contacting the T cell with a T-cell modulatory multimeric polypeptide of the present disclosure.
+
+63424500|t|Pharmaceutical Composition Comprising Pyrrolo-Fused Six-Membered Heterocyclic Compound
+63424500|a|The present invention provides a pharmaceutical composition comprising a pyrrolo-fused six-membered heterocyclic compound or a pharmaceutically acceptable salt of the compound. Specifically, the invention provides a pharmaceutical composition comprising 5-(2-diethylamino-ethyl)-2-(5-fluoro-2-oxo-1,2-dihydro-indol-3-ylidene-methyl)-3-met hyl-1,5,6,7-tetrahydro-pyrrolo[3,2-c]pyridin-4-one or a pharmaceutically acceptable salt thereof, and at least one water soluble filler. The pharmaceutical composition of the invention features rapid dissolution and good stability.
 ```
 
 ### Translation Info

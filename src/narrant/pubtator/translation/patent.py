@@ -62,6 +62,8 @@ class PatentConverter:
                         title_by_id[did] = body.title()
                     else:
                         abstract_by_id[did] = body
+                else:
+                    raise ValueError(f'Unknown country code: {country_code}')
 
         total = len(title_by_id.keys())
         logging.info(f'{total} patents to convert...')
