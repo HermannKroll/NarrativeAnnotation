@@ -175,10 +175,7 @@ class BaseTagger(Thread):
         :return: None
         """
         # Add tags
-        tagged_ent_types = set()
         for tag in doc.tags:
-            tagged_ent_types.add(tag.ent_type)
-
             self.partial_tag_inserts.append(dict(
                 ent_type=tag.ent_type,
                 start=tag.start,
