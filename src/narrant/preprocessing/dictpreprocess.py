@@ -152,8 +152,7 @@ def main(arguments=None):
     def generate_tasks():
         for doc in read_pubtator_documents(in_file):
             t_doc = TaggedDocument(doc, ignore_tags=True)
-            if t_doc.title:  # or t_doc.abstract:
-                yield t_doc
+            yield t_doc
 
     def do_task(in_doc: TaggedDocument):
         try:
