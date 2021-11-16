@@ -16,7 +16,7 @@ from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, DALL
 from narrant.preprocessing.preprocess import init_preprocess_logger, init_sqlalchemy_logger, \
     get_untagged_doc_ids_by_ent_type
 from narrant.preprocessing.tagging.metadictagger import MetaDicTagger, MetaDicTaggerFactory
-from narrant.progress import print_progress_with_eta, Progress
+from narrant.progress import Progress
 from narrant.pubtator import count
 from narrant.pubtator.document import TaggedDocument
 from narrant.pubtator.extract import read_pubtator_documents
@@ -62,11 +62,12 @@ def add_doc_tagged_by_infos(document_ids: Set[int], collection: str, ent_types: 
                 tagger_name=tagger_name,
                 tagger_version=tagger_version,
                 ent_type=ent_type,
+                date_inserted=datetime.now()
             ))
 
     logger.info('Inserting...')
     session = Session.get()
-    DocTaggedBy.bulk_insert_values_into_table(session, doc_tagged_by)
+    DocTaggedBy.bulk_insert_values_into_table(session, doc_tagged_by, check_constraints=True)
     logger.info('Finished')
 
 
@@ -185,7 +186,7 @@ def main(arguments=None):
     consumer.join()
 
     # Finally add doc tagged by infos
-    #add_doc_tagged_by_infos(document_ids, args.collection, ent_types, metatag.__name__, metatag.__version__, logger)
+    add_doc_tagged_by_infos(document_ids, args.collection, ent_types, metatag.__name__, metatag.__version__, logger)
 
     if not args.workdir:
         logger.info(f'Remove temp directory: {root_dir}')
