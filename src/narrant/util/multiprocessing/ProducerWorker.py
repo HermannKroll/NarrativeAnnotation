@@ -34,7 +34,7 @@ class ProducerWorker(WorkerProcess):
                     task = next(task_iter)
                     self.task_queue.put(task)
                 except StopIteration:
-                    logging.error('Stopped producer iteration - shutting down workers...')
+                    logging.debug('Producer iteration finished - shutting down workers...')
                     for n in range(0, self.no_workers):
                         self.task_queue.put(SHUTDOWN_SIGNAL)
                     self.__running = False
