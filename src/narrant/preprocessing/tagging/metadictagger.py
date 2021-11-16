@@ -75,7 +75,7 @@ class MetaDicTaggerFactory:
         et.DOSAGE_FORM: dosage.DosageFormTagger,
         et.EXCIPIENT: excipient.ExcipientTagger,
         et.PLANT_FAMILY: plantfamily.PlantFamilyTagger,
-        et.DRUGBANK_CHEMICAL: chemical.ChemicalTagger,
+        et.CHEMBL_CHEMICAL: chemical.ChemicalTagger,
         et.DISEASE: disease.DiseaseTagger,
         et.METHOD: method.MethodTagger,
         et.LAB_METHOD: labmethod.LabMethodTagger

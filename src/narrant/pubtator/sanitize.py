@@ -18,9 +18,6 @@ def filter_and_sanitize(in_file: str, out_file: str, filter_ids, logger=logging,
             except:
                 logger.debug(f"ignored {n}th document, unable to parse")
                 continue
-            if tdoc.abstract == "":
-                logging.debug(f"ignoring {tdoc.id}, empty abstract")
-                continue
             if tdoc.id in filter_ids:
                 f.write(Document.create_pubtator(tdoc.id, tdoc.title, tdoc.abstract) + "\n")
 
