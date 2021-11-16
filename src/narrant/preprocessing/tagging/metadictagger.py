@@ -71,6 +71,7 @@ class MetaDicTagger(dt.DictTagger):
 
 class MetaDicTaggerFactory:
     tagger_by_type: Dict[str, dt.DictTagger] = {
+        et.CHEMICAL: chemical.ChemicalTagger,
         et.DRUG: drug.DrugTagger,
         et.DOSAGE_FORM: dosage.DosageFormTagger,
         et.EXCIPIENT: excipient.ExcipientTagger,
