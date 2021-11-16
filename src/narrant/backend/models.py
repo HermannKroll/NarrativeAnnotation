@@ -2,7 +2,7 @@ import logging
 import unicodedata
 from datetime import datetime
 from io import StringIO
-from typing import List
+from typing import List, Set
 
 from sqlalchemy import Column, String, Integer, DateTime, ForeignKeyConstraint, PrimaryKeyConstraint, \
     BigInteger, UniqueConstraint
@@ -127,6 +127,13 @@ class Document(Base, DatabaseTable):
         to_sanitize = ILLEGAL_CHAR.sub("", to_sanitize).strip()
         return to_sanitize
 
+    @staticmethod
+    def get_document_ids_for_collection(session, collection: str) -> Set[int]:
+        query = session.query(Document.id).filter(Document.collection == collection)
+        ids = set()
+        for r in query:
+            ids.add(int(r[0]))
+        return ids
 
 class Tagger(Base, DatabaseTable):
     __tablename__ = "tagger"

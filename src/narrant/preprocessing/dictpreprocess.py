@@ -9,7 +9,7 @@ from typing import Iterable, Set, List
 
 from narrant.backend.database import Session
 from narrant.backend.load_document import document_bulk_load
-from narrant.backend.models import DocTaggedBy
+from narrant.backend.models import DocTaggedBy, Document
 from narrant.config import PREPROCESS_CONFIG
 from narrant.preprocessing.config import Config
 from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, DALL
@@ -125,7 +125,7 @@ def main(arguments=None):
     document_ids = prepare_input(ext_in_file, in_file, logger, ent_types, args.collection)
     number_of_docs = len(document_ids)
 
-    if not number_of_docs:
+    if number_of_docs == 0:
         logger.info('No documents to process - stopping')
         exit(1)
 
@@ -137,10 +137,17 @@ def main(arguments=None):
     kwargs = dict(collection=args.collection, root_dir=root_dir, input_dir=None, logger=logger,
                   log_dir=log_dir, config=conf, mapping_id_file=None, mapping_file_id=None)
 
+
     metafactory = MetaDicTaggerFactory(ent_types, kwargs)
     metatag = metafactory.create_MetaDicTagger()
     metatag.prepare()
     metatag.base_insert_tagger()
+
+    session = Session.get()
+    logger.info(f'Getting document ids from database for collection: {args.collection}...')
+    document_ids_in_db = Document.get_document_ids_for_collection(session, args.collection)
+    logger.info(f'{len(document_ids_in_db)} found')
+    session.remove()
 
     def generate_tasks():
         for doc in read_pubtator_documents(in_file):
@@ -164,7 +171,7 @@ def main(arguments=None):
     def consume_task(out_doc: TaggedDocument):
         docs_done.value += 1
         progress.print_progress(docs_done.value)
-        if out_doc.tags:
+        if out_doc.id in document_ids_in_db and out_doc.tags:
             metatag.base_insert_tags_partial(out_doc)
 
         if docs_done.value % BULK_INSERT_AFTER_K == 0:
@@ -186,6 +193,7 @@ def main(arguments=None):
     consumer.join()
 
     # Finally add doc tagged by infos
+    document_ids = document_ids.intersection(document_ids_in_db)
     add_doc_tagged_by_infos(document_ids, args.collection, ent_types, metatag.__name__, metatag.__version__, logger)
 
     if not args.workdir:
