@@ -124,7 +124,7 @@ class Document(Base, DatabaseTable):
     @staticmethod
     def sanitize(to_sanitize):
         to_sanitize = unicodedata.normalize('NFD', to_sanitize)
-        to_sanitize = ILLEGAL_CHAR.sub("", to_sanitize)
+        to_sanitize = ILLEGAL_CHAR.sub("", to_sanitize).strip()
         return to_sanitize
 
 

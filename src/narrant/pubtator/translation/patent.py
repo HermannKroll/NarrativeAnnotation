@@ -57,14 +57,16 @@ class PatentConverter:
                 country_code = did[:2]
                 patent_id = did[2:]
                 if country_code in self.COUNTRIES and self.REGEX_ID.fullmatch(patent_id):
+                    if not patent_id.isdigit():
+                        logging.warning(f'{patent_id} is not an integer - skipping ({id_part})')
                     count += 1
                     did = "{}{}".format(self.COUNTRY_PREFIX[country_code], patent_id)
                     if idx % 2 == 0:
-                        title_by_id[did] = body.title()
+                        title_by_id[did] = body
                     else:
                         abstract_by_id[did] = body
                 else:
-                    raise ValueError(f'Unknown country code: {country_code} in ({id_part})')
+                    logging.warning(f'Skipping unknown country code: {country_code} in ({id_part})')
 
         total = len(title_by_id.keys())
         logging.info(f'{total} patents to convert...')
@@ -74,8 +76,10 @@ class PatentConverter:
             for idx, (did, title) in enumerate(title_by_id.items()):
                 progress.print_progress(idx)
                 if did in abstract_by_id:
-                    content = Document.create_pubtator(did, title, abstract_by_id[did])
-                    f_out.write(content + '\n')
+                    abstract = abstract_by_id[did]
+                    if Document.sanitize(title) or Document.sanitize(abstract):
+                        content = Document.create_pubtator(did, title, abstract)
+                        f_out.write(content + '\n')
                 else:
                     logging.info("WARNING: Document {} has no abstract".format(did))
         progress.done()
