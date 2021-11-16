@@ -242,27 +242,27 @@ class CovExport:
         tag_json, translation_json = self.create_tag_json(tag_types)
 
         Path(os.path.dirname(self.out_file)).mkdir(parents=True, exist_ok=True)
-        logging.info(f"Writing fulltext tag json to {self.out_file}...")
-        with open(self.out_file + "_entity_mentions_fulltexts.json", "w+") as f:
-            json.dump(tag_json, f, indent=3)
-        logging.info(f"Writing fulltext translation json to {self.out_file}.translation...")
-        with open(self.out_file + "_translation.json", "w+") as f:
-            json.dump(translation_json, f, indent=3)
-
         if only_abstract:
-            # Gotta love your dict comprehensions :D
-            abs_tag_json = {
-                key: [tag for tag in tag_json[key] if tag['location']['paragraph'] <= 1]
-                for key in tag_json.keys()
-                if [tag for tag in tag_json[key] if tag['location']['paragraph'] <= 1]
-            }
-            abs_translation_json = {key: translation_json[key] for key in abs_tag_json.keys()}
-            logging.info(f"Writing abstract tag json to {self.out_file}.abstract ...")
-            with open(self.out_file + "cord19v30_entity_mentions_title_and_abstract.json", "w+") as f:
-                json.dump(abs_tag_json, f, indent=3)
-            # logging.info(f"Writing abstract translation json to {self.out_file}.abstract.translation ...")
-            # with open(self.out_file + ".abstract.translation", "w+") as f:
-            #    json.dump(abs_translation_json, f, indent=3)
+            logging.info(f"Writing fulltext tag json to {self.out_file}...")
+            with open(self.out_file + "_entity_mentions_fulltexts.json", "w+") as f:
+                json.dump(tag_json, f, indent=3)
+            logging.info(f"Writing fulltext translation json to {self.out_file}.translation...")
+            with open(self.out_file + "_translation.json", "w+") as f:
+                json.dump(translation_json, f, indent=3)
+
+        # Gotta love your dict comprehensions :D
+        abs_tag_json = {
+            key: [tag for tag in tag_json[key] if tag['location']['paragraph'] <= 1]
+            for key in tag_json.keys()
+            if [tag for tag in tag_json[key] if tag['location']['paragraph'] <= 1]
+        }
+        abs_translation_json = {key: translation_json[key] for key in abs_tag_json.keys()}
+        logging.info(f"Writing abstract tag json to {self.out_file}.abstract ...")
+        with open(self.out_file + "_entity_mentions_title_and_abstract.json", "w+") as f:
+            json.dump(abs_tag_json, f, indent=3)
+        # logging.info(f"Writing abstract translation json to {self.out_file}.abstract.translation ...")
+        # with open(self.out_file + ".abstract.translation", "w+") as f:
+        #    json.dump(abs_translation_json, f, indent=3)
 
 
 def _build_file_dict(json_root):
