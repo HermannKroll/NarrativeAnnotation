@@ -162,7 +162,7 @@ class TaggerOne(BaseTagger):
                 if new_progress / len(self.files) > self.__last_print_by_x_percent:
                     print_progress_with_eta("TaggerOne tagging", new_progress, len(self.files), self.start_time,
                                             print_every_k=1, logger=self.logger)
-                    self.__last_print_by_x_percent += 10
+                    self.__last_print_by_x_percent += 0.1
             self.logger.debug("TaggerOne thread for {} exited with code {}".format(batch_file, process.poll()))
 
         # print at the end of the tagging process
