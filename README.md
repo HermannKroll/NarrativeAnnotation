@@ -307,3 +307,16 @@ Finally, you can export the patents via:
 python3 src/narrant/backend/exports/xml_export.py output_dir -c COLLECTION_NAME --patents
 ```
 The argument **--patents** will force the script to translate the patent ids back to their original ids.
+
+
+## Cleaning a Document Collection 
+You can delete all information that are stored for a document collection by running:
+```
+python src/narrant/backend/delete_collection.py COLLECTION
+```
+This will clean the database. 
+The script will ask you for your agreement to delete the collection. 
+We support a **--force** argument to directly delete the collection.
+```
+python src/narrant/backend/delete_collection.py COLLECTION --force
+```
