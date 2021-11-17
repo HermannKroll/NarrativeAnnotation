@@ -25,7 +25,14 @@ class PatentConverter:
         US=15,
         EP=16,
         CA=17,
-        JP=18
+        JP=18,
+        KR=19,
+        DE=20,
+        ES=21,
+        FR=22,
+        RU=23,
+        AT=24,
+        CH=25
     )
     COUNTRIES = set(COUNTRY_PREFIX.keys())
     COUNTRY_PREFIX_REVERSE = {v: k for k, v in COUNTRY_PREFIX.items()}
