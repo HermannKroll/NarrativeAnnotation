@@ -75,7 +75,7 @@ class DatabaseTable:
 
     @classmethod
     def bulk_insert_values_into_table(cls, session, values: List[dict], check_constraints=False, print_progress=False):
-        if not values:
+        if not values or len(values) == 0:
             return
         logging.debug(f'Inserting values into {cls.__tablename__}...')
         if session.is_postgres and not check_constraints:
