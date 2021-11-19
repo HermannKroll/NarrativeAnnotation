@@ -43,7 +43,7 @@ class MultiProcessProgress(multiprocessing.Process):
             raise ValueError('The number of task sizes must be equal to the number of progress values')
 
         self.text = text
-        self.__shutdown = False
+        self.__shutdown: multiprocessing.Value = multiprocessing.Value('i', 0)
         self.__last_progress = None
         self.logging_fkt = print_fnc
 
@@ -61,7 +61,7 @@ class MultiProcessProgress(multiprocessing.Process):
         """
 
         print_str = f"{self.text}: done"
-        self.__shutdown = True
+        self.__shutdown.value = 1
         if self.start_time:
             elapsed_time = (datetime.now() - self.start_time)
             print_str = f"{print_str} in {elapsed_time}"
@@ -74,11 +74,12 @@ class MultiProcessProgress(multiprocessing.Process):
             sys.stdout.flush()
 
     def run(self):
-        while not self.__shutdown:
+        while self.__shutdown == 0:
             elapsed_seconds = (datetime.now() - self.__last_progress).seconds + 1
             if elapsed_seconds > self.print_every_x_seconds:
                 self._print_progress()
                 self.__last_progress = datetime.now()
+            sleep(0.1)
 
     def _print_progress(self) -> None:
         """

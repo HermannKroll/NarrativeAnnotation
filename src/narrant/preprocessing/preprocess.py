@@ -284,6 +284,8 @@ def run_preprocess(input_file, collection, config, skip_load, tagger_one, gnormp
             while process.is_alive():
                 process.join(timeout=1)
         mp_progress.done()
+        while mp_progress.is_alive():
+            mp_progress.join(timeout=1)
     else:
         task_size = multiprocessing.Value("i", 0)
         task_size.value = len(files_to_process)
@@ -293,6 +295,8 @@ def run_preprocess(input_file, collection, config, skip_load, tagger_one, gnormp
         preprocess(files_to_process=files_to_process, collection=collection, root_dir=root_dir, input_dir=in_dir,
                    log_dir=log_dir, logger=logger, conf=conf, progress_value=progress_value, tag_types=tag_types)
         mp_progress.done()
+        while mp_progress.is_alive():
+            mp_progress.join(timeout=1)
     if not workdir:
         logger.info("Done. Deleting tmp project directory.")
         shutil.rmtree(root_dir)
