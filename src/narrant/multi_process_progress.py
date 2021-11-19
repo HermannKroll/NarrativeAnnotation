@@ -74,7 +74,7 @@ class MultiProcessProgress(multiprocessing.Process):
             sys.stdout.flush()
 
     def run(self):
-        while self.__shutdown == 0:
+        while self.__shutdown.value == 0:
             elapsed_seconds = (datetime.now() - self.__last_progress).seconds + 1
             if elapsed_seconds > self.print_every_x_seconds:
                 self._print_progress()
