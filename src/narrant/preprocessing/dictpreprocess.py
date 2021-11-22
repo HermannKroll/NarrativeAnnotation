@@ -15,7 +15,7 @@ from narrant.preprocessing.config import Config
 from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, DALL
 from narrant.preprocessing.preprocess import init_preprocess_logger, init_sqlalchemy_logger, \
     get_untagged_doc_ids_by_tagger
-from narrant.preprocessing.tagging.metadictagger import PharmDictTaggerFactory
+from narrant.preprocessing.tagging.metadictagger import PharmDictTagger
 from narrant.progress import Progress
 from narrant.pubtator import count
 from narrant.pubtator.document import TaggedDocument, TaggedEntity
@@ -36,7 +36,7 @@ def prepare_input(in_file: str, out_file: str, logger: logging.Logger, collectio
     in_ids = count.get_document_ids(in_file)
     logger.info(f"{len(in_ids)} given, checking against database...")
     todo_ids = set()
-    todo_ids |= get_untagged_doc_ids_by_tagger(collection, in_ids, PharmDictTaggerFactory, logger)
+    todo_ids |= get_untagged_doc_ids_by_tagger(collection, in_ids, PharmDictTagger, logger)
     filter_and_sanitize(in_file, out_file, todo_ids, logger)
     return todo_ids
 
@@ -119,9 +119,11 @@ def main(arguments=None):
     init_sqlalchemy_logger(os.path.join(log_dir, "sqlalchemy.log"), args.loglevel.upper())
     logger.info(f"Project directory:{root_dir}")
 
+    logger.info('================== Preparation ==================')
     ent_types = DALL if "DA" in args.tag else [TAG_TYPE_MAPPING[x] for x in args.tag]
     document_ids = prepare_input(ext_in_file, in_file, logger, args.collection)
     number_of_docs = len(document_ids)
+    logger.info(f'{number_of_docs} of documents have to be processed...')
 
     if number_of_docs == 0:
         logger.info('No documents to process - stopping')
@@ -132,19 +134,20 @@ def main(arguments=None):
     else:
         logger.info("Skipping bulk load")
 
-    kwargs = dict(collection=args.collection, root_dir=root_dir, input_dir=None, logger=logger,
-                  log_dir=log_dir, config=conf, mapping_id_file=None, mapping_file_id=None)
-
-    metafactory = PharmDictTaggerFactory(ent_types, kwargs)
-    metatag = metafactory.create_MetaDicTagger()
-    metatag.prepare()
-    metatag.base_insert_tagger()
-
     session = Session.get()
     logger.info(f'Getting document ids from database for collection: {args.collection}...')
     document_ids_in_db = Document.get_document_ids_for_collection(session, args.collection)
     logger.info(f'{len(document_ids_in_db)} found')
     session.remove()
+
+    kwargs = dict(collection=args.collection, root_dir=root_dir, input_dir=None, logger=logger,
+                  log_dir=log_dir, config=conf, mapping_id_file=None, mapping_file_id=None)
+
+    logger.info('================== Init Taggers ==================')
+    metafactory = PharmDictTagger(ent_types, kwargs)
+    metatag = metafactory.create_MetaDicTagger()
+    metatag.prepare()
+    metatag.base_insert_tagger()
 
     def generate_tasks():
         for doc in read_pubtator_documents(in_file):
@@ -178,6 +181,7 @@ def main(arguments=None):
     def shutdown_consumer():
         metatag.bulk_insert_partial_tags()
 
+    logger.info('================== Tagging ==================')
     task_queue = multiprocessing.Queue()
     result_queue = multiprocessing.Queue()
     producer = ProducerWorker(task_queue, generate_tasks, args.workers)
@@ -189,7 +193,8 @@ def main(arguments=None):
         w.start()
     consumer.start()
     consumer.join()
-
+    
+    logger.info('================== Finalizing ==================')
     # Finally add doc tagged by infos
     document_ids = document_ids.intersection(document_ids_in_db)
     add_doc_tagged_by_infos(document_ids, args.collection, ent_types, metatag.__name__, metatag.__version__, logger)

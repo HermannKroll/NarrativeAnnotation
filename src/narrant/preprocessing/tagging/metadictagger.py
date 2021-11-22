@@ -69,7 +69,7 @@ class MetaDicTagger(dt.DictTagger):
         return self.tag_types
 
 
-class PharmDictTaggerFactory:
+class PharmDictTagger:
     __name__ = "PharmDictTagger"
     __version__ = "1.0"
 
@@ -87,7 +87,7 @@ class PharmDictTaggerFactory:
 
     @staticmethod
     def get_supported_tagtypes():
-        return set(PharmDictTaggerFactory.tagger_by_type.keys())
+        return set(PharmDictTagger.tagger_by_type.keys())
 
     def __init__(self, tag_types, tagger_kwargs):
         self.tag_types = tag_types
@@ -96,7 +96,7 @@ class PharmDictTaggerFactory:
     def create_MetaDicTagger(self):
         metatag = MetaDicTagger(**self.tagger_kwargs)
         for tag_type in self.tag_types:
-            subtagger = PharmDictTaggerFactory.tagger_by_type.get(tag_type)
+            subtagger = PharmDictTagger.tagger_by_type.get(tag_type)
             if not subtagger:
                 logging.warning(f"No tagging class found for tagtype {tag_type}!")
                 continue
