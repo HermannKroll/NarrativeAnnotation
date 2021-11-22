@@ -4,15 +4,14 @@ import os
 import shutil
 import tempfile
 from argparse import ArgumentParser
-from typing import List, Set, Iterable
+from typing import List, Set
 
 from narraint.backend.models import Document
 from narrant.backend.database import Session
 from narrant.backend.load_document import document_bulk_load
 from narrant.config import PREPROCESS_CONFIG
 from narrant.preprocessing.config import Config
-from narrant.preprocessing.preprocess import init_preprocess_logger, init_sqlalchemy_logger, \
-    get_untagged_doc_ids_by_ent_type
+from narrant.preprocessing.preprocess import init_preprocess_logger, init_sqlalchemy_logger
 from narrant.preprocessing.tagging.metadictagger import MetaDicTagger
 from narrant.preprocessing.tagging.vocabulary import Vocabulary
 from narrant.progress import Progress
@@ -27,17 +26,14 @@ from narrant.util.multiprocessing.Worker import Worker
 BULK_INSERT_AFTER_K = 100000
 
 
-def prepare_input(in_file: str, out_file: str, logger: logging.Logger, ent_types: Iterable[str],
-                  collection: str) -> Set[int]:
+def prepare_input(in_file: str, out_file: str, logger: logging.Logger) -> Set[int]:
     if not os.path.exists(in_file):
         logger.error("Input file not found!")
         return set()
     logger.info("Counting document ids...")
     in_ids = count.get_document_ids(in_file)
     logger.info(f"{len(in_ids)} given, checking against database...")
-    todo_ids = set()
-    for ent_type in ent_types:
-        todo_ids |= get_untagged_doc_ids_by_ent_type(collection, in_ids, ent_type, MetaDicTagger, logger)
+    todo_ids = set(in_ids)
     filter_and_sanitize(in_file, out_file, todo_ids, logger)
     return todo_ids
 
@@ -97,7 +93,7 @@ def main(arguments=None):
     vocabs.load_vocab()
     ent_types = vocabs.get_ent_types()
 
-    document_ids = prepare_input(ext_in_file, in_file, logger, ent_types, args.collection)
+    document_ids = prepare_input(ext_in_file, in_file, logger)
     number_of_docs = len(document_ids)
 
     if not number_of_docs:
