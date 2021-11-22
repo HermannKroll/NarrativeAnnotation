@@ -95,17 +95,20 @@ class GeneResolver:
             term2entity[gene_name.strip().lower()] = gene_focus.strip().lower()
         return term2entity
 
-    def build_index(self, gene_input=GENE_FILE, index_file=GENE_INDEX_FILE):
-        gene_ids_in_db = Tag.get_gene_ids(Session.get())
+    def build_index(self, gene_input=GENE_FILE, index_file=GENE_INDEX_FILE, query_db_gene_ids=True):
+        gene_ids_in_db = set()
+        if query_db_gene_ids:
+            gene_ids_in_db = Tag.get_gene_ids(Session.get())
         logging.info('Reading gene input file: {}'.format(gene_input))
         with gzip.open(gene_input, 'rt') as f:
             for line in islice(f, 1, None):
                 components = line.strip().split('\t')
                 gene_id = int(components[1])
-                if gene_id in gene_ids_in_db:
-                    gene_symbol = components[2]
-                    description = components[8]
-                    self.geneid2name[gene_id] = (gene_symbol, description)
+                if query_db_gene_ids and gene_id not in gene_ids_in_db:
+                    continue
+                gene_symbol = components[2]
+                description = components[8]
+                self.geneid2name[gene_id] = (gene_symbol, description)
 
         logging.info('Writing index with {} keys to: {}'.format(len(self.geneid2name), index_file))
         with open(index_file, 'wb') as f:
@@ -189,8 +192,10 @@ class SpeciesResolver:
                 s2n[n_dict[self.NAME_SCIENTIFIC_SHORTCUT]] = sid
         return s2n
 
-    def build_index(self, species_input=TAXONOMY_FILE, index_file=TAXONOMY_INDEX_FILE):
-        species_ids_in_db = Tag.get_species_ids(Session.get())
+    def build_index(self, species_input=TAXONOMY_FILE, index_file=TAXONOMY_INDEX_FILE, query_db_species_ids=True):
+        species_ids_in_db = set()
+        if query_db_species_ids:
+            species_ids_in_db = Tag.get_species_ids(Session.get())
         logging.info('Reading species input file: {}'.format(species_input))
         with gzip.open(species_input, 'rt') as f:
             for line in islice(f, 1, None):
@@ -200,7 +205,7 @@ class SpeciesResolver:
                     name = components[2]
 
                     # skip species that are not in the Tag table
-                    if int(species_id) not in species_ids_in_db:
+                    if query_db_species_ids and int(species_id) not in species_ids_in_db:
                         continue
 
                     if self.NAME_COMMON in line:

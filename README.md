@@ -224,20 +224,33 @@ python3 src/narrant/preprocessing/preprocess.py test.pubtator --collection test 
 ```
 The temporary created files as well as all logs won't be removed then.
 
-# Export
+# Indexes
+If you want to export in our specified XML format, you need to create some indexes before you can use the XML export.
+There are two index modes:
+- a complete index (takes more space, but only computed once)
+- a partial index (only includes tagged entity ids in our db, smaller but must be recreated if new entites are tagged)
 
-### Export XML UB
-If you want to export in our specified XML format, use the following script. You need to create some indexes before you can use the xml export.
-The script will ask you, if your database connection is configured properly. 
-So, first run:
+
+Partial index: Run the following script to create a **partial index**.
+The script will ask you if your database connection is configured properly. 
 ```
 python3 src/narrant/build_all_indexes.py
 ```
 ...and enter yes if the correct database connection is selected.
 This might take a while and will build all required indexes. 
-Attention: indexes for genes and species will only be build for those tag ids that have been annotated so far. If you annotate mor documents, you must rebuild the indexes. 
+Attention: indexes for genes and species will only be build for those tag ids that have been annotated so far. 
+If you annotate more documents, you **must** rebuild the indexes. 
 
 
+Complete index: You can prevent rebuilding the index creation by creating a complete entity index. 
+Therefore, run:
+```
+python3 src/narrant/build_all_indexes.py --complete
+```
+
+# Export
+Read the Indexes section before.
+### Export XML UB
 Finally, you can export the documents:
 ```
 python3 src/narrant/backend/exports/xml_export.py output_dir -c COLLECTION_NAME

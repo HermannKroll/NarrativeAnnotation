@@ -12,9 +12,8 @@ from typing import List, Set
 import psutil
 
 from narrant.backend.database import Session
-from narrant.backend.export import export
 from narrant.backend.load_document import document_bulk_load
-from narrant.backend.models import DocTaggedBy, Document
+from narrant.backend.models import DocTaggedBy
 from narrant.config import PREPROCESS_CONFIG
 from narrant.multi_process_progress import MultiProcessProgress
 from narrant.preprocessing import enttypes
@@ -76,11 +75,11 @@ def get_tagger_by_ent_type(tag_types):
 
 def get_untagged_doc_ids_by_tagger(collection, target_ids, tagger_cls, logger):
     session = Session.get()
-    result = session.query(DocTaggedBy).filter(
+    result = session.query(DocTaggedBy.document_id).filter(
         DocTaggedBy.document_collection == collection,
         DocTaggedBy.tagger_name == tagger_cls.__name__,
         DocTaggedBy.tagger_version == tagger_cls.__version__,
-    ).values(DocTaggedBy.document_id)
+    ).distinct()
     present_ids = set(x[0] for x in result)
     logger.debug(
         "Retrieved {} ids (collection={},tagger={}/{})".format(
@@ -145,7 +144,6 @@ def compute_tagging_task_list(input_dir, collection, root_dir, logger, tag_types
 
 def preprocess(files_to_process, collection, root_dir, input_dir, log_dir, logger, conf, progress_value,
                tag_types: Set[str]):
-
     # Get tagger classes
     tagger_by_ent_type = get_tagger_by_ent_type(tag_types)
     # Init taggers
@@ -224,7 +222,8 @@ def run_preprocess(input_file, collection, config, skip_load, tagger_one, gnormp
         tag_types.add(GENE)
 
     # compute task list
-    all_missing_ids, type2files = compute_tagging_task_list(in_dir, collection, root_dir, logger=logger, tag_types=tag_types)
+    all_missing_ids, type2files = compute_tagging_task_list(in_dir, collection, root_dir, logger=logger,
+                                                            tag_types=tag_types)
 
     # files to process
     files_to_process = set()
@@ -284,6 +283,8 @@ def run_preprocess(input_file, collection, config, skip_load, tagger_one, gnormp
             while process.is_alive():
                 process.join(timeout=1)
         mp_progress.done()
+        while mp_progress.is_alive():
+            mp_progress.join(timeout=1)
     else:
         task_size = multiprocessing.Value("i", 0)
         task_size.value = len(files_to_process)
@@ -293,6 +294,8 @@ def run_preprocess(input_file, collection, config, skip_load, tagger_one, gnormp
         preprocess(files_to_process=files_to_process, collection=collection, root_dir=root_dir, input_dir=in_dir,
                    log_dir=log_dir, logger=logger, conf=conf, progress_value=progress_value, tag_types=tag_types)
         mp_progress.done()
+        while mp_progress.is_alive():
+            mp_progress.join(timeout=1)
     if not workdir:
         logger.info("Done. Deleting tmp project directory.")
         shutil.rmtree(root_dir)

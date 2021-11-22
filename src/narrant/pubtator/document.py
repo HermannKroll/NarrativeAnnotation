@@ -308,6 +308,9 @@ class TaggedDocument:
             ],
         }
 
+    def has_content(self):
+        return True if (self.title or self.abstract) else False
+
     def get_text_content(self):
         return f"{self.title} {self.abstract}"
 

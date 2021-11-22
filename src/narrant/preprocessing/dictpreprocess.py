@@ -5,7 +5,7 @@ import shutil
 import tempfile
 from argparse import ArgumentParser
 from datetime import datetime
-from typing import Iterable, Set, List
+from typing import Set, List
 
 from narrant.backend.database import Session
 from narrant.backend.load_document import document_bulk_load
@@ -14,11 +14,11 @@ from narrant.config import PREPROCESS_CONFIG
 from narrant.preprocessing.config import Config
 from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, DALL
 from narrant.preprocessing.preprocess import init_preprocess_logger, init_sqlalchemy_logger, \
-    get_untagged_doc_ids_by_ent_type
-from narrant.preprocessing.tagging.metadictagger import MetaDicTagger, MetaDicTaggerFactory
+    get_untagged_doc_ids_by_tagger
+from narrant.preprocessing.tagging.metadictagger import PharmDictTagger
 from narrant.progress import Progress
 from narrant.pubtator import count
-from narrant.pubtator.document import TaggedDocument
+from narrant.pubtator.document import TaggedDocument, TaggedEntity
 from narrant.pubtator.extract import read_pubtator_documents
 from narrant.pubtator.sanitize import filter_and_sanitize
 from narrant.util.multiprocessing.ConsumerWorker import ConsumerWorker
@@ -28,8 +28,7 @@ from narrant.util.multiprocessing.Worker import Worker
 BULK_INSERT_AFTER_K = 1000
 
 
-def prepare_input(in_file: str, out_file: str, logger: logging.Logger, ent_types: Iterable[str],
-                  collection: str) -> Set[int]:
+def prepare_input(in_file: str, out_file: str, logger: logging.Logger, collection: str) -> Set[int]:
     if not os.path.exists(in_file):
         logger.error("Input file not found!")
         return set()
@@ -37,8 +36,7 @@ def prepare_input(in_file: str, out_file: str, logger: logging.Logger, ent_types
     in_ids = count.get_document_ids(in_file)
     logger.info(f"{len(in_ids)} given, checking against database...")
     todo_ids = set()
-    for ent_type in ent_types:
-        todo_ids |= get_untagged_doc_ids_by_ent_type(collection, in_ids, ent_type, MetaDicTagger, logger)
+    todo_ids |= get_untagged_doc_ids_by_tagger(collection, in_ids, PharmDictTagger, logger)
     filter_and_sanitize(in_file, out_file, todo_ids, logger)
     return todo_ids
 
@@ -52,18 +50,18 @@ def add_doc_tagged_by_infos(document_ids: Set[int], collection: str, ent_types: 
     progress = Progress(total=number_of_docs * len(ent_types), print_every=1000, text="Compute insert...")
     progress.start_time()
     progress_i = 0
-    for ent_type in ent_types:
-        for doc_id in document_ids:
-            progress_i += 1
-            progress.print_progress(progress_i)
-            doc_tagged_by.append(dict(
-                document_id=doc_id,
-                document_collection=collection,
-                tagger_name=tagger_name,
-                tagger_version=tagger_version,
-                ent_type=ent_type,
-                date_inserted=datetime.now()
-            ))
+    ent_type_str = '|'.join(sorted([et for et in ent_types]))
+    for doc_id in document_ids:
+        progress_i += 1
+        progress.print_progress(progress_i)
+        doc_tagged_by.append(dict(
+            document_id=doc_id,
+            document_collection=collection,
+            tagger_name=tagger_name,
+            tagger_version=tagger_version,
+            ent_type=ent_type_str,
+            date_inserted=datetime.now()
+        ))
 
     logger.info('Inserting...')
     session = Session.get()
@@ -121,9 +119,11 @@ def main(arguments=None):
     init_sqlalchemy_logger(os.path.join(log_dir, "sqlalchemy.log"), args.loglevel.upper())
     logger.info(f"Project directory:{root_dir}")
 
+    logger.info('================== Preparation ==================')
     ent_types = DALL if "DA" in args.tag else [TAG_TYPE_MAPPING[x] for x in args.tag]
-    document_ids = prepare_input(ext_in_file, in_file, logger, ent_types, args.collection)
+    document_ids = prepare_input(ext_in_file, in_file, logger, args.collection)
     number_of_docs = len(document_ids)
+    logger.info(f'{number_of_docs} of documents have to be processed...')
 
     if number_of_docs == 0:
         logger.info('No documents to process - stopping')
@@ -134,20 +134,20 @@ def main(arguments=None):
     else:
         logger.info("Skipping bulk load")
 
-    kwargs = dict(collection=args.collection, root_dir=root_dir, input_dir=None, logger=logger,
-                  log_dir=log_dir, config=conf, mapping_id_file=None, mapping_file_id=None)
-
-
-    metafactory = MetaDicTaggerFactory(ent_types, kwargs)
-    metatag = metafactory.create_MetaDicTagger()
-    metatag.prepare()
-    metatag.base_insert_tagger()
-
     session = Session.get()
     logger.info(f'Getting document ids from database for collection: {args.collection}...')
     document_ids_in_db = Document.get_document_ids_for_collection(session, args.collection)
     logger.info(f'{len(document_ids_in_db)} found')
     session.remove()
+
+    kwargs = dict(collection=args.collection, root_dir=root_dir, input_dir=None, logger=logger,
+                  log_dir=log_dir, config=conf, mapping_id_file=None, mapping_file_id=None)
+
+    logger.info('================== Init Taggers ==================')
+    metafactory = PharmDictTagger(ent_types, kwargs)
+    metatag = metafactory.create_MetaDicTagger()
+    metatag.prepare()
+    metatag.base_insert_tagger()
 
     def generate_tasks():
         for doc in read_pubtator_documents(in_file):
@@ -158,20 +158,22 @@ def main(arguments=None):
         try:
             tagged_doc = metatag.tag_doc(in_doc)
             tagged_doc.clean_tags()
-            return tagged_doc
+            return tagged_doc.tags
         except:
             logger.error('An error has occurred when tagging...')
-            return in_doc
+            return []
 
     docs_done = multiprocessing.Value('i', 0)
     progress = Progress(total=number_of_docs, print_every=1000, text="Tagging...")
     progress.start_time()
 
-    def consume_task(out_doc: TaggedDocument):
+    def consume_task(tags: List[TaggedEntity]):
         docs_done.value += 1
         progress.print_progress(docs_done.value)
-        if out_doc.id in document_ids_in_db and out_doc.tags:
-            metatag.base_insert_tags_partial(out_doc)
+        if len(tags) > 0:
+            doc_id = tags[0].document
+            if doc_id in document_ids_in_db and tags:
+                metatag.base_insert_tags_partial(tags)
 
         if docs_done.value % BULK_INSERT_AFTER_K == 0:
             metatag.bulk_insert_partial_tags()
@@ -179,6 +181,7 @@ def main(arguments=None):
     def shutdown_consumer():
         metatag.bulk_insert_partial_tags()
 
+    logger.info('================== Tagging ==================')
     task_queue = multiprocessing.Queue()
     result_queue = multiprocessing.Queue()
     producer = ProducerWorker(task_queue, generate_tasks, args.workers)
@@ -190,7 +193,8 @@ def main(arguments=None):
         w.start()
     consumer.start()
     consumer.join()
-
+    
+    logger.info('================== Finalizing ==================')
     # Finally add doc tagged by infos
     document_ids = document_ids.intersection(document_ids_in_db)
     add_doc_tagged_by_infos(document_ids, args.collection, ent_types, metatag.__name__, metatag.__version__, logger)

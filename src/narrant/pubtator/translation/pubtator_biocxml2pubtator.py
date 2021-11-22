@@ -41,7 +41,8 @@ def convert_pubtator_biocxml2pubtator(input_dir: str, output: str, workers=1, es
     def consume_task(out_doc: TaggedDocument):
         docs_done.value += 1
         progress.print_progress(docs_done.value)
-        f_out.write(str(out_doc) + '\n')
+        if out_doc.id and out_doc.has_content():
+            f_out.write(str(out_doc) + '\n')
 
     # generator expression that takes a tar input file and yields all annotated PubTator documents
     def do_task(tar_input_file: str):
