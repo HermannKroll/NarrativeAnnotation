@@ -15,7 +15,7 @@ from narrant.preprocessing.config import Config
 from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, DALL
 from narrant.preprocessing.preprocess import init_preprocess_logger, init_sqlalchemy_logger, \
     get_untagged_doc_ids_by_ent_type
-from narrant.preprocessing.tagging.metadictagger import MetaDicTagger, MetaDicTaggerFactory
+from narrant.preprocessing.tagging.metadictagger import MetaDicTagger, PharmDictTaggerFactory
 from narrant.progress import Progress
 from narrant.pubtator import count
 from narrant.pubtator.document import TaggedDocument
@@ -138,7 +138,7 @@ def main(arguments=None):
                   log_dir=log_dir, config=conf, mapping_id_file=None, mapping_file_id=None)
 
 
-    metafactory = MetaDicTaggerFactory(ent_types, kwargs)
+    metafactory = PharmDictTaggerFactory(ent_types, kwargs)
     metatag = metafactory.create_MetaDicTagger()
     metatag.prepare()
     metatag.base_insert_tagger()

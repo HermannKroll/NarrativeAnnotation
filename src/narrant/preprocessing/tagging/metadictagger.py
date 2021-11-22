@@ -14,7 +14,7 @@ Modified version of the dict tagger, that can run on the vocabularies of multipl
 
 
 class MetaDicTagger(dt.DictTagger):
-    __name__ = "MetaDicTagger"
+    __name__ = "MetaDictTagger"
     __version__ = "1.0"
 
     def _index_from_source(self):
@@ -69,7 +69,11 @@ class MetaDicTagger(dt.DictTagger):
         return self.tag_types
 
 
-class MetaDicTaggerFactory:
+class PharmDictTaggerFactory:
+    __name__ = "PharmDictTagger"
+    __version__ = "1.0"
+
+
     tagger_by_type: Dict[str, dt.DictTagger] = {
         et.DRUG: drug.DrugTagger,
         et.DOSAGE_FORM: dosage.DosageFormTagger,
@@ -83,7 +87,7 @@ class MetaDicTaggerFactory:
 
     @staticmethod
     def get_supported_tagtypes():
-        return set(MetaDicTaggerFactory.tagger_by_type.keys())
+        return set(PharmDictTaggerFactory.tagger_by_type.keys())
 
     def __init__(self, tag_types, tagger_kwargs):
         self.tag_types = tag_types
@@ -92,9 +96,13 @@ class MetaDicTaggerFactory:
     def create_MetaDicTagger(self):
         metatag = MetaDicTagger(**self.tagger_kwargs)
         for tag_type in self.tag_types:
-            subtagger = MetaDicTaggerFactory.tagger_by_type.get(tag_type)
+            subtagger = PharmDictTaggerFactory.tagger_by_type.get(tag_type)
             if not subtagger:
                 logging.warning(f"No tagging class found for tagtype {tag_type}!")
                 continue
             metatag.add_tagger(subtagger(**self.tagger_kwargs))
+
+        # reset taggers name and version
+        metatag.__name__ = self.__name__
+        metatag.__version__ = self.__version__
         return metatag
