@@ -21,10 +21,11 @@ class GeneMapper:
         else:
             self.human_gene_dict = {}
             self.gene_to_human_id_dict = {}
-            try:
-                self.load_index()
-            except FileExistsError and FileNotFoundError:
-                logging.warning('No GeneMapper Index file was found')
+            if load_index:
+                try:
+                    self.load_index()
+                except FileExistsError and FileNotFoundError:
+                    logging.warning('No GeneMapper Index file was found')
             GeneMapper.__instance = self
 
     @staticmethod
