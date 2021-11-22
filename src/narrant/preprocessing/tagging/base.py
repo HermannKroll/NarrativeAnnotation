@@ -10,7 +10,7 @@ from narrant.backend.database import Session
 from narrant.backend.load_document import insert_taggers
 from narrant.backend.models import Tag, DocTaggedBy
 from narrant.preprocessing.config import Config
-from narrant.pubtator.document import TaggedDocument
+from narrant.pubtator.document import TaggedDocument, TaggedEntity
 from narrant.pubtator.regex import TAG_LINE_NORMAL
 
 
@@ -166,16 +166,16 @@ class BaseTagger(Thread):
         tagger_version = self.__version__
         insert_taggers((tagger_name, tagger_version))
 
-    def base_insert_tags_partial(self, doc: TaggedDocument):
+    def base_insert_tags_partial(self, tags: List[TaggedEntity]):
         """
         Stores tags to insert in a local list
         Does not store the data in the database
         You need to call bulk_insert_partial_tags to perform the inserting
-        :param doc: a tagged document
+        :param tags: a list of tagged entities
         :return: None
         """
         # Add tags
-        for tag in doc.tags:
+        for tag in tags:
             self.partial_tag_inserts.append(dict(
                 ent_type=tag.ent_type,
                 start=tag.start,

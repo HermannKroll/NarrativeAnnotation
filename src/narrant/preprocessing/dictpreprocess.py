@@ -18,7 +18,7 @@ from narrant.preprocessing.preprocess import init_preprocess_logger, init_sqlalc
 from narrant.preprocessing.tagging.metadictagger import MetaDicTagger, PharmDictTaggerFactory
 from narrant.progress import Progress
 from narrant.pubtator import count
-from narrant.pubtator.document import TaggedDocument
+from narrant.pubtator.document import TaggedDocument, TaggedEntity
 from narrant.pubtator.extract import read_pubtator_documents
 from narrant.pubtator.sanitize import filter_and_sanitize
 from narrant.util.multiprocessing.ConsumerWorker import ConsumerWorker
@@ -137,7 +137,6 @@ def main(arguments=None):
     kwargs = dict(collection=args.collection, root_dir=root_dir, input_dir=None, logger=logger,
                   log_dir=log_dir, config=conf, mapping_id_file=None, mapping_file_id=None)
 
-
     metafactory = PharmDictTaggerFactory(ent_types, kwargs)
     metatag = metafactory.create_MetaDicTagger()
     metatag.prepare()
@@ -158,20 +157,22 @@ def main(arguments=None):
         try:
             tagged_doc = metatag.tag_doc(in_doc)
             tagged_doc.clean_tags()
-            return tagged_doc
+            return tagged_doc.tags
         except:
             logger.error('An error has occurred when tagging...')
-            return in_doc
+            return []
 
     docs_done = multiprocessing.Value('i', 0)
     progress = Progress(total=number_of_docs, print_every=1000, text="Tagging...")
     progress.start_time()
 
-    def consume_task(out_doc: TaggedDocument):
+    def consume_task(tags: List[TaggedEntity]):
         docs_done.value += 1
         progress.print_progress(docs_done.value)
-        if out_doc.id in document_ids_in_db and out_doc.tags:
-            metatag.base_insert_tags_partial(out_doc)
+        if len(tags) > 0:
+            doc_id = tags[0].document
+            if doc_id in document_ids_in_db and tags:
+                metatag.base_insert_tags_partial(tags)
 
         if docs_done.value % BULK_INSERT_AFTER_K == 0:
             metatag.bulk_insert_partial_tags()
