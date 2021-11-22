@@ -5,7 +5,7 @@ import shutil
 import tempfile
 from argparse import ArgumentParser
 from datetime import datetime
-from typing import Iterable, Set, List
+from typing import Set, List
 
 from narrant.backend.database import Session
 from narrant.backend.load_document import document_bulk_load
@@ -14,8 +14,8 @@ from narrant.config import PREPROCESS_CONFIG
 from narrant.preprocessing.config import Config
 from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, DALL
 from narrant.preprocessing.preprocess import init_preprocess_logger, init_sqlalchemy_logger, \
-    get_untagged_doc_ids_by_ent_type
-from narrant.preprocessing.tagging.metadictagger import MetaDicTagger, PharmDictTaggerFactory
+    get_untagged_doc_ids_by_tagger
+from narrant.preprocessing.tagging.metadictagger import PharmDictTaggerFactory
 from narrant.progress import Progress
 from narrant.pubtator import count
 from narrant.pubtator.document import TaggedDocument, TaggedEntity
@@ -28,8 +28,7 @@ from narrant.util.multiprocessing.Worker import Worker
 BULK_INSERT_AFTER_K = 1000
 
 
-def prepare_input(in_file: str, out_file: str, logger: logging.Logger, ent_types: Iterable[str],
-                  collection: str) -> Set[int]:
+def prepare_input(in_file: str, out_file: str, logger: logging.Logger, collection: str) -> Set[int]:
     if not os.path.exists(in_file):
         logger.error("Input file not found!")
         return set()
@@ -37,8 +36,7 @@ def prepare_input(in_file: str, out_file: str, logger: logging.Logger, ent_types
     in_ids = count.get_document_ids(in_file)
     logger.info(f"{len(in_ids)} given, checking against database...")
     todo_ids = set()
-    for ent_type in ent_types:
-        todo_ids |= get_untagged_doc_ids_by_ent_type(collection, in_ids, ent_type, MetaDicTagger, logger)
+    todo_ids |= get_untagged_doc_ids_by_tagger(collection, in_ids, PharmDictTaggerFactory, logger)
     filter_and_sanitize(in_file, out_file, todo_ids, logger)
     return todo_ids
 
@@ -52,18 +50,18 @@ def add_doc_tagged_by_infos(document_ids: Set[int], collection: str, ent_types: 
     progress = Progress(total=number_of_docs * len(ent_types), print_every=1000, text="Compute insert...")
     progress.start_time()
     progress_i = 0
-    for ent_type in ent_types:
-        for doc_id in document_ids:
-            progress_i += 1
-            progress.print_progress(progress_i)
-            doc_tagged_by.append(dict(
-                document_id=doc_id,
-                document_collection=collection,
-                tagger_name=tagger_name,
-                tagger_version=tagger_version,
-                ent_type=ent_type,
-                date_inserted=datetime.now()
-            ))
+    ent_type_str = '|'.join(sorted([et for et in ent_types]))
+    for doc_id in document_ids:
+        progress_i += 1
+        progress.print_progress(progress_i)
+        doc_tagged_by.append(dict(
+            document_id=doc_id,
+            document_collection=collection,
+            tagger_name=tagger_name,
+            tagger_version=tagger_version,
+            ent_type=ent_type_str,
+            date_inserted=datetime.now()
+        ))
 
     logger.info('Inserting...')
     session = Session.get()
@@ -122,7 +120,7 @@ def main(arguments=None):
     logger.info(f"Project directory:{root_dir}")
 
     ent_types = DALL if "DA" in args.tag else [TAG_TYPE_MAPPING[x] for x in args.tag]
-    document_ids = prepare_input(ext_in_file, in_file, logger, ent_types, args.collection)
+    document_ids = prepare_input(ext_in_file, in_file, logger, args.collection)
     number_of_docs = len(document_ids)
 
     if number_of_docs == 0:
