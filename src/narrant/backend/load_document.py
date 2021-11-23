@@ -100,6 +100,8 @@ def document_bulk_load(path, collection, tagger_mapping=None, logger=logging):
 
     doc_tagged_by_inserts = []
     for idx, pubtator_content in enumerate(read_pubtator_documents(path)):
+        if not pubtator_content.strip():
+            continue
         doc = TaggedDocument(pubtator_content, ignore_tags=ignore_tags)
         tagged_ent_types = set()
         # Add document if its not already included
