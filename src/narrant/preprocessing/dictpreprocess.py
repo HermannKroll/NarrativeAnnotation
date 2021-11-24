@@ -159,7 +159,7 @@ def main(arguments=None):
             tagged_doc = metatag.tag_doc(in_doc)
             tagged_doc.clean_tags()
             return tagged_doc.tags
-        except:
+        except Exception:
             logger.error('An error has occurred when tagging...')
             return []
 
@@ -193,7 +193,7 @@ def main(arguments=None):
         w.start()
     consumer.start()
     consumer.join()
-    
+
     logger.info('================== Finalizing ==================')
     # Finally add doc tagged by infos
     document_ids = document_ids.intersection(document_ids_in_db)
