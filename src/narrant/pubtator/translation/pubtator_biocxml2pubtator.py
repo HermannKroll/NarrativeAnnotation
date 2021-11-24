@@ -124,8 +124,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("input_dir")
     parser.add_argument("output")
-    parser.add_argument("-w", "--workers", type=int, help="Amount of parallel workers")
-    parser.add_argument("-c", "--collection", required=True, help="Document collection name")
+    parser.add_argument("-w", "--workers", type=int, default=1, help="Amount of parallel workers")
     parser.add_argument("--logsql", action="store_true", help='logs sql statements')
     args = parser.parse_args()
 
