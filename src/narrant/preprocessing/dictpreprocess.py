@@ -152,7 +152,8 @@ def main(arguments=None):
     def generate_tasks():
         for doc in read_pubtator_documents(in_file):
             t_doc = TaggedDocument(doc, ignore_tags=True)
-            yield t_doc
+            if t_doc and t_doc.has_content():
+                yield t_doc
 
     def do_task(in_doc: TaggedDocument):
         try:
