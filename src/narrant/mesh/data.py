@@ -419,8 +419,7 @@ class MeSHDB:
                 diseases_string += ', '  + self.build_string(self.desc_by_tree_number(x))[1:]
             else:
                 diseases_string += self.build_string(self.desc_by_tree_number(x))
-        #diseases_json = json.loads(diseases_string)
-        return diseases_string#json
+        return diseases_string
 
     def build_string(self, node):
         par_tree = node.tree_numbers[0]
