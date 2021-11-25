@@ -65,7 +65,7 @@ def add_doc_tagged_by_infos(document_ids: Set[int], collection: str, ent_types: 
 
     logger.info('Inserting...')
     session = Session.get()
-    DocTaggedBy.bulk_insert_values_into_table(session, doc_tagged_by, check_constraints=True)
+    DocTaggedBy.bulk_insert_values_into_table(session, doc_tagged_by)
     logger.info('Finished')
 
 

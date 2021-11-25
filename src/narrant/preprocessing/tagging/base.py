@@ -192,7 +192,7 @@ class BaseTagger(Thread):
         :return: None
         """
         session = Session.get()
-        Tag.bulk_insert_values_into_table(session, self.partial_tag_inserts, check_constraints=True)
+        Tag.bulk_insert_values_into_table(session, self.partial_tag_inserts)
         self.partial_tag_inserts.clear()
 
     def base_insert_tags(self, doc: TaggedDocument, auto_commit=True):

@@ -33,7 +33,7 @@ def load_document_class(document_ids: Set[int], document_collection: str, docume
                                   explanation="External File"))
 
     logging.info('Beginning insert...')
-    DocumentClassification.bulk_insert_values_into_table(session, insert_values, check_constraints=True)
+    DocumentClassification.bulk_insert_values_into_table(session, insert_values)
     logging.info('Finished')
 
 

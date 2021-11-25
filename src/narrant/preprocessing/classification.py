@@ -111,7 +111,7 @@ def main(arguments=None):
                     "document_collection": args.collection,
                     "classification": cls,
                     "explanation": rsn
-                }], check_constraints=True)
+                }])
 
     def shutdown_consumer():
         pass
