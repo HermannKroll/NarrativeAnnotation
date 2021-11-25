@@ -46,7 +46,7 @@ def load_document_ids_from_pubmed_result_tsv(pubmed_tsv_file: str):
     logging.info(f'Read document ids from file: {pubmed_tsv_file}')
     document_ids = set()
     with open(pubmed_tsv_file, 'rt') as f:
-        reader = csv.DictReader(f, delimiter='\t')
+        reader = csv.DictReader(filter(lambda r: r[0] != '#', f), delimiter='\t')
         for row in reader:
             document_ids.add(int(row["pmid"]))
     logging.info(f'{len(document_ids)} ids found')
