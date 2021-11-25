@@ -257,3 +257,14 @@ class DocumentClassification(Base, DatabaseTable):
     document_collection = Column(String)
     classification = Column(String)
     explanation = Column(String)
+
+    @staticmethod
+    def get_document_ids_for_class(session, document_collection: str, document_class: str) -> Set[int]:
+        query = session.query(DocumentClassification.document_id).filter(
+            DocumentClassification.classification == document_class).filter(
+            DocumentClassification.document_collection == document_collection
+        )
+        ids = set()
+        for r in query:
+            ids.add(int(r[0]))
+        return ids
