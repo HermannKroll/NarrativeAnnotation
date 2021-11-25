@@ -35,6 +35,7 @@ class Classifyer:
         ruleset = []
         with open(filepath, "r") as f:
             for line in f:
-                terms = [re.compile(term.strip().replace("*", "\\w+") + "\\b") for term in line.split("AND")]
+                terms = [re.compile(term.strip().replace("*", "\\w+") + "\\b", re.IGNORECASE)
+                         for term in line.split("AND")]
                 ruleset.append(terms)
         return ruleset
