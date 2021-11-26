@@ -210,10 +210,12 @@ class TaggedDocument:
             if not tag1.document or not tag1.start or not tag1.end or not tag1.text or not tag1.ent_type or not tag1.ent_id:
                 clean_tags.remove(tag1)
             else:
+                print("foo")
                 for tag2 in self.tags:
                     if tag2.start <= tag1.start and tag2.end >= tag1.end and tag1.text.lower() != tag2.text.lower():
                         clean_tags.remove(tag1)
                         break
+        self.tags = clean_tags
         self.sort_tags()
 
     def sort_tags(self):
