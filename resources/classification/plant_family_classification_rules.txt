@@ -1,18 +1,23 @@
 Active Compound
 Active Compounds
 Alkaloid*
-Antioxidant
-Ayurveda
+Antioxida* AND plant
+Antioxida* AND Plants
+anthraquin*
+Ayurved*
 Biodiversity
 Biological Product
 Biological Products
 Botany
 botanical
+capsaicin*
 Chemical Composition
 Chemotaxonom*
 Chinese Drug
 Chinese Drugs
 Chinese Medicine
+coumarin*
+curcumin*
 Dietary Supplement*
 Diterpen*
 Drug Analysis
@@ -21,50 +26,56 @@ Drug Isolation
 Drug Screening
 Drug Structure
 Embryophyt*
-Essential Oil
+Essential Oil*
 Ethnobotan*
-Ethnology
-Ethnopharmacolog*
+Ethnomed*
+Ethnopharm*
+Extract
+Extracts
 Flavonoid*
 Flower
+folk medicin*
 Fungi
-Herbaceous Agent
+Herb
+Herbaceous
 Herbal
+Herbs
 Higher Plant
 Higher Plants
-Isolation and Purification
+Isolation w/1 Purification
+leaf
+leaves
 Medicinal Plant
 Medicinal Plants
-Medicine, African Traditional
-Medicine, Chinese Traditional
-Medicine, Traditional
+monoterpen*
 Natural Product
 Natural Products
-Oils, Volatile
 Pharmacognos*
 Phenol Derivat*
 phenolic compound
 phenolic compounds
+phytoconst*
 phytogen*
-Phytochem*
-Phytotherap*
-Plant Extract*
-Plant Leaf
-Plant Leaves
-Plant Medicinal Product
-Plant Preparation*
-Plant Root*
-Plant Seed
-Plants, Medicinal
+phytochem*
+phytotherap*
+plant* w/1 medic*
+plant preparation*
+plant root*
+plant seed
+plant species
 Polyphenol*
-Root Extract*
+Purification w/1 Isolation
+rhizom*
+root
 Saponin*
 Sesquiterpen*
 Sponge
+taxonom*
 Terpen*
 Traditional Knowledge
-Traditional Medicine
+Traditional w/1 Medicine
 Triterpen*
-volatile compounds
-volatile organic compound
-volatile organic compounds
+Unani
+volatile w/1 compound*
+volatile oil
+volatile oils
