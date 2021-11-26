@@ -104,7 +104,7 @@ def main(arguments=None):
         progress.print_progress(docs_done.value)
         if out_doc.classification:
             for cls, rsn in out_doc.classification.items():
-                rsn = rsn.replace("\\b", "").replace("\\w+", "*")
+                rsn = rsn.replace("\\b", "").replace("\\w*", "*")
                 DocumentClassification.bulk_insert_values_into_table(session, [{
                     "document_id": out_doc.id,
                     "document_collection": args.collection,
