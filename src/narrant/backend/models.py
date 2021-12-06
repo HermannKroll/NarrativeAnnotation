@@ -1,3 +1,4 @@
+import hashlib
 import logging
 import unicodedata
 from datetime import datetime
@@ -245,6 +246,12 @@ class DocumentTranslation(Base, DatabaseTable):
     md5 = Column(String, nullable=False)
     date_inserted = Column(DateTime, nullable=False, default=datetime.now)
     source = Column(String)
+
+    @staticmethod
+    def text_to_md5_hash(text: str) -> str:
+        m = hashlib.md5()
+        m.update(text.encode())
+        return m.hexdigest()
 
 
 class DocumentClassification(Base, DatabaseTable):
