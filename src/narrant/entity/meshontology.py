@@ -36,7 +36,8 @@ MESH_TREE_TO_ENTITY_TYPE = [
     ("E", METHOD),
     ("E", DOSAGE_FORM),
     ("C", DISEASE),
-    ("F03", DISEASE)
+    ("F03", DISEASE),
+    ("F02", DISEASE)
 ]
 
 
@@ -145,8 +146,18 @@ class MeSHOntology:
             raise KeyError(f'Descriptor {descriptor_id} has no relevant tree numbers')
         return relevant_tree_numbers
 
+    def get_entity_types_for_descriptor(self, descriptor_id: str) -> [str]:
+        """
+        Return all entity types for the descriptor id
+        :param descriptor_id: a MeSH descriptor id
+        :return: entity types
+        """
+        tree_nos = self.get_tree_numbers_for_descriptor(descriptor_id)
+        ent_types = {et for tn in tree_nos for et in MeSHOntology.tree_number_to_entity_type(tn)}
+        return list(ent_types)
+
     @staticmethod
-    def tree_number_to_entity_type(tree_number: str) -> str:
+    def tree_number_to_entity_type(tree_number: str) -> [str]:
         """
         Computes the entity type for a given tree number
         raises a key error if no entity type was found
