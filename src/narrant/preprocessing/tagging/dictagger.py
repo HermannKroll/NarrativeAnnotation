@@ -129,7 +129,7 @@ class DictTagger(BaseTagger, metaclass=ABCMeta):
             blacklist = f.read().splitlines()
         blacklist_set = set()
         for s in blacklist:
-            s_lower = s.lower()
+            s_lower = s.lower().strip()
             blacklist_set.add(s_lower)
             blacklist_set.add('{}s'.format(s_lower))
             blacklist_set.add('{}e'.format(s_lower))
@@ -145,7 +145,7 @@ class DictTagger(BaseTagger, metaclass=ABCMeta):
         else:
             self._index_from_source()
             blacklist_set = DictTagger.get_blacklist_set()
-            self.desc_by_term = {k: v for k, v in self.desc_by_term.items() if k.lower() not in blacklist_set}
+            self.desc_by_term = {k.lower().strip(): v for k, v in self.desc_by_term.items() if k.lower().strip() not in blacklist_set}
             self._index_to_pickle()
         # Create output directory
         if self.out_dir:

@@ -214,6 +214,7 @@ class TaggedDocument:
                     if tag2.start <= tag1.start and tag2.end >= tag1.end and tag1.text.lower() != tag2.text.lower():
                         clean_tags.remove(tag1)
                         break
+        self.tags = clean_tags
         self.sort_tags()
 
     def sort_tags(self):

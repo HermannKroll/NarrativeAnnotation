@@ -1,3 +1,4 @@
+import hashlib
 import logging
 import unicodedata
 from datetime import datetime
@@ -23,6 +24,15 @@ def chunks_list(lst, n):
         yield lst[i:i + n]
 
 
+def postgres_sanitize_str(string: str) -> str:
+    """
+    Sanitizes a string for a postgres COPY insert
+    :param string: a string
+    :return: the sanitized string
+    """
+    return string.replace('\\', '\\\\')
+
+
 def postgres_copy_insert(session, values: List[dict], table_name: str):
     """
     Performs a fast COPY INSERT operation for Postgres Databases
@@ -37,7 +47,7 @@ def postgres_copy_insert(session, values: List[dict], table_name: str):
         memory_file = StringIO()
         attribute_keys = list(values_chunk[0].keys())
         for idx, v in enumerate(values_chunk):
-            mem_str = '{}'.format('\t'.join([str(v[k]) for k in attribute_keys]))
+            mem_str = '{}'.format('\t'.join([postgres_sanitize_str(str(v[k])) for k in attribute_keys]))
             if idx == 0:
                 memory_file.write(mem_str)
             else:
@@ -74,7 +84,7 @@ class DatabaseTable:
     """
 
     @classmethod
-    def bulk_insert_values_into_table(cls, session, values: List[dict], check_constraints=False, print_progress=False):
+    def bulk_insert_values_into_table(cls, session, values: List[dict], check_constraints=True, print_progress=False):
         if not values or len(values) == 0:
             return
         logging.debug(f'Inserting values into {cls.__tablename__}...')
@@ -134,6 +144,7 @@ class Document(Base, DatabaseTable):
         for r in query:
             ids.add(int(r[0]))
         return ids
+
 
 class Tagger(Base, DatabaseTable):
     __tablename__ = "tagger"
@@ -236,6 +247,12 @@ class DocumentTranslation(Base, DatabaseTable):
     date_inserted = Column(DateTime, nullable=False, default=datetime.now)
     source = Column(String)
 
+    @staticmethod
+    def text_to_md5_hash(text: str) -> str:
+        m = hashlib.md5()
+        m.update(text.encode())
+        return m.hexdigest()
+
 
 class DocumentClassification(Base, DatabaseTable):
     __tablename__ = "document_classification"
@@ -247,3 +264,14 @@ class DocumentClassification(Base, DatabaseTable):
     document_collection = Column(String)
     classification = Column(String)
     explanation = Column(String)
+
+    @staticmethod
+    def get_document_ids_for_class(session, document_collection: str, document_class: str) -> Set[int]:
+        query = session.query(DocumentClassification.document_id).filter(
+            DocumentClassification.classification == document_class).filter(
+            DocumentClassification.document_collection == document_collection
+        )
+        ids = set()
+        for r in query:
+            ids.add(int(r[0]))
+        return ids

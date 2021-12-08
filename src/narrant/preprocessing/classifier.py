@@ -18,23 +18,55 @@ class Classifyer:
 
     def classify_document(self, doc: TaggedDocument):
         content = doc.get_text_content()
+        matches = []
         for rule in self.rules:
-            match = ""
+            rule_match = []
             for term in rule:
                 term_match = term.search(content)
                 if not term_match:
                     break
                 else:
-                    match += f"{term.pattern}:{term_match.group(0)}{term_match.regs[0]};"
+                    rule_match.append(f"{term.pattern}:{term_match.group(0)}{term_match.regs[0]}")
+            # else will be executed if loop does not encounter a break
             else:
-                doc.classification[self.classification] = match
-                return doc
+                matches.append(' AND '.join([rm for rm in rule_match]))
+        # Execute all rules - if a rule matches then add classification
+        if matches:
+            doc.classification[self.classification] = ';'.join([m for m in matches])
+            return doc
+
+    @staticmethod
+    def compile_entry_to_regex(term):
+        term = term.strip()
+        # replace the * operator
+        term = term.replace("*", "\\w*")
+        # add that the word must start with the term
+        term = term + "\\b"
+        # check if there is the w/1 operator for one arbitrary word
+        if 'w/' in term:
+            term_rule = term
+            for subterm in term.split(' '):
+                # replace w/1 by only one word
+                if subterm[0] == 'w' and subterm[1] == '/':
+                    word_count = int(subterm.split('/')[1])
+                    word_sequence = []
+                    for i in range(0, word_count):
+                        word_sequence.append(r'\w+')
+                    word_sequence = ' '.join([w for w in word_sequence])
+                    term_rule = term_rule.replace(subterm, word_sequence)
+            # set term now to the new rule
+            term = term_rule
+        return re.compile(term, re.IGNORECASE)
+
+    @staticmethod
+    def compile_line_to_regex(line: str):
+        return list([Classifyer.compile_entry_to_regex(term) for term in line.split("AND")])
 
     @staticmethod
     def read_ruleset(filepath: Union[str, Path]):
         ruleset = []
         with open(filepath, "r") as f:
             for line in f:
-                terms = [re.compile(term.strip().replace("*", "\\w+") + "\\b") for term in line.split("AND")]
+                terms = Classifyer.compile_line_to_regex(line.strip())
                 ruleset.append(terms)
         return ruleset

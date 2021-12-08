@@ -65,7 +65,7 @@ def add_doc_tagged_by_infos(document_ids: Set[int], collection: str, ent_types: 
 
     logger.info('Inserting...')
     session = Session.get()
-    DocTaggedBy.bulk_insert_values_into_table(session, doc_tagged_by, check_constraints=True)
+    DocTaggedBy.bulk_insert_values_into_table(session, doc_tagged_by)
     logger.info('Finished')
 
 
@@ -152,14 +152,15 @@ def main(arguments=None):
     def generate_tasks():
         for doc in read_pubtator_documents(in_file):
             t_doc = TaggedDocument(doc, ignore_tags=True)
-            yield t_doc
+            if t_doc and t_doc.has_content():
+                yield t_doc
 
     def do_task(in_doc: TaggedDocument):
         try:
             tagged_doc = metatag.tag_doc(in_doc)
             tagged_doc.clean_tags()
             return tagged_doc.tags
-        except:
+        except Exception:
             logger.error('An error has occurred when tagging...')
             return []
 
@@ -193,7 +194,7 @@ def main(arguments=None):
         w.start()
     consumer.start()
     consumer.join()
-    
+
     logger.info('================== Finalizing ==================')
     # Finally add doc tagged by infos
     document_ids = document_ids.intersection(document_ids_in_db)
