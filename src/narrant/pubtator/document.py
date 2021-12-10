@@ -296,7 +296,7 @@ class TaggedDocument:
             "id": self.id,
             "title": self.title,
             "abstract": self.abstract,
-            "classification": list(self.classification.keys()),
+            "classification": self.classification,
             "tags": [
                 {
                     "id": tag.ent_id,
