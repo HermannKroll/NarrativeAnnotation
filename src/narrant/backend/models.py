@@ -260,8 +260,8 @@ class DocumentClassification(Base, DatabaseTable):
         PrimaryKeyConstraint('document_id', 'document_collection', 'classification', sqlite_on_conflict='IGNORE'),
         ForeignKeyConstraint(('document_id', 'document_collection'), ('document.id', 'document.collection'))
     )
-    document_id = Column(BigInteger)
-    document_collection = Column(String)
+    document_id = Column(BigInteger, index=True)
+    document_collection = Column(String, index=True)
     classification = Column(String)
     explanation = Column(String)
 
