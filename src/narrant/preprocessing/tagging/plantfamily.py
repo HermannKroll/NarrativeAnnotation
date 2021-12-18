@@ -1,7 +1,7 @@
 from narrant import config
 from narrant.preprocessing import enttypes
 from narrant.preprocessing.tagging.dictagger import DictTagger
-from narrant.preprocessing.tagging.vocabularies import PlantFamilyVocabulary
+from narrant.vocabularies.plant_family import PlantFamilyVocabulary
 
 
 class PlantFamilyTagger(DictTagger):

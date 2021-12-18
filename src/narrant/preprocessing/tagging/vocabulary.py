@@ -3,8 +3,6 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Union
 
-from narrant.preprocessing.tagging.vocabularies import expand_vocabulary_term
-
 
 class Vocabulary:
     def __init__(self, path: Union[str, Path]):
@@ -27,3 +25,23 @@ class Vocabulary:
 
     def get_ent_types(self):
         return self.vocabularies.keys()
+
+
+def expand_vocabulary_term(term: str) -> str:
+    if term.endswith('y'):
+        yield f'{term[:-1]}ies'
+    if term.endswith('ies'):
+        yield f'{term[:-3]}y'
+    if term.endswith('s') or term.endswith('e'):
+        yield term[:-1]
+    if term.endswith('or') and len(term) > 2:
+        yield term[:-2] + "our"
+    if term.endswith('our') and len(term) > 3:
+        yield term[:-3] + "or"
+    if "-" in term:
+        yield term.replace("-", " ")
+        yield term.replace("-", "")
+    if " " in term:
+        yield term.replace(" ", "-")
+        yield term.replace(" ", "")
+    yield from [term, f'{term}e', f'{term}s']

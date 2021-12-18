@@ -1,7 +1,7 @@
 from narrant import config
 from narrant.preprocessing import enttypes
 from narrant.preprocessing.tagging.dictagger import DictTagger
-from narrant.preprocessing.tagging.vocabularies import DiseaseVocabulary
+from narrant.vocabularies.disease_vocabulary import DiseaseVocabulary
 
 
 class DiseaseTagger(DictTagger):

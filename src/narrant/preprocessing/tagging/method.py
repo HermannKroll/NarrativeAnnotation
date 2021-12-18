@@ -1,7 +1,7 @@
 from narrant import config
 from narrant.preprocessing import enttypes
 from narrant.preprocessing.tagging.dictagger import DictTagger
-from narrant.preprocessing.tagging.vocabularies import MethodVocabulary
+from narrant.vocabularies.method_vocabulary import MethodVocabulary
 
 
 class MethodTagger(DictTagger):

@@ -8,7 +8,7 @@ import lxml.etree as ET
 from narrant import config
 from narrant.preprocessing import enttypes
 from narrant.preprocessing.tagging.dictagger import DictTagger
-from narrant.preprocessing.tagging.vocabularies import DrugVocabulary
+from narrant.vocabularies.drug_vocabulary import DrugVocabulary
 
 
 class DrugTagger(DictTagger):
