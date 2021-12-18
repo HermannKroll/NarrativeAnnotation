@@ -39,5 +39,14 @@ class MethodVocabulary:
         term2desc = MeSHVocabulary.create_mesh_vocab(['E'], mesh_file, expand_terms)
         term2desc = MethodVocabulary.enhance_methods_by_rules(term2desc)
         desc2class = MethodVocabulary.read_method_classification()
+        missing_classes = set()
+        for k, descs in term2desc.items():
+            for d in descs:
+                if d not in desc2class:
+                    missing_classes.add(d)
+        if len(missing_classes) > 0:
+            raise ValueError(
+                f'The following descriptors must be classified in {METHOD_CLASSIFICATION_FILE}: {missing_classes}')
+
         term2methods = {k: list([d for d in descs if desc2class[d] == method_type]) for k, descs in term2desc.items()}
         return {k: v for k, v in term2methods.items() if v and len(v) > 0}
