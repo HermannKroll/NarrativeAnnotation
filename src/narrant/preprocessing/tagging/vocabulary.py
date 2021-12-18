@@ -9,7 +9,7 @@ class Vocabulary:
         self.path = path
         self.vocabularies = defaultdict(lambda: defaultdict(set))
 
-    def load_vocab(self):
+    def load_vocab(self, expand_terms=True):
         if self.vocabularies:
             return
         with open(self.path, "r") as f:
@@ -17,10 +17,15 @@ class Vocabulary:
             for line in reader:
                 if not line["heading"] or not line["enttype"] or not line["id"]:
                     continue
-                for syn in {s
-                            for t in (line["synonyms"].split(";") if line["synonyms"] else []) + [line["heading"]]
-                            for s in expand_vocabulary_term(t.lower()) if t}:
-                    self.vocabularies[line["enttype"]][syn] |= {line["id"]}
+                if expand_terms:
+                    for syn in {s
+                                for t in (line["synonyms"].split(";") if line["synonyms"] else []) + [line["heading"]]
+                                for s in expand_vocabulary_term(t.lower()) if t}:
+                        self.vocabularies[line["enttype"]][syn] |= {line["id"]}
+                else:
+                    for syn in {t.lower()
+                                for t in (line["synonyms"].split(";") if line["synonyms"] else []) + [line["heading"]]}:
+                        self.vocabularies[line["enttype"]][syn] |= {line["id"]}
             self.vocabularies = {k: dict(v) for k, v in self.vocabularies.items()}
 
     def get_ent_types(self):

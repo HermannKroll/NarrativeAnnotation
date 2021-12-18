@@ -16,5 +16,5 @@ class DiseaseTagger(DictTagger):
 
     def _index_from_source(self):
         self.logger.info('Creating dictionary from source...')
-        self.desc_by_term = DiseaseVocabulary.create_disease_vocabulary(self.source_file)
+        self.desc_by_term = DiseaseVocabulary.create_disease_vocabulary()
         self.logger.info(f'{len(self.desc_by_term)} Disease terms found in database')

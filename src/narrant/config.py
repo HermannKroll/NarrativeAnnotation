@@ -70,6 +70,7 @@ EXCIPIENT_TAGGER_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, "excipient_cache.pkl
 
 # Disease Tagger
 DISEASE_TAGGER_DATABASE_FILE = MESH_DESCRIPTORS_FILE
+DISEASE_TAGGER_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, 'vocabularies/disease')
 DISEASE_TAGGER_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, 'disease_cache.pkl')
 
 # Method Tagger
@@ -85,3 +86,6 @@ PLANT_SPECIFIC_RULES = os.path.join(RESOURCE_DIR, 'vocabularies/plant_family_gen
 PLANT_GENUS_DATABASE_FILE = os.path.join(RESOURCE_DIR, 'vocabularies/plant_family_genus/plant_families_2020.txt')
 PLANT_FAMILY_WIKIDATA_FILE = os.path.join(RESOURCE_DIR, 'vocabularies/plant_family_genus/plant_family_wikidata.txt')
 PLANT_FAMILTY_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, 'plant_families_cache.pkl')
+
+# Vaccine Tagger
+VACCINE_TAGGER_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, 'vocabularies/vaccine')
