@@ -1,6 +1,7 @@
+import narrant.vocabularies.drug_vocabulary as drug_vocab
+import narrant.vocabularies.excipient_vocabulary as exc_vocab
+
 from narrant import config
-from narrant.vocabularies.excipient_vocabulary import ExcipientVocabulary
-from narrant.vocabularies.drug_vocabulary import DrugVocabulary
 
 
 class ChemicalVocabulary:
@@ -19,7 +20,7 @@ class ChemicalVocabulary:
                                           chembl_db_file=config.CHEMBL_DRUG_CSV,
                                           excipient_db=config.EXCIPIENT_TAGGER_DATABASE_FILE):
         # we cannot ignore the excipient terms while reading Chembl here (else our mapping would be empty)
-        drugbank_terms = DrugVocabulary.create_drug_vocabulary_from_chembl(source_file=chembl_db_file,
+        drugbank_terms = drug_vocab.DrugVocabulary.create_drug_vocabulary_from_chembl(source_file=chembl_db_file,
                                                                            ignore_excipient_terms=False,
                                                                            ignore_drugbank_chemicals=False)
         # drugbank chemicals
@@ -45,6 +46,6 @@ class ChemicalVocabulary:
                     break
 
         # ignore all excipient terms
-        excipient_by_term = ExcipientVocabulary.create_excipient_vocabulary(excipient_database=excipient_db,
+        excipient_by_term = exc_vocab.ExcipientVocabulary.create_excipient_vocabulary(excipient_database=excipient_db,
                                                                             chembl_db_file=chembl_db_file)
         return {k: v for k, v in desc_by_term.items() if k not in excipient_by_term}

@@ -1,10 +1,10 @@
 import logging
 from itertools import islice
 
+import narrant.vocabularies.drug_vocabulary as drug_vocab
 from narrant import config
 from narrant.preprocessing.tagging.dictagger import clean_vocab_word_by_split_rules
 from narrant.preprocessing.tagging.vocabulary import expand_vocabulary_term
-from narrant.vocabularies.drug_vocabulary import DrugVocabulary
 
 
 class ExcipientVocabulary:
@@ -60,9 +60,9 @@ class ExcipientVocabulary:
     def create_excipient_vocabulary(excipient_database=config.EXCIPIENT_TAGGER_DATABASE_FILE,
                                     chembl_db_file=config.CHEMBL_DRUG_CSV, ):
         # we cannot ignore the excipient terms while reading chembl here (else our mapping would be empty)
-        chembl_terms = DrugVocabulary.create_drug_vocabulary_from_chembl(source_file=chembl_db_file,
-                                                                         ignore_excipient_terms=False,
-                                                                         ignore_drugbank_chemicals=False)
+        chembl_terms = drug_vocab.DrugVocabulary.create_drug_vocabulary_from_chembl(source_file=chembl_db_file,
+                                                                                    ignore_excipient_terms=False,
+                                                                                    ignore_drugbank_chemicals=False)
         logging.info(f'Reading excipient database: {excipient_database}...')
         excipient_terms = ExcipientVocabulary.read_excipients_names()
         chembl_identifiers_for_excipients = set()

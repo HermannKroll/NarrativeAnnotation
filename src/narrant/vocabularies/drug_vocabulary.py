@@ -8,13 +8,13 @@ from typing import Set
 
 from lxml import etree as ET
 
+import narrant.vocabularies.chemical_vocabulary as chem_vocab
+import narrant.vocabularies.excipient_vocabulary as exc_vocab
 from narrant import config
 from narrant.config import CHEMBL_BLACKLIST_FILE
 from narrant.preprocessing.tagging.dictagger import clean_vocab_word_by_split_rules
 from narrant.preprocessing.tagging.vocabulary import expand_vocabulary_term
-from narrant.vocabularies.excipient_vocabulary import ExcipientVocabulary
 from narrant.progress import print_progress_with_eta
-from narrant.vocabularies.chemical_vocabulary import ChemicalVocabulary
 
 
 class DrugVocabulary:
@@ -36,14 +36,13 @@ class DrugVocabulary:
         # read excipient terms if they should be ignored
         excipient_terms = set()
         if ignore_excipient_terms:
-            excipient_terms = ExcipientVocabulary.read_excipients_names()
+            excipient_terms = exc_vocab.ExcipientVocabulary.read_excipients_names()
         drugbank_chemicals = set()
         if ignore_drugbank_chemicals:
-            drugbank_chemicals = ChemicalVocabulary.read_drugbank_chemical_names()
+            drugbank_chemicals = chem_vocab.ChemicalVocabulary.read_drugbank_chemical_names()
 
         # read blacklisted terms
         blacklist_terms = DrugVocabulary.read_chembl_blacklist_terms()
-
 
         drug_by_term = defaultdict(set)
         chembl_ids_to_ignore = set()
@@ -101,9 +100,9 @@ class DrugVocabulary:
 
         # read excipient terms if they should be ignored
         if ignore_excipient_terms:
-            excipient_terms = ExcipientVocabulary.read_excipients_names()
+            excipient_terms = exc_vocab.ExcipientVocabulary.read_excipients_names()
         if ignore_drugbank_chemicals:
-            drugbank_chemicals = ChemicalVocabulary.read_drugbank_chemical_names()
+            drugbank_chemicals = chem_vocab.ChemicalVocabulary.read_drugbank_chemical_names()
 
         for event, elem in ET.iterparse(source_file, tag=f'{pref}drug'):
             desc = ''
