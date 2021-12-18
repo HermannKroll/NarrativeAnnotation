@@ -77,7 +77,7 @@ class PharmDictTagger:
         et.DRUG: drug.DrugTagger,
         et.DOSAGE_FORM: dosage.DosageFormTagger,
         et.EXCIPIENT: excipient.ExcipientTagger,
-        et.PLANT_FAMILY: plantfamily.PlantFamilyTagger,
+        et.PLANT_FAMILY_GENUS: plantfamily.PlantFamilyTagger,
         et.CHEMBL_CHEMICAL: chemical.ChemicalTagger,
         et.DISEASE: disease.DiseaseTagger,
         et.METHOD: method.MethodTagger,

@@ -7,14 +7,14 @@ from narrant.vocabularies.plant_family_genus import PlantFamilyGenusVocabulary
 
 
 class PlantFamilyTagger(DictTagger):
-    TYPES = (enttypes.PLANT_FAMILY,)
+    TYPES = (enttypes.PLANT_FAMILY_GENUS,)
     __name__ = "PlantFamilyTagger"
     __version__ = "2.0.0"
     PLANT_CLASSIFICATION = "PlantSpecific"
 
     def __init__(self, *args, **kwargs):
         super().__init__("plantfamily", "PlantFamilyTagger", PlantFamilyTagger.__version__,
-                         enttypes.PLANT_FAMILY, config.PLANT_FAMILTY_INDEX_CACHE, config.PLANT_GENUS_DATABASE_FILE,
+                         enttypes.PLANT_FAMILY_GENUS, config.PLANT_FAMILTY_INDEX_CACHE, config.PLANT_GENUS_DATABASE_FILE,
                          *args, **kwargs)
 
         self.classifier = Classifier(PlantFamilyTagger.PLANT_CLASSIFICATION, config.PLANT_SPECIFIC_RULES)
@@ -28,7 +28,7 @@ class PlantFamilyTagger(DictTagger):
     def keep_entity_tags(self, in_doc: TaggedDocument) -> bool:
         self.classifier.classify_document(in_doc)
         # Either it does contain a plant family (not only a genus)
-        classified_plants = {p for p in in_doc.tags if p.ent_type == enttypes.PLANT_FAMILY}
+        classified_plants = {p for p in in_doc.tags if p.ent_type == enttypes.PLANT_FAMILY_GENUS}
         if len(classified_plants.intersection(self.plant_families)) > 0:
             return True
         # Or it is plant specific classified
@@ -40,5 +40,5 @@ class PlantFamilyTagger(DictTagger):
         tagged_doc = super().tag_doc(in_doc)
         if not self.keep_entity_tags(in_doc):
             # remove all plant family tags
-            tagged_doc.tags = list([t for t in tagged_doc.tags if t.ent_type != enttypes.PLANT_FAMILY])
+            tagged_doc.tags = list([t for t in tagged_doc.tags if t.ent_type != enttypes.PLANT_FAMILY_GENUS])
         return tagged_doc
