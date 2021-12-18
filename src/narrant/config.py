@@ -81,5 +81,7 @@ LAB_METHOD_TAGGER_DATABASE_FILE = MESH_DESCRIPTORS_FILE
 LAB_METHOD_TAGGER_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, 'lab_method_cache.pkl')
 
 # Plant Family Tagger
-PLANT_FAMILTY_DATABASE_FILE = os.path.join(RESOURCE_DIR, 'vocabularies/plant_family_genus/plant_families_2020.txt')
+PLANT_SPECIFIC_RULES = os.path.join(RESOURCE_DIR, 'vocabularies/plant_family_genus/plant_specific_rules.txt')
+PLANT_GENUS_DATABASE_FILE = os.path.join(RESOURCE_DIR, 'vocabularies/plant_family_genus/plant_families_2020.txt')
+PLANT_FAMILY_WIKIDATA_FILE = os.path.join(RESOURCE_DIR, 'vocabularies/plant_family_genus/plant_family_wikidata.txt')
 PLANT_FAMILTY_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, 'plant_families_cache.pkl')
