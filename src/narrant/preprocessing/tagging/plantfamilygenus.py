@@ -6,18 +6,18 @@ from narrant.pubtator.document import TaggedDocument
 from narrant.vocabularies.plant_family_genus import PlantFamilyGenusVocabulary
 
 
-class PlantFamilyTagger(DictTagger):
+class PlantFamilyGenusTagger(DictTagger):
     TYPES = (enttypes.PLANT_FAMILY_GENUS,)
     __name__ = "PlantFamilyTagger"
     __version__ = "2.0.0"
     PLANT_CLASSIFICATION = "PlantSpecific"
 
     def __init__(self, *args, **kwargs):
-        super().__init__("plantfamily", "PlantFamilyTagger", PlantFamilyTagger.__version__,
+        super().__init__("plantfamily", "PlantFamilyTagger", PlantFamilyGenusTagger.__version__,
                          enttypes.PLANT_FAMILY_GENUS, config.PLANT_FAMILTY_INDEX_CACHE, config.PLANT_GENUS_DATABASE_FILE,
                          *args, **kwargs)
 
-        self.classifier = Classifier(PlantFamilyTagger.PLANT_CLASSIFICATION, config.PLANT_SPECIFIC_RULES)
+        self.classifier = Classifier(PlantFamilyGenusTagger.PLANT_CLASSIFICATION, config.PLANT_SPECIFIC_RULES)
         self.plant_families = PlantFamilyGenusVocabulary.read_wikidata_plant_families()
 
     def _index_from_source(self):
@@ -32,7 +32,7 @@ class PlantFamilyTagger(DictTagger):
         if len(classified_plants.intersection(self.plant_families)) > 0:
             return True
         # Or it is plant specific classified
-        if PlantFamilyTagger.PLANT_CLASSIFICATION in in_doc.classification:
+        if PlantFamilyGenusTagger.PLANT_CLASSIFICATION in in_doc.classification:
             return True
         return False
 

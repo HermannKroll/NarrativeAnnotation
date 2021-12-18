@@ -4,7 +4,7 @@ from typing import List, Dict
 
 import narrant.preprocessing.enttypes as et
 import narrant.preprocessing.tagging.dictagger as dt
-from narrant.preprocessing.tagging import drug, dosage, excipient, plantfamily, chemical, disease, method, \
+from narrant.preprocessing.tagging import drug, dosage, excipient, plantfamilygenus, chemical, disease, method, \
     labmethod
 from narrant.pubtator.document import TaggedEntity
 
@@ -77,7 +77,7 @@ class PharmDictTagger:
         et.DRUG: drug.DrugTagger,
         et.DOSAGE_FORM: dosage.DosageFormTagger,
         et.EXCIPIENT: excipient.ExcipientTagger,
-        et.PLANT_FAMILY_GENUS: plantfamily.PlantFamilyTagger,
+        et.PLANT_FAMILY_GENUS: plantfamilygenus.PlantFamilyGenusTagger,
         et.CHEMBL_CHEMICAL: chemical.ChemicalTagger,
         et.DISEASE: disease.DiseaseTagger,
         et.METHOD: method.MethodTagger,
