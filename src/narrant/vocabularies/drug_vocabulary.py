@@ -22,7 +22,7 @@ class DrugVocabulary:
     @staticmethod
     def read_chembl_blacklist_terms(file: str = CHEMBL_BLACKLIST_FILE) -> Set[str]:
         terms = set()
-        with open(file, 'rt') as f:
+        with open(file, 'rt') as file:
             for line in file:
                 terms.add(line.strip().lower())
         return terms
