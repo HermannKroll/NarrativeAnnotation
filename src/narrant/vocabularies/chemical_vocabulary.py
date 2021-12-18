@@ -21,8 +21,8 @@ class ChemicalVocabulary:
                                           excipient_db=config.EXCIPIENT_TAGGER_DATABASE_FILE):
         # we cannot ignore the excipient terms while reading Chembl here (else our mapping would be empty)
         drugbank_terms = drug_vocab.DrugVocabulary.create_drug_vocabulary_from_chembl(source_file=chembl_db_file,
-                                                                           ignore_excipient_terms=False,
-                                                                           ignore_drugbank_chemicals=False)
+                                                                                      ignore_excipient_terms=False,
+                                                                                      ignore_drugbank_chemicals=False)
         # drugbank chemicals
         drugbank_chemicals_mapping = ChemicalVocabulary.read_drugbank_chemical_names(chemical_list)
         chembl_identifiers_for_chemical = set()
@@ -47,5 +47,5 @@ class ChemicalVocabulary:
 
         # ignore all excipient terms
         excipient_by_term = exc_vocab.ExcipientVocabulary.create_excipient_vocabulary(excipient_database=excipient_db,
-                                                                            chembl_db_file=chembl_db_file)
+                                                                                      chembl_db_file=chembl_db_file)
         return {k: v for k, v in desc_by_term.items() if k not in excipient_by_term}
