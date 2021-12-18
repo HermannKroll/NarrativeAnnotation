@@ -10,7 +10,7 @@ from narrant.backend.database import Session
 from narrant.backend.load_document import document_bulk_load
 from narrant.backend.models import DocumentClassification
 from narrant.config import PREPROCESS_CONFIG
-from narrant.preprocessing.classifier import Classifyer
+from narrant.preprocessing.classifier import Classifier
 from narrant.preprocessing.config import Config
 from narrant.preprocessing.preprocess import init_preprocess_logger, init_sqlalchemy_logger
 from narrant.progress import Progress
@@ -82,7 +82,7 @@ def main(arguments=None):
     number_of_docs = count.count_documents(in_file)
     logging.info(f"found {number_of_docs}")
 
-    classifier = Classifyer(classification=args.cls, rule_path=args.ruleset)
+    classifier = Classifier(classification=args.cls, rule_path=args.ruleset)
     session = Session.get()
 
     def generate_tasks():

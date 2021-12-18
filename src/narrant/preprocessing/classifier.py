@@ -5,12 +5,12 @@ from typing import Union
 from narrant.pubtator.document import TaggedDocument
 
 
-class Classifyer:
+class Classifier:
     def __init__(self, classification, rule_path: Union[str, Path] = None, rules=None):
         self.rules = []
         self.classification = classification
         if rule_path:
-            self.rules = Classifyer.read_ruleset(rule_path)
+            self.rules = Classifier.read_ruleset(rule_path)
         elif rules:
             self.rules = rules
         else:
@@ -33,7 +33,7 @@ class Classifyer:
         # Execute all rules - if a rule matches then add classification
         if matches:
             doc.classification[self.classification] = ';'.join([m for m in matches])
-            return doc
+        return doc
 
     @staticmethod
     def compile_entry_to_regex(term):
@@ -60,13 +60,13 @@ class Classifyer:
 
     @staticmethod
     def compile_line_to_regex(line: str):
-        return list([Classifyer.compile_entry_to_regex(term) for term in line.split("AND")])
+        return list([Classifier.compile_entry_to_regex(term) for term in line.split("AND")])
 
     @staticmethod
     def read_ruleset(filepath: Union[str, Path]):
         ruleset = []
         with open(filepath, "r") as f:
             for line in f:
-                terms = Classifyer.compile_line_to_regex(line.strip())
+                terms = Classifier.compile_line_to_regex(line.strip())
                 ruleset.append(terms)
         return ruleset
