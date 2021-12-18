@@ -4,7 +4,7 @@ FIDX3	soluble tablet
 FIDX4	dispersible tablet	rapidly disintegration tablets;rapidly dissolving tablets
 FIDX5	orodispersible tablet
 FIDX6	Tablets for use in the oral cavity	Buccal tablet;Lozenge;troches;sublingual tablet;Chewable tablet
-FIDX7	modified release tablets	matrix tablet;immediate release tablets;rapidly melting tablet;Controlled Release  tablet;Delayed Release  tablet;Sustained Release  tablet;Controlled  tablet;Sustained  tablet;Sustained-Release  tablet;modified-release  tablet;modified release  tablet;Delayed-Release  tablet;Timed-Release  tablet;Timed Release  tablet;Sustained-Release tablet;Prolonged-release  tablet;prolonged release  tablet;extended-release  tablet;extended release  tablet;repeat release  tablet;repeat-release  tablet;repeat action  tablet;repeat-action  tablet
+FIDX7	modified release tablets	matrix tablet;immediate release tablets;rapidly melting tablet;Controlled Release tablet;Delayed Release tablet;Sustained Release tablet;Controlled tablet;Sustained tablet;Sustained-Release tablet;modified-release tablet;modified release tablet;Delayed-Release tablet;Timed-Release tablet;Timed Release tablet;Sustained-Release tablet;Prolonged-release tablet;prolonged release tablet;extended-release tablet;extended release tablet;repeat release tablet;repeat-release tablet;repeat action tablet;repeat-action tablet
 FIDX8	mucoadhesive preparations	mucoadhesive polymer;mucoadhesive tablet;mucoadhesive drug delivery system;mucoadhesive
 FIDX9	granulate	Instant Granules;Granules;effervescent granules;effervescent granulate;effervescent granulated salts;granulated
 FIDX10	films	orodispersible films
@@ -22,3 +22,5 @@ FIDX22	tinctures
 FIDX23	lollipop
 FIDX24	poultices
 FIDX25	intrauterine device
+FIDX26	microneedle	micro needle;micro-needle
+FIDX27	nanoneedle	nano needle;nano-needle
