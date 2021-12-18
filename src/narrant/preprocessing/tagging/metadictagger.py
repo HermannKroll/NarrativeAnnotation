@@ -73,7 +73,6 @@ class PharmDictTagger:
     __name__ = "PharmDictTagger"
     __version__ = "1.0"
 
-
     tagger_by_type: Dict[str, dt.DictTagger] = {
         et.DRUG: drug.DrugTagger,
         et.DOSAGE_FORM: dosage.DosageFormTagger,
