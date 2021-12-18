@@ -16,5 +16,5 @@ class MethodTagger(DictTagger):
 
     def _index_from_source(self):
         self.logger.info('Creating dictionary from source...')
-        self.desc_by_term = MethodVocabulary.create_method_vocabulary(self.source_file)
+        self.desc_by_term = MethodVocabulary.create_method_vocabulary()
         self.logger.info(f'{len(self.desc_by_term)} Method terms found in database')

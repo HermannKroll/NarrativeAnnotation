@@ -1,6 +1,6 @@
-from narrant.config import METHOD_CLASSIFICATION_FILE, MESH_DESCRIPTORS_FILE
+from narrant.config import METHOD_CLASSIFICATION_FILE, METHOD_TAGGER_VOCAB_DIRECTORY
 from narrant.preprocessing.enttypes import LAB_METHOD, METHOD
-from narrant.vocabularies.mesh_vocabulary import MeSHVocabulary
+from narrant.vocabularies.generic_vocabulary import GenericVocabulary
 
 
 class MethodVocabulary:
@@ -35,8 +35,9 @@ class MethodVocabulary:
         return term2desc_copy
 
     @staticmethod
-    def create_method_vocabulary(mesh_file=MESH_DESCRIPTORS_FILE, expand_terms=True, method_type=METHOD):
-        term2desc = MeSHVocabulary.create_mesh_vocab(['E'], mesh_file, expand_terms)
+    def create_method_vocabulary(expand_terms=True, method_type=METHOD):
+        term2desc = GenericVocabulary.create_vocabulary_from_directory(METHOD_TAGGER_VOCAB_DIRECTORY,
+                                                                       expand_terms=expand_terms)
         term2desc = MethodVocabulary.enhance_methods_by_rules(term2desc)
         desc2class = MethodVocabulary.read_method_classification()
         missing_classes = set()
