@@ -27,7 +27,7 @@ MESH_ID_TO_HEADING_INDEX_FILE = os.path.join(TMP_DIR, 'desc2022_id2heading.pkl')
 MESH_SUPPLEMENTARY_ID_TO_HEADING_INDEX_FILE = os.path.join(TMP_DIR, 'supp2021_id2heading.pkl')
 
 # CHEMBL
-CHEMBL_DRUG_CSV = os.path.join(RESOURCE_DIR, "chembl2021.csv")
+CHEMBL_DRUG_CSV = os.path.join(RESOURCE_DIR, "vocabularies/drug/chembl29.csv")
 
 # DrugBank
 DRUGBANK_XML_DUMP = os.path.join(DATA_DIR, "drugbank2021.xml")
