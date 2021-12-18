@@ -1,13 +1,13 @@
 from narrant import config
 
 
-class PlantFamilyVocabulary:
+class PlantFamilyGenusVocabulary:
 
     @staticmethod
-    def read_plant_family_vocabulary(plant_family_database=config.PLANT_FAMILTY_DATABASE_FILE,
-                                     expand_terms=True):
-        term_to_plant_family = {}
-        with open(plant_family_database, 'rt') as f:
+    def read_plant_genus_database(plant_genus_database=config.PLANT_GENUS_DATABASE_FILE,
+                                  expand_terms=True):
+        plant_genera = {}
+        with open(plant_genus_database, 'rt') as f:
             for line in f:
                 plant_family = line.strip()
                 plant_family_lower = plant_family.lower()
@@ -32,5 +32,34 @@ class PlantFamilyVocabulary:
                 else:
                     plant_family_terms = [plant_family_lower]
                 for term in plant_family_terms:
-                    term_to_plant_family[term] = {plant_family.capitalize()}
-        return term_to_plant_family
+                    plant_genera[term] = {plant_family.capitalize()}
+        return plant_genera
+
+    @staticmethod
+    def read_wikidata_plant_families(plant_family_wikidata=config.PLANT_FAMILY_WIKIDATA_FILE):
+        plant_families = set()
+        with open(plant_family_wikidata, 'rt') as f:
+            for line in f:
+                line = line.strip().lower()
+                plant_families.add(line.capitalize())
+        return plant_families
+
+    @staticmethod
+    def read_plant_family_genus_vocabulary(plant_genus_database=config.PLANT_GENUS_DATABASE_FILE,
+                                           plant_family_wikidata=config.PLANT_FAMILY_WIKIDATA_FILE,
+                                           expand_terms=True):
+        plant_genera = PlantFamilyGenusVocabulary.read_plant_genus_database(
+            plant_genus_database=plant_genus_database,
+            expand_terms=expand_terms)
+
+        plant_families = PlantFamilyGenusVocabulary.read_wikidata_plant_families(
+            plant_family_wikidata=plant_family_wikidata)
+
+        term2desc = plant_genera
+        for family in plant_families:
+            term = family.lower()
+            if term not in term2desc:
+                term2desc[term] = {family}
+            else:
+                term2desc[term].add(family)
+        return term2desc
