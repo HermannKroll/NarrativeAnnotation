@@ -62,6 +62,10 @@ class TaggedEntity:
     def __hash__(self):
         return hash((self.start, self.end, self.text, self.ent_id))
 
+    def is_valid(self):
+        if not self.ent_id or not self.ent_type or not self.text or self.start is None or self.end is None:
+            return False
+        return True
 
 class Sentence:
     def __init__(self, sid, text, start, end) -> None:
@@ -207,7 +211,7 @@ class TaggedDocument:
     def clean_tags(self):
         clean_tags = self.tags.copy()
         for tag1 in self.tags:
-            if not tag1.document or not tag1.start or not tag1.end or not tag1.text or not tag1.ent_type or not tag1.ent_id:
+            if not tag1.is_valid():
                 clean_tags.remove(tag1)
             else:
                 for tag2 in self.tags:
