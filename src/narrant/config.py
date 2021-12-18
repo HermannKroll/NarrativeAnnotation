@@ -21,9 +21,9 @@ if not os.path.isdir(TMP_DIR_TAGGER):
 MESH_ONTOLOGY_INDEX_FILE = os.path.join(TMP_DIR, "mesh_ontology_index.pkl")
 
 # MESH
-MESH_DESCRIPTORS_FILE = os.path.join(DATA_DIR, "desc2021.xml")
-MESH_SUPPLEMENTARY_FILE = os.path.join(DATA_DIR, "supp2021.xml")
-MESH_ID_TO_HEADING_INDEX_FILE = os.path.join(TMP_DIR, 'desc2021_id2heading.pkl')
+MESH_DESCRIPTORS_FILE = os.path.join(DATA_DIR, "desc2022.xml")
+MESH_SUPPLEMENTARY_FILE = os.path.join(DATA_DIR, "supp2022.xml")
+MESH_ID_TO_HEADING_INDEX_FILE = os.path.join(TMP_DIR, 'desc2022_id2heading.pkl')
 MESH_SUPPLEMENTARY_ID_TO_HEADING_INDEX_FILE = os.path.join(TMP_DIR, 'supp2021_id2heading.pkl')
 
 # CHEMBL
@@ -33,9 +33,9 @@ CHEMBL_DRUG_CSV = os.path.join(RESOURCE_DIR, "chembl2021.csv")
 DRUGBANK_XML_DUMP = os.path.join(DATA_DIR, "drugbank2021.xml")
 
 # GENE
-GENE_FILE = os.path.join(DATA_DIR, 'gene_info_2021.gz')
-GENE_INDEX_FILE = os.path.join(TMP_DIR, 'gene_info_2021_id2name.pkl')
-GENE_TO_HUMAN_ID_FILE = os.path.join(TMP_DIR, 'gene_2021_to_human_id.pkl')
+GENE_FILE = os.path.join(DATA_DIR, 'gene_info_2022.gz')
+GENE_INDEX_FILE = os.path.join(TMP_DIR, 'gene_info_2022_id2name.pkl')
+GENE_TO_HUMAN_ID_FILE = os.path.join(TMP_DIR, 'gene_2022_to_human_id.pkl')
 
 # Taxonomy Names 2020
 TAXONOMY_FILE = os.path.join(RESOURCE_DIR, 'taxonomy_names_2020.gz')
