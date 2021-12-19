@@ -123,14 +123,18 @@ def main(arguments=None):
     ent_types = DALL if "DA" in args.tag else [TAG_TYPE_MAPPING[x] for x in args.tag]
 
     input_file_given = True
+    number_of_docs = 0
+
+    session = Session.get()
+    logger.info(f'Getting document ids from database for collection: {args.collection}...')
+    document_ids_in_db = Document.get_document_ids_for_collection(session, args.collection)
+    logger.info(f'{len(document_ids_in_db)} found')
+    session.remove()
+
     if args.input:
         input_file_given = True
         document_ids = prepare_input(ext_in_file, in_file, logger, args.collection)
         number_of_docs = len(document_ids)
-
-        if number_of_docs == 0:
-            logger.info('No documents to process - stopping')
-            exit(1)
 
         if not args.skip_load:
             document_bulk_load(in_file, args.collection, logger=logger)
@@ -140,15 +144,17 @@ def main(arguments=None):
         input_file_given = False
         logger.info('No input file given')
         logger.info(f'Retrieving document count for collection: {args.collection}')
-
-    session = Session.get()
-    logger.info(f'Getting document ids from database for collection: {args.collection}...')
-    document_ids_in_db = Document.get_document_ids_for_collection(session, args.collection)
-    logger.info(f'{len(document_ids_in_db)} found')
-    session.remove()
-    if not args.input:
+        # compute the already tagged documents
         document_ids = document_ids_in_db
-        number_of_docs = len(document_ids_in_db)
+        todo_ids = set()
+        logger.info('Retrieving documents that have been tagged before...')
+        todo_ids |= get_untagged_doc_ids_by_tagger(args.collection, document_ids, PharmDictTagger, logger)
+        document_ids = todo_ids
+        number_of_docs = len(document_ids)
+
+    if number_of_docs == 0:
+        logger.info('No documents to process - stopping')
+        exit(1)
 
     logger.info(f'{number_of_docs} of documents have to be processed...')
     kwargs = dict(logger=logger, config=conf, collection=args.collection)
