@@ -67,6 +67,7 @@ class TaggedEntity:
             return False
         return True
 
+
 class Sentence:
     def __init__(self, sid, text, start, end) -> None:
         super().__init__()
@@ -243,7 +244,7 @@ class TaggedDocument:
                 repaired = False
                 # run backwards trough the document
                 for off in range(5, -30, -1):
-                    if tag_text == text_content[t.start+off:t.end+off]:
+                    if tag_text == text_content[t.start + off:t.end + off]:
                         t.start = t.start - off
                         t.end = t.end - off
                         repaired = True
