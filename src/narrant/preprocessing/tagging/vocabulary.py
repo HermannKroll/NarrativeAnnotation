@@ -32,21 +32,36 @@ class Vocabulary:
         return self.vocabularies.keys()
 
 
-def expand_vocabulary_term(term: str) -> str:
-    if term.endswith('y'):
-        yield f'{term[:-1]}ies'
-    if term.endswith('ies'):
-        yield f'{term[:-3]}y'
-    if term.endswith('s') or term.endswith('e'):
-        yield term[:-1]
-    if term.endswith('or') and len(term) > 2:
-        yield term[:-2] + "our"
-    if term.endswith('our') and len(term) > 3:
-        yield term[:-3] + "or"
-    if "-" in term:
-        yield term.replace("-", " ")
-        yield term.replace("-", "")
-    if " " in term:
-        yield term.replace(" ", "-")
-        yield term.replace(" ", "")
-    yield from [term, f'{term}e', f'{term}s']
+def expand_vocabulary_term(term: str, minimum_len_to_expand=3, depth=0) -> str:
+    # only consider the length the last term
+    if ' ' in term and len(term.split(' ')[-1]) < minimum_len_to_expand:
+        yield term
+    # test if term has the minimum len to be expanded
+    elif len(term) < minimum_len_to_expand:
+        yield term
+    else:
+        if term.endswith('y'):
+            yield f'{term[:-1]}ies'
+        if term.endswith('ies'):
+            yield f'{term[:-3]}y'
+        if term.endswith('s') or term.endswith('e'):
+            yield term[:-1]
+        if term.endswith('or') and len(term) > 2:
+            yield term[:-2] + "our"
+        if term.endswith('our') and len(term) > 3:
+            yield term[:-3] + "or"
+        if "-" in term:
+            yield term.replace("-", " ")
+            if depth == 0:
+                yield from expand_vocabulary_term(term.replace("-", " "), depth=1)
+            yield term.replace("-", "")
+            if depth == 0:
+                yield from expand_vocabulary_term(term.replace("-", ""), depth=1)
+        if " " in term:
+            yield term.replace(" ", "-")
+            if depth == 0:
+                yield from expand_vocabulary_term(term.replace(" ", "-"), depth=1)
+            yield term.replace(" ", "")
+            if depth == 0:
+                yield from expand_vocabulary_term(term.replace(" ", ""), depth=1)
+        yield from [term, f'{term}e', f'{term}s']
