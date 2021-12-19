@@ -6,8 +6,8 @@ from abc import ABCMeta, abstractmethod
 from collections import defaultdict
 from typing import List
 
-from kgextractiontoolbox.entitylinking.tagging.base import BaseTagger
 from narrant.config import TMP_DIR, DICT_TAGGER_BLACKLIST
+from narrant.preprocessing.tagging.base import BaseTagger
 from narrant.pubtator.document import TaggedDocument, TaggedEntity
 
 

@@ -8,7 +8,7 @@ from narrant.preprocessing.config import Config
 from narrant.pubtator.document import TaggedDocument, TaggedEntity
 
 
-class TaggerBase:
+class BaseTagger:
     """
     Tagger base class. Provides basic functionality like
     - the initialization of logging,
