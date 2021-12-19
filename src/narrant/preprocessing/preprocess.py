@@ -19,7 +19,7 @@ from narrant.multi_process_progress import MultiProcessProgress
 from narrant.preprocessing import enttypes
 from narrant.preprocessing.config import Config
 from narrant.preprocessing.enttypes import CHEMICAL, DISEASE, SPECIES, GENE
-from narrant.preprocessing.tagging.base import BaseTagger
+from narrant.preprocessing.tagging.external_base import ExternalTaggerBase
 from narrant.preprocessing.tagging.gnormplus import GNormPlus
 from narrant.preprocessing.tagging.taggerone import TaggerOne
 from narrant.pubtator.distribute import distribute_workload, create_parallel_dirs, split_composites
@@ -149,7 +149,7 @@ def preprocess(files_to_process, collection, root_dir, input_dir, log_dir, logge
     # Init taggers
     kwargs = dict(collection=collection, root_dir=root_dir, input_dir=input_dir, logger=logger,
                   log_dir=log_dir, config=conf)
-    taggers: List[BaseTagger] = [tagger_cls(**kwargs) for tagger_cls in set(tagger_by_ent_type.values())]
+    taggers: List[ExternalTaggerBase] = [tagger_cls(**kwargs) for tagger_cls in set(tagger_by_ent_type.values())]
     if len(taggers) > 1:
         raise ValueError("We only support a single tagger for a process")
 

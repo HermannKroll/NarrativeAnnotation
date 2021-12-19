@@ -140,8 +140,7 @@ def main(arguments=None):
     logger.info(f'{len(document_ids_in_db)} found')
     session.remove()
 
-    kwargs = dict(collection=args.collection, root_dir=root_dir, input_dir=None, logger=logger,
-                  log_dir=log_dir, config=conf, mapping_id_file=None, mapping_file_id=None)
+    kwargs = dict(logger=logger, config=conf, collection=args.collection)
 
     logger.info('================== Init Taggers ==================')
     metafactory = PharmDictTagger(ent_types, kwargs)

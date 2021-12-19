@@ -1,5 +1,4 @@
 import logging
-import os
 from typing import List, Dict
 
 import narrant.preprocessing.enttypes as et
@@ -34,7 +33,6 @@ class MetaDicTagger(dt.DictTagger):
             vocabulary.load_vocab()
             self._vocabs = vocabulary.vocabularies
         self.tag_types = set()
-        os.makedirs(self.out_dir)
 
     def add_tagger(self, tagger: dt.DictTagger):
         self._sub_taggers.append(tagger)

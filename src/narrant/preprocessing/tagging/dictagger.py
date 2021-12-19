@@ -4,13 +4,10 @@ import pickle
 import re
 from abc import ABCMeta, abstractmethod
 from collections import defaultdict
-from datetime import datetime
 from typing import List
 
+from kgextractiontoolbox.entitylinking.tagging.base import BaseTagger
 from narrant.config import TMP_DIR, DICT_TAGGER_BLACKLIST
-from narrant.preprocessing.tagging.base import BaseTagger
-from narrant.preprocessing.utils import get_document_id, DocumentError
-from narrant.progress import print_progress_with_eta
 from narrant.pubtator.document import TaggedDocument, TaggedEntity
 
 
@@ -70,17 +67,17 @@ def split_indexed_words(content):
 
 class DictTagger(BaseTagger, metaclass=ABCMeta):
     PROGRESS_BATCH = 10000
+    __name__ = None
+    __version__ = None
 
-    def __init__(self, short_name, long_name, version, tag_types, index_cache, source_file, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, short_name, long_name, version, tag_types, index_cache, source_file, logger,
+                 config, collection):
+        super().__init__(config=config, collection=collection, logger=logger)
         self.tag_types = [tag_types, ]
         self.short_name, self.long_name, self.version = short_name, long_name, version
         self.index_cache = index_cache
         self.source_file = source_file
         self.desc_by_term = {}
-        self.log_file = os.path.join(self.log_dir, f"{short_name}.log") if self.log_dir else None
-        self.out_dir = os.path.join(self.root_dir, f"{short_name}_out") if self.root_dir else None
-        self.in_dir = os.path.join(self.root_dir, f"{short_name}_in") if self.root_dir else None
 
     def get_types(self):
         return self.tag_types
@@ -116,7 +113,7 @@ class DictTagger(BaseTagger, metaclass=ABCMeta):
         index.desc_by_term = self.desc_by_term
         if not os.path.isdir(TMP_DIR):
             os.mkdir(TMP_DIR)
-        self.logger.debug('Storing DosageFormTagerIndex cache to: {}'.format(self.index_cache))
+        self.logger.debug('Storing Index cache to: {}'.format(self.index_cache))
         pickle.dump(index, open(self.index_cache, 'wb+'))
 
     @abstractmethod
@@ -137,7 +134,6 @@ class DictTagger(BaseTagger, metaclass=ABCMeta):
                 blacklist_set.add(s_lower[0:-1])
         return blacklist_set
 
-    # TODO: synchronization
     def prepare(self):
         if self._index_from_pickle():
             self.logger.info(f'{self.long_name} initialized from cache '
@@ -145,41 +141,9 @@ class DictTagger(BaseTagger, metaclass=ABCMeta):
         else:
             self._index_from_source()
             blacklist_set = DictTagger.get_blacklist_set()
-            self.desc_by_term = {k.lower().strip(): v for k, v in self.desc_by_term.items() if k.lower().strip() not in blacklist_set}
+            self.desc_by_term = {k.lower().strip(): v for k, v in self.desc_by_term.items() if
+                                 k.lower().strip() not in blacklist_set}
             self._index_to_pickle()
-        # Create output directory
-        if self.out_dir:
-            os.makedirs(self.out_dir, exist_ok=True)
-
-    def get_tags(self):
-        return self._get_tags(self.out_dir)
-
-    def run(self):
-        skipped_files = []
-        files_total = len(self.files)
-        start_time = datetime.now()
-
-        for idx, in_file in enumerate(self.files):
-            if in_file.endswith(".txt"):
-                out_file = os.path.join(self.out_dir, in_file.split("/")[-1])
-                try:
-                    self._tag(in_file, out_file)
-                except DocumentError as e:
-                    self.logger.debug("Error in document - will be skipped {}".format(in_file))
-                    skipped_files.append(in_file)
-                    self.logger.info(e)
-                print_progress_with_eta(f"{self.long_name} tagging", self.get_progress(), files_total, start_time,
-                                        print_every_k=self.PROGRESS_BATCH, logger=self.logger)
-            else:
-                self.logger.debug("Ignoring {}: Suffix .txt missing".format(in_file))
-
-        end_time = datetime.now()
-        self.logger.info("Finished in {} ({} files processed, {} files total, {} errors)".format(
-            end_time - start_time,
-            self.get_progress(),
-            files_total,
-            len(skipped_files)),
-        )
 
     def tag_doc(self, in_doc: TaggedDocument) -> TaggedDocument:
         """
@@ -313,18 +277,3 @@ class DictTagger(BaseTagger, metaclass=ABCMeta):
             if keep_desc:
                 tags_cleaned.extend(tags)
         return tags_cleaned
-
-    def get_progress(self):
-        return len([f for f in os.listdir(self.out_dir) if f.endswith(".txt")])
-
-    def get_successful_ids(self):
-        """
-        DictTagger doesn't include content in output files, so no id can be retrieved from them if no tags found.
-        Also, {short_name}_in dir is deleted if finished. Because of that, the ids are looked up in the files in input_dir,
-        mapping is done via file name.
-        :return:
-        """
-        finished_filenames = os.listdir(self.out_dir)
-        finished_ids = {get_document_id(os.path.join(self.input_dir, fn)) for fn in finished_filenames}
-
-        return finished_ids

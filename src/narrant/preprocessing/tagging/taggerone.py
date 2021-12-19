@@ -10,7 +10,7 @@ from time import sleep
 from typing import Dict, Set
 
 from narrant.preprocessing import enttypes
-from narrant.preprocessing.tagging.base import BaseTagger
+from narrant.preprocessing.tagging.external_base import ExternalTaggerBase
 from narrant.progress import print_progress_with_eta
 from narrant.pubtator.count import get_document_ids
 from narrant.pubtator.regex import DOCUMENT_ID
@@ -23,7 +23,7 @@ class NoRemainingDocumentError(Exception):
     pass
 
 
-class TaggerOne(BaseTagger):
+class TaggerOne(ExternalTaggerBase):
     """
     TaggerOne can tag chemicals and diseases.
     """
