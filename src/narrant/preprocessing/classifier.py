@@ -51,7 +51,7 @@ class Classifier:
                     word_count = int(subterm.split('/')[1])
                     word_sequence = []
                     for i in range(0, word_count):
-                        word_sequence.append(r'\w+')
+                        word_sequence.append(r'\w*')
                     word_sequence = ' '.join([w for w in word_sequence])
                     term_rule = term_rule.replace(subterm, word_sequence)
             # set term now to the new rule
