@@ -153,7 +153,17 @@ class MeSHOntology:
         :return: entity types
         """
         tree_nos = self.get_tree_numbers_for_descriptor(descriptor_id)
-        ent_types = {et for tn in tree_nos for et in MeSHOntology.tree_number_to_entity_type(tn)}
+        ent_types = set()
+        for tn in tree_nos:
+            try:
+                for et in MeSHOntology.tree_number_to_entity_type(tn):
+                    ent_types.add(et)
+            except KeyError:
+                pass
+
+        if len(ent_types) == 0:
+            raise KeyError(f'Cannot decode entity type from MeSH {descriptor_id} (tree no.: {tree_nos})')
+
         return list(ent_types)
 
     @staticmethod
