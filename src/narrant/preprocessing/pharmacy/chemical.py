@@ -11,7 +11,7 @@ class ChemicalTagger(DictTagger):
 
     def __init__(self, *args, **kwargs):
         super().__init__("chemical", "ChemicalTagger", ChemicalTagger.__version__,
-                         enttypes.CHEMICAL, config.CHEMBL_CHEMICAL_INDEX_CACHE, config.CHEMBL_CHEMICAL_DATABASE_FILE,
+                         enttypes.CHEMICAL, config.CHEMBL_CHEMICAL_DATABASE_FILE,
                          *args, **kwargs)
 
     def _index_from_source(self):

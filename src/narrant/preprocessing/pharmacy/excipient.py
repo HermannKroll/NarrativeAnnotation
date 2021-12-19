@@ -11,7 +11,7 @@ class ExcipientTagger(DictTagger):
 
     def __init__(self, *args, **kwargs):
         super().__init__("excipient", "ExcipientTagger", ExcipientTagger.__version__,
-                         enttypes.EXCIPIENT, config.EXCIPIENT_TAGGER_INDEX_CACHE, config.EXCIPIENT_TAGGER_DATABASE_FILE,
+                         enttypes.EXCIPIENT, config.EXCIPIENT_TAGGER_DATABASE_FILE,
                          *args, **kwargs)
 
     def _index_from_source(self):

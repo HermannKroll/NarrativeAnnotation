@@ -11,7 +11,7 @@ class MethodTagger(DictTagger):
 
     def __init__(self, *args, **kwargs):
         super().__init__("method", "MethodTagger", MethodTagger.__version__,
-                         enttypes.METHOD, config.METHOD_TAGGER_INDEX_CACHE, config.METHOD_TAGGER_VOCAB_DIRECTORY,
+                         enttypes.METHOD, config.METHOD_TAGGER_VOCAB_DIRECTORY,
                          *args, **kwargs)
 
     def _index_from_source(self):

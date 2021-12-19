@@ -21,7 +21,7 @@ class DosageFormTagger(DictTagger):
 
     def __init__(self, *args, **kwargs):
         super().__init__("dosage", "DosageFormTagger", DosageFormTagger.__version__,
-                         enttypes.DOSAGE_FORM, config.DOSAGE_FORM_TAGGER_INDEX_CACHE, config.MESH_DESCRIPTORS_FILE,
+                         enttypes.DOSAGE_FORM, config.MESH_DESCRIPTORS_FILE,
                          *args, **kwargs)
 
         self.regex_micro = re.compile(r'micro[a-z]')

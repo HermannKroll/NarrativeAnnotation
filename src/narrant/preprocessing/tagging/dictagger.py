@@ -8,7 +8,7 @@ from typing import List
 
 import hashlib
 
-from narrant.config import TMP_DIR, DICT_TAGGER_BLACKLIST
+from narrant.config import TMP_DIR, DICT_TAGGER_BLACKLIST, TMP_DIR_TAGGER
 from narrant.preprocessing.tagging.base import BaseTagger
 from narrant.pubtator.document import TaggedDocument, TaggedEntity
 
@@ -78,12 +78,12 @@ class DictTagger(BaseTagger, metaclass=ABCMeta):
     __name__ = None
     __version__ = None
 
-    def __init__(self, short_name, long_name, version, tag_types, index_cache, source, logger,
+    def __init__(self, short_name, long_name, version, tag_types, source, logger,
                  config, collection):
         super().__init__(config=config, collection=collection, logger=logger)
         self.tag_types = [tag_types, ]
         self.short_name, self.long_name, self.version = short_name, long_name, version
-        self.index_cache = index_cache
+        self.index_cache = os.path.join(TMP_DIR_TAGGER, f'{short_name}_index.pkl')
         self.source = source
         self.desc_by_term = {}
 

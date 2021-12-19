@@ -14,7 +14,7 @@ class PlantFamilyGenusTagger(DictTagger):
 
     def __init__(self, *args, **kwargs):
         super().__init__("plantfamily", "PlantFamilyTagger", PlantFamilyGenusTagger.__version__,
-                         enttypes.PLANT_FAMILY_GENUS, config.PLANT_FAMILTY_INDEX_CACHE, config.PLANT_GENUS_DATABASE_FILE,
+                         enttypes.PLANT_FAMILY_GENUS, config.PLANT_GENUS_DATABASE_FILE,
                          *args, **kwargs)
 
         self.classifier = Classifier(PlantFamilyGenusTagger.PLANT_CLASSIFICATION, config.PLANT_SPECIFIC_RULES)
