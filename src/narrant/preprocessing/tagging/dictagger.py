@@ -1,3 +1,4 @@
+import hashlib
 import itertools as it
 import os
 import pickle
@@ -5,8 +6,6 @@ import re
 from abc import ABCMeta, abstractmethod
 from collections import defaultdict
 from typing import List
-
-import hashlib
 
 from narrant.config import TMP_DIR, DICT_TAGGER_BLACKLIST, TMP_DIR_TAGGER
 from narrant.preprocessing.tagging.base import BaseTagger
@@ -207,11 +206,14 @@ class DictTagger(BaseTagger, metaclass=ABCMeta):
 
                 if self.config.custom_abbreviations and hits:
                     words, indexes = zip(*word_tuple)
-                    match = re.match(r" \(([^\(\)]*)\).*", content[indexes[-1] + len(words[-1]):])
-                    if match:
-                        # strip the abbreviation
-                        abbreviation = match.groups()[0].strip()
-                        abb_vocab[abbreviation] = [(t.ent_type, t.ent_id) for t in hits]
+                    # only learn abbreviations from full entity mentions
+                    term = " ".join(words)
+                    if len(term) >= self.config.dict_min_full_tag_len:
+                        match = re.match(r" \(([^\(\)]*)\).*", content[indexes[-1] + len(words[-1]):])
+                        if match:
+                            # strip the abbreviation
+                            abbreviation = match.groups()[0].strip()
+                            abb_vocab[abbreviation] = [(t.ent_type, t.ent_id) for t in hits]
 
         if abb_vocab:
             for spaces in range(self.config.dict_max_words):
