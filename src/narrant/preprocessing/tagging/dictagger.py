@@ -78,13 +78,13 @@ class DictTagger(BaseTagger, metaclass=ABCMeta):
     __name__ = None
     __version__ = None
 
-    def __init__(self, short_name, long_name, version, tag_types, index_cache, source_file, logger,
+    def __init__(self, short_name, long_name, version, tag_types, index_cache, source, logger,
                  config, collection):
         super().__init__(config=config, collection=collection, logger=logger)
         self.tag_types = [tag_types, ]
         self.short_name, self.long_name, self.version = short_name, long_name, version
         self.index_cache = index_cache
-        self.source_file = source_file
+        self.source = source
         self.desc_by_term = {}
 
     def get_types(self):
@@ -133,7 +133,7 @@ class DictTagger(BaseTagger, metaclass=ABCMeta):
                                         .format(index.tagger_version, self.version))
                     return None
 
-                md5sum_now = DictTagger.get_md5_hash_from_content(self.source_file)
+                md5sum_now = DictTagger.get_md5_hash_from_content(self.source)
                 md5sum_before = DictTagger.get_md5_hash_from_content(index.source_md5_sum)
                 if md5sum_now != md5sum_before:
                     self.logger.warning('Ignore index: md5 sums of sources differ - recreating index')
@@ -145,7 +145,7 @@ class DictTagger(BaseTagger, metaclass=ABCMeta):
         pass
 
     def _index_to_pickle(self):
-        index = DictIndex(self.source_file, self.version)
+        index = DictIndex(self.source, self.version)
         index.desc_by_term = self.desc_by_term
         if not os.path.isdir(TMP_DIR):
             os.mkdir(TMP_DIR)

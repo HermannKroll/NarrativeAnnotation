@@ -16,5 +16,5 @@ class LabMethodTagger(DictTagger):
 
     def _index_from_source(self):
         self.logger.info('Creating dictionary from source...')
-        self.desc_by_term = LabMethodVocabulary.create_lab_method_vocabulary(self.source_file)
+        self.desc_by_term = LabMethodVocabulary.create_lab_method_vocabulary(self.source)
         self.logger.info(f'{len(self.desc_by_term)} Lab Method terms found in database')

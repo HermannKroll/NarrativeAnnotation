@@ -16,5 +16,5 @@ class ChemicalTagger(DictTagger):
 
     def _index_from_source(self):
         self.logger.info('Creating dictionary from source...')
-        self.desc_by_term = ChemicalVocabulary.create_chembl_chemical_vocabulary(chemical_list=self.source_file)
+        self.desc_by_term = ChemicalVocabulary.create_chembl_chemical_vocabulary(chemical_list=self.source)
         self.logger.info(f'{len(self.desc_by_term)} Chembl chemicals found in database')

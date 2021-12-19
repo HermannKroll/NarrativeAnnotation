@@ -23,7 +23,7 @@ class DrugTagger(DictTagger):
 
     def _index_from_source(self):
         self.logger.info("checking total number of drugs...")
-        self.desc_by_term = DrugVocabulary.create_drug_vocabulary_from_chembl(self.source_file)
+        self.desc_by_term = DrugVocabulary.create_drug_vocabulary_from_chembl(self.source)
 
         # DrugTaggerVocabulary.create_drugbank_vocabulary_from_source(self.source_file,
         #                                                                           self.config.drug_min_name_length,
@@ -33,7 +33,7 @@ class DrugTagger(DictTagger):
     def extract_dosage_forms(self):
         pref = '{http://www.drugbank.ca}'
         dosage_forms = set()
-        for n, (event, elem) in enumerate(ET.iterparse(self.source_file, tag=f'{pref}dosage-form')):
+        for n, (event, elem) in enumerate(ET.iterparse(self.source, tag=f'{pref}dosage-form')):
             if elem.text:
                 dosage_forms |= {df.lower().strip() for df in re.split(r"[,;]", elem.text)}
             if n % 10000 == 0:
