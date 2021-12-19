@@ -96,8 +96,8 @@ class DictTagger(BaseTagger, metaclass=ABCMeta):
         Gets the md5hash sum from the given path
         either it is a file and the file content is considered
         or it must be a directory and then the content of all files is considered
-        :param path:
-        :return:
+        :param path: path directory or file
+        :return: md5sum of content
         """
         if os.path.isfile(path):
             hash_md5 = hashlib.md5()
