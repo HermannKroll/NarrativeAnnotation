@@ -108,6 +108,7 @@ class DictTagger(BaseTagger, metaclass=ABCMeta):
         elif os.path.isdir(path):
             hash_md5 = hashlib.md5()
             for file in os.listdir(path):
+                file = os.path.join(path, file)
                 with open(file, "rb") as f:
                     for chunk in iter(lambda: f.read(4096), b""):
                         hash_md5.update(chunk)
