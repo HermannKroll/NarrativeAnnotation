@@ -9,8 +9,7 @@ def main():
                         datefmt='%Y-%m-%d:%H:%M:%S',
                         level=logging.INFO)
 
-    kwargs = dict(collection="Test", root_dir=None, input_dir=None, logger=logging,
-                  log_dir=None, config=PREPROCESS_CONFIG, mapping_id_file=None, mapping_file_id=None)
+    kwargs = dict(logger=logging, config=PREPROCESS_CONFIG, collection="Test")
 
     for ent_type, tagger_class in PharmDictTagger.tagger_by_type.items():
         logging.info(f'Init tagger for type: {ent_type}')
