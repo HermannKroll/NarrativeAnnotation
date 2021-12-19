@@ -2,9 +2,9 @@ import logging
 from typing import Dict
 
 from narrant.preprocessing import enttypes as et
-from narrant.preprocessing.tagging import dictagger as dt
 from narrant.preprocessing.pharmacy import chemical, drug, method, labmethod, excipient, plantfamilygenus, disease, \
-    dosage
+    dosage, vaccine
+from narrant.preprocessing.tagging import dictagger as dt
 from narrant.preprocessing.tagging.metadictagger import MetaDicTagger
 
 
@@ -20,7 +20,8 @@ class PharmDictTagger:
         et.CHEMBL_CHEMICAL: chemical.ChemicalTagger,
         et.DISEASE: disease.DiseaseTagger,
         et.METHOD: method.MethodTagger,
-        et.LAB_METHOD: labmethod.LabMethodTagger
+        et.LAB_METHOD: labmethod.LabMethodTagger,
+        et.VACCINE: vaccine.VaccineTagger
     }
 
     @staticmethod

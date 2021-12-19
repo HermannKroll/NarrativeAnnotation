@@ -90,3 +90,4 @@ PLANT_FAMILTY_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, 'plant_families_cache.p
 
 # Vaccine Tagger
 VACCINE_TAGGER_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, 'vocabularies/vaccine')
+VACCINE_TAGGER_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, 'vaccince_cache.pkl')

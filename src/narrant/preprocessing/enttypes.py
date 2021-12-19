@@ -18,6 +18,7 @@ PLANT_FAMILY_GENUS = "PlantFamily/Genus"
 CHEMBL_CHEMICAL = "Chemical"
 METHOD = "Method"
 LAB_METHOD = "LabMethod"
+VACCINE = "Vaccine"
 
 ALL = (
     DOSAGE_FORM,
@@ -37,7 +38,8 @@ ALL = (
     PLANT_FAMILY_GENUS,
     CHEMBL_CHEMICAL,
     METHOD,
-    LAB_METHOD
+    LAB_METHOD,
+    VACCINE
 )
 
 DALL = {
@@ -48,7 +50,8 @@ DALL = {
     CHEMBL_CHEMICAL,
     DISEASE,
     METHOD,
-    LAB_METHOD
+    LAB_METHOD,
+    VACCINE
 }
 
 # set of all tags which are supported by our taggers
@@ -63,7 +66,8 @@ ENT_TYPES_SUPPORTED_BY_TAGGERS = (
     PLANT_FAMILY_GENUS,
     CHEMBL_CHEMICAL,
     METHOD,
-    LAB_METHOD
+    LAB_METHOD,
+    VACCINE
 )
 
 TAG_TYPE_MAPPING = dict(
