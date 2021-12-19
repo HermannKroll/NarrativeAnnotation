@@ -167,7 +167,7 @@ The tagging pipeline produces tags. A tag represents an annotation and consists 
 The documents must be in the database for annotation purposes. If you call an annotation script, the documents will automatically be inserted. 
 You can invoke our own dictionary-based tagger pipeline via
 ```
-python3 src/narrant/preprocessing/dictpreprocess.py test.pubtator --collection test
+python3 src/narrant/preprocessing/dictpreprocess.py -i test.pubtator --collection test
 ```
 This call will invoke the pipeline to annoate all known entity types.
 The pipeline annotates Diseases, Dosage Forms, Drugs, Chemicals, Excipients, Methods, LebMethods and Plant Families.
@@ -177,18 +177,18 @@ The first run will build all necessary indexes that will speed up further runs. 
 You can may also speedup the tagging process. You invoke multiple parallel workers. 
 The number of parallel workers can be specified as follows:
 ```
-python3 src/narrant/preprocessing/dictpreprocess.py test.pubtator --collection test --workers 10
+python3 src/narrant/preprocessing/dictpreprocess.py -i test.pubtator --collection test --workers 10
 ```
 
 If you are certain that all documents are already in the database, you may skip the loading phase by:
 ```
-python3 src/narrant/preprocessing/dictpreprocess.py test.pubtator --collection test --skip-load
+python3 src/narrant/preprocessing/dictpreprocess.py -i test.pubtator --collection test --skip-load
 ```
 
 
 The pipeline will work in a temporary directory (random directory in /tmp/) and remove it if the task is completed. If you want to work in a specified directory, use
 ```
-python3 src/narrant/preprocessing/dictpreprocess.py test.pubtator --collection test --workdir temp/
+python3 src/narrant/preprocessing/dictpreprocess.py -i test.pubtator --collection test --workdir temp/
 ```
 The temporary created files as well as all logs won't be removed then. 
 

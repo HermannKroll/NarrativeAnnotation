@@ -9,6 +9,7 @@ from sqlalchemy import Column, String, Integer, DateTime, ForeignKeyConstraint, 
     BigInteger, UniqueConstraint
 from sqlalchemy.ext.declarative import declarative_base
 
+import narrant.pubtator.document as document
 from narrant.preprocessing.enttypes import GENE, SPECIES
 from narrant.progress import print_progress_with_eta
 from narrant.pubtator.regex import ILLEGAL_CHAR
@@ -16,6 +17,7 @@ from narrant.pubtator.regex import ILLEGAL_CHAR
 Base = declarative_base()
 BULK_INSERT_AFTER_K = 100000
 POSTGRES_COPY_LOAD_AFTER_K = 1000000
+BULK_QUERY_CURSOR_COUNT_DEFAULT = 10000
 
 
 def chunks_list(lst, n):
@@ -144,6 +146,17 @@ class Document(Base, DatabaseTable):
         for r in query:
             ids.add(int(r[0]))
         return ids
+
+    @staticmethod
+    def count_documents_in_collection(session, collection: str) -> int:
+        return session.query(Document).filter(Document.collection == collection).count()
+
+    @staticmethod
+    def iterate_over_documents_in_collection(session, collection: str):
+        doc_query = session.query(Document).filter(Document.collection == collection) \
+            .yield_per(BULK_QUERY_CURSOR_COUNT_DEFAULT)
+        for res in doc_query:
+            yield document.TaggedDocument(id=res.id, title=res.title, abstract=res.abstract)
 
 
 class Tagger(Base, DatabaseTable):

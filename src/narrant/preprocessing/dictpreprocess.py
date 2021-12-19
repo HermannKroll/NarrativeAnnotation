@@ -13,9 +13,9 @@ from narrant.backend.models import DocTaggedBy, Document
 from narrant.config import PREPROCESS_CONFIG
 from narrant.preprocessing.config import Config
 from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, DALL
+from narrant.preprocessing.pharmacy.pharmdicttagger import PharmDictTagger
 from narrant.preprocessing.preprocess import init_preprocess_logger, init_sqlalchemy_logger, \
     get_untagged_doc_ids_by_tagger
-from narrant.preprocessing.pharmacy.pharmdicttagger import PharmDictTagger
 from narrant.progress import Progress
 from narrant.pubtator import count
 from narrant.pubtator.document import TaggedDocument, TaggedEntity
@@ -32,7 +32,7 @@ def prepare_input(in_file: str, out_file: str, logger: logging.Logger, collectio
     if not os.path.exists(in_file):
         logger.error("Input file not found!")
         return set()
-    logger.info("Counting document ids...")
+    logger.info("Reading input file and counting document ids...")
     in_ids = count.get_document_ids(in_file)
     logger.info(f"{len(in_ids)} given, checking against database...")
     todo_ids = set()
@@ -87,14 +87,14 @@ def main(arguments=None):
                                 type=int)
     parser.add_argument("-y", "--yes_force", help="skip prompt for workdir deletion", action="store_true")
 
-    parser.add_argument("input", help="composite pubtator file", metavar="IN_DIR")
+    parser.add_argument("-i", "--input", required=False, help="composite pubtator file", metavar="IN_DIR")
     args = parser.parse_args(arguments)
 
     conf = Config(args.config)
 
     # create directories
-    root_dir = root_dir = os.path.abspath(args.workdir) if args.workdir else tempfile.mkdtemp()
-    log_dir = log_dir = os.path.abspath(os.path.join(root_dir, "log"))
+    root_dir = os.path.abspath(args.workdir) if args.workdir else tempfile.mkdtemp()
+    log_dir = os.path.abspath(os.path.join(root_dir, "log"))
     ext_in_file = args.input
     in_file = os.path.abspath(os.path.join(root_dir, "in.pubtator"))
 
@@ -121,25 +121,36 @@ def main(arguments=None):
 
     logger.info('================== Preparation ==================')
     ent_types = DALL if "DA" in args.tag else [TAG_TYPE_MAPPING[x] for x in args.tag]
-    document_ids = prepare_input(ext_in_file, in_file, logger, args.collection)
-    number_of_docs = len(document_ids)
-    logger.info(f'{number_of_docs} of documents have to be processed...')
 
-    if number_of_docs == 0:
-        logger.info('No documents to process - stopping')
-        exit(1)
+    input_file_given = True
+    if args.input:
+        input_file_given = True
+        document_ids = prepare_input(ext_in_file, in_file, logger, args.collection)
+        number_of_docs = len(document_ids)
 
-    if not args.skip_load:
-        document_bulk_load(in_file, args.collection, logger=logger)
+        if number_of_docs == 0:
+            logger.info('No documents to process - stopping')
+            exit(1)
+
+        if not args.skip_load:
+            document_bulk_load(in_file, args.collection, logger=logger)
+        else:
+            logger.info("Skipping bulk load")
     else:
-        logger.info("Skipping bulk load")
+        input_file_given = False
+        logger.info('No input file given')
+        logger.info(f'Retrieving document count for collection: {args.collection}')
 
     session = Session.get()
     logger.info(f'Getting document ids from database for collection: {args.collection}...')
     document_ids_in_db = Document.get_document_ids_for_collection(session, args.collection)
     logger.info(f'{len(document_ids_in_db)} found')
     session.remove()
+    if not args.input:
+        document_ids = document_ids_in_db
+        number_of_docs = len(document_ids_in_db)
 
+    logger.info(f'{number_of_docs} of documents have to be processed...')
     kwargs = dict(logger=logger, config=conf, collection=args.collection)
 
     logger.info('================== Init Taggers ==================')
@@ -149,10 +160,18 @@ def main(arguments=None):
     metatag.base_insert_tagger()
 
     def generate_tasks():
-        for doc in read_pubtator_documents(in_file):
-            t_doc = TaggedDocument(doc, ignore_tags=True)
-            if t_doc and t_doc.has_content():
-                yield t_doc
+        if input_file_given:
+            for doc in read_pubtator_documents(in_file):
+                t_doc = TaggedDocument(doc, ignore_tags=True)
+                if t_doc and t_doc.has_content():
+                    yield t_doc
+        else:
+            db_session = Session.get()
+            logger.info('Retrieving documents from database...')
+            for doc in Document.iterate_over_documents_in_collection(db_session, args.collection):
+                if doc.has_content():
+                    yield doc
+            db_session.remove()
 
     def do_task(in_doc: TaggedDocument):
         try:
