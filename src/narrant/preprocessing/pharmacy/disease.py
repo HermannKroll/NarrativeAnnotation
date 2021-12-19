@@ -11,7 +11,7 @@ class DiseaseTagger(DictTagger):
 
     def __init__(self, *args, **kwargs):
         super().__init__("disease", "DiseaseTagger", DiseaseTagger.__version__,
-                         enttypes.DISEASE, config.DISEASE_TAGGER_INDEX_CACHE, config.DISEASE_TAGGER_DATABASE_FILE,
+                         enttypes.DISEASE, config.DISEASE_TAGGER_INDEX_CACHE, config.DISEASE_TAGGER_VOCAB_DIRECTORY,
                          *args, **kwargs)
 
     def _index_from_source(self):

@@ -11,7 +11,7 @@ class LabMethodTagger(DictTagger):
 
     def __init__(self, *args, **kwargs):
         super().__init__("labmethod", "LabMethodTagger", LabMethodTagger.__version__,
-                         enttypes.LAB_METHOD, config.LAB_METHOD_TAGGER_INDEX_CACHE, config.METHOD_TAGGER_DATABASE_FILE,
+                         enttypes.LAB_METHOD, config.LAB_METHOD_TAGGER_INDEX_CACHE, config.METHOD_TAGGER_VOCAB_DIRECTORY,
                          *args, **kwargs)
 
     def _index_from_source(self):
