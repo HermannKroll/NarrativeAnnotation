@@ -20,8 +20,8 @@ class MetaDicTagger(dt.DictTagger):
         pass
 
     def __init__(self, vocabulary=None, *args, **kwargs):
-        super().__init__(short_name="meTa", long_name="meta dict tagger", version=None, tag_types=None,
-                         index_cache=None, source=None, *args, **kwargs)
+        super().__init__(short_name="meTa", long_name="meta dict tagger", version=None, tag_types=None, source=None,
+                         *args, **kwargs)
 
         self._sub_taggers: List[dt.DictTagger] = []
         self._vocabs = {}
@@ -61,5 +61,3 @@ class MetaDicTagger(dt.DictTagger):
 
     def get_types(self):
         return self.tag_types
-
-
