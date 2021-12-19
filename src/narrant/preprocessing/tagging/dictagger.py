@@ -6,6 +6,8 @@ from abc import ABCMeta, abstractmethod
 from collections import defaultdict
 from typing import List
 
+import hashlib
+
 from narrant.config import TMP_DIR, DICT_TAGGER_BLACKLIST
 from narrant.preprocessing.tagging.base import BaseTagger
 from narrant.pubtator.document import TaggedDocument, TaggedEntity
@@ -13,9 +15,15 @@ from narrant.pubtator.document import TaggedDocument, TaggedEntity
 
 class DictIndex:
 
-    def __init__(self, source_file, tagger_version):
-        self.source_file, self.tagger_version = source_file, tagger_version
+    def __init__(self, source_md5_sum, tagger_version):
+        self.source_md5_sum, self.tagger_version = source_md5_sum, tagger_version
         self.desc_by_term = {}
+
+    def has_md5_sum(self):
+        if "source_md5_sum" in self.__dict__:
+            return True
+        else:
+            return False
 
 
 def get_n_tuples(in_list, n):
@@ -82,6 +90,31 @@ class DictTagger(BaseTagger, metaclass=ABCMeta):
     def get_types(self):
         return self.tag_types
 
+    @staticmethod
+    def get_md5_hash_from_content(path):
+        """
+        Gets the md5hash sum from the given path
+        either it is a file and the file content is considered
+        or it must be a directory and then the content of all files is considered
+        :param path:
+        :return:
+        """
+        if os.path.isfile(path):
+            hash_md5 = hashlib.md5()
+            with open(path, "rb") as f:
+                for chunk in iter(lambda: f.read(4096), b""):
+                    hash_md5.update(chunk)
+            return hash_md5.hexdigest()
+        elif os.path.isdir(path):
+            hash_md5 = hashlib.md5()
+            for file in os.listdir(path):
+                with open(file, "rb") as f:
+                    for chunk in iter(lambda: f.read(4096), b""):
+                        hash_md5.update(chunk)
+            return hash_md5.hexdigest()
+        else:
+            raise ValueError(f'{path} must either be a directory or file')
+
     def _index_from_pickle(self):
         if os.path.isfile(self.index_cache):
             with open(self.index_cache, 'rb') as f:
@@ -91,19 +124,22 @@ class DictTagger(BaseTagger, metaclass=ABCMeta):
                                         .format(self.index_cache))
                     return None
 
+                if not index.has_md5_sum():
+                    self.logger.warning('Ignore index: md5 hash was not computed before')
+                    return None
+
                 if index.tagger_version != self.version:
                     self.logger.warning('Ignore index: index does not match tagger version ({} index vs. {} tagger)'
                                         .format(index.tagger_version, self.version))
                     return None
 
-                source1 = os.path.basename(index.source_file)
-                source2 = os.path.basename(self.source_file)
-                if source1 != source2:
-                    self.logger.warning('Ignore index: index created with another source file ({} index vs. {} tagger)'
-                                        .format(index.source_file, self.source_file))
+                md5sum_now = DictTagger.get_md5_hash_from_content(self.source_file)
+                md5sum_before = DictTagger.get_md5_hash_from_content(index.source_md5_sum)
+                if md5sum_now != md5sum_before:
+                    self.logger.warning('Ignore index: md5 sums of sources differ - recreating index')
                     return None
 
-                self.logger.debug('Use precached index from {}'.format(self.index_cache))
+                self.logger.debug('Use pre-computed index from {}'.format(self.index_cache))
                 self.desc_by_term = index.desc_by_term
                 return index
         pass
