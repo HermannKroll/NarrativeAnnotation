@@ -15,7 +15,7 @@ from narrant.preprocessing.config import Config
 from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, DALL
 from narrant.preprocessing.preprocess import init_preprocess_logger, init_sqlalchemy_logger, \
     get_untagged_doc_ids_by_tagger
-from narrant.preprocessing.tagging.metadictagger import PharmDictTagger
+from narrant.preprocessing.pharmacy.pharmdicttagger import PharmDictTagger
 from narrant.progress import Progress
 from narrant.pubtator import count
 from narrant.pubtator.document import TaggedDocument, TaggedEntity

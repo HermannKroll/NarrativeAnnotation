@@ -1,7 +1,7 @@
 import logging
 
 from narrant.config import PREPROCESS_CONFIG
-from narrant.preprocessing.tagging.metadictagger import PharmDictTagger
+from narrant.preprocessing.pharmacy.pharmdicttagger import PharmDictTagger
 
 
 def main():
