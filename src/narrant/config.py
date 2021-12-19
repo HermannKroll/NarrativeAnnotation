@@ -69,17 +69,14 @@ EXCIPIENT_TAGGER_DRUGBANK_EXCIPIENT_FILE = os.path.join(RESOURCE_DIR, 'vocabular
 EXCIPIENT_TAGGER_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, "excipient_cache.pkl")
 
 # Disease Tagger
-DISEASE_TAGGER_DATABASE_FILE = MESH_DESCRIPTORS_FILE
 DISEASE_TAGGER_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, 'vocabularies/disease')
 DISEASE_TAGGER_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, 'disease_cache.pkl')
 
 # Method Tagger
 METHOD_CLASSIFICATION_FILE = os.path.join(RESOURCE_DIR, "vocabularies/labmethod/method_classification.tsv")
 METHOD_TAGGER_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, "vocabularies/method")
-METHOD_TAGGER_DATABASE_FILE = MESH_DESCRIPTORS_FILE
 METHOD_TAGGER_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, 'method_cache.pkl')
 
-LAB_METHOD_TAGGER_DATABASE_FILE = MESH_DESCRIPTORS_FILE
 LAB_METHOD_TAGGER_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, 'lab_method_cache.pkl')
 
 # Plant Family Tagger
