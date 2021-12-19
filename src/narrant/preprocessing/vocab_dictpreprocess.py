@@ -105,8 +105,7 @@ def main(arguments=None):
     else:
         logger.info("Skipping bulk load")
 
-    kwargs = dict(collection=args.collection, root_dir=root_dir, input_dir=None, logger=logger,
-                  log_dir=log_dir, config=conf, mapping_id_file=None, mapping_file_id=None)
+    kwargs = dict(logger=logger, config=conf, collection=args.collection)
 
     metatag = MetaDicTagger(vocabs, **kwargs)
     metatag.prepare()
