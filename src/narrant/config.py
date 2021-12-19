@@ -51,6 +51,8 @@ BACKEND_CONFIG = os.path.join(CONFIG_DIR, "backend.json")
 DICT_TAGGER_BLACKLIST = os.path.join(RESOURCE_DIR, "dict_tagger_blacklist.txt")
 
 # DosageForm Tagger
+DOSAGEFORM_TAGGER_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, 'vocabularies/dosageform')
+
 DOSAGE_ADDITIONAL_DESCS = os.path.join(RESOURCE_DIR, "vocabularies/dosageform/df_additional_descs.txt")
 DOSAGE_ADDITIONAL_DESCS_TERMS = os.path.join(RESOURCE_DIR, "vocabularies/dosageform/df_additional_descs_terms.txt")
 DOSAGE_FID_DESCS = os.path.join(RESOURCE_DIR, "vocabularies/dosageform/df_fid_descriptors.txt")

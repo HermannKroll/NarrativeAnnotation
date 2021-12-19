@@ -1,0 +1,79 @@
+id	enttype	heading	synonyms
+FIDX1	DosageForm	coated tablet	Film-coated;Film coated;Dragée;Dragee;sugar-coated;sugar coated;gelatin-coated;gelatin coated
+FIDX2	DosageForm	Effervescent tablet	fizzy tablet
+FIDX3	DosageForm	soluble tablet
+FIDX4	DosageForm	dispersible tablet	rapidly disintegration tablets;rapidly dissolving tablets
+FIDX5	DosageForm	orodispersible tablet
+FIDX6	DosageForm	Tablets for use in the oral cavity	Buccal tablet;Lozenge;troches;sublingual tablet;Chewable tablet
+FIDX7	DosageForm	modified release tablets	matrix tablet;immediate release tablets;rapidly melting tablet;Controlled Release tablet;Delayed Release tablet;Sustained Release tablet;Controlled tablet;Sustained tablet;Sustained-Release tablet;modified-release tablet;modified release tablet;Delayed-Release tablet;Timed-Release tablet;Timed Release tablet;Sustained-Release tablet;Prolonged-release tablet;prolonged release tablet;extended-release tablet;extended release tablet;repeat release tablet;repeat-release tablet;repeat action tablet;repeat-action tablet
+FIDX8	DosageForm	mucoadhesive preparations	mucoadhesive polymer;mucoadhesive tablet;mucoadhesive drug delivery system;mucoadhesive
+FIDX9	DosageForm	granulate	Instant Granules;Granules;effervescent granules;effervescent granulate;effervescent granulated salts;granulated
+FIDX10	DosageForm	films	orodispersible films
+FIDX11	DosageForm	syrups	dry syrup
+FIDX12	DosageForm	foams
+FIDX13	DosageForm	patches	drug patches;active-ingredient patches;medicated plasters;plasters;cutaneous patches;patch
+FIDX14	DosageForm	sticks	nasal sticks;sticks
+FIDX15	DosageForm	Pharmaceutical tampons	ear tampons;tampons;rectal tampons
+FIDX16	DosageForm	Spray	ear sprays
+FIDX17	DosageForm	ophthalmic inserts
+FIDX19	DosageForm	shampoos and soaps	shampoos;soaps;douche
+FIDX20	DosageForm	pellets
+FIDX21	DosageForm	elixirs
+FIDX22	DosageForm	tinctures
+FIDX23	DosageForm	lollipop
+FIDX24	DosageForm	poultices
+FIDX25	DosageForm	intrauterine device
+FIDX26	DosageForm	microneedle	micro needle;micro-needle
+FIDX27	DosageForm	nanoneedle	nano needle;nano-needle
+MESH:D000075162	DosageForm	Abuse-Deterrent Formulations	abuse-proof dosage form;abuse-proof dosage forms;Tamper-resistant dosage form;Tamper-resistant dosage forms;Tamper resistant dosage form;Tamper resistant dosage forms;Tamper-proof dosage form;Tamper-proof dosage forms;Tamper proof dosage form;Tamper proof dosage forms
+MESH:D000335	DosageForm	Aerosol Propellants	Propellant gas
+MESH:D000336	DosageForm	Aerosols
+MESH:D059587	DosageForm	Calcifying Nanoparticles	Calcifying Nano particles;Calcifying Nano particle;Calcifying Nano-particle;Calcifying Nano-particles;Nanobacteria;Nano-bacteria
+MESH:D002214	DosageForm	Capsules	Encapsulation;Microcapsules;Microcapsule;Micro capsule;Micro capsules;Micro-capsule;Micro-capsules;capsule;medicament capsules;medicament capsule;medicine capsule;medicine capsules;drug capsule;drug capsules;hard capsules;soft capsules;micro capsules;wafer capsules;enteric capsules;hard gelatine capsules;soft gelatine capsules;push-in capsules;plug-in capsules;plug-in units;cachet;coated capsules;modified release capsules
+MESH:D003102	DosageForm	Colloids	Colloidal drug;Hydro-colloid;Hydro-colloids;Hydro colloid;Hydro colloids;colloidal dosage form
+MESH:D059985	DosageForm	Cryogels	Cryo gels;Cryo gel;Cryo-gels;Cryo-gel
+MESH:D003692	DosageForm	Delayed-Action Preparations	Controlled Release;Delayed Release;Sustained Release;Controlled Drug;Sustained Drug;Sustained-Release;modified-release;modified release, Delayed-Release;Timed-Release;Timed Release;Sustained-Release;Prolonged-release;prolonged release;extended-release;extended release;repeat release;repeat-release;repeat action;repeat-action
+MESH:D050091	DosageForm	Dendrimers
+MESH:D004304	DosageForm	Dosage Forms	delivery form;delivery forms;pharmaceutical form;pharmaceutical forms
+MESH:D004337	DosageForm	Drug Carriers	pharmaceutical carrier;active substance carrier
+MESH:D016503	DosageForm	Drug Delivery Systems	Targeted Drug Delivery;Molecularly Targeted Therapy;drug release system
+MESH:D004343	DosageForm	Drug Implants	Parenteral depot drug form;Parenteral depot form;Depot drug form;Parenteral depositary form;Subcutaneous implant;Biodegradable implants;In-situ implants;In-situ microparticles;In situ microparticles
+MESH:D000079522	DosageForm	E-Cigarette Vapor	e-cigarette vaporizer;e cigarette vaporizer
+MESH:D004655	DosageForm	Emulsions	Microemulsions;Nanoemulsions;Micro emulsions;Nano emulsions;Micro-emulsions;Nano-emulsions
+MESH:D005217	DosageForm	Fat Emulsions, Intravenous
+MESH:D037741	DosageForm	Fullerenes
+MESH:D005782	DosageForm	Gels	nasal gel;jellies;jelly
+MESH:D020136	DosageForm	Hydrogel, Polyethylene Glycol Dimethacrylate
+MESH:D020100	DosageForm	Hydrogels
+MESH:D007332	DosageForm	Insulin Infusion Systems	insulin pump;Programmable implantable insulin pump
+MESH:D008038	DosageForm	Liniments
+MESH:D008081	DosageForm	Liposomes	liposomal;immunoliposome;Stealth Liposome
+MESH:D058185	DosageForm	Magnetite Nanoparticles	Magnetite Nano particles;Magnetite Nano particle;Nano particle, Magnetite;Nano particles, Magnetite;Magnetite Nano-particles;Magnetite Nano-particle;Nano-particle, Magnetite;Nano-particles, Magnetite
+MESH:D053768	DosageForm	Metal Nanoparticles	Metal Nano particles;Metal Nano particle;Nano particle, Metal;Nano particles, Metal;Metallic Nano particles;Metallic Nano particle;Nano particle, Metallic;Nano particles, Metallic;Metal Nano crystals;Metal Nano crystal;Nano crystal, Metal;Nano crystals, Metal;Metallic Nano crystals;Metallic Nano crystal;Metal Nano-particles;Metal Nano-particle;Nano-particle, Metal;Nano-particles, Metal;Metallic Nano-particles;Metallic Nano-particle;Nano-particle, Metallic;Nano-particles, Metallic;Metal Nano-crystals;Metal Nano-crystal;Nano-crystal, Metal;Nano-crystals, Metal;Metallic Nano-crystals;Metallic Nano-crystal;Nano-crystal, Metallic
+MESH:D008823	DosageForm	Micelles	micellar
+MESH:D000080386	DosageForm	Microgels	Micro gels;Micro gel;Micro-gels;Micro-gel
+MESH:D000080873	DosageForm	Multifunctional Nanoparticles	Multifunctional Nano particles;Multifunctional Nano particle;Nano particle, Multifunctional;Nano particles, Multifunctional;Two-Faced Nano particles;Two Faced Nano particles;Two-Faced Nano particle;Janus Nano particles;Multifunctional Nano-particles;Multifunctional Nano-particle;Nano-particle, Multifunctional;Nano-particles, Multifunctional;Two-Faced Nano-particles;Two Faced Nano-particles;Two-Faced Nano-particle;Janus Nano-particles
+MESH:D053769	DosageForm	Nanocapsules	Nano-capsules;Nano-capsule;Nano capsules;Nano capsule
+MESH:D058726	DosageForm	Nanoconjugates	Nano conjugates;Nano conjugate;Nano-conjugates;Nano-conjugate;nanoparticle conjugate;nano particle conjugate;nano-particle conjugate
+MESH:D058612	DosageForm	Nanodiamonds	Nano diamonds;Nano diamond;Nano-diamonds;Nano-diamond
+MESH:D000080385	DosageForm	Nanogels	Nano gels;Nano composite Gels;Gel, Nano composite;Nano composite Gel;Nano composite Hydrogels;Hydrogel, Nano composite;Nano composite Hydrogel;Nano-gels;Nano-composite Gels;Gel, Nano-composite;Nano-composite Gel;Nano-composite Hydrogels;Hydrogel, Nano-composite;Nano-composite Hydrogel
+MESH:D053758	DosageForm	Nanoparticles	nanoparticular;Nano particles;Nano particle;Nano crystalline Materials;Material, Nano crystalline;Materials, Nano crystalline;Nano crystalline Material;Nano crystals;Nano crystal;Nano-particles;Nano-particle;Nano-crystalline Materials;Material, Nano-crystalline;Materials, Nano-crystalline;Nano-crystalline Material;Nano-crystals;Nano-crystal
+MESH:D057145	DosageForm	Nanoshells	Nano shells;Nano shell;Metal Nano shells;Metal Nano shell;Nano shell, Metal;Nano shells, Metal;Nano-shells;Nano-shell;Metal Nano-shells;Metal Nano-shell;Nano-shell, Metal;Nano-shells, Metal
+MESH:D054118	DosageForm	Nanospheres	nanospherical;Nano spheres;Nano sphere;Nano-spheres;Nano-sphere
+MESH:D043942	DosageForm	Nanotubes	Nano tubes;Nano tube;Nano rods;Nano rod;Nano-tubes;Nano-tube;Nano-rods;Nano-rod
+MESH:D037742	DosageForm	Nanotubes, Carbon	Nano tubes, Carbon;Carbon Nano tube;Nano tube, Carbon;Carbon Nano tubes;Buckytubes;Buckytube;Nano ribbons;Nano ribbon;Nano-tubes, Carbon;Carbon Nano-tube;Nano-tube, Carbon;Carbon Nano-tubes;Buckytubes;Buckytube;Nano-ribbons;Nano-ribbon
+MESH:D045333	DosageForm	Nanotubes, Peptide	Nano tubes, Peptide;Nano tube, Peptide;Peptide Nano tube;Peptide Nano tubes;Nano-tubes, Peptide;Nano-tube, Peptide;Peptide Nano-tube;Peptide Nano-tubes
+MESH:D053770	DosageForm	Nanowires	Nano wires;Nano wire;Nano-wires;Nano-wire
+MESH:D059085	DosageForm	Nasal Sprays	Nose Spray
+MESH:D009824	DosageForm	Ointments	nasal ointment
+MESH:D058993	DosageForm	Oral Sprays	mouth spray
+MESH:D014677	DosageForm	Pharmaceutical Vehicles	drug vehicle;vehicle of drug action;vehicle of drug substance;Excipients;Suspending Agents;Agents, Suspending;Stabilizing Agents;Agents, Stabilizing;carrier substance;carrier material
+MESH:D011208	DosageForm	Powders	multi-dose powder;single dose powder;nasal powder
+MESH:D045663	DosageForm	Quantum Dots	Semiconductor Nano particles;Nano particle, Semiconductor;Nano particles, Semiconductor;Semiconductor Nano particle;Semiconductor Nano crystals;Nano crystal, Semiconductor;Semiconductor Nano crystal;Nano crystals, Semiconductor;Fluorescence nano crystals;Semiconductor Nano-particles;Nano-particle, Semiconductor;Nano-particles, Semiconductor;Semiconductor Nano-particle;Semiconductor Nano-crystals;Nano-crystal, Semiconductor;Semiconductor Nano-crystal;Nano-crystals, Semiconductor;Fluorescence nano-crystals
+MESH:D058428	DosageForm	Silica Gel	silicic acid gel
+MESH:D013488	DosageForm	Suppositories	Suppository, Ovula;Ovules;insert;pessary;pessaries;vaginal inserts;vaginal Suppositories;vaginal Suppository;vaginal pessaries;vaginal pessary;bougies;inserts;vaginal tablet;vaginal pill
+MESH:D013535	DosageForm	Suspensions
+MESH:D013607	DosageForm	Tablets	Tablet core;tablet cores;pastilles;molded tablet;tablet triturates
+MESH:D013608	DosageForm	Tablets, Enteric-Coated	enteric tablet;Gastro-resistant tablet;Gastro resistant tablet
+MESH:D014622	DosageForm	Vaginal Creams, Foams, and Jellies
+MESH:D022701	DosageForm	Virosomes
