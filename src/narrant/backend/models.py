@@ -9,7 +9,6 @@ from sqlalchemy import Column, String, Integer, DateTime, ForeignKeyConstraint, 
     BigInteger, UniqueConstraint
 from sqlalchemy.ext.declarative import declarative_base
 
-import narrant.pubtator.document as document
 from narrant.preprocessing.enttypes import GENE, SPECIES
 from narrant.progress import print_progress_with_eta
 from narrant.pubtator.regex import ILLEGAL_CHAR
@@ -156,7 +155,7 @@ class Document(Base, DatabaseTable):
         doc_query = session.query(Document).filter(Document.collection == collection) \
             .yield_per(BULK_QUERY_CURSOR_COUNT_DEFAULT)
         for res in doc_query:
-            yield document.TaggedDocument(id=res.id, title=res.title, abstract=res.abstract)
+            yield res
 
 
 class Tagger(Base, DatabaseTable):

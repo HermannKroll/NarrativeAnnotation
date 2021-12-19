@@ -100,8 +100,9 @@ def main(arguments=None):
             db_session = Session.get()
             logger.info('Retrieving documents from database...')
             for doc in Document.iterate_over_documents_in_collection(db_session, args.collection):
-                if doc.has_content():
-                    yield doc
+                t_doc = TaggedDocument(id=doc.id, title=doc.title, abstract=doc.abstract)
+                if t_doc.has_content():
+                    yield t_doc
             db_session.remove()
 
     def do_task(in_doc: TaggedDocument):
@@ -130,7 +131,7 @@ def main(arguments=None):
 
     task_queue = multiprocessing.Queue()
     result_queue = multiprocessing.Queue()
-    producer = ProducerWorker(task_queue, generate_tasks, args.workers)
+    producer = ProducerWorker(task_queue, generate_tasks, args.workers, max_tasks=100000)
     workers = [Worker(task_queue, result_queue, do_task) for n in range(args.workers)]
     consumer = ConsumerWorker(result_queue, consume_task, args.workers, shutdown=shutdown_consumer)
 
