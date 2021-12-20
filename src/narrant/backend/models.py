@@ -16,6 +16,7 @@ from narrant.pubtator.regex import ILLEGAL_CHAR
 Base = declarative_base()
 BULK_INSERT_AFTER_K = 100000
 POSTGRES_COPY_LOAD_AFTER_K = 1000000
+BULK_QUERY_CURSOR_COUNT_DEFAULT = 10000
 
 
 def chunks_list(lst, n):
@@ -145,6 +146,17 @@ class Document(Base, DatabaseTable):
             ids.add(int(r[0]))
         return ids
 
+    @staticmethod
+    def count_documents_in_collection(session, collection: str) -> int:
+        return session.query(Document).filter(Document.collection == collection).count()
+
+    @staticmethod
+    def iterate_over_documents_in_collection(session, collection: str):
+        doc_query = session.query(Document).filter(Document.collection == collection) \
+            .yield_per(BULK_QUERY_CURSOR_COUNT_DEFAULT)
+        for res in doc_query:
+            yield res
+
 
 class Tagger(Base, DatabaseTable):
     __tablename__ = "tagger"
@@ -260,8 +272,8 @@ class DocumentClassification(Base, DatabaseTable):
         PrimaryKeyConstraint('document_id', 'document_collection', 'classification', sqlite_on_conflict='IGNORE'),
         ForeignKeyConstraint(('document_id', 'document_collection'), ('document.id', 'document.collection'))
     )
-    document_id = Column(BigInteger)
-    document_collection = Column(String)
+    document_id = Column(BigInteger, index=True)
+    document_collection = Column(String, index=True)
     classification = Column(String)
     explanation = Column(String)
 

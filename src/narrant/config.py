@@ -21,21 +21,21 @@ if not os.path.isdir(TMP_DIR_TAGGER):
 MESH_ONTOLOGY_INDEX_FILE = os.path.join(TMP_DIR, "mesh_ontology_index.pkl")
 
 # MESH
-MESH_DESCRIPTORS_FILE = os.path.join(DATA_DIR, "desc2021.xml")
-MESH_SUPPLEMENTARY_FILE = os.path.join(DATA_DIR, "supp2021.xml")
-MESH_ID_TO_HEADING_INDEX_FILE = os.path.join(TMP_DIR, 'desc2021_id2heading.pkl')
+MESH_DESCRIPTORS_FILE = os.path.join(DATA_DIR, "desc2022.xml")
+MESH_SUPPLEMENTARY_FILE = os.path.join(DATA_DIR, "supp2022.xml")
+MESH_ID_TO_HEADING_INDEX_FILE = os.path.join(TMP_DIR, 'desc2022_id2heading.pkl')
 MESH_SUPPLEMENTARY_ID_TO_HEADING_INDEX_FILE = os.path.join(TMP_DIR, 'supp2021_id2heading.pkl')
 
 # CHEMBL
-CHEMBL_DRUG_CSV = os.path.join(RESOURCE_DIR, "chembl2021.csv")
+CHEMBL_DRUG_CSV = os.path.join(RESOURCE_DIR, "vocabularies/drug/chembl29.csv")
 
 # DrugBank
 DRUGBANK_XML_DUMP = os.path.join(DATA_DIR, "drugbank2021.xml")
 
 # GENE
-GENE_FILE = os.path.join(DATA_DIR, 'gene_info_2021.gz')
-GENE_INDEX_FILE = os.path.join(TMP_DIR, 'gene_info_2021_id2name.pkl')
-GENE_TO_HUMAN_ID_FILE = os.path.join(TMP_DIR, 'gene_2021_to_human_id.pkl')
+GENE_FILE = os.path.join(DATA_DIR, 'gene_info_2022.gz')
+GENE_INDEX_FILE = os.path.join(TMP_DIR, 'gene_info_2022_id2name.pkl')
+GENE_TO_HUMAN_ID_FILE = os.path.join(TMP_DIR, 'gene_2022_to_human_id.pkl')
 
 # Taxonomy Names 2020
 TAXONOMY_FILE = os.path.join(RESOURCE_DIR, 'taxonomy_names_2020.gz')
@@ -51,35 +51,32 @@ BACKEND_CONFIG = os.path.join(CONFIG_DIR, "backend.json")
 DICT_TAGGER_BLACKLIST = os.path.join(RESOURCE_DIR, "dict_tagger_blacklist.txt")
 
 # DosageForm Tagger
-DOSAGE_FORM_TAGGER_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, "dosage_form_cache.pkl")
-DOSAGE_ADDITIONAL_DESCS = os.path.join(RESOURCE_DIR, "df_additional_descs.txt")
-DOSAGE_ADDITIONAL_DESCS_TERMS = os.path.join(RESOURCE_DIR, "df_additional_descs_terms.txt")
-DOSAGE_FID_DESCS = os.path.join(RESOURCE_DIR, "df_fid_descriptors.txt")
+DOSAGEFORM_TAGGER_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, 'vocabularies/dosageform')
+
+DOSAGE_ADDITIONAL_DESCS = os.path.join(RESOURCE_DIR, "vocabularies/dosageform/df_additional_descs.txt")
+DOSAGE_ADDITIONAL_DESCS_TERMS = os.path.join(RESOURCE_DIR, "vocabularies/dosageform/df_additional_descs_terms.txt")
+DOSAGE_FID_DESCS = os.path.join(RESOURCE_DIR, "vocabularies/dosageform/df_fid_descriptors.txt")
 
 # Drug Tagger
-DRUG_TAGGER_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, "drug_cache.pkl")
-CHEMBL_CHEMICAL_DATABASE_FILE = os.path.join(RESOURCE_DIR, "chembl_chemicals.txt")
-CHEMBL_BLACKLIST_FILE = os.path.join(RESOURCE_DIR, "chembl_blacklist.txt")
-CHEMBL_CHEMICAL_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, "chemical_cache.pkl")
+CHEMBL_CHEMICAL_DATABASE_FILE = os.path.join(RESOURCE_DIR, "vocabularies/chemical/chembl_chemicals.txt")
+CHEMBL_BLACKLIST_FILE = os.path.join(RESOURCE_DIR, "vocabularies/drug/chembl_blacklist.txt")
 
 # Excipient Tagger
-EXCIPIENT_TAGGER_DATABASE_FILE = os.path.join(RESOURCE_DIR, 'excipient_database_2020.csv')
-EXCIPIENT_CURATED_LIST_FILE = os.path.join(RESOURCE_DIR, "excipients_curated2021.txt")
-EXCIPIENT_TAGGER_DRUGBANK_EXCIPIENT_FILE = os.path.join(RESOURCE_DIR, 'chembl_excipients.txt')
-EXCIPIENT_TAGGER_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, "excipient_cache.pkl")
+EXCIPIENT_TAGGER_DATABASE_FILE = os.path.join(RESOURCE_DIR, 'vocabularies/excipient/excipient_database_2020.csv')
+EXCIPIENT_CURATED_LIST_FILE = os.path.join(RESOURCE_DIR, "vocabularies/excipient/excipients_curated2021.txt")
+EXCIPIENT_TAGGER_DRUGBANK_EXCIPIENT_FILE = os.path.join(RESOURCE_DIR, 'vocabularies/excipient/chembl_excipients.txt')
 
 # Disease Tagger
-DISEASE_TAGGER_DATABASE_FILE = MESH_DESCRIPTORS_FILE
-DISEASE_TAGGER_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, 'disease_cache.pkl')
+DISEASE_TAGGER_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, 'vocabularies/disease')
 
 # Method Tagger
-METHOD_CLASSIFICATION_FILE = os.path.join(RESOURCE_DIR, "method_classification.tsv")
-METHOD_TAGGER_DATABASE_FILE = MESH_DESCRIPTORS_FILE
-METHOD_TAGGER_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, 'method_cache.pkl')
-
-LAB_METHOD_TAGGER_DATABASE_FILE = MESH_DESCRIPTORS_FILE
-LAB_METHOD_TAGGER_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, 'lab_method_cache.pkl')
+METHOD_CLASSIFICATION_FILE = os.path.join(RESOURCE_DIR, "vocabularies/labmethod/method_classification.tsv")
+METHOD_TAGGER_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, "vocabularies/method")
 
 # Plant Family Tagger
-PLANT_FAMILTY_DATABASE_FILE = os.path.join(RESOURCE_DIR, 'plant_families_2020.txt')
-PLANT_FAMILTY_INDEX_CACHE = os.path.join(TMP_DIR_TAGGER, 'plant_families_cache.pkl')
+PLANT_SPECIFIC_RULES = os.path.join(RESOURCE_DIR, 'vocabularies/plant_family_genus/plant_specific_rules.txt')
+PLANT_GENUS_DATABASE_FILE = os.path.join(RESOURCE_DIR, 'vocabularies/plant_family_genus/plant_families_2020.txt')
+PLANT_FAMILY_WIKIDATA_FILE = os.path.join(RESOURCE_DIR, 'vocabularies/plant_family_genus/plant_family_wikidata.txt')
+
+# Vaccine Tagger
+VACCINE_TAGGER_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, 'vocabularies/vaccine')

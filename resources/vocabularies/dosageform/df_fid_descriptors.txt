@@ -1,0 +1,27 @@
+id	enttype	heading	synonyms
+FIDX1	DosageForm	coated tablet	Film-coated;Film coated;Dragée;Dragee;sugar-coated;sugar coated;gelatin-coated;gelatin coated
+FIDX2	DosageForm	Effervescent tablet	fizzy tablet
+FIDX3	DosageForm	soluble tablet
+FIDX4	DosageForm	dispersible tablet	rapidly disintegration tablets;rapidly dissolving tablets
+FIDX5	DosageForm	orodispersible tablet
+FIDX6	DosageForm	Tablets for use in the oral cavity	Buccal tablet;Lozenge;troches;sublingual tablet;Chewable tablet
+FIDX7	DosageForm	modified release tablets	matrix tablet;immediate release tablets;rapidly melting tablet;Controlled Release tablet;Delayed Release tablet;Sustained Release tablet;Controlled tablet;Sustained tablet;Sustained-Release tablet;modified-release tablet;modified release tablet;Delayed-Release tablet;Timed-Release tablet;Timed Release tablet;Sustained-Release tablet;Prolonged-release tablet;prolonged release tablet;extended-release tablet;extended release tablet;repeat release tablet;repeat-release tablet;repeat action tablet;repeat-action tablet
+FIDX8	DosageForm	mucoadhesive preparations	mucoadhesive polymer;mucoadhesive tablet;mucoadhesive drug delivery system;mucoadhesive
+FIDX9	DosageForm	granulate	Instant Granules;Granules;effervescent granules;effervescent granulate;effervescent granulated salts;granulated
+FIDX10	DosageForm	films	orodispersible films
+FIDX11	DosageForm	syrups	dry syrup
+FIDX12	DosageForm	foams
+FIDX13	DosageForm	patches	drug patches;active-ingredient patches;medicated plasters;plasters;cutaneous patches;patch
+FIDX14	DosageForm	sticks	nasal sticks;sticks
+FIDX15	DosageForm	Pharmaceutical tampons	ear tampons;tampons;rectal tampons
+FIDX16	DosageForm	Spray	ear sprays
+FIDX17	DosageForm	ophthalmic inserts
+FIDX19	DosageForm	shampoos and soaps	shampoos;soaps;douche
+FIDX20	DosageForm	pellets
+FIDX21	DosageForm	elixirs
+FIDX22	DosageForm	tinctures
+FIDX23	DosageForm	lollipop
+FIDX24	DosageForm	poultices
+FIDX25	DosageForm	intrauterine device
+FIDX26	DosageForm	microneedle	micro needle;micro-needle
+FIDX27	DosageForm	nanoneedle	nano needle;nano-needle

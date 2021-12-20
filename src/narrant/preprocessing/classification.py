@@ -1,20 +1,17 @@
-import logging
 import multiprocessing
 import os
 import shutil
 import tempfile
 from argparse import ArgumentParser
-from datetime import datetime
 
 from narrant.backend.database import Session
 from narrant.backend.load_document import document_bulk_load
-from narrant.backend.models import DocumentClassification
+from narrant.backend.models import DocumentClassification, Document
 from narrant.config import PREPROCESS_CONFIG
-from narrant.preprocessing.classifier import Classifyer
-from narrant.preprocessing.config import Config
+from narrant.preprocessing.classifier import Classifier
+from narrant.preprocessing.dictpreprocess import prepare_input
 from narrant.preprocessing.preprocess import init_preprocess_logger, init_sqlalchemy_logger
 from narrant.progress import Progress
-from narrant.pubtator import count
 from narrant.pubtator.document import TaggedDocument
 from narrant.pubtator.extract import read_pubtator_documents
 from narrant.util.multiprocessing.ConsumerWorker import ConsumerWorker
@@ -41,15 +38,14 @@ def main(arguments=None):
                                 type=int)
     parser.add_argument("-y", "--yes_force", help="skip prompt for workdir deletion", action="store_true")
 
-    parser.add_argument("input", help="composite pubtator file", metavar="IN_DIR")
+    parser.add_argument("-i", "--input", required=False, help="composite pubtator file", metavar="IN_DIR")
     args = parser.parse_args(arguments)
 
-    conf = Config(args.config)
-
     # create directories
-    root_dir = root_dir = os.path.abspath(args.workdir) if args.workdir else tempfile.mkdtemp()
-    log_dir = log_dir = os.path.abspath(os.path.join(root_dir, "log"))
-    in_file = args.input
+    root_dir = os.path.abspath(args.workdir) if args.workdir else tempfile.mkdtemp()
+    log_dir = os.path.abspath(os.path.join(root_dir, "log"))
+    ext_in_file = args.input
+    in_file = os.path.abspath(os.path.join(root_dir, "in.pubtator"))
 
     if args.workdir and os.path.exists(root_dir):
         if not args.yes_force:
@@ -70,26 +66,44 @@ def main(arguments=None):
     init_sqlalchemy_logger(os.path.join(log_dir, "sqlalchemy.log"), args.loglevel.upper())
     logger.info(f"Project directory:{root_dir}")
 
-    if not args.skip_load:
-        document_bulk_load(in_file, args.collection, logger=logger)
+    input_file_given = True
+    if args.input:
+        document_ids = prepare_input(ext_in_file, in_file, logger, args.collection)
+        number_of_docs = len(document_ids)
+
+        if number_of_docs == 0:
+            logger.info('No documents to process - stopping')
+            exit(1)
+
+        if not args.skip_load:
+            document_bulk_load(in_file, args.collection, logger=logger)
+        else:
+            logger.info("Skipping bulk load")
     else:
-        logger.info("Skipping bulk load")
+        input_file_given = False
+        logger.info('No input file given')
+        logger.info(f'Counting documents for collection: {args.collection}')
+        session = Session.get()
+        number_of_docs = Document.count_documents_in_collection(session, args.collection)
+        session.remove()
 
-    kwargs = dict(collection=args.collection, root_dir=root_dir, input_dir=None, logger=logger,
-                  log_dir=log_dir, config=conf, mapping_id_file=None, mapping_file_id=None)
-
-    logging.info("counting documents...")
-    number_of_docs = count.count_documents(in_file)
-    logging.info(f"found {number_of_docs}")
-
-    classifier = Classifyer(classification=args.cls, rule_path=args.ruleset)
+    classifier = Classifier(classification=args.cls, rule_path=args.ruleset)
     session = Session.get()
 
     def generate_tasks():
-        for doc in read_pubtator_documents(in_file):
-            t_doc = TaggedDocument(doc, ignore_tags=True)
-            if t_doc and t_doc.has_content():
-                yield t_doc
+        if input_file_given:
+            for doc in read_pubtator_documents(in_file):
+                t_doc = TaggedDocument(doc, ignore_tags=True)
+                if t_doc and t_doc.has_content():
+                    yield t_doc
+        else:
+            db_session = Session.get()
+            logger.info('Retrieving documents from database...')
+            for doc in Document.iterate_over_documents_in_collection(db_session, args.collection):
+                t_doc = TaggedDocument(id=doc.id, title=doc.title, abstract=doc.abstract)
+                if t_doc.has_content():
+                    yield t_doc
+            db_session.remove()
 
     def do_task(in_doc: TaggedDocument):
         classifier.classify_document(in_doc)
@@ -117,7 +131,7 @@ def main(arguments=None):
 
     task_queue = multiprocessing.Queue()
     result_queue = multiprocessing.Queue()
-    producer = ProducerWorker(task_queue, generate_tasks, args.workers)
+    producer = ProducerWorker(task_queue, generate_tasks, args.workers, max_tasks=100000)
     workers = [Worker(task_queue, result_queue, do_task) for n in range(args.workers)]
     consumer = ConsumerWorker(result_queue, consume_task, args.workers, shutdown=shutdown_consumer)
 

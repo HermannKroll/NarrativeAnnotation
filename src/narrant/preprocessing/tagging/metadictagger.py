@@ -1,11 +1,6 @@
-import logging
-import os
-from typing import List, Dict
+from typing import List
 
-import narrant.preprocessing.enttypes as et
 import narrant.preprocessing.tagging.dictagger as dt
-from narrant.preprocessing.tagging import drug, dosage, excipient, plantfamily, chemical, disease, method, \
-    labmethod
 from narrant.pubtator.document import TaggedEntity
 
 """
@@ -25,8 +20,8 @@ class MetaDicTagger(dt.DictTagger):
         pass
 
     def __init__(self, vocabulary=None, *args, **kwargs):
-        super().__init__(short_name="meTa", long_name="meta dict tagger", version=None, tag_types=None,
-                         index_cache=None, source_file=None, *args, **kwargs)
+        super().__init__(short_name="meTa", long_name="meta dict tagger", version=None, tag_types=None, source=None,
+                         *args, **kwargs)
 
         self._sub_taggers: List[dt.DictTagger] = []
         self._vocabs = {}
@@ -34,7 +29,6 @@ class MetaDicTagger(dt.DictTagger):
             vocabulary.load_vocab()
             self._vocabs = vocabulary.vocabularies
         self.tag_types = set()
-        os.makedirs(self.out_dir)
 
     def add_tagger(self, tagger: dt.DictTagger):
         self._sub_taggers.append(tagger)
@@ -67,42 +61,3 @@ class MetaDicTagger(dt.DictTagger):
 
     def get_types(self):
         return self.tag_types
-
-
-class PharmDictTagger:
-    __name__ = "PharmDictTagger"
-    __version__ = "1.0"
-
-
-    tagger_by_type: Dict[str, dt.DictTagger] = {
-        et.DRUG: drug.DrugTagger,
-        et.DOSAGE_FORM: dosage.DosageFormTagger,
-        et.EXCIPIENT: excipient.ExcipientTagger,
-        et.PLANT_FAMILY: plantfamily.PlantFamilyTagger,
-        et.CHEMBL_CHEMICAL: chemical.ChemicalTagger,
-        et.DISEASE: disease.DiseaseTagger,
-        et.METHOD: method.MethodTagger,
-        et.LAB_METHOD: labmethod.LabMethodTagger
-    }
-
-    @staticmethod
-    def get_supported_tagtypes():
-        return set(PharmDictTagger.tagger_by_type.keys())
-
-    def __init__(self, tag_types, tagger_kwargs):
-        self.tag_types = tag_types
-        self.tagger_kwargs = tagger_kwargs
-
-    def create_MetaDicTagger(self):
-        metatag = MetaDicTagger(**self.tagger_kwargs)
-        for tag_type in self.tag_types:
-            subtagger = PharmDictTagger.tagger_by_type.get(tag_type)
-            if not subtagger:
-                logging.warning(f"No tagging class found for tagtype {tag_type}!")
-                continue
-            metatag.add_tagger(subtagger(**self.tagger_kwargs))
-
-        # reset taggers name and version
-        metatag.__name__ = self.__name__
-        metatag.__version__ = self.__version__
-        return metatag

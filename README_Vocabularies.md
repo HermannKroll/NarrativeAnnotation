@@ -1,4 +1,3 @@
-
 # Plant Family/Genus
 
 Plant Family Wikidata:
@@ -77,3 +76,4 @@ ORDER BY ASC(?itemLabel)
 
 file must be converted to our internal vocabulary format. 
 Use MeSH Descriptors instead of Wikidata ids if possible.
+Download the latest version from [ChEMBL](https://chembl.gitbook.io/chembl-interface-documentation/downloads).

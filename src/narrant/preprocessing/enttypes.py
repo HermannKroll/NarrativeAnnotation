@@ -14,10 +14,11 @@ DOMAINMOTIF = "DomainMotif"
 GENUS = "Genus"
 STRAIN = "Strain"
 EXCIPIENT = "Excipient"
-PLANT_FAMILY = "PlantFamily"
+PLANT_FAMILY_GENUS = "PlantFamily/Genus"
 CHEMBL_CHEMICAL = "Chemical"
 METHOD = "Method"
 LAB_METHOD = "LabMethod"
+VACCINE = "Vaccine"
 
 ALL = (
     DOSAGE_FORM,
@@ -34,21 +35,23 @@ ALL = (
     DNAMUTATION,
     DOMAINMOTIF,
     EXCIPIENT,
-    PLANT_FAMILY,
+    PLANT_FAMILY_GENUS,
     CHEMBL_CHEMICAL,
     METHOD,
-    LAB_METHOD
+    LAB_METHOD,
+    VACCINE
 )
 
 DALL = {
     DOSAGE_FORM,
     DRUG,
     EXCIPIENT,
-    PLANT_FAMILY,
+    PLANT_FAMILY_GENUS,
     CHEMBL_CHEMICAL,
     DISEASE,
     METHOD,
-    LAB_METHOD
+    LAB_METHOD,
+    VACCINE
 }
 
 # set of all tags which are supported by our taggers
@@ -60,10 +63,11 @@ ENT_TYPES_SUPPORTED_BY_TAGGERS = (
     GENE,
     SPECIES,
     DISEASE,
-    PLANT_FAMILY,
+    PLANT_FAMILY_GENUS,
     CHEMBL_CHEMICAL,
     METHOD,
-    LAB_METHOD
+    LAB_METHOD,
+    VACCINE
 )
 
 TAG_TYPE_MAPPING = dict(
@@ -71,7 +75,7 @@ TAG_TYPE_MAPPING = dict(
     DR=DRUG,
     DC=CHEMBL_CHEMICAL,
     E=EXCIPIENT,
-    PF=PLANT_FAMILY,
+    PF=PLANT_FAMILY_GENUS,
     C=CHEMICAL,
     MU=MUTATION,
     G=GENE,
@@ -104,7 +108,7 @@ ENTITY_TYPES = dict(
     Genus=GENUS,
     Strain=STRAIN,
     Excipient=EXCIPIENT,
-    PlantFamily=PLANT_FAMILY,
+    PlantFamily=PLANT_FAMILY_GENUS,
     DrugBankChemical=CHEMBL_CHEMICAL,
     Method=METHOD,
     LabMethod=LAB_METHOD

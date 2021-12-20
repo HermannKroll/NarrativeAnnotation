@@ -8,13 +8,13 @@ from shutil import copyfile
 from time import sleep
 
 from narrant.preprocessing import enttypes
-from narrant.preprocessing.tagging.base import BaseTagger
+from narrant.preprocessing.tagging.external_base import ExternalTaggerBase
 from narrant.preprocessing.utils import get_document_id
 from narrant.progress import print_progress_with_eta
 from narrant.pubtator.count import get_document_ids
 
 
-class GNormPlus(BaseTagger):
+class GNormPlus(ExternalTaggerBase):
     TYPES = (enttypes.GENE, enttypes.SPECIES)
     __name__ = "GNormPlus"
     __version__ = "unknown"
