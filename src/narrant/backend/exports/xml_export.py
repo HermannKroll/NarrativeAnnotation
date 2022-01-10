@@ -31,6 +31,8 @@ def get_entity_source(entity_id, entity_type):
         return "MeSH"
     if entity_id_str.startswith('fid'):
         return "FID"
+    if entity_id_str.startswith('q'):
+        return "Wikidata"
     if entity_id_str.startswith('db'):
         return "DrugBank"
     if entity_id_str.startswith('chembl'):
