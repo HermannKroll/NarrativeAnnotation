@@ -4,10 +4,22 @@ from pathlib import Path
 from typing import Union
 
 
+class VocabularyEntry:
+
+    def __init__(self, entity_id, entity_type, heading, synonyms):
+        self.entity_id = entity_id
+        self.entity_type = entity_type
+        self.heading = heading
+        self.synonyms = synonyms
+
+
 class Vocabulary:
     def __init__(self, path: Union[str, Path]):
         self.path = path
         self.vocabularies = defaultdict(lambda: defaultdict(set))
+        self.vocabulary_entries = list()
+        self._entry_by_id_and_type = {}
+        self.size = 0
 
     def load_vocab(self, expand_terms=True):
         if self.vocabularies:
@@ -17,6 +29,17 @@ class Vocabulary:
             for line in reader:
                 if not line["heading"] or not line["enttype"] or not line["id"]:
                     continue
+
+                self.size += 1
+                entry = VocabularyEntry(line["id"], line["enttype"], line["heading"], line["synonyms"])
+                self.vocabulary_entries.append(entry)
+
+                key = (line["id"], line["enttype"])
+                if key in self._entry_by_id_and_type:
+                    raise ValueError(f"Found duplicated entry in vocabulary: {key}")
+                else:
+                    self._entry_by_id_and_type[key] = entry
+
                 if expand_terms:
                     for syn in {s
                                 for t in (line["synonyms"].split(";") if line["synonyms"] else []) + [line["heading"]]
@@ -27,6 +50,15 @@ class Vocabulary:
                                 for t in (line["synonyms"].split(";") if line["synonyms"] else []) + [line["heading"]]}:
                         self.vocabularies[line["enttype"]][syn] |= {line["id"]}
             self.vocabularies = {k: dict(v) for k, v in self.vocabularies.items()}
+
+    def get_entity_heading(self, entity_id: str, entity_type: str) -> str:
+        """
+        Get an entity heading from the vocabulary
+        :param entity_id: entity id
+        :param entity_type: entity type
+        :return: heading
+        """
+        return self._entry_by_id_and_type[(entity_id, entity_type)].heading
 
     def get_ent_types(self):
         return self.vocabularies.keys()
