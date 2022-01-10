@@ -253,7 +253,7 @@ Read the Indexes section before.
 First, the entity linking annotations can be exported in two formats: JSON and PubTator.
 You can export the annotations via:
 ```
-python src/narrant/backend/export.py EXPORT_FILE -d -t A --format JSON --collection COLLECTION
+python3 src/narrant/backend/export.py EXPORT_FILE -d -t A --format JSON --collection COLLECTION
 ```
 You can export only tags (only -t A) or document contents and tags (-d and -t A).
 You can export a whole document collection or a set of document ids in that collection.
