@@ -11,13 +11,14 @@ from itertools import islice
 from narrant.backend.database import Session
 from narrant.backend.models import Tag
 from narrant.config import GENE_FILE, GENE_INDEX_FILE, MESH_DESCRIPTORS_FILE, MESH_ID_TO_HEADING_INDEX_FILE, \
-    TAXONOMY_INDEX_FILE, TAXONOMY_FILE, DOSAGE_FID_DESCS, MESH_SUPPLEMENTARY_FILE, \
-    MESH_SUPPLEMENTARY_ID_TO_HEADING_INDEX_FILE, CHEMBL_DRUG_CSV
+    TAXONOMY_INDEX_FILE, TAXONOMY_FILE, MESH_SUPPLEMENTARY_FILE, \
+    MESH_SUPPLEMENTARY_ID_TO_HEADING_INDEX_FILE, CHEMBL_DRUG_CSV, DOSAGEFORM_TAGGER_VOCAB, VACCINE_TAGGER_VOCAB
 from narrant.entity.meshontology import MeSHOntology
 from narrant.mesh.data import MeSHDB
 from narrant.mesh.supplementary import MeSHDBSupplementary
 from narrant.preprocessing.enttypes import GENE, CHEMICAL, DISEASE, SPECIES, DOSAGE_FORM, EXCIPIENT, PLANT_FAMILY_GENUS, \
-    LAB_METHOD, METHOD
+    LAB_METHOD, METHOD, VACCINE
+from narrant.preprocessing.tagging.vocabulary import Vocabulary
 
 
 class MeshResolver:
@@ -247,14 +248,12 @@ class DosageFormResolver:
     """
 
     def __init__(self, mesh_resolver):
-        self.mesh = mesh_resolver
-        self.fid2name = {}
         start_time = datetime.now()
-        with open(DOSAGE_FID_DESCS, 'rt') as f:
-            for line in f:
-                df_id, df_head, *rest = line.strip().split('\t')
-                self.fid2name[df_id] = df_head
-        logging.info('DosageForm index ({} keys) load in {}s'.format(len(self.fid2name), datetime.now() - start_time))
+        self.mesh = mesh_resolver
+        self.dosageform_vocabulary = Vocabulary(DOSAGEFORM_TAGGER_VOCAB)
+        self.dosageform_vocabulary.load_vocab(expand_terms=False)
+        logging.info('DosageForm index ({} keys) load in {}s'.format(self.dosageform_vocabulary.size,
+                                                                     datetime.now() - start_time))
 
     def dosage_form_to_name(self, dosage_form_id):
         """
@@ -265,7 +264,7 @@ class DosageFormResolver:
         if dosage_form_id.startswith('MESH:'):
             return self.mesh.descriptor_to_heading(dosage_form_id)
         else:
-            return self.fid2name[dosage_form_id]
+            return self.dosageform_vocabulary.get_entity_heading(dosage_form_id, DOSAGE_FORM)
 
 
 class ExcipientResolver:
@@ -304,6 +303,28 @@ class ChEMBLDatabaseResolver:
         return self.chemblid2name[chembl_id]
 
 
+class VaccineResolver:
+
+    def __init__(self, mesh_resolver):
+        start_time = datetime.now()
+        self.mesh = mesh_resolver
+        self.vaccine_vocab = Vocabulary(VACCINE_TAGGER_VOCAB)
+        self.vaccine_vocab.load_vocab()
+        logging.info('DosageForm index ({} keys) load in {}s'.format(self.vaccine_vocab.size,
+                                                                     datetime.now() - start_time))
+
+    def vaccine_to_heading(self, entity_id):
+        """
+        Returns the heading for a vaccine
+        :param entity_id: vaccine id
+        :return:
+        """
+        if entity_id.startswith('MESH:'):
+            return self.mesh.descriptor_to_heading(entity_id)
+        else:
+            return self.vaccine_vocab.get_entity_heading(entity_id, VACCINE)
+
+
 class EntityResolver:
     """
     EntityResolver translates an entity id and an entity type to it's corresponding name
@@ -329,6 +350,7 @@ class EntityResolver:
             self.plantfamily = PlantFamilyResolver()
             self.chebml = ChEMBLDatabaseResolver()
             self.chebml.load_index()
+            self.vaccine = VaccineResolver(self.mesh)
 
             EntityResolver.__instance = self
 
@@ -372,6 +394,8 @@ class EntityResolver:
             return self.excipient.excipient_id_to_name(entity_id)
         if entity_type == PLANT_FAMILY_GENUS:
             return self.plantfamily.plant_family_id_to_name(entity_id)
+        if entity_type == VACCINE:
+            return self.vaccine.vaccine_to_heading(entity_id)
 
         return entity_id
 

@@ -52,6 +52,7 @@ DICT_TAGGER_BLACKLIST = os.path.join(RESOURCE_DIR, "dict_tagger_blacklist.txt")
 
 # DosageForm Tagger
 DOSAGEFORM_TAGGER_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, 'vocabularies/dosageform')
+DOSAGEFORM_TAGGER_VOCAB = os.path.join(DOSAGEFORM_TAGGER_VOCAB_DIRECTORY, "vocabulary.tsv")
 
 DOSAGE_ADDITIONAL_DESCS = os.path.join(RESOURCE_DIR, "vocabularies/dosageform/df_additional_descs.txt")
 DOSAGE_ADDITIONAL_DESCS_TERMS = os.path.join(RESOURCE_DIR, "vocabularies/dosageform/df_additional_descs_terms.txt")
@@ -80,3 +81,4 @@ PLANT_FAMILY_WIKIDATA_FILE = os.path.join(RESOURCE_DIR, 'vocabularies/plant_fami
 
 # Vaccine Tagger
 VACCINE_TAGGER_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, 'vocabularies/vaccine')
+VACCINE_TAGGER_VOCAB = os.path.join(VACCINE_TAGGER_VOCAB_DIRECTORY, "vocabulary.tsv")

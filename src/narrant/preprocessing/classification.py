@@ -9,11 +9,12 @@ from narrant.backend.load_document import document_bulk_load
 from narrant.backend.models import DocumentClassification, Document
 from narrant.config import PREPROCESS_CONFIG
 from narrant.preprocessing.classifier import Classifier
-from narrant.preprocessing.dictpreprocess import prepare_input
 from narrant.preprocessing.preprocess import init_preprocess_logger, init_sqlalchemy_logger
 from narrant.progress import Progress
+from narrant.pubtator import count
 from narrant.pubtator.document import TaggedDocument
 from narrant.pubtator.extract import read_pubtator_documents
+from narrant.pubtator.sanitize import filter_and_sanitize
 from narrant.util.multiprocessing.ConsumerWorker import ConsumerWorker
 from narrant.util.multiprocessing.ProducerWorker import ProducerWorker
 from narrant.util.multiprocessing.Worker import Worker
@@ -68,8 +69,10 @@ def main(arguments=None):
 
     input_file_given = True
     if args.input:
-        document_ids = prepare_input(ext_in_file, in_file, logger, args.collection)
-        number_of_docs = len(document_ids)
+        logger.info("Reading input file and counting document ids...")
+        in_ids = count.get_document_ids(ext_in_file)
+        filter_and_sanitize(ext_in_file, in_file, in_ids, logger)
+        number_of_docs = len(in_ids)
 
         if number_of_docs == 0:
             logger.info('No documents to process - stopping')

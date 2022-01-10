@@ -250,6 +250,105 @@ python3 src/narrant/build_all_indexes.py --complete
 
 # Export
 Read the Indexes section before.
+First, the entity linking annotations can be exported in two formats: JSON and PubTator.
+You can export the annotations via:
+```
+python src/narrant/backend/export.py EXPORT_FILE -d -t A --format JSON --collection COLLECTION
+```
+You can export only tags (only -t A) or document contents and tags (-d and -t A).
+You can export a whole document collection or a set of document ids in that collection.
+See the help for more information.
+
+
+The export file will look like:
+
+JSON (only tags):
+```
+[
+   {
+     "id": 100,
+     "tags": [
+      {
+       "id": "Q2",
+       "mention": "merkel",
+       "start": 14,
+       "end": 20,
+       "type": "Person"
+      },
+      {
+       "id": "Q4",
+       "mention": "hamburg",
+       "start": 33,
+       "end": 40,
+       "type": "Location"
+      }
+     ]
+   }
+]
+```
+
+JSON (tags + content):
+```
+[
+   {
+     "id": 100,
+     "title": "Angela Merkel",
+     "abstract": "Merkel was born in Hamburg in then-West Germany, moving [...].
+     "tags": [
+      {
+       "id": "Q2",
+       "mention": "merkel",
+       "start": 14,
+       "end": 20,
+       "type": "Person"
+      },
+      {
+       "id": "Q4",
+       "mention": "hamburg",
+       "start": 33,
+       "end": 40,
+       "type": "Location"
+      }
+     ]
+   }
+]
+```
+
+
+PubTator (only Tags) is a TSV file. Each line contains:
+- document id
+- start position
+- end position
+- entity id
+- entity type
+- entity mention (string in text)
+
+Values are seperated by a *\t*
+```
+100	14	20	merkel	Person	Q2
+100	33	40	hamburg	Location	Q4
+100	222	226	1986	DATE	1986
+100	268	272	1989	DATE	1989
+100	278	284	merkel	Person	Q2
+100	508	514	merkel	Person	Q2
+100	628	634	merkel	Person	Q2
+100	829	835	merkel	Person	Q2
+```
+PubTator (tags + document content):
+```
+100|t|Angela Merkel
+100|a|Merkel was born in Hamburg in then-West Germany, moving [...].
+100	14	20	merkel	Person	Q2
+100	33	40	hamburg	Location	Q4
+100	222	226	1986	DATE	1986
+100	268	272	1989	DATE	1989
+100	278	284	merkel	Person	Q2
+100	508	514	merkel	Person	Q2
+100	628	634	merkel	Person	Q2
+100	829	835	merkel	Person	Q2
+```
+
+
 ### Export XML UB
 Finally, you can export the documents:
 ```

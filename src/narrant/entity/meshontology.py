@@ -4,7 +4,7 @@ from datetime import datetime
 
 from narrant.config import MESH_DESCRIPTORS_FILE, MESH_ONTOLOGY_INDEX_FILE
 from narrant.mesh.data import MeSHDB
-from narrant.preprocessing.enttypes import DOSAGE_FORM, METHOD, DISEASE
+from narrant.preprocessing.enttypes import DOSAGE_FORM, METHOD, DISEASE, VACCINE
 from narrant.progress import print_progress_with_eta
 
 MESH_TREE_NAMES = dict(
@@ -27,6 +27,7 @@ MESH_TREE_NAMES = dict(
 )
 
 MESH_TREE_TO_ENTITY_TYPE = [
+    ("D20.215.894", VACCINE),  # Vaccines
     ("D26.255", DOSAGE_FORM),  # Dosage Forms
     ("E02.319.300", DOSAGE_FORM),  # Drug Delivery Systems
     ("E02.319.267", DOSAGE_FORM),  # Drug Administration Routes

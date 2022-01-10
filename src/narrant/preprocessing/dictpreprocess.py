@@ -175,9 +175,10 @@ def main(arguments=None):
             db_session = Session.get()
             logger.info('Retrieving documents from database...')
             for doc in Document.iterate_over_documents_in_collection(db_session, args.collection):
-                t_doc = TaggedDocument(id=doc.id, title=doc.title, abstract=doc.abstract)
-                if t_doc.has_content():
-                    yield t_doc
+                if doc.id in document_ids:
+                    t_doc = TaggedDocument(id=doc.id, title=doc.title, abstract=doc.abstract)
+                    if t_doc.has_content():
+                        yield t_doc
             db_session.remove()
 
     def do_task(in_doc: TaggedDocument):
