@@ -309,7 +309,7 @@ class VaccineResolver:
         start_time = datetime.now()
         self.mesh = mesh_resolver
         self.vaccine_vocab = Vocabulary(VACCINE_TAGGER_VOCAB)
-        self.vaccine_vocab.load_vocab()
+        self.vaccine_vocab.load_vocab(expand_terms=False)
         logging.info('DosageForm index ({} keys) load in {}s'.format(self.vaccine_vocab.size,
                                                                      datetime.now() - start_time))
 
