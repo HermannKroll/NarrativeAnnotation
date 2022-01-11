@@ -1,9 +1,41 @@
 import logging
 import os
 from abc import ABCMeta
+from collections import defaultdict
+from typing import Set, List, Tuple
 
+from narrant.entity.entityresolver import EntityResolver
 from narrant.preprocessing.tagging.vocabulary import Vocabulary
 from narrant.vocabularies.mesh_vocabulary import MeSHVocabulary
+
+
+def transform_term2entities_index_to_vocabulary(term2entities: {str: Set[str]}, entity_type: str) -> Vocabulary:
+    """
+    Transforms an inverted term2entities index back to a vocabulary
+    :param term2entities: dict where a term can is mapped to a set of entity ids (str)
+    :param entity_type: the entity type to compute the heading
+    :return: an vocabulary object
+    """
+    resolver = EntityResolver.instance()
+
+    # create vocabulary from reverse index
+    entity2heading = {}
+    entity2terms = defaultdict(set)
+    for term, entities in term2entities.items():
+        if ';' in term:
+            print(f'Warning: {term}')
+            continue
+        for ent in entities:
+            if ent not in entity2heading:
+                entity2heading[ent] = resolver.get_name_for_var_ent_id(ent, entity_type)
+            entity2terms[ent].add(term)
+
+    # compute all vocab entries now
+    vocabulary = Vocabulary("")
+    for entity, heading in entity2heading.items():
+        vocabulary.add_vocab_entry(entity, entity_type, heading, ';'.join([t for t in entity2terms[entity]]))
+
+    return vocabulary
 
 
 class GenericVocabulary(ABCMeta):
@@ -50,7 +82,8 @@ class GenericVocabulary(ABCMeta):
             vocab = Vocabulary(vocabulary_file)
             vocab.load_vocab(expand_terms=expand_terms)
             for ent_type in vocab.get_ent_types():
-                logging.info(f'Entity vocabulary loaded. {len(vocab.vocabularies[ent_type])} terms found for: {ent_type}')
+                logging.info(
+                    f'Entity vocabulary loaded. {len(vocab.vocabularies[ent_type])} terms found for: {ent_type}')
                 GenericVocabulary.merge_vocab_into_1(desc_by_term, vocab.vocabularies[ent_type])
 
         add_mesh_desc_file = os.path.join(vocab_dir, 'mesh_descriptors.txt')
