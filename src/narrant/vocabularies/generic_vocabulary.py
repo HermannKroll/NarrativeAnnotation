@@ -2,7 +2,7 @@ import logging
 import os
 from abc import ABCMeta
 from collections import defaultdict
-from typing import Set, List, Tuple
+from typing import Set
 
 from narrant.entity.entityresolver import EntityResolver
 from narrant.preprocessing.tagging.vocabulary import Vocabulary
@@ -33,7 +33,8 @@ def transform_term2entities_index_to_vocabulary(term2entities: {str: Set[str]}, 
     # compute all vocab entries now
     vocabulary = Vocabulary("")
     for entity, heading in entity2heading.items():
-        vocabulary.add_vocab_entry(entity, entity_type, heading, ';'.join([t for t in entity2terms[entity]]))
+        vocabulary.add_vocab_entry(entity, entity_type, heading, ';'.join([t for t in entity2terms[entity]]),
+                                   expand_terms=False)
 
     return vocabulary
 

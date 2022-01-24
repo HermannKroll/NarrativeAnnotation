@@ -24,6 +24,10 @@ class Vocabulary:
         self._entry_by_id_and_type = {}
         self.size = 0
 
+    def add_vocabulary(self, vocabulary):
+        for entry in vocabulary.vocabulary_entries:
+            self.add_vocab_entry(entry.entity_id, entry.entity_type, entry.heading, entry.synonyms)
+
     def add_vocab_entry(self, entity_id: str, entity_type: str, heading: str, synonyms: str, expand_terms=True):
         self.size += 1
         entry = VocabularyEntry(entity_id, entity_type, heading, synonyms)
