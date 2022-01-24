@@ -24,7 +24,7 @@ MESH_ONTOLOGY_INDEX_FILE = os.path.join(TMP_DIR, "mesh_ontology_index.pkl")
 MESH_DESCRIPTORS_FILE = os.path.join(DATA_DIR, "desc2022.xml")
 MESH_SUPPLEMENTARY_FILE = os.path.join(DATA_DIR, "supp2022.xml")
 MESH_ID_TO_HEADING_INDEX_FILE = os.path.join(TMP_DIR, 'desc2022_id2heading.pkl')
-MESH_SUPPLEMENTARY_ID_TO_HEADING_INDEX_FILE = os.path.join(TMP_DIR, 'supp2021_id2heading.pkl')
+MESH_SUPPLEMENTARY_ID_TO_HEADING_INDEX_FILE = os.path.join(TMP_DIR, 'supp2022_id2heading.pkl')
 
 # CHEMBL
 CHEMBL_DRUG_CSV = os.path.join(RESOURCE_DIR, "vocabularies/drug/chembl29.csv")
