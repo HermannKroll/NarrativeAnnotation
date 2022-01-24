@@ -16,6 +16,8 @@ Some general remarks:
 - there is an additional table (DocumentTranslation) in which such a translation could be stored
 - Documents won't be inserted twice. There is a global setting that duplicated tuples are ignored when inserted in the database.
 
+## Vocabulary Documentation
+The vocabulary documentation can be found [here](README_Vocabularies).
 
 ## Database Schema
 
@@ -73,7 +75,7 @@ pip3 install -r requirements.txt
 ### Python Path
 You need to setup the python path. This procedure must be repeated every time you create a new shell. You can add the path to your bash defaults.
 ```
-export PYTHONPATH=/home/kroll/NarrativeAnnotation/
+export PYTHONPATH=/home/kroll/NarrativeAnnotation/src/
 ```
 
 
