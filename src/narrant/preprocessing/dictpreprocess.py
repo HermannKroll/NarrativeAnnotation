@@ -47,7 +47,7 @@ def add_doc_tagged_by_infos(document_ids: Set[int], collection: str, ent_types: 
     logger.info('Adding doc_tagged_by_info...')
     doc_tagged_by = []
     number_of_docs = len(document_ids)
-    progress = Progress(total=number_of_docs * len(ent_types), print_every=1000, text="Compute insert...")
+    progress = Progress(total=number_of_docs, print_every=1000, text="Compute insert...")
     progress.start_time()
     progress_i = 0
     ent_type_str = '|'.join(sorted([et for et in ent_types]))
@@ -63,7 +63,8 @@ def add_doc_tagged_by_infos(document_ids: Set[int], collection: str, ent_types: 
             date_inserted=datetime.now()
         ))
 
-    logger.info('Inserting...')
+    progress.done()
+    logger.info(f'Inserting {len(doc_tagged_by)} values...')
     session = Session.get()
     DocTaggedBy.bulk_insert_values_into_table(session, doc_tagged_by)
     logger.info('Finished')
