@@ -32,3 +32,6 @@ class Entity:
             return map(lambda d: 'MESH:{}'.format(d[0]), mesh_descs)
         else:
             return {self.entity_id}
+
+    def to_dict(self):
+        return dict(entity_id=self.entity_id, entity_type=self.entity_type)
