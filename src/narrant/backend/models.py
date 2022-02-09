@@ -287,3 +287,16 @@ class DocumentClassification(Base, DatabaseTable):
         for r in query:
             ids.add(int(r[0]))
         return ids
+
+
+class DocumentSection(Base, DatabaseTable):
+    __tablename__ = "document_section"
+    __table_args__ = (
+        PrimaryKeyConstraint('document_id', 'document_collection', 'position', sqlite_on_conflict='IGNORE'),
+        ForeignKeyConstraint(('document_id', 'document_collection'), ('document.id', 'document.collection'))
+    )
+    document_id = Column(BigInteger)
+    document_collection = Column(String)
+    position = Column(Integer)
+    title = Column(String, nullable=False)
+    text = Column(String, nullable=False)
