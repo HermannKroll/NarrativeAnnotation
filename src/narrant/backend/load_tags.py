@@ -88,9 +88,8 @@ def tags_bulk_load(tag_file, collection, tagger_mapping=None, logger=logging):
                     ))
 
             if idx % BULK_LOAD_COMMIT_AFTER == 0:
-                session.bulk_insert_mappings(Tag, tag_inserts)
-                session.bulk_insert_mappings(DocTaggedBy, doc_tagged_by_inserts)
-                session.commit()
+                Tag.bulk_insert_values_into_table(session, tag_inserts)
+                DocTaggedBy.bulk_insert_values_into_table(session, doc_tagged_by_inserts)
 
                 tag_inserts = []
                 doc_tagged_by_inserts = []
@@ -99,9 +98,8 @@ def tags_bulk_load(tag_file, collection, tagger_mapping=None, logger=logging):
                                     print_every_k=PRINT_ETA_EVERY_K_DOCUMENTS)
 
     logger.info(f'inserting {n_docs}')
-    session.bulk_insert_mappings(Tag, tag_inserts)
-    session.bulk_insert_mappings(DocTaggedBy, doc_tagged_by_inserts)
-    session.commit()
+    Tag.bulk_insert_values_into_table(session, tag_inserts)
+    DocTaggedBy.bulk_insert_values_into_table(session, doc_tagged_by_inserts)
 
     sys.stdout.write("\rAdding tags ... done in {}\n".format(datetime.now() - start_time))
     logger.info("Added {} tags in {}".format(n_docs, datetime.now() - start_time))
