@@ -6,7 +6,7 @@ from narrant.backend.models import DocumentSection, Document
 from argparse import ArgumentParser
 
 
-def load_function(input_file: str, collection):
+def load_bioCXML_fulltexts_from_file(input_file: str, collection):
     """
         Loads the PubTator Central Bioc XML Dump to the database
         Extracts information for the tables: Document, DocumentSection
@@ -83,7 +83,7 @@ def main():
                         datefmt='%Y-%m-%d:%H:%M:%S',
                         level=logging.INFO)
 
-    load_function(args.input, args.collection)
+    load_bioCXML_fulltexts_from_file(args.input, args.collection)
 
 
 if __name__ == "__main__":
