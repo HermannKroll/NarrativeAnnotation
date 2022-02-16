@@ -181,11 +181,11 @@ A setup guide is available here: [Setup Guide](README_BIOMEDICAL_TOOS.md).
 ### Run the ThirdParty Annotators
 You may annotate documents with TaggerOne. Assume we have a test document test.pubtator.
 ```
-python3 src/narrant/preprocessing/preprocess.py test.pubtator --collection test --tagger-one 
+python3 src/narrant/preprocessing/preprocess.py test.json --collection test --tagger-one 
 ```
 In addition, you may annotate documents with GNormPlus. 
 ```
-python3 src/narrant/preprocessing/preprocess.py test.pubtator --collection test --gnormplus
+python3 src/narrant/preprocessing/preprocess.py test.json --collection test --gnormplus
 ```
 
 The pipeline will invoke the taggers to tag the documents. The document corpus is *test*.
