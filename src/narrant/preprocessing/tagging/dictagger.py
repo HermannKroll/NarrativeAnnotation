@@ -50,11 +50,11 @@ def split_indexed_words(content):
     for word in words:
         ind = next_index_word
         word_offset = 0
-        if word and re.match(r"[^\w]", word[0]):
+        while word and re.match(r"[^\w]", word[0]):
             word = word[1:]
             ind += 1
             word_offset += 1
-        if word and re.match(r"[^\w]", word[-1]):
+        while word and re.match(r"[^\w]", word[-1]):
             word = word[:-1]
             word_offset += 1
         ind_words.append((word, ind))

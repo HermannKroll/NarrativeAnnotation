@@ -309,7 +309,7 @@ class VaccineResolver:
         start_time = datetime.now()
         self.mesh = mesh_resolver
         self.vaccine_vocab = Vocabulary(VACCINE_TAGGER_VOCAB)
-        self.vaccine_vocab.load_vocab()
+        self.vaccine_vocab.load_vocab(expand_terms=False)
         logging.info('DosageForm index ({} keys) load in {}s'.format(self.vaccine_vocab.size,
                                                                      datetime.now() - start_time))
 
@@ -375,8 +375,11 @@ class EntityResolver:
                 and not entity_id.startswith('FIDX'):
             if not self.mesh_ontology:
                 self.mesh_ontology = MeSHOntology.instance()
-            entity_mesh_id = 'MESH:{}'.format(self.mesh_ontology.get_descriptor_for_tree_no(entity_id)[0])
-            return self.mesh.descriptor_to_heading(entity_mesh_id)
+            try:
+                entity_mesh_id = 'MESH:{}'.format(self.mesh_ontology.get_descriptor_for_tree_no(entity_id)[0])
+                return self.mesh.descriptor_to_heading(entity_mesh_id)
+            except KeyError:
+                pass
         if entity_id.startswith('FIDXLM1') and entity_type == LAB_METHOD:
             return "Assay"
         if entity_id.startswith('MESH:'):

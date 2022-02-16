@@ -5,8 +5,6 @@ import sys
 from datetime import datetime
 from typing import Tuple, Dict
 
-from sqlalchemy.dialects.postgresql import insert
-
 from narrant.backend.database import Session
 from narrant.backend.models import Document, Tag, Tagger, DocTaggedBy
 from narrant.preprocessing import enttypes
@@ -147,10 +145,9 @@ def document_bulk_load(path, collection, tagger_mapping=None, logger=logging):
                 ))
 
         if (idx + 1) % BULK_LOAD_COMMIT_AFTER == 0:
-            session.bulk_insert_mappings(Document, document_inserts)
-            session.bulk_insert_mappings(Tag, tag_inserts)
-            session.bulk_insert_mappings(DocTaggedBy, doc_tagged_by_inserts)
-            session.commit()
+            Document.bulk_insert_values_into_table(session, document_inserts)
+            Tag.bulk_insert_values_into_table(session, tag_inserts)
+            DocTaggedBy.bulk_insert_values_into_table(session, doc_tagged_by_inserts)
 
             document_inserts = []
             tag_inserts = []
@@ -158,10 +155,9 @@ def document_bulk_load(path, collection, tagger_mapping=None, logger=logging):
 
         print_progress_with_eta("Adding documents", idx, n_docs, start_time, print_every_k=PRINT_ETA_EVERY_K_DOCUMENTS)
 
-    session.bulk_insert_mappings(Document, document_inserts)
-    session.bulk_insert_mappings(Tag, tag_inserts)
-    session.bulk_insert_mappings(DocTaggedBy, doc_tagged_by_inserts)
-    session.commit()
+    Document.bulk_insert_values_into_table(session, document_inserts)
+    Tag.bulk_insert_values_into_table(session, tag_inserts)
+    DocTaggedBy.bulk_insert_values_into_table(session, doc_tagged_by_inserts)
 
     sys.stdout.write("\rAdding documents ... done in {}\n".format(datetime.now() - start_time))
     logger.info("Added {} documents in {}".format(n_docs, datetime.now() - start_time))

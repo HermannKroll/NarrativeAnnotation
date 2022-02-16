@@ -47,7 +47,7 @@ def add_doc_tagged_by_infos(document_ids: Set[int], collection: str, ent_types: 
     logger.info('Adding doc_tagged_by_info...')
     doc_tagged_by = []
     number_of_docs = len(document_ids)
-    progress = Progress(total=number_of_docs * len(ent_types), print_every=1000, text="Compute insert...")
+    progress = Progress(total=number_of_docs, print_every=1000, text="Compute insert...")
     progress.start_time()
     progress_i = 0
     ent_type_str = '|'.join(sorted([et for et in ent_types]))
@@ -63,7 +63,8 @@ def add_doc_tagged_by_infos(document_ids: Set[int], collection: str, ent_types: 
             date_inserted=datetime.now()
         ))
 
-    logger.info('Inserting...')
+    progress.done()
+    logger.info(f'Inserting {len(doc_tagged_by)} values...')
     session = Session.get()
     DocTaggedBy.bulk_insert_values_into_table(session, doc_tagged_by)
     logger.info('Finished')
@@ -125,12 +126,6 @@ def main(arguments=None):
     input_file_given = True
     number_of_docs = 0
 
-    session = Session.get()
-    logger.info(f'Getting document ids from database for collection: {args.collection}...')
-    document_ids_in_db = Document.get_document_ids_for_collection(session, args.collection)
-    logger.info(f'{len(document_ids_in_db)} found')
-    session.remove()
-
     if args.input:
         input_file_given = True
         document_ids = prepare_input(ext_in_file, in_file, logger, args.collection)
@@ -140,7 +135,18 @@ def main(arguments=None):
             document_bulk_load(in_file, args.collection, logger=logger)
         else:
             logger.info("Skipping bulk load")
+
+        session = Session.get()
+        logger.info(f'Getting document ids from database for collection: {args.collection}...')
+        document_ids_in_db = Document.get_document_ids_for_collection(session, args.collection)
+        logger.info(f'{len(document_ids_in_db)} found')
+        session.remove()
     else:
+        session = Session.get()
+        logger.info(f'Getting document ids from database for collection: {args.collection}...')
+        document_ids_in_db = Document.get_document_ids_for_collection(session, args.collection)
+        logger.info(f'{len(document_ids_in_db)} found')
+       
         input_file_given = False
         logger.info('No input file given')
         logger.info(f'Retrieving document count for collection: {args.collection}')
@@ -151,6 +157,9 @@ def main(arguments=None):
         todo_ids |= get_untagged_doc_ids_by_tagger(args.collection, document_ids, PharmDictTagger, logger)
         document_ids = todo_ids
         number_of_docs = len(document_ids)
+        session.remove()
+
+
 
     if number_of_docs == 0:
         logger.info('No documents to process - stopping')

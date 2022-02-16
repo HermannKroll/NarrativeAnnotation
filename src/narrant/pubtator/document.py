@@ -291,28 +291,35 @@ class TaggedDocument:
                         self.sentences_by_ent_id[ent_id].add(sid)
                         self.entities_by_sentence[sid].add(entity)
 
-    def to_dict(self):
+    def to_dict(self, export_content=True, export_tags=True):
         """
         converts the TaggedDocument to a dictionary that is consistent with our json ouptut format.
         Gosh, it's beautiful to formulate a json construction in python
         :return:
         """
-        return {
-            "id": self.id,
-            "title": self.title,
-            "abstract": self.abstract,
-            "classification": self.classification,
-            "tags": [
-                {
-                    "id": tag.ent_id,
-                    "mention": tag.text,
-                    "start": tag.start,
-                    "end": tag.end,
-                    "type": tag.ent_type,
-                }
-                for tag in self.tags
-            ],
+        out_dict = {
+            "id": self.id
         }
+        if export_content:
+            out_dict.update({
+                "title": self.title,
+                "abstract": self.abstract
+            })
+        out_dict["classification"] = self.classification
+        if export_tags:
+            out_dict.update({
+                "tags": [
+                    {
+                        "id": tag.ent_id,
+                        "mention": tag.text,
+                        "start": tag.start,
+                        "end": tag.end,
+                        "type": tag.ent_type,
+                    }
+                    for tag in self.tags
+                ],
+            })
+        return out_dict
 
     def has_content(self):
         return True if (self.title or self.abstract) else False

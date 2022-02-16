@@ -1,105 +1,68 @@
 import logging
-import re
-import sys
+import os.path
 from argparse import ArgumentParser
+from pathlib import Path
+from typing import Union, Iterator
 
 from narrant.backend.models import Document
-from narrant.progress import Progress
+from narrant.pubtator.document import TaggedDocument
+from narrant.pubtator.translation.doctranslation import DocumentTranslationLoader, SourcedDocument, \
+    run_document_translation
 
 
-class PatentConverter:
+class PatentConverter(DocumentTranslationLoader):
     """
-    Convert TIB patents dump to collection of PubTator documents.
+    Convert TIB patents dump to collection of JSON documents.
 
     .. note:
 
-       Patents are identified using a country code and an ID, which are only unique in combination. Since PubTator
+       Patents are identified using a country code and an ID, which are only unique in combination.
+       Since we require ids to be integers, we generate artifical document ids
        IDs need to be digits, we replace the country code with a unique digit.
     """
-    REGEX_ID = re.compile(r"^\d+$")
-    COUNTRY_PREFIX = dict(
-        AU=11,
-        CN=12,
-        WO=13,
-        GB=14,
-        US=15,
-        EP=16,
-        CA=17,
-        JP=18,
-        KR=19,
-        DE=20,
-        ES=21,
-        FR=22,
-        RU=23,
-        AT=24,
-        CH=25
-    )
-    COUNTRIES = set(COUNTRY_PREFIX.keys())
-    COUNTRY_PREFIX_REVERSE = {v: k for k, v in COUNTRY_PREFIX.items()}
 
-    @staticmethod
-    def decode_patent_country_code(patent_id):
-        patent_str = str(patent_id)
-        c_code, rest = int(patent_str[:2]), patent_str[2:]
-        if c_code not in PatentConverter.COUNTRY_PREFIX_REVERSE:
-            raise ValueError('Country Code {} is unknown'.format(c_code))
-        return PatentConverter.COUNTRY_PREFIX_REVERSE[c_code] + rest
-
-    def convert(self, in_file, out_file):
+    def read_sourced_documents(self, file: Union[Path, str]) -> Iterator[SourcedDocument]:
         """
-        `in_file` is the file preprocessed by the Academic library of the TU Braunschweig.
-
-        :param in_file: File for the TIB dump
-        :param out_file: Output file for the PubTatator file
+        Read patents from input file
+        :param file:
         :return:
         """
-        logging.info("Reading file ...")
-        title_by_id = dict()
-        abstract_by_id = dict()
-        count = 0
-        with open(in_file) as f:
+        logging.info(f"Reading file: {file}")
+        with open(file) as f:
             for idx, line in enumerate(f):
                 id_part, body = line.strip().split("|", maxsplit=1)
                 did = id_part[id_part.rindex(":") + 1:]
-                country_code = did[:2]
-                patent_id = did[2:]
-                if country_code in self.COUNTRIES and self.REGEX_ID.fullmatch(patent_id):
-                    if not patent_id.isdigit():
-                        logging.warning(f'{patent_id} is not an integer - skipping ({id_part})')
-                    count += 1
-                    did = "{}{}".format(self.COUNTRY_PREFIX[country_code], patent_id)
-                    if idx % 2 == 0:
-                        title_by_id[did] = body
-                    else:
-                        abstract_by_id[did] = body
+                if idx % 2 == 0:
+                    title = body
                 else:
-                    logging.warning(f'Skipping unknown country code: {country_code} in ({id_part})')
+                    abstract = body
 
-        total = len(title_by_id.keys())
-        logging.info(f'{total} patents to convert...')
-        progress = Progress(total, print_every=100, text="Converting patents...")
-        progress.start_time()
-        with open(out_file, 'wt') as f_out:
-            for idx, (did, title) in enumerate(title_by_id.items()):
-                progress.print_progress(idx)
-                if did in abstract_by_id:
-                    abstract = abstract_by_id[did]
-                    if Document.sanitize(title) or Document.sanitize(abstract):
-                        content = Document.create_pubtator(did, title, abstract)
-                        f_out.write(content + '\n')
-                else:
-                    logging.info("WARNING: Document {} has no abstract".format(did))
-        progress.done()
+                    title = Document.sanitize(title)
+                    abstract = Document.sanitize(abstract)
+                    if title or abstract:
+                        doc = TaggedDocument(id=did, title=title, abstract=abstract)
+                        basename = os.path.basename(file)
+                        yield SourcedDocument(id_part, basename, doc)
+
+    def count_documents(self, file: Union[Path, str]):
+        count = 0
+        for line in open(file):
+            count += 1
+        return count / 2
 
 
 def main():
     parser = ArgumentParser(description="Tool to convert Patent file to Pubtator format")
     parser.add_argument("input", help="Input file", metavar="INPUT_FILE_OR_DIR")
     parser.add_argument("output", help="Output file", metavar="OUTPUT_FILE")
+    parser.add_argument("-c", "--collection", required=True, help="document collection")
     args = parser.parse_args()
 
-    t = PatentConverter()
-    t.convert(args.input, args.output)
+    logging.basicConfig(format='%(asctime)s,%(msecs)d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
+                        datefmt='%Y-%m-%d:%H:%M:%S',
+                        level=logging.INFO)
+
+    run_document_translation(args.input, args.output, PatentConverter, collection=args.collection)
 
 
 if __name__ == "__main__":

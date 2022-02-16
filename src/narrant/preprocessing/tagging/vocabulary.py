@@ -1,7 +1,7 @@
 import csv
 from collections import defaultdict
 from pathlib import Path
-from typing import Union
+from typing import Union, List
 
 
 class VocabularyEntry:
@@ -12,14 +12,45 @@ class VocabularyEntry:
         self.heading = heading
         self.synonyms = synonyms
 
+    def to_dict(self):
+        return dict(id=self.entity_id, enttype=self.entity_type, heading=self.heading, synonyms=self.synonyms)
+
 
 class Vocabulary:
     def __init__(self, path: Union[str, Path]):
         self.path = path
         self.vocabularies = defaultdict(lambda: defaultdict(set))
-        self.vocabulary_entries = list()
+        self.vocabulary_entries: List[VocabularyEntry] = list()
         self._entry_by_id_and_type = {}
         self.size = 0
+
+    def add_vocabulary(self, vocabulary):
+        for entry in vocabulary.vocabulary_entries:
+            self.add_vocab_entry(entry.entity_id, entry.entity_type, entry.heading, entry.synonyms)
+
+    def add_vocab_entry(self, entity_id: str, entity_type: str, heading: str, synonyms: str, expand_terms=True):
+        self.size += 1
+        entry = VocabularyEntry(entity_id, entity_type, heading, synonyms)
+        self.vocabulary_entries.append(entry)
+
+        key = (entity_id, entity_type)
+        if key in self._entry_by_id_and_type:
+            raise ValueError(f"Found duplicated entry in vocabulary: {key}")
+        else:
+            self._entry_by_id_and_type[key] = entry
+
+        if expand_terms:
+            for syn in {s
+                        for t in (synonyms.split(";") if synonyms else []) + [heading]
+                        for s in expand_vocabulary_term(t.lower()) if t}:
+                self.vocabularies[entity_type][syn] |= {entity_id}
+        else:
+            for syn in {t.lower()
+                        for t in (synonyms.split(";") if synonyms else []) + [heading]}:
+                self.vocabularies[entity_type][syn] |= {entity_id}
+
+    def compute_reverse_index(self):
+        self.vocabularies = {k: dict(v) for k, v in self.vocabularies.items()}
 
     def load_vocab(self, expand_terms=True):
         if self.vocabularies:
@@ -30,26 +61,23 @@ class Vocabulary:
                 if not line["heading"] or not line["enttype"] or not line["id"]:
                     continue
 
-                self.size += 1
-                entry = VocabularyEntry(line["id"], line["enttype"], line["heading"], line["synonyms"])
-                self.vocabulary_entries.append(entry)
+                self.add_vocab_entry(line["id"], line["enttype"], line["heading"], line["synonyms"],
+                                     expand_terms=expand_terms)
 
-                key = (line["id"], line["enttype"])
-                if key in self._entry_by_id_and_type:
-                    raise ValueError(f"Found duplicated entry in vocabulary: {key}")
-                else:
-                    self._entry_by_id_and_type[key] = entry
+        self.compute_reverse_index()
 
-                if expand_terms:
-                    for syn in {s
-                                for t in (line["synonyms"].split(";") if line["synonyms"] else []) + [line["heading"]]
-                                for s in expand_vocabulary_term(t.lower()) if t}:
-                        self.vocabularies[line["enttype"]][syn] |= {line["id"]}
-                else:
-                    for syn in {t.lower()
-                                for t in (line["synonyms"].split(";") if line["synonyms"] else []) + [line["heading"]]}:
-                        self.vocabularies[line["enttype"]][syn] |= {line["id"]}
-            self.vocabularies = {k: dict(v) for k, v in self.vocabularies.items()}
+    def export_vocabulary_as_tsv(self, output_file: str):
+        """
+        Export the vocabulary as a TSV file
+        :param output_file: Path to the file
+        :return: None
+        """
+        self.vocabulary_entries.sort(key=lambda x: x.entity_id)
+        with open(output_file, 'wt') as f:
+            f = csv.DictWriter(f, ["id", "enttype", "heading", "synonyms"], delimiter="\t")
+            f.writeheader()
+            for e in self.vocabulary_entries:
+                f.writerow(e.to_dict())
 
     def get_entity_heading(self, entity_id: str, entity_type: str) -> str:
         """
