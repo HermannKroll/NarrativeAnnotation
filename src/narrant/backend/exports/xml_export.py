@@ -8,11 +8,10 @@ from xml.dom import minidom
 from xml.etree.ElementTree import Element, SubElement
 
 from narrant.backend.database import Session
-from narrant.backend.models import Tag
+from narrant.backend.models import Tag, DocumentTranslation
 from narrant.entity.entityresolver import EntityResolver
 from narrant.preprocessing import enttypes
-from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, SPECIES, GENE, DALL, PLANT_FAMILY_GENUS, EXCIPIENT, \
-    get_entity_source
+from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, get_entity_source
 from narrant.progress import print_progress_with_eta
 from narrant.pubtator.translation.patent import PatentConverter
 
@@ -20,8 +19,7 @@ CONTENT_BUFFER_SIZE = 10000
 TAG_BUFFER_SIZE = 100000
 
 
-
-def export_xml(output_dir, tag_types, document_ids=None, collection=None, logger=None, patent_ids=False):
+def export_xml(output_dir, tag_types, document_ids=None, collection=None, logger=None, translate_document_ids=False):
     """
     Exports a collection in the following structure:
     For each document create a xml file with: {document_id}.xml inside the output dir
@@ -36,7 +34,7 @@ def export_xml(output_dir, tag_types, document_ids=None, collection=None, logger
     :param document_ids: a set of document ids which should be exported, None means all documents of the collection
     :param collection: collection which should be exported , None means all collections
     :param logger: logging class which should be used
-    :param patent_ids: if true, patent ids will be translated back to their original ids
+    :param translate_document_ids: if true, document ids will be translated back to their original ids
     :return:
     """
     logging.info("Beginning XML export...")
@@ -46,6 +44,16 @@ def export_xml(output_dir, tag_types, document_ids=None, collection=None, logger
         logger.info('Using {} ids for a filter condition'.format(len(document_ids)))
 
     session = Session.get()
+
+    doc_id_2_source_id = {}
+    if translate_document_ids:
+        logger.info('Querying DocumentTranslation source ids...')
+        query = session.query(DocumentTranslation.document_id, DocumentTranslation.source_doc_id) \
+            .filter(DocumentTranslation.document_collection == collection)
+        for r in query:
+            doc_id_2_source_id[r[0]] = r[1]
+        logger.info(f'Found {len(doc_id_2_source_id)} id translations')
+
     logging.info('Counting documents...')
     if document_ids:
         document_count = len(document_ids)
@@ -82,8 +90,8 @@ def export_xml(output_dir, tag_types, document_ids=None, collection=None, logger
         print_progress_with_eta("exporting tags...", docs_exported, document_count, start_time, print_every_k=500)
         if not tags:
             continue
-        if patent_ids:
-            doc_id = str(PatentConverter.decode_patent_country_code(doc_id))
+        if translate_document_ids:
+            doc_id = doc_id_2_source_id[doc_id]
         else:
             doc_id = str(doc_id)
         filename = os.path.join(output_dir, "{}.xml".format(doc_id))
@@ -144,7 +152,7 @@ def main():
         tag_types = enttypes.ALL if "A" in args.tag else [TAG_TYPE_MAPPING[x] for x in args.tag]
 
     export_xml(abs_path, tag_types, document_ids=None, collection=args.collection, logger=logger,
-               patent_ids=args.patents)
+               translate_document_ids=args.patents)
     logging.info('Finished')
 
 
