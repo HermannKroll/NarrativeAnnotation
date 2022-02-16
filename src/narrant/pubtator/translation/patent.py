@@ -1,10 +1,11 @@
+import json
 import logging
 import re
-import sys
 from argparse import ArgumentParser
 
 from narrant.backend.models import Document
 from narrant.progress import Progress
+from narrant.pubtator.document import TaggedDocument
 
 
 class PatentConverter:
@@ -79,16 +80,25 @@ class PatentConverter:
         logging.info(f'{total} patents to convert...')
         progress = Progress(total, print_every=100, text="Converting patents...")
         progress.start_time()
+        first_doc = True
         with open(out_file, 'wt') as f_out:
+            f_out.write("[\n")
             for idx, (did, title) in enumerate(title_by_id.items()):
                 progress.print_progress(idx)
                 if did in abstract_by_id:
                     abstract = abstract_by_id[did]
-                    if Document.sanitize(title) or Document.sanitize(abstract):
-                        content = Document.create_pubtator(did, title, abstract)
-                        f_out.write(content + '\n')
+                    title = Document.sanitize(title)
+                    abstract = Document.sanitize(abstract)
+                    if title or abstract:
+                        doc = TaggedDocument(id=did, title=title, abstract=abstract)
+                        if not first_doc:
+                            f_out.write(',\n')
+                        else:
+                            first_doc = False
+                        json.dump(doc.to_dict(), f_out, indent=1)
                 else:
-                    logging.info("WARNING: Document {} has no abstract".format(did))
+                    logging.info("WARNING: Document {} has no title and no abstract".format(did))
+            f_out.write("\n]\n")
         progress.done()
 
 
