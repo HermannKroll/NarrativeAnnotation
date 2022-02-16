@@ -2,7 +2,8 @@ import argparse
 import logging
 
 from narrant.backend.database import Session
-from narrant.backend.models import Tag, Document, DocTaggedBy
+from narrant.backend.models import Tag, Document, DocTaggedBy, DocumentTranslation, DocumentSection
+
 
 def delete_document_collection_from_database(document_collection: str):
     logging.info('Beginning deletion of document collection: {}'.format(document_collection))
@@ -13,6 +14,12 @@ def delete_document_collection_from_database(document_collection: str):
 
     logging.info('Deleting tag entries...')
     session.query(Tag).filter(Tag.document_collection == document_collection).delete()
+
+    logging.info('Deleting document translation entries...')
+    session.query(DocumentTranslation).filter(DocumentTranslation.collection == document_collection).delete()
+
+    logging.info('Deleting document section entries...')
+    session.query(DocumentSection).filter(DocumentSection.collection == document_collection).delete()
 
     logging.info('Deleting document entries...')
     session.query(Document).filter(Document.collection == document_collection).delete()
