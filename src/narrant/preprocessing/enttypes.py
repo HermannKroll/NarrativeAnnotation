@@ -1,3 +1,34 @@
+def get_entity_source(entity_id, entity_type) -> (str, str):
+    """
+    Returns the sources for an entity_id and entity_type
+    :param entity_id: entity id
+    :param entity_type: entity type
+    :return: (MeSH, URI Link) | FID | NCBI Gene | NCBI Taxonomy
+    """
+    entity_id_str = str(entity_id).lower()
+    if entity_id_str.startswith('mesh'):
+        return "MeSH", "https://meshb.nlm.nih.gov/record/ui?ui="
+    if entity_id_str.startswith('fid'):
+        return "FID", None
+    if entity_id_str.startswith('q'):
+        return "Wikidata", "https://www.wikidata.org/wiki/"
+    if entity_id_str.startswith('db'):
+        return "DrugBank", "https://go.drugbank.com/drugs/"
+    if entity_id_str.startswith('chembl'):
+        return "ChEMBL", "https://www.ebi.ac.uk/chembl/compound_report_card/"
+    if entity_type == PLANT_FAMILY_GENUS:
+        return "Plant Family Database", None
+    if entity_type == EXCIPIENT:
+        return "Excipient Database", None
+    if entity_type == GENE:
+        return "NCBI Gene", "https://www.ncbi.nlm.nih.gov/gene/"
+    if entity_type == SPECIES:
+        return "NCBI Taxonomy", "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id="
+    if entity_type in DALL:
+        return "Own Vocabularies", None
+    raise KeyError('Do not not know the source for entity: {} {}'.format(entity_id, entity_type))
+
+
 DOSAGE_FORM = "DosageForm"
 DRUG = "Drug"
 CHEMICAL = "Chemical"

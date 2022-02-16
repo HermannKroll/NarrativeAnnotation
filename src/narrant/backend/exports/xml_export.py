@@ -11,43 +11,14 @@ from narrant.backend.database import Session
 from narrant.backend.models import Tag
 from narrant.entity.entityresolver import EntityResolver
 from narrant.preprocessing import enttypes
-from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, SPECIES, GENE, DALL, PLANT_FAMILY_GENUS, EXCIPIENT
+from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, SPECIES, GENE, DALL, PLANT_FAMILY_GENUS, EXCIPIENT, \
+    get_entity_source
 from narrant.progress import print_progress_with_eta
 from narrant.pubtator.translation.patent import PatentConverter
 
 CONTENT_BUFFER_SIZE = 10000
 TAG_BUFFER_SIZE = 100000
 
-
-def get_entity_source(entity_id, entity_type):
-    """
-    Returns the sources for an entity_id and entity_type
-    :param entity_id: entity id
-    :param entity_type: entity type
-    :return: MeSH | FID | NCBI Gene | NCBI Taxonomy
-    """
-    entity_id_str = str(entity_id).lower()
-    if entity_id_str.startswith('mesh'):
-        return "MeSH"
-    if entity_id_str.startswith('fid'):
-        return "FID"
-    if entity_id_str.startswith('q'):
-        return "Wikidata"
-    if entity_id_str.startswith('db'):
-        return "DrugBank"
-    if entity_id_str.startswith('chembl'):
-        return "ChEMBL"
-    if entity_type == PLANT_FAMILY_GENUS:
-        return "Plant Family Database"
-    if entity_type == EXCIPIENT:
-        return "Excipient Database"
-    if entity_type == GENE:
-        return "NCBI Gene"
-    if entity_type == SPECIES:
-        return "NCBI Taxonomy"
-    if entity_type in DALL:
-        return "Own Vocabularies"
-    return ValueError('Do not not know the source for entity: {} {}'.format(entity_id, entity_type))
 
 
 def export_xml(output_dir, tag_types, document_ids=None, collection=None, logger=None, patent_ids=False):
@@ -121,7 +92,7 @@ def export_xml(output_dir, tag_types, document_ids=None, collection=None, logger
             for e_id, e_type in tags:
                 try:
                     entity_name = entity_resolver.get_name_for_var_ent_id(e_id, e_type)
-                    entity_source = get_entity_source(e_id, e_type)
+                    entity_source, _ = get_entity_source(e_id, e_type)
                     if entity_source:
                         if '//' in entity_name:
                             for e_n in entity_name.split('//'):
