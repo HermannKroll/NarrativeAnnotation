@@ -184,7 +184,7 @@ def run_document_translation(input: Union[Path, str], output: Union[Path, str],
                              loader_kwargs=None, convert_difference_only=False,
                              document_limit=None):
     loader = doctranslation_subclass(collection, loader_kwargs)
-    logging.info("Pollux document translation")
+    logging.info("Document translation loader init...")
     logging.debug(f"Input file: {input}")
     logging.debug(f"Output file: {output}")
     logging.info("Counting documents...")
