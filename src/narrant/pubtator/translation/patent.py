@@ -48,7 +48,7 @@ class PatentConverter(DocumentTranslationLoader):
         count = 0
         for line in open(file):
             count += 1
-        return count / 2
+        return int(count / 2)
 
 
 def main():
