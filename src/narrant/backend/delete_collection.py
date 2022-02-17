@@ -16,10 +16,10 @@ def delete_document_collection_from_database(document_collection: str):
     session.query(Tag).filter(Tag.document_collection == document_collection).delete()
 
     logging.info('Deleting document translation entries...')
-    session.query(DocumentTranslation).filter(DocumentTranslation.collection == document_collection).delete()
+    session.query(DocumentTranslation).filter(DocumentTranslation.document_collection == document_collection).delete()
 
     logging.info('Deleting document section entries...')
-    session.query(DocumentSection).filter(DocumentSection.collection == document_collection).delete()
+    session.query(DocumentSection).filter(DocumentSection.document_collection == document_collection).delete()
 
     logging.info('Deleting document entries...')
     session.query(Document).filter(Document.collection == document_collection).delete()
