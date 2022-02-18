@@ -101,14 +101,14 @@ Note:
 ## Loading Documents
 You can load your documents:
 ```
-python src/kgextractiontoolbox/documents/load_document.py DOCUMENTS.json --collection COLLECTION
+python src/narrant/backend/load_document.py DOCUMENTS.json --collection COLLECTION
 ```
 Document ids must be unique integers within a document collection. 
 The loading procedure will automatically include entity annotations (tags) if contained in the document file. 
 If you don't want to include tags, use the **--ignore_tags** argument.
 
 ```
-python src/kgextractiontoolbox/documents/load_document.py DOCUMENTS.json --collection COLLECTION --ignore_tags
+python src/narrant/backend/load_document.py DOCUMENTS.json --collection COLLECTION --ignore_tags
 ```
 
 
