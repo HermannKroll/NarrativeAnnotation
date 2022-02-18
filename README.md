@@ -352,7 +352,7 @@ oai:tib.eu:epa:EP3424500|The present invention provides a pharmaceutical composi
 ```
 You can convert the patents by calling:
 ```
-python3 src/narrant/pubtator/translation/patent.py PATENT_FILE OUTPUT -c Patent
+python3 src/narrant/pubtator/translation/patent.py PATENT_FILE OUTPUT -c COLLECTION
 ```
 
 The Patent converter will automatically convert source ids (oai:tib.eu:epa:EP3423078) to internal ids.
