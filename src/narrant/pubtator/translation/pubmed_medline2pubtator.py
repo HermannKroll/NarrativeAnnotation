@@ -5,7 +5,7 @@ from datetime import datetime
 
 from lxml import etree
 
-from narrant.backend.models import Document
+from kgextractiontoolbox.backend.models import Document
 from narrant.progress import print_progress_with_eta
 from narrant.pubtator.document import TaggedDocument
 

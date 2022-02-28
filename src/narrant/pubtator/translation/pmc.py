@@ -9,7 +9,7 @@ from typing import List
 
 from lxml import etree, html
 
-from narrant.backend.models import Document
+from kgextractiontoolbox.backend.models import Document
 from narrant.config import PREPROCESS_CONFIG
 from narrant.preprocessing.collect import PMCCollector
 from narrant.preprocessing.config import Config

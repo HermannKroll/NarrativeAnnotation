@@ -3,7 +3,7 @@ import json
 import logging
 
 from kgextractiontoolbox.backend.database import Session
-from narrant.backend.models import Document, Tag, DocumentTranslation
+from kgextractiontoolbox.backend.models import Document, Tag, DocumentTranslation
 from narrant.preprocessing import enttypes
 from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING
 from narrant.pubtator.document import TaggedDocument, TaggedEntity

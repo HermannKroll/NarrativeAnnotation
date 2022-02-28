@@ -5,7 +5,7 @@ from collections import defaultdict
 from enum import Enum, auto
 
 from narrant import tools
-from narrant.backend.models import Tag, Document
+from kgextractiontoolbox.backend.models import Tag, Document
 from narrant.pubtator.regex import TAG_LINE_NORMAL, CONTENT_ID_TIT_ABS
 
 

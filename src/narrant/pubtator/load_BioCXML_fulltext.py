@@ -2,7 +2,7 @@ import bioc
 import logging
 from datetime import datetime
 from kgextractiontoolbox.backend.database import Session
-from narrant.backend.models import DocumentSection, Document
+from kgextractiontoolbox.backend.models import DocumentSection, Document
 from argparse import ArgumentParser
 
 

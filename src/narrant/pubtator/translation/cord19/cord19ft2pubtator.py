@@ -7,9 +7,9 @@ from datetime import datetime
 from sqlalchemy import func
 from sqlalchemy.dialects.postgresql import insert
 
-from narrant.backend import models
+from kgextractiontoolbox.backend import models
 from kgextractiontoolbox.backend.database import Session
-from narrant.backend.models import Document, DocumentTranslation
+from kgextractiontoolbox.backend.models import Document, DocumentTranslation
 from narrant.progress import print_progress_with_eta
 from narrant.pubtator.translation.cord19.filereader import FileReader
 from narrant.pubtator.translation.cord19.metareader import MetaReader

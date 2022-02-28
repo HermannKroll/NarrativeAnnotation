@@ -2,7 +2,7 @@ import argparse
 import logging
 
 from kgextractiontoolbox.backend.database import Session
-from narrant.backend.models import Document
+from kgextractiontoolbox.backend.models import Document
 
 
 def export_document_ids_to_file(output_file: str, document_collection: str):

@@ -2,7 +2,7 @@ import csv
 import logging
 from itertools import islice
 
-from narrant.backend.models import Document
+from kgextractiontoolbox.backend.models import Document
 from narrant.pubtator.regex import PMC_ID
 
 

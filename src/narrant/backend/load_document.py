@@ -6,7 +6,7 @@ from datetime import datetime
 from typing import Tuple, Dict
 
 from kgextractiontoolbox.backend.database import Session
-from narrant.backend.models import Document, Tag, Tagger, DocTaggedBy
+from kgextractiontoolbox.backend.models import Document, Tag, Tagger, DocTaggedBy
 from narrant.preprocessing import enttypes
 from narrant.progress import print_progress_with_eta
 from narrant.pubtator.count import count_documents

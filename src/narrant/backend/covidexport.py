@@ -11,7 +11,7 @@ from sqlalchemy import func
 
 from kgextractiontoolbox.backend.database import Session
 from narrant.backend.export import create_tag_query, TAG_BUFFER_SIZE
-from narrant.backend.models import DocumentTranslation, Tag
+from kgextractiontoolbox.backend.models import DocumentTranslation, Tag
 from narrant.preprocessing import enttypes
 from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING
 from narrant.progress import print_progress_with_eta

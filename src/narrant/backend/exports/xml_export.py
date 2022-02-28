@@ -8,7 +8,7 @@ from xml.dom import minidom
 from xml.etree.ElementTree import Element, SubElement
 
 from kgextractiontoolbox.backend.database import Session
-from narrant.backend.models import Tag, DocumentTranslation
+from kgextractiontoolbox.backend.models import Tag, DocumentTranslation
 from narrant.entity.entityresolver import EntityResolver
 from narrant.preprocessing import enttypes
 from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, get_entity_source

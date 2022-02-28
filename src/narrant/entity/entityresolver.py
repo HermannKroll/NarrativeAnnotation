@@ -9,7 +9,7 @@ from datetime import datetime
 from itertools import islice
 
 from kgextractiontoolbox.backend.database import Session
-from narrant.backend.models import Tag
+from kgextractiontoolbox.backend.models import Tag
 from narrant.config import GENE_FILE, GENE_INDEX_FILE, MESH_DESCRIPTORS_FILE, MESH_ID_TO_HEADING_INDEX_FILE, \
     TAXONOMY_INDEX_FILE, TAXONOMY_FILE, MESH_SUPPLEMENTARY_FILE, \
     MESH_SUPPLEMENTARY_ID_TO_HEADING_INDEX_FILE, CHEMBL_DRUG_CSV, DOSAGEFORM_TAGGER_VOCAB, VACCINE_TAGGER_VOCAB
@@ -19,6 +19,32 @@ from narrant.mesh.supplementary import MeSHDBSupplementary
 from narrant.preprocessing.enttypes import GENE, CHEMICAL, DISEASE, SPECIES, DOSAGE_FORM, EXCIPIENT, PLANT_FAMILY_GENUS, \
     LAB_METHOD, METHOD, VACCINE
 from narrant.preprocessing.tagging.vocabulary import Vocabulary
+
+
+def get_gene_ids(session):
+    logging.info('Querying gene ids in Tag table...')
+    gene_ids_in_db = set()
+    q = session.query(Tag.ent_id.distinct()).filter(Tag.ent_type == GENE)
+    for r in session.execute(q):
+        try:
+            gene_ids_in_db.add(int(r[0]))
+        except ValueError:
+            continue
+    logging.info('{} gene ids retrieved'.format(len(gene_ids_in_db)))
+    return gene_ids_in_db
+
+
+def get_species_ids(session):
+    logging.info('Querying species ids in Tag table...')
+    gene_ids_in_db = set()
+    q = session.query(Tag.ent_id.distinct()).filter(Tag.ent_type == SPECIES)
+    for r in session.execute(q):
+        try:
+            gene_ids_in_db.add(int(r[0]))
+        except ValueError:
+            continue
+    logging.info('{} species ids retrieved'.format(len(gene_ids_in_db)))
+    return gene_ids_in_db
 
 
 class MeshResolver:
@@ -99,7 +125,7 @@ class GeneResolver:
     def build_index(self, gene_input=GENE_FILE, index_file=GENE_INDEX_FILE, query_db_gene_ids=True):
         gene_ids_in_db = set()
         if query_db_gene_ids:
-            gene_ids_in_db = Tag.get_gene_ids(Session.get())
+            gene_ids_in_db = get_gene_ids(Session.get())
         logging.info('Reading gene input file: {}'.format(gene_input))
         with gzip.open(gene_input, 'rt') as f:
             for line in islice(f, 1, None):
@@ -196,7 +222,7 @@ class SpeciesResolver:
     def build_index(self, species_input=TAXONOMY_FILE, index_file=TAXONOMY_INDEX_FILE, query_db_species_ids=True):
         species_ids_in_db = set()
         if query_db_species_ids:
-            species_ids_in_db = Tag.get_species_ids(Session.get())
+            species_ids_in_db = get_species_ids(Session.get())
         logging.info('Reading species input file: {}'.format(species_input))
         with gzip.open(species_input, 'rt') as f:
             for line in islice(f, 1, None):

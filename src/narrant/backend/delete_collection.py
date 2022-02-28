@@ -2,7 +2,7 @@ import argparse
 import logging
 
 from kgextractiontoolbox.backend.database import Session
-from narrant.backend.models import Tag, Document, DocTaggedBy, DocumentTranslation, DocumentSection
+from kgextractiontoolbox.backend.models import Tag, Document, DocTaggedBy, DocumentTranslation, DocumentSection
 
 
 def delete_document_collection_from_database(document_collection: str):

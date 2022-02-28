@@ -8,7 +8,7 @@ from sqlalchemy.dialects.postgresql import insert
 
 from kgextractiontoolbox.backend.database import Session
 from narrant.backend.load_document import insert_taggers
-from narrant.backend.models import Tag, DocTaggedBy
+from kgextractiontoolbox.backend.models import Tag, DocTaggedBy
 from narrant.preprocessing.config import Config
 from narrant.pubtator.document import TaggedDocument, TaggedEntity
 from narrant.pubtator.regex import TAG_LINE_NORMAL

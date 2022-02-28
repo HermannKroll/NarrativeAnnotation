@@ -4,7 +4,7 @@ from argparse import ArgumentParser
 from pathlib import Path
 from typing import Union, Iterator
 
-from narrant.backend.models import Document
+from kgextractiontoolbox.backend.models import Document
 from narrant.pubtator.document import TaggedDocument
 from narrant.pubtator.translation.doctranslation import DocumentTranslationLoader, SourcedDocument, \
     run_document_translation

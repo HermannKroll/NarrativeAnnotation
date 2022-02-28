@@ -9,7 +9,7 @@ from typing import Set, List
 
 from kgextractiontoolbox.backend.database import Session
 from narrant.backend.load_document import document_bulk_load
-from narrant.backend.models import DocTaggedBy, Document
+from kgextractiontoolbox.backend.models import DocTaggedBy, Document
 from narrant.config import PREPROCESS_CONFIG
 from narrant.preprocessing.config import Config
 from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, DALL

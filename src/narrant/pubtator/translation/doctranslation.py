@@ -12,7 +12,7 @@ from sqlalchemy import select, func
 
 import kgextractiontoolbox.backend.database as db
 from narrant.backend.load_document import document_bulk_load
-from narrant.backend.models import DocumentTranslation
+from kgextractiontoolbox.backend.models import DocumentTranslation
 from narrant.progress import Progress
 from narrant.pubtator.document import TaggedDocument
 
