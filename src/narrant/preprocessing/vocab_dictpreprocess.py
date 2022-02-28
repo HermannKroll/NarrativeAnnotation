@@ -8,7 +8,7 @@ from typing import List, Set
 
 from narraint.backend.models import Document
 from kgextractiontoolbox.backend.database import Session
-from narrant.backend.load_document import document_bulk_load
+from kgextractiontoolbox.document.load_document import document_bulk_load
 from narrant.config import PREPROCESS_CONFIG
 from narrant.preprocessing.config import Config
 from narrant.preprocessing.preprocess import init_preprocess_logger, init_sqlalchemy_logger

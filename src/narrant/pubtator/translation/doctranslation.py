@@ -11,7 +11,7 @@ from typing import Union, Type, List, Iterator
 from sqlalchemy import select, func
 
 import kgextractiontoolbox.backend.database as db
-from narrant.backend.load_document import document_bulk_load
+from kgextractiontoolbox.document.load_document import document_bulk_load
 from kgextractiontoolbox.backend.models import DocumentTranslation
 from narrant.progress import Progress
 from kgextractiontoolbox.document.document import TaggedDocument

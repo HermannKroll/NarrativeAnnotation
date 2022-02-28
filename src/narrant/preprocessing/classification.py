@@ -5,7 +5,7 @@ import tempfile
 from argparse import ArgumentParser
 
 from kgextractiontoolbox.backend.database import Session
-from narrant.backend.load_document import document_bulk_load
+from kgextractiontoolbox.document.load_document import document_bulk_load
 from kgextractiontoolbox.backend.models import DocumentClassification, Document
 from narrant.config import PREPROCESS_CONFIG
 from narrant.preprocessing.classifier import Classifier
