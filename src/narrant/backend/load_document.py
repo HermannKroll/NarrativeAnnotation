@@ -5,7 +5,7 @@ import sys
 from datetime import datetime
 from typing import Tuple, Dict
 
-from narrant.backend.database import Session
+from kgextractiontoolbox.backend.database import Session
 from narrant.backend.models import Document, Tag, Tagger, DocTaggedBy
 from narrant.preprocessing import enttypes
 from narrant.progress import print_progress_with_eta

@@ -10,7 +10,7 @@ from typing import Union, Type, List, Iterator
 
 from sqlalchemy import select, func
 
-from narrant.backend import database as db
+import kgextractiontoolbox.backend.database as db
 from narrant.backend.load_document import document_bulk_load
 from narrant.backend.models import DocumentTranslation
 from narrant.progress import Progress

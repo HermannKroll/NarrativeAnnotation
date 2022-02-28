@@ -1,7 +1,7 @@
 import logging
 from typing import List
 
-from narrant.backend.database import Session
+from kgextractiontoolbox.backend.database import Session
 from narrant.backend.load_document import insert_taggers
 from narrant.backend.models import Tag, DocTaggedBy
 from narrant.preprocessing.config import Config

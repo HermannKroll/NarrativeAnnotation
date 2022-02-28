@@ -1,7 +1,7 @@
 import argparse
 import logging
 
-from narrant.backend.database import Session
+from kgextractiontoolbox.backend.database import Session
 from narrant.backend.models import Document
 
 

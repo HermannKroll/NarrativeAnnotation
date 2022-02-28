@@ -9,7 +9,7 @@ from pathlib import Path
 
 from sqlalchemy import func
 
-from narrant.backend.database import Session
+from kgextractiontoolbox.backend.database import Session
 from narrant.backend.export import create_tag_query, TAG_BUFFER_SIZE
 from narrant.backend.models import DocumentTranslation, Tag
 from narrant.preprocessing import enttypes

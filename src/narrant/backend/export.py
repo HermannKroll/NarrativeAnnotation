@@ -2,7 +2,7 @@ import argparse
 import json
 import logging
 
-from narrant.backend.database import Session
+from kgextractiontoolbox.backend.database import Session
 from narrant.backend.models import Document, Tag, DocumentTranslation
 from narrant.preprocessing import enttypes
 from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING

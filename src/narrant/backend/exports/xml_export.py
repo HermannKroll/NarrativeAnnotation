@@ -7,7 +7,7 @@ from datetime import datetime
 from xml.dom import minidom
 from xml.etree.ElementTree import Element, SubElement
 
-from narrant.backend.database import Session
+from kgextractiontoolbox.backend.database import Session
 from narrant.backend.models import Tag, DocumentTranslation
 from narrant.entity.entityresolver import EntityResolver
 from narrant.preprocessing import enttypes

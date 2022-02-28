@@ -8,7 +8,7 @@ from sqlalchemy import func
 from sqlalchemy.dialects.postgresql import insert
 
 from narrant.backend import models
-from narrant.backend.database import Session
+from kgextractiontoolbox.backend.database import Session
 from narrant.backend.models import Document, DocumentTranslation
 from narrant.progress import print_progress_with_eta
 from narrant.pubtator.translation.cord19.filereader import FileReader

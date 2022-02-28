@@ -11,7 +11,7 @@ from typing import List, Set
 
 import psutil
 
-from narrant.backend.database import Session
+from kgextractiontoolbox.backend.database import Session
 from narrant.backend.load_document import document_bulk_load
 from narrant.backend.models import DocTaggedBy
 from narrant.config import PREPROCESS_CONFIG

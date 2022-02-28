@@ -2,7 +2,7 @@ import argparse
 import logging
 from collections import defaultdict
 
-from narrant.backend.database import Session
+from kgextractiontoolbox.backend.database import Session
 from narrant.backend.export import create_tag_query
 from narrant.backend.models import Document, Tag
 from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING

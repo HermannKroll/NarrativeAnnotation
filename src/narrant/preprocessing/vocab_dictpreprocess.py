@@ -7,7 +7,7 @@ from argparse import ArgumentParser
 from typing import List, Set
 
 from narraint.backend.models import Document
-from narrant.backend.database import Session
+from kgextractiontoolbox.backend.database import Session
 from narrant.backend.load_document import document_bulk_load
 from narrant.config import PREPROCESS_CONFIG
 from narrant.preprocessing.config import Config

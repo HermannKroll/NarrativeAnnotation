@@ -7,7 +7,7 @@ from argparse import ArgumentParser
 from datetime import datetime
 from typing import Set, List
 
-from narrant.backend.database import Session
+from kgextractiontoolbox.backend.database import Session
 from narrant.backend.load_document import document_bulk_load
 from narrant.backend.models import DocTaggedBy, Document
 from narrant.config import PREPROCESS_CONFIG
