@@ -8,9 +8,9 @@ from itertools import islice
 
 from narrant.preprocessing.config import Config
 from narrant.progress import print_progress_with_eta
-from narrant.pubtator.count import count_documents
+from kgextractiontoolbox.document.count import count_documents
 from narrant.pubtator.extract import read_pubtator_documents
-from narrant.pubtator.regex import DOCUMENT_ID, TAG_LINE_NORMAL
+from kgextractiontoolbox.document.regex import DOCUMENT_ID, TAG_LINE_NORMAL
 
 
 def load_pmcids_to_pmid_index(index_file):

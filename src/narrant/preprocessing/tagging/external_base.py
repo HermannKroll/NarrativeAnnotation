@@ -11,7 +11,7 @@ from kgextractiontoolbox.document.load_document import insert_taggers
 from kgextractiontoolbox.backend.models import Tag, DocTaggedBy
 from narrant.preprocessing.config import Config
 from kgextractiontoolbox.document.document import TaggedDocument, TaggedEntity
-from narrant.pubtator.regex import TAG_LINE_NORMAL
+from kgextractiontoolbox.document.regex import TAG_LINE_NORMAL
 
 
 # TODO: Add estimation when tagging is done

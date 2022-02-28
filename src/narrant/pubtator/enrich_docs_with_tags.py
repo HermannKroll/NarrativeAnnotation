@@ -7,7 +7,7 @@ from kgextractiontoolbox.document.export import create_tag_query
 from kgextractiontoolbox.backend.models import Document, Tag
 from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING
 from narrant.pubtator.extract import read_pubtator_documents
-from narrant.pubtator.regex import CONTENT_ID_TIT_ABS
+from kgextractiontoolbox.document.regex import CONTENT_ID_TIT_ABS
 
 
 def load_all_tags_for_doc_ids(doc_ids, collection, tag_types):

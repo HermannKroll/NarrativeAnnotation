@@ -11,7 +11,7 @@ from narrant.preprocessing import enttypes
 from narrant.preprocessing.tagging.external_base import ExternalTaggerBase
 from narrant.preprocessing.utils import get_document_id
 from narrant.progress import print_progress_with_eta
-from narrant.pubtator.count import get_document_ids
+from kgextractiontoolbox.document.count import get_document_ids
 
 
 class GNormPlus(ExternalTaggerBase):

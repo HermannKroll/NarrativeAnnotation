@@ -15,10 +15,10 @@ from narrant.preprocessing.preprocess import init_preprocess_logger, init_sqlalc
 from narrant.preprocessing.tagging.metadictagger import MetaDicTagger
 from narrant.preprocessing.tagging.vocabulary import Vocabulary
 from narrant.progress import Progress
-from narrant.pubtator import count
+from kgextractiontoolbox.document import count
 from kgextractiontoolbox.document.document import TaggedDocument, TaggedEntity
 from narrant.pubtator.extract import read_pubtator_documents
-from narrant.pubtator.sanitize import filter_and_sanitize
+from kgextractiontoolbox.document.sanitize import filter_and_sanitize
 from narrant.util.multiprocessing.ConsumerWorker import ConsumerWorker
 from narrant.util.multiprocessing.ProducerWorker import ProducerWorker
 from narrant.util.multiprocessing.Worker import Worker
