@@ -2,6 +2,17 @@
 This module contains constants which point to important directories.
 """
 import os
+from pathlib import Path
+
+
+def search_config(start: Path, dirname: Path, filename: Path):
+    if not start.is_dir():
+        return None
+    if not (start/dirname).is_dir() or not (start/dirname/filename).is_file():
+        return search_config(start/"..", dirname, filename)
+    else:
+        return (start/dirname/filename).resolve()
+
 
 GIT_ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../.."))
 
@@ -42,10 +53,11 @@ TAXONOMY_FILE = os.path.join(RESOURCE_DIR, 'taxonomy_names_2020.gz')
 TAXONOMY_INDEX_FILE = os.path.join(TMP_DIR, 'taxonomy_name_index.pkl')
 
 # Preprocessing
-PREPROCESS_CONFIG = os.path.join(CONFIG_DIR, 'preprocess.json')
+PREPROCESS_CONFIG = str(search_config(Path(CONFIG_DIR) / '..', Path('config'), Path('preprocess.json')))
 
 # Backend for Tagging
-BACKEND_CONFIG = os.path.join(CONFIG_DIR, "backend.json")
+#BACKEND_CONFIG = os.path.join(CONFIG_DIR, "backend.json")
+BACKEND_CONFIG = str(search_config(Path(CONFIG_DIR)/'..', Path('config'), Path('backend.json')))
 
 # Dict Tagger
 DICT_TAGGER_BLACKLIST = os.path.join(RESOURCE_DIR, "dict_tagger_blacklist.txt")
