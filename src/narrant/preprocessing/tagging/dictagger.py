@@ -8,7 +8,7 @@ from collections import defaultdict
 from typing import List
 
 from narrant.config import TMP_DIR, DICT_TAGGER_BLACKLIST, TMP_DIR_TAGGER
-from narrant.preprocessing.tagging.base import BaseTagger
+from kgextractiontoolbox.entitylinking.tagging.base import BaseTagger
 from kgextractiontoolbox.document.document import TaggedDocument, TaggedEntity
 
 
