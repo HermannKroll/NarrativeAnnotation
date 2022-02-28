@@ -14,7 +14,7 @@ from sqlalchemy.sql.expression import Insert
 
 import narrant.config as cnf
 from narrant import tools
-from narrant.backend.models import Base
+from kgextractiontoolbox.backend.models import Base
 
 
 @compiles(Insert, 'postgresql')
