@@ -14,7 +14,7 @@ from kgextractiontoolbox.document.export import create_tag_query, TAG_BUFFER_SIZ
 from kgextractiontoolbox.backend.models import DocumentTranslation, Tag
 from narrant.preprocessing import enttypes
 from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING
-from narrant.progress import print_progress_with_eta
+from kgextractiontoolbox.progress import print_progress_with_eta
 from kgextractiontoolbox.document.regex import ILLEGAL_CHAR
 from narrant.pubtator.translation.cord19.cord19ft2pubtator import NEXT_DOCUMENT_ID_OFFSET, PARAGRAPH_TITLE_DUMMY
 from narrant.pubtator.translation.cord19.filereader import FileReader

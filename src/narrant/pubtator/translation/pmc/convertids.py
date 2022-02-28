@@ -7,7 +7,7 @@ from datetime import datetime
 from itertools import islice
 
 from narrant.preprocessing.config import Config
-from narrant.progress import print_progress_with_eta
+from kgextractiontoolbox.progress import print_progress_with_eta
 from kgextractiontoolbox.document.count import count_documents
 from kgextractiontoolbox.document.extract import read_pubtator_documents
 from kgextractiontoolbox.document.regex import DOCUMENT_ID, TAG_LINE_NORMAL

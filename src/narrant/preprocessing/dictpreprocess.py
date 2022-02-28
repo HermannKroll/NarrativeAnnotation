@@ -16,7 +16,7 @@ from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, DALL
 from narrant.preprocessing.pharmacy.pharmdicttagger import PharmDictTagger
 from narrant.preprocessing.preprocess import init_preprocess_logger, init_sqlalchemy_logger, \
     get_untagged_doc_ids_by_tagger
-from narrant.progress import Progress
+from kgextractiontoolbox.progress import Progress
 from kgextractiontoolbox.document import count
 from kgextractiontoolbox.document.document import TaggedDocument, TaggedEntity
 from kgextractiontoolbox.document.extract import read_pubtator_documents

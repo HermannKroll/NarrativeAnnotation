@@ -15,7 +15,7 @@ from kgextractiontoolbox.backend.database import Session
 from kgextractiontoolbox.document.load_document import document_bulk_load
 from kgextractiontoolbox.backend.models import DocTaggedBy
 from narrant.config import PREPROCESS_CONFIG
-from narrant.multi_process_progress import MultiProcessProgress
+from kgextractiontoolbox.multi_process_progress import MultiProcessProgress
 from narrant.preprocessing import enttypes
 from narrant.preprocessing.config import Config
 from narrant.preprocessing.enttypes import CHEMICAL, DISEASE, SPECIES, GENE

@@ -9,7 +9,7 @@ import tarfile
 import multiprocessing
 
 
-from narrant.progress import Progress
+from kgextractiontoolbox.progress import Progress
 from kgextractiontoolbox.document.document import TaggedDocument, TaggedEntity
 from narrant.util.multiprocessing.ConsumerWorker import ConsumerWorker
 from narrant.util.multiprocessing.ProducerWorker import ProducerWorker

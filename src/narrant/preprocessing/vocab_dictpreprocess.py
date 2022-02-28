@@ -14,7 +14,7 @@ from narrant.preprocessing.config import Config
 from narrant.preprocessing.preprocess import init_preprocess_logger, init_sqlalchemy_logger
 from narrant.preprocessing.tagging.metadictagger import MetaDicTagger
 from narrant.preprocessing.tagging.vocabulary import Vocabulary
-from narrant.progress import Progress
+from kgextractiontoolbox.progress import Progress
 from kgextractiontoolbox.document import count
 from kgextractiontoolbox.document.document import TaggedDocument, TaggedEntity
 from kgextractiontoolbox.document.extract import read_pubtator_documents

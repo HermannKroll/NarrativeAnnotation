@@ -14,7 +14,7 @@ from narrant import config
 from narrant.config import CHEMBL_BLACKLIST_FILE
 from narrant.preprocessing.tagging.dictagger import clean_vocab_word_by_split_rules
 from narrant.preprocessing.tagging.vocabulary import expand_vocabulary_term
-from narrant.progress import print_progress_with_eta
+from kgextractiontoolbox.progress import print_progress_with_eta
 
 
 class DrugVocabulary:

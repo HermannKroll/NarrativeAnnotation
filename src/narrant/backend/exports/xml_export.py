@@ -12,7 +12,7 @@ from kgextractiontoolbox.backend.models import Tag, DocumentTranslation
 from narrant.entity.entityresolver import EntityResolver
 from narrant.preprocessing import enttypes
 from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, get_entity_source
-from narrant.progress import print_progress_with_eta
+from kgextractiontoolbox.progress import print_progress_with_eta
 from narrant.pubtator.translation.patent import PatentConverter
 
 CONTENT_BUFFER_SIZE = 10000
