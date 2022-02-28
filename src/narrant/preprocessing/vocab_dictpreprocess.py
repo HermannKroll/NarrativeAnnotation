@@ -12,8 +12,8 @@ from kgextractiontoolbox.document.load_document import document_bulk_load
 from narrant.config import PREPROCESS_CONFIG
 from narrant.preprocessing.config import Config
 from narrant.preprocessing.preprocess import init_preprocess_logger, init_sqlalchemy_logger
-from narrant.preprocessing.tagging.metadictagger import MetaDicTagger
-from narrant.preprocessing.tagging.vocabulary import Vocabulary
+from kgextractiontoolbox.entitylinking.tagging.metadictagger import MetaDicTagger
+from kgextractiontoolbox.entitylinking.tagging.vocabulary import Vocabulary
 from kgextractiontoolbox.progress import Progress
 from kgextractiontoolbox.document import count
 from kgextractiontoolbox.document.document import TaggedDocument, TaggedEntity

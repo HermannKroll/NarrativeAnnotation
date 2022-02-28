@@ -3,8 +3,8 @@ from itertools import islice
 
 import narrant.vocabularies.drug_vocabulary as drug_vocab
 from narrant import config
-from narrant.preprocessing.tagging.dictagger import clean_vocab_word_by_split_rules
-from narrant.preprocessing.tagging.vocabulary import expand_vocabulary_term
+from kgextractiontoolbox.entitylinking.tagging.dictagger import clean_vocab_word_by_split_rules
+from kgextractiontoolbox.entitylinking.tagging.vocabulary import expand_vocabulary_term
 
 
 class ExcipientVocabulary:

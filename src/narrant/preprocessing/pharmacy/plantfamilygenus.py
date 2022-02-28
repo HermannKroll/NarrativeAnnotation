@@ -1,12 +1,12 @@
 from narrant import config
 from narrant.preprocessing import enttypes
 from kgextractiontoolbox.entitylinking.classifier import Classifier
-from narrant.preprocessing.tagging.dictagger import DictTagger
+from narrant.preprocessing.tagging.indexed_dictagger import IndexedDictTagger
 from kgextractiontoolbox.document.document import TaggedDocument
 from narrant.vocabularies.plant_family_genus import PlantFamilyGenusVocabulary
 
 
-class PlantFamilyGenusTagger(DictTagger):
+class PlantFamilyGenusTagger(IndexedDictTagger):
     TYPES = (enttypes.PLANT_FAMILY_GENUS,)
     __name__ = "PlantFamilyTagger"
     __version__ = "2.0.0"

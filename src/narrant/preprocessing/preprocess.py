@@ -19,9 +19,9 @@ from kgextractiontoolbox.multi_process_progress import MultiProcessProgress
 from narrant.preprocessing import enttypes
 from narrant.preprocessing.config import Config
 from narrant.preprocessing.enttypes import CHEMICAL, DISEASE, SPECIES, GENE
-from narrant.preprocessing.tagging.external_base import ExternalTaggerBase
-from narrant.preprocessing.tagging.gnormplus import GNormPlus
-from narrant.preprocessing.tagging.taggerone import TaggerOne
+from kgextractiontoolbox.entitylinking.tagging.external_base import ExternalTaggerBase
+from kgextractiontoolbox.entitylinking.tagging.gnormplus import GNormPlus
+from kgextractiontoolbox.entitylinking.tagging.taggerone import TaggerOne
 from kgextractiontoolbox.document.distribute import distribute_workload, create_parallel_dirs, split_composites
 from kgextractiontoolbox.document.extract import collect_ids_from_dir
 from kgextractiontoolbox.document.sanitize import sanitize

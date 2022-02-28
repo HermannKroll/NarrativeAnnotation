@@ -1,10 +1,10 @@
 from narrant import config
 from narrant.preprocessing import enttypes
-from narrant.preprocessing.tagging.dictagger import DictTagger
+from narrant.preprocessing.tagging.indexed_dictagger import IndexedDictTagger
 from narrant.vocabularies.dosageform_vocabulary import DosageFormVocabulary
 
 
-class DosageFormTagger(DictTagger):
+class DosageFormTagger(IndexedDictTagger):
     TYPES = (enttypes.DOSAGE_FORM,)
     __name__ = "DosageFormTagger"
     __version__ = "1.0.0"

@@ -5,7 +5,7 @@ from collections import defaultdict
 from typing import Set
 
 from narrant.entity.entityresolver import EntityResolver
-from narrant.preprocessing.tagging.vocabulary import Vocabulary
+from kgextractiontoolbox.entitylinking.tagging.vocabulary import Vocabulary
 from narrant.vocabularies.mesh_vocabulary import MeSHVocabulary
 
 

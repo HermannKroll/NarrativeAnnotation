@@ -7,11 +7,11 @@ import lxml.etree as ET
 
 from narrant import config
 from narrant.preprocessing import enttypes
-from narrant.preprocessing.tagging.dictagger import DictTagger
+from narrant.preprocessing.tagging.indexed_dictagger import IndexedDictTagger
 from narrant.vocabularies.drug_vocabulary import DrugVocabulary
 
 
-class DrugTagger(DictTagger):
+class DrugTagger(IndexedDictTagger):
     TYPES = (enttypes.DRUG,)
     __name__ = "DrugTagger"
     __version__ = "2.1.0"
