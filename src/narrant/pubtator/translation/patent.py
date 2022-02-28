@@ -6,7 +6,7 @@ from typing import Union, Iterator
 
 from kgextractiontoolbox.backend.models import Document
 from kgextractiontoolbox.document.document import TaggedDocument
-from narrant.pubtator.translation.doctranslation import DocumentTranslationLoader, SourcedDocument, \
+from kgextractiontoolbox.document.doctranslation import DocumentTranslationLoader, SourcedDocument, \
     run_document_translation
 
 
