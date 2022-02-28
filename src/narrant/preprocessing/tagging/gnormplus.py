@@ -32,10 +32,7 @@ class GNormPlus(ExternalTaggerBase):
         processed_files = re.findall(r"/.*?\d+\.txt", content)
         if processed_files:
             last_file = processed_files[-1]
-            if last_file[0] == '/':
-                return last_file[1:]
-            else:
-                return last_file
+            return last_file
         else:
             return None
 
