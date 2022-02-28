@@ -3,7 +3,7 @@ import logging
 from collections import defaultdict
 
 from kgextractiontoolbox.backend.database import Session
-from narrant.backend.export import create_tag_query
+from kgextractiontoolbox.document.export import create_tag_query
 from kgextractiontoolbox.backend.models import Document, Tag
 from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING
 from narrant.pubtator.extract import read_pubtator_documents

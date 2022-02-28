@@ -2,7 +2,7 @@ import argparse
 import json
 import logging
 
-from narrant.backend.export import export
+from kgextractiontoolbox.document.export import export
 from narrant.entity.entityresolver import EntityResolver
 from narrant.preprocessing import enttypes
 from narrant.preprocessing.enttypes import get_entity_source
