@@ -13,7 +13,7 @@ from narrant.preprocessing.preprocess import init_preprocess_logger, init_sqlalc
 from narrant.progress import Progress
 from kgextractiontoolbox.document import count
 from kgextractiontoolbox.document.document import TaggedDocument
-from narrant.pubtator.extract import read_pubtator_documents
+from kgextractiontoolbox.document.extract import read_pubtator_documents
 from kgextractiontoolbox.document.sanitize import filter_and_sanitize
 from narrant.util.multiprocessing.ConsumerWorker import ConsumerWorker
 from narrant.util.multiprocessing.ProducerWorker import ProducerWorker

@@ -6,7 +6,7 @@ from kgextractiontoolbox.backend.database import Session
 from kgextractiontoolbox.document.export import create_tag_query
 from kgextractiontoolbox.backend.models import Document, Tag
 from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING
-from narrant.pubtator.extract import read_pubtator_documents
+from kgextractiontoolbox.document.extract import read_pubtator_documents
 from kgextractiontoolbox.document.regex import CONTENT_ID_TIT_ABS
 
 

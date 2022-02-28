@@ -22,8 +22,8 @@ from narrant.preprocessing.enttypes import CHEMICAL, DISEASE, SPECIES, GENE
 from narrant.preprocessing.tagging.external_base import ExternalTaggerBase
 from narrant.preprocessing.tagging.gnormplus import GNormPlus
 from narrant.preprocessing.tagging.taggerone import TaggerOne
-from narrant.pubtator.distribute import distribute_workload, create_parallel_dirs, split_composites
-from narrant.pubtator.extract import collect_ids_from_dir
+from kgextractiontoolbox.document.distribute import distribute_workload, create_parallel_dirs, split_composites
+from kgextractiontoolbox.document.extract import collect_ids_from_dir
 from kgextractiontoolbox.document.sanitize import sanitize
 
 LOGGING_FORMAT = '%(asctime)s %(levelname)s %(threadName)s %(module)s:%(lineno)d %(message)s'

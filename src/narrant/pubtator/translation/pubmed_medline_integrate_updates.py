@@ -2,7 +2,7 @@ import logging
 from argparse import ArgumentParser
 
 from kgextractiontoolbox.document.document import TaggedDocument
-from narrant.pubtator.extract import read_pubtator_documents
+from kgextractiontoolbox.document.extract import read_pubtator_documents
 
 
 def pubmed_medline_merge_with_updates(medline_file, medline_updates_file, output):

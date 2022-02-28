@@ -5,7 +5,7 @@ from kgextractiontoolbox.document.document import TaggedDocument
 
 
 def validate_pubtator_file(input_file:str):
-    from narrant.pubtator.extract import read_pubtator_documents
+    from kgextractiontoolbox.document.extract import read_pubtator_documents
     for idx, pubtator_content in enumerate(read_pubtator_documents(input_file)):
         if not pubtator_content:
             continue
