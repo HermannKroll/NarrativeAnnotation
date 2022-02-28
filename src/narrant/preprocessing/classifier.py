@@ -2,7 +2,7 @@ import re
 from pathlib import Path
 from typing import Union
 
-from narrant.pubtator.document import TaggedDocument
+from kgextractiontoolbox.document.document import TaggedDocument
 
 
 class Classifier:

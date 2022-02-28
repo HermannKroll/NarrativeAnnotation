@@ -1,7 +1,7 @@
 import argparse
 import logging
 
-from narrant.pubtator.document import TaggedDocument
+from kgextractiontoolbox.document.document import TaggedDocument
 
 
 def validate_pubtator_file(input_file:str):

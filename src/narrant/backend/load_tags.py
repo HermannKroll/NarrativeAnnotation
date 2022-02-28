@@ -7,7 +7,7 @@ from kgextractiontoolbox.backend.database import Session
 from narrant.backend.load_document import get_tagger_for_enttype, read_tagger_mapping, UNKNOWN_TAGGER, insert_taggers
 from kgextractiontoolbox.backend.models import Document, Tag, DocTaggedBy
 from narrant.progress import print_progress_with_eta
-from narrant.pubtator.document import TaggedDocument, TaggedEntity
+from kgextractiontoolbox.document.document import TaggedDocument, TaggedEntity
 from narrant.pubtator.regex import TAG_LINE_NORMAL
 
 BULK_LOAD_COMMIT_AFTER = 50000

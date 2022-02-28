@@ -9,7 +9,7 @@ from typing import List
 
 from narrant.config import TMP_DIR, DICT_TAGGER_BLACKLIST, TMP_DIR_TAGGER
 from narrant.preprocessing.tagging.base import BaseTagger
-from narrant.pubtator.document import TaggedDocument, TaggedEntity
+from kgextractiontoolbox.document.document import TaggedDocument, TaggedEntity
 
 
 class DictIndex:

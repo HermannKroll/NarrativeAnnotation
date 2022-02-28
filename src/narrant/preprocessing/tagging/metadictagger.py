@@ -1,7 +1,7 @@
 from typing import List
 
 import narrant.preprocessing.tagging.dictagger as dt
-from narrant.pubtator.document import TaggedEntity
+from kgextractiontoolbox.document.document import TaggedEntity
 
 """
 Modified version of the dict tagger, that can run on the vocabularies of multiple dicttaggers

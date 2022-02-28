@@ -4,7 +4,7 @@ from argparse import ArgumentParser
 from shutil import copy
 
 from kgextractiontoolbox.backend.models import Document
-from narrant.pubtator.document import TaggedDocument, get_doc_format, DocFormat
+from kgextractiontoolbox.document.document import TaggedDocument, get_doc_format, DocFormat
 from narrant.pubtator.extract import read_pubtator_documents, read_tagged_documents
 from narrant.pubtator.regex import ILLEGAL_CHAR
 

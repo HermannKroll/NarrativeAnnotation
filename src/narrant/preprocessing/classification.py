@@ -12,7 +12,7 @@ from narrant.preprocessing.classifier import Classifier
 from narrant.preprocessing.preprocess import init_preprocess_logger, init_sqlalchemy_logger
 from narrant.progress import Progress
 from narrant.pubtator import count
-from narrant.pubtator.document import TaggedDocument
+from kgextractiontoolbox.document.document import TaggedDocument
 from narrant.pubtator.extract import read_pubtator_documents
 from narrant.pubtator.sanitize import filter_and_sanitize
 from narrant.util.multiprocessing.ConsumerWorker import ConsumerWorker

@@ -10,7 +10,7 @@ import multiprocessing
 
 
 from narrant.progress import Progress
-from narrant.pubtator.document import TaggedDocument, TaggedEntity
+from kgextractiontoolbox.document.document import TaggedDocument, TaggedEntity
 from narrant.util.multiprocessing.ConsumerWorker import ConsumerWorker
 from narrant.util.multiprocessing.ProducerWorker import ProducerWorker
 from narrant.util.multiprocessing.Worker import Worker

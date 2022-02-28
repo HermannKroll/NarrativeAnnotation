@@ -4,7 +4,7 @@ from argparse import ArgumentParser
 
 import ijson
 
-from narrant.pubtator.document import get_doc_format, DocFormat, is_doc_file
+from kgextractiontoolbox.document.document import get_doc_format, DocFormat, is_doc_file
 from narrant.pubtator.regex import DOCUMENT_ID, TAG_DOCUMENT_ID
 
 

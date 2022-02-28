@@ -10,7 +10,7 @@ from kgextractiontoolbox.backend.models import Document, Tag, Tagger, DocTaggedB
 from narrant.preprocessing import enttypes
 from narrant.progress import print_progress_with_eta
 from narrant.pubtator.count import count_documents
-from narrant.pubtator.document import TaggedDocument
+from kgextractiontoolbox.document.document import TaggedDocument
 from narrant.pubtator.extract import read_pubtator_documents
 
 BULK_LOAD_COMMIT_AFTER = 50000

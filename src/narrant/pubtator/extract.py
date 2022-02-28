@@ -6,7 +6,7 @@ import os
 import ijson
 
 from narrant.preprocessing.utils import get_document_id, DocumentError
-from narrant.pubtator.document import TaggedDocument, DocFormat, get_doc_format, is_doc_file
+from kgextractiontoolbox.document.document import TaggedDocument, DocFormat, get_doc_format, is_doc_file
 from narrant.pubtator.regex import DOCUMENT_ID
 
 

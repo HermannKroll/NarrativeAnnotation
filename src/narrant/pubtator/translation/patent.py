@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Union, Iterator
 
 from kgextractiontoolbox.backend.models import Document
-from narrant.pubtator.document import TaggedDocument
+from kgextractiontoolbox.document.document import TaggedDocument
 from narrant.pubtator.translation.doctranslation import DocumentTranslationLoader, SourcedDocument, \
     run_document_translation
 

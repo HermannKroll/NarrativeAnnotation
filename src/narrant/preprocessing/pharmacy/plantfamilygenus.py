@@ -2,7 +2,7 @@ from narrant import config
 from narrant.preprocessing import enttypes
 from narrant.preprocessing.classifier import Classifier
 from narrant.preprocessing.tagging.dictagger import DictTagger
-from narrant.pubtator.document import TaggedDocument
+from kgextractiontoolbox.document.document import TaggedDocument
 from narrant.vocabularies.plant_family_genus import PlantFamilyGenusVocabulary
 
 

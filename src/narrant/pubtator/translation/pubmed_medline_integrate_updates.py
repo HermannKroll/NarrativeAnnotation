@@ -1,7 +1,7 @@
 import logging
 from argparse import ArgumentParser
 
-from narrant.pubtator.document import TaggedDocument
+from kgextractiontoolbox.document.document import TaggedDocument
 from narrant.pubtator.extract import read_pubtator_documents
 
 
