@@ -4,7 +4,7 @@ import pickle
 from abc import abstractmethod
 
 from kgextractiontoolbox.entitylinking.tagging.dictagger import DictTagger
-from narrant.config import TMP_DIR_TAGGER
+from narrant.config import TMP_DIR_TAGGER, DICT_TAGGER_BLACKLIST
 
 
 class DictIndex:
@@ -22,8 +22,9 @@ class DictIndex:
 
 class IndexedDictTagger(DictTagger):
     def __init__(self, short_name, long_name, version, tag_types, source, logger, config, collection,
-                 tmp_dir=TMP_DIR_TAGGER):
-        super().__init__(short_name, long_name, version, tag_types, logger, config, collection)
+                 tmp_dir=TMP_DIR_TAGGER, blacklist_file=DICT_TAGGER_BLACKLIST):
+        super().__init__(short_name, long_name, version, tag_types, logger, config, collection,
+                         blacklist_file=blacklist_file)
         self.index_cache = os.path.join(tmp_dir, f'{short_name}_index.pkl')
         self.source = source
 
@@ -55,31 +56,35 @@ class IndexedDictTagger(DictTagger):
 
     def _index_from_pickle(self):
         if os.path.isfile(self.index_cache):
-            with open(self.index_cache, 'rb') as f:
-                index = pickle.load(f)
-                if not isinstance(index, DictIndex):
-                    self.logger.warning('Ignore index: expect index file to contain an IndexObject: {}'
-                                        .format(self.index_cache))
-                    return None
+            try:
+                with open(self.index_cache, 'rb') as f:
+                    index = pickle.load(f)
+                    if not isinstance(index, DictIndex):
+                        self.logger.warning('Ignore index: expect index file to contain an IndexObject: {}'
+                                            .format(self.index_cache))
+                        return None
 
-                if not index.has_md5_sum():
-                    self.logger.warning('Ignore index: md5 hash was not computed before')
-                    return None
+                    if not index.has_md5_sum():
+                        self.logger.warning('Ignore index: md5 hash was not computed before')
+                        return None
 
-                if index.tagger_version != self.version:
-                    self.logger.warning('Ignore index: index does not match tagger version ({} index vs. {} tagger)'
-                                        .format(index.tagger_version, self.version))
-                    return None
+                    if index.tagger_version != self.version:
+                        self.logger.warning('Ignore index: index does not match tagger version ({} index vs. {} tagger)'
+                                            .format(index.tagger_version, self.version))
+                        return None
 
-                md5sum_now = IndexedDictTagger.get_md5_hash_from_content(self.source)
-                md5sum_before = IndexedDictTagger.get_md5_hash_from_content(index.source_md5_sum)
-                if md5sum_now != md5sum_before:
-                    self.logger.warning('Ignore index: md5 sums of sources differ - recreating index')
-                    return None
+                    md5sum_now = IndexedDictTagger.get_md5_hash_from_content(self.source)
+                    md5sum_before = IndexedDictTagger.get_md5_hash_from_content(index.source_md5_sum)
+                    if md5sum_now != md5sum_before:
+                        self.logger.warning('Ignore index: md5 sums of sources differ - recreating index')
+                        return None
 
-                self.logger.debug('Use pre-computed index from {}'.format(self.index_cache))
-                self.desc_by_term = index.desc_by_term
-                return index
+                    self.logger.debug('Use pre-computed index from {}'.format(self.index_cache))
+                    self.desc_by_term = index.desc_by_term
+                    return index
+            except ModuleNotFoundError:
+                # Old index code was loaded
+                return None
         pass
 
     def _index_to_pickle(self):
