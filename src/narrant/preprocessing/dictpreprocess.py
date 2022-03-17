@@ -14,7 +14,6 @@ from kgextractiontoolbox.document import count
 from kgextractiontoolbox.document.document import TaggedDocument, TaggedEntity
 from kgextractiontoolbox.document.extract import read_pubtator_documents
 from kgextractiontoolbox.document.load_document import document_bulk_load
-from kgextractiontoolbox.document.sanitize import filter_and_sanitize
 from kgextractiontoolbox.progress import Progress
 from narrant.config import PREPROCESS_CONFIG
 from narrant.preprocessing.config import Config
@@ -29,7 +28,7 @@ from narrant.util.multiprocessing.Worker import Worker
 BULK_INSERT_AFTER_K = 1000
 
 
-def prepare_input(in_file: str, out_file: str, logger: logging.Logger, collection: str) -> Set[int]:
+def find_untagged_ids(in_file: str, logger: logging.Logger, collection: str) -> Set[int]:
     if not os.path.exists(in_file):
         logger.error("Input file not found!")
         return set()
@@ -38,7 +37,6 @@ def prepare_input(in_file: str, out_file: str, logger: logging.Logger, collectio
     logger.info(f"{len(in_ids)} given, checking against database...")
     todo_ids = set()
     todo_ids |= get_untagged_doc_ids_by_tagger(collection, in_ids, PharmDictTagger, logger)
-    filter_and_sanitize(in_file, out_file, todo_ids, logger)
     return todo_ids
 
 
@@ -99,8 +97,7 @@ def main(arguments=None):
     # create directories
     root_dir = os.path.abspath(args.workdir) if args.workdir else tempfile.mkdtemp()
     log_dir = os.path.abspath(os.path.join(root_dir, "log"))
-    ext_in_file = args.input
-    in_file = os.path.abspath(os.path.join(root_dir, "in.pubtator"))
+    in_file = args.input
 
     if args.workdir and os.path.exists(root_dir):
         if not args.yes_force:
@@ -131,7 +128,7 @@ def main(arguments=None):
 
     if args.input:
         input_file_given = True
-        document_ids = prepare_input(ext_in_file, in_file, logger, args.collection)
+        document_ids = find_untagged_ids(in_file, logger, args.collection)  #
         number_of_docs = len(document_ids)
 
         if not args.skip_load:
@@ -182,7 +179,7 @@ def main(arguments=None):
         if input_file_given:
             for doc in read_pubtator_documents(in_file):
                 t_doc = TaggedDocument(doc, ignore_tags=True)
-                if t_doc and t_doc.has_content():
+                if t_doc and t_doc.id in document_ids and t_doc.has_content():
                     yield t_doc
         else:
             db_session = Session.get()
