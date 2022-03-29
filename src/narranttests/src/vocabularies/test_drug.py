@@ -2,7 +2,7 @@ import unittest
 
 from narrant.preprocessing.pharmacy.drug import DrugTagger
 from kgextractiontoolbox.document.document import TaggedDocument
-from nitests.util import create_test_kwargs
+from narranttests.util import create_test_kwargs
 
 
 class TestDrugVocabulary(unittest.TestCase):

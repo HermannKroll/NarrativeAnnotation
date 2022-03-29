@@ -1,7 +1,7 @@
 import unittest
 
 from narrant.preprocessing.pharmacy.dosage import DosageFormTagger
-from nitests.util import create_test_kwargs
+from narranttests.util import create_test_kwargs
 
 
 class TestDosageFormVocabulary(unittest.TestCase):

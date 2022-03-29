@@ -3,7 +3,7 @@ import unittest
 import kgextractiontoolbox.document.document as doc
 from narrant.preprocessing.enttypes import PLANT_FAMILY_GENUS
 from narrant.preprocessing.pharmacy.plantfamilygenus import PlantFamilyGenusTagger
-from nitests.util import create_test_kwargs
+from narranttests.util import create_test_kwargs
 
 
 class TestPlantTagger(unittest.TestCase):

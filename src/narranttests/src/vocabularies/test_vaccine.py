@@ -3,7 +3,7 @@ import unittest
 from narrant.preprocessing.enttypes import VACCINE
 from narrant.preprocessing.pharmacy.vaccine import VaccineTagger
 from kgextractiontoolbox.document.document import TaggedDocument
-from nitests.util import create_test_kwargs
+from narranttests.util import create_test_kwargs
 
 
 class TestVaccineVocabulary(unittest.TestCase):

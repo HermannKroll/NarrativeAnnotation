@@ -7,7 +7,7 @@ from kgextractiontoolbox.entitylinking.tagging.vocabulary import expand_vocabula
 from narrant.preprocessing.enttypes import DRUG
 from narrant.preprocessing.pharmacy.dosage import DosageFormTagger
 from narrant.preprocessing.pharmacy.drug import DrugTagger
-from nitests.util import create_test_kwargs, get_test_resource_filepath, resource_rel_path
+from narranttests.util import create_test_kwargs, get_test_resource_filepath, resource_rel_path
 
 
 class TestDictagger(unittest.TestCase):

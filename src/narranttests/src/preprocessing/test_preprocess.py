@@ -1,17 +1,17 @@
 import unittest
 
-import nitests.util
+import narranttests.util
 from kgextractiontoolbox.document.extract import read_tagged_documents
 from kgextractiontoolbox.document.load_document import document_bulk_load
 from narrant.preprocessing import dictpreprocess
-from nitests import util
-from nitests.src.preprocessing.tagging.test_pharmdicttagger import assert_tags_pmc_4297_5600
+from narranttests import util
+from narranttests.src.preprocessing.tagging.test_pharmdicttagger import assert_tags_pmc_4297_5600
 
 
 class TestPreprocess(unittest.TestCase):
 
     def test_dictpreprocess_json_input(self):
-        workdir = nitests.util.make_test_tempdir()
+        workdir = narranttests.util.make_test_tempdir()
         args = [
             *f"-i {util.resource_rel_path('infiles/json_infiles')} -t DR DF PF E -c PREPTEST --loglevel DEBUG --workdir {workdir} -w 1 -y".split()
         ]
@@ -21,7 +21,7 @@ class TestPreprocess(unittest.TestCase):
         util.clear_database()
 
     def test_dictpreprocess_sinlge_worker_from_file(self):
-        workdir = nitests.util.make_test_tempdir()
+        workdir = narranttests.util.make_test_tempdir()
         path = util.resource_rel_path('infiles/test_metadictagger')
         args = [
             *f"-i {path} -t DR DF PF E -c PREPTEST --loglevel DEBUG --workdir {workdir} -w 1 -y".split()
@@ -32,7 +32,7 @@ class TestPreprocess(unittest.TestCase):
         util.clear_database()
 
     def test_dictpreprocess_sinlge_worker_from_database(self):
-        workdir = nitests.util.make_test_tempdir()
+        workdir = narranttests.util.make_test_tempdir()
         document_bulk_load(util.resource_rel_path('infiles/test_metadictagger'), collection="DBINSERTTAGGINGTEST")
         args = [*f"-t DR DF PF E -c DBINSERTTAGGINGTEST --loglevel DEBUG --workdir {workdir} -w 1 -y".split()]
         dictpreprocess.main(args)
@@ -41,7 +41,7 @@ class TestPreprocess(unittest.TestCase):
         util.clear_database()
 
     def test_dictpreprocess_dual_worker(self):
-        workdir = nitests.util.make_test_tempdir()
+        workdir = narranttests.util.make_test_tempdir()
         args = [
             *f"-i {util.resource_rel_path('infiles/test_metadictagger')} -t DR DF PF E -c PREPTEST --loglevel DEBUG --workdir {workdir} -w 2 -y".split()
         ]
@@ -52,7 +52,7 @@ class TestPreprocess(unittest.TestCase):
 
     def test_dictpreprocess_ignore_sections(self):
         in_file = util.get_test_resource_filepath("infiles/test_preprocess/fulltext_19128.json")
-        workdir = nitests.util.make_test_tempdir()
+        workdir = narranttests.util.make_test_tempdir()
         args = [
             *f"-i {in_file} -c PREPTEST --loglevel DEBUG --workdir {workdir} -w 2 -y".split()
         ]
@@ -66,8 +66,9 @@ class TestPreprocess(unittest.TestCase):
         util.clear_database()
 
     def test_dictpreprocess_include_sections(self):
+        util.clear_database()
         in_file = util.get_test_resource_filepath("infiles/test_preprocess/fulltext_19128.json")
-        workdir = nitests.util.make_test_tempdir()
+        workdir = narranttests.util.make_test_tempdir()
         args = [
             *f"-i {in_file} -c PREPTEST --loglevel DEBUG --sections --workdir {workdir} -w 2 -y".split()
         ]

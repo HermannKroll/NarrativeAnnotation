@@ -1,4 +1,4 @@
-#nitests
+#narranttests
 This is the test package for our Project.
 
 ## Structure
@@ -11,7 +11,7 @@ This is the test package for our Project.
 
 
 ## Setting up test environment
-- create copy `nitests/jsonfiles/backend.example.json` called `backend.json` and change the `SQLite_path` to the corresponding absolute path
+- create copy `narranttests/jsonfiles/backend.example.json` called `backend.json` and change the `SQLite_path` to the corresponding absolute path
 
 ## Run tests
 - it is recommended to use pytest, but unittest should work as well

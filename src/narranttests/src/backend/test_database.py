@@ -5,7 +5,7 @@ import unittest
 from kgextractiontoolbox.backend.database import Session
 from narrant.config import BACKEND_CONFIG
 from kgextractiontoolbox.backend.models import Tagger
-from nitests.util import tmp_rel_path
+from narranttests.util import tmp_rel_path
 
 
 class TestSession(unittest.TestCase):

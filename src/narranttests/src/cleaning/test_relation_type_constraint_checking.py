@@ -4,7 +4,7 @@ from kgextractiontoolbox.cleaning.relation_type_constraints import RelationTypeC
 from narrant.preprocessing.enttypes import DISEASE, GENE, CHEMICAL, DOSAGE_FORM, EXCIPIENT, DRUG, \
     SPECIES, \
     PLANT_FAMILY_GENUS, LAB_METHOD, METHOD
-from nitests import util
+from narranttests import util
 
 PREDICATE_TYPING_TEST = {'treats': ({CHEMICAL, DRUG, EXCIPIENT, PLANT_FAMILY_GENUS},
                                     {DISEASE, SPECIES}),

@@ -1,14 +1,14 @@
 import unittest
 
 import kgextractiontoolbox.entitylinking.vocab_entity_linking as vdp
-import nitests
+import narranttests
 from kgextractiontoolbox.document.document import TaggedDocument
-from nitests import util
+from narranttests import util
 
 
 class TestVocabDictagger(unittest.TestCase):
     def tagfile_test(self, testfile):
-        workdir = nitests.util.make_test_tempdir()
+        workdir = narranttests.util.make_test_tempdir()
         args = [testfile,
 
                 *f"-c PREPTEST --loglevel DEBUG -v {util.resource_rel_path('vocabs/test_vocab.tsv')} --workdir {workdir} -w 1 -y".split()
