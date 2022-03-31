@@ -5,7 +5,7 @@ from kgextractiontoolbox import config as config3
 from narrant import config as config2
 from kgextractiontoolbox.backend.database import Session
 from narrant import config
-from nitests.util import tmp_rel_path
+from narranttests.util import tmp_rel_path
 
 ENTITY_TEST_CONFIG_CONTENT = """
 {
