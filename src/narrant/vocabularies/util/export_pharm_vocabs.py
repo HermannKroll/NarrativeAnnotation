@@ -86,6 +86,9 @@ def main():
     pubpharm_vocab_all.add_vocabulary(vaccine_vocabulary)
     pubpharm_vocab_all.export_vocabulary_as_tsv("pubpharm_2022.tsv")
 
+    logging.info(f'The-All-Vocabulary has: {pubpharm_vocab_all.count_distinct_entities()} unique ids '
+                 f'and {pubpharm_vocab_all.count_distinct_terms()} unique terms')
+
 
 if __name__ == '__main__':
     main()
