@@ -4,8 +4,8 @@ from abc import ABCMeta
 from collections import defaultdict
 from typing import Set
 
-from narrant.entity.entityresolver import EntityResolver
 from kgextractiontoolbox.entitylinking.tagging.vocabulary import Vocabulary
+from narrant.entity.entityresolver import EntityResolver
 from narrant.vocabularies.mesh_vocabulary import MeSHVocabulary
 
 
@@ -91,7 +91,8 @@ class GenericVocabulary(ABCMeta):
         if os.path.isfile(add_mesh_desc_file):
             additional_mesh_descriptors = GenericVocabulary.load_additional_mesh_descriptors(add_mesh_desc_file)
             logging.info(f'{len(additional_mesh_descriptors)} additional MeSH descriptors load from file...')
-            add_mesh_vocab = MeSHVocabulary.create_mesh_vocab_from_desc(additional_mesh_descriptors)
+            add_mesh_vocab = MeSHVocabulary.create_mesh_vocab_from_desc(additional_mesh_descriptors,
+                                                                        expand_terms=expand_terms)
             logging.info(f'{len(add_mesh_vocab)} additional terms retrieved from MeSH')
             GenericVocabulary.merge_vocab_into_1(desc_by_term, add_mesh_vocab)
 
