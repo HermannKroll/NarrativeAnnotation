@@ -66,9 +66,6 @@ DICT_TAGGER_BLACKLIST = os.path.join(RESOURCE_DIR, "dict_tagger_blacklist.txt")
 DOSAGEFORM_TAGGER_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, 'vocabularies/dosageform')
 DOSAGEFORM_TAGGER_VOCAB = os.path.join(DOSAGEFORM_TAGGER_VOCAB_DIRECTORY, "vocabulary.tsv")
 
-DOSAGE_ADDITIONAL_DESCS = os.path.join(RESOURCE_DIR, "vocabularies/dosageform/df_additional_descs.txt")
-DOSAGE_ADDITIONAL_DESCS_TERMS = os.path.join(RESOURCE_DIR, "vocabularies/dosageform/df_additional_descs_terms.txt")
-DOSAGE_FID_DESCS = os.path.join(RESOURCE_DIR, "vocabularies/dosageform/df_fid_descriptors.txt")
 
 # Drug Tagger
 CHEMBL_CHEMICAL_DATABASE_FILE = os.path.join(RESOURCE_DIR, "vocabularies/chemical/chembl_chemicals.txt")
