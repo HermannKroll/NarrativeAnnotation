@@ -9,7 +9,7 @@ from typing import Set, List
 
 from kgextractiontoolbox.backend.database import Session
 from kgextractiontoolbox.backend.models import DocTaggedBy, Document
-from kgextractiontoolbox.backend.retrieve import iterate_over_documents_in_collection
+from kgextractiontoolbox.backend.retrieve import iterate_over_all_documents_in_collection
 from kgextractiontoolbox.document import count
 from kgextractiontoolbox.document.document import TaggedDocument, TaggedEntity
 from kgextractiontoolbox.document.extract import read_pubtator_documents
@@ -184,8 +184,8 @@ def main(arguments=None):
         else:
             db_session = Session.get()
             logger.info('Retrieving documents from database...')
-            for t_doc in iterate_over_documents_in_collection(db_session, args.collection,
-                                                              consider_sections=consider_sections):
+            for t_doc in iterate_over_all_documents_in_collection(db_session, args.collection,
+                                                                  consider_sections=consider_sections):
                 if t_doc.id in document_ids and t_doc.has_content():
                     yield t_doc
             db_session.remove()
