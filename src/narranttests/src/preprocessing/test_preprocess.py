@@ -87,6 +87,21 @@ class TestPreprocess(unittest.TestCase):
         self.assertLess(0, len(tags_in_fulltext))
         util.clear_database()
 
+    def test_dictpreprocess_test_custom_plant_tagger_logic(self):
+        util.clear_database()
+        in_file = util.get_test_resource_filepath("infiles/test_preprocess/plants.json")
+        workdir = narranttests.util.make_test_tempdir()
+        args = [
+            *f"-i {in_file} -c PREPTEST --loglevel DEBUG --sections --workdir {workdir} -y".split()
+        ]
+        dictpreprocess.main(args)
+
+        doc_tags = list(util.get_tags_from_database(10001))
+        print(doc_tags)
+        self.assertEqual(0, len(doc_tags))
+        doc_tags = list(util.get_tags_from_database(10002))
+        self.assertEqual(1, len(doc_tags))
+
 
 if __name__ == '__main__':
     unittest.main()
