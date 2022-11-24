@@ -4,6 +4,7 @@ import narranttests.util
 from kgextractiontoolbox.document.extract import read_tagged_documents
 from kgextractiontoolbox.document.load_document import document_bulk_load
 from narrant.preprocessing import dictpreprocess
+from narrant.preprocessing.enttypes import PLANT_FAMILY_GENUS
 from narranttests import util
 from narranttests.src.preprocessing.tagging.test_pharmdicttagger import assert_tags_pmc_4297_5600
 
@@ -96,10 +97,10 @@ class TestPreprocess(unittest.TestCase):
         ]
         dictpreprocess.main(args)
 
-        doc_tags = list(util.get_tags_from_database(10001))
+        doc_tags = list([t for t in list(util.get_tags_from_database(10001)) if t.ent_type == PLANT_FAMILY_GENUS])
         print(doc_tags)
         self.assertEqual(0, len(doc_tags))
-        doc_tags = list(util.get_tags_from_database(10002))
+        doc_tags = list([t for t in list(util.get_tags_from_database(10002)) if t.ent_type == PLANT_FAMILY_GENUS])
         self.assertEqual(1, len(doc_tags))
 
 
