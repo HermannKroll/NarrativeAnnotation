@@ -36,12 +36,9 @@ class PlantFamilyGenusTagger(IndexedDictTagger):
             return True
         return False
 
-    def tag_doc(self, in_doc: TaggedDocument) -> TaggedDocument:
-        tagged_doc = super().tag_doc(in_doc)
-
-        plant_tags = list([t for t in tagged_doc.tags if t.ent_type == enttypes.PLANT_FAMILY_GENUS])
+    def custom_tag_filter_logic(self, in_doc: TaggedDocument):
+        plant_tags = list([t for t in in_doc.tags if t.ent_type == enttypes.PLANT_FAMILY_GENUS])
         if len(plant_tags) > 0:
-            if not self.keep_entity_tags(tagged_doc):
+            if not self.keep_entity_tags(in_doc):
                 # remove all plant family tags
-                tagged_doc.tags = list([t for t in tagged_doc.tags if t.ent_type != enttypes.PLANT_FAMILY_GENUS])
-        return tagged_doc
+                in_doc.tags = list([t for t in in_doc.tags if t.ent_type != enttypes.PLANT_FAMILY_GENUS])
