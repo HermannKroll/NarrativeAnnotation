@@ -50,6 +50,7 @@ CHEMBL_CHEMICAL = "Chemical"
 METHOD = "Method"
 LAB_METHOD = "LabMethod"
 VACCINE = "Vaccine"
+HEALTH_STATUS = "HealthStatus"
 
 ALL = (
     DOSAGE_FORM,
@@ -70,7 +71,8 @@ ALL = (
     CHEMBL_CHEMICAL,
     METHOD,
     LAB_METHOD,
-    VACCINE
+    VACCINE,
+    HEALTH_STATUS
 )
 
 DALL = {
@@ -82,7 +84,8 @@ DALL = {
     DISEASE,
     METHOD,
     LAB_METHOD,
-    VACCINE
+    VACCINE,
+    HEALTH_STATUS
 }
 
 # set of all tags which are supported by our taggers
@@ -98,7 +101,8 @@ ENT_TYPES_SUPPORTED_BY_TAGGERS = (
     CHEMBL_CHEMICAL,
     METHOD,
     LAB_METHOD,
-    VACCINE
+    VACCINE,
+    HEALTH_STATUS
 )
 
 TAG_TYPE_MAPPING = dict(
@@ -116,11 +120,12 @@ TAG_TYPE_MAPPING = dict(
     CL=CELLLINE,
     M=METHOD,
     LM=LAB_METHOD,
+    HS=HEALTH_STATUS,
     A="ALL",
     DA="DALL"
 )
 
-DICT_TAG_TYPES = {"DF", "DR", "DC", "E", "PF", "DA", "D", "M", "LM"}
+DICT_TAG_TYPES = {"DF", "DR", "DC", "E", "PF", "DA", "D", "M", "LM", "HS"}
 
 ENTITY_TYPES = dict(
     Chemical=CHEMICAL,
@@ -142,5 +147,6 @@ ENTITY_TYPES = dict(
     PlantFamily=PLANT_FAMILY_GENUS,
     DrugBankChemical=CHEMBL_CHEMICAL,
     Method=METHOD,
-    LabMethod=LAB_METHOD
+    LabMethod=LAB_METHOD,
+    HealthStatus=HEALTH_STATUS,
 )

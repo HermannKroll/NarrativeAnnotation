@@ -91,3 +91,6 @@ PLANT_FAMILY_WIKIDATA_FILE = os.path.join(RESOURCE_DIR, 'vocabularies/plant_fami
 # Vaccine Tagger
 VACCINE_TAGGER_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, 'vocabularies/vaccine')
 VACCINE_TAGGER_VOCAB = os.path.join(VACCINE_TAGGER_VOCAB_DIRECTORY, "vocabulary.tsv")
+
+# HealthStatus Tagger
+HEALTH_STATUS_TAGGER_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, 'vocabularies/healthstatus')
