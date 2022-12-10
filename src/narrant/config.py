@@ -39,6 +39,7 @@ MESH_SUPPLEMENTARY_ID_TO_HEADING_INDEX_FILE = os.path.join(TMP_DIR, 'supp2022_id
 
 # CHEMBL
 CHEMBL_DRUG_CSV = os.path.join(RESOURCE_DIR, "vocabularies/drug/chembl29.csv")
+CHEMBL_TARGET_CSV = os.path.join(RESOURCE_DIR, "vocabularies/target/chembl31.csv")
 
 # DrugBank
 DRUGBANK_XML_DUMP = os.path.join(DATA_DIR, "drugbank2021.xml")
@@ -94,3 +95,7 @@ VACCINE_TAGGER_VOCAB = os.path.join(VACCINE_TAGGER_VOCAB_DIRECTORY, "vocabulary.
 
 # HealthStatus Tagger
 HEALTH_STATUS_TAGGER_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, 'vocabularies/healthstatus')
+
+# Target Tagger
+TARGET_TAGGER_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, 'vocabularies/target')
+TARGET_TAGGER_VOCAB = os.path.join(TARGET_TAGGER_VOCAB_DIRECTORY, "vocabulary.tsv")

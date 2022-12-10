@@ -51,6 +51,7 @@ METHOD = "Method"
 LAB_METHOD = "LabMethod"
 VACCINE = "Vaccine"
 HEALTH_STATUS = "HealthStatus"
+TARGET = "Target"
 
 ALL = (
     DOSAGE_FORM,
@@ -72,7 +73,8 @@ ALL = (
     METHOD,
     LAB_METHOD,
     VACCINE,
-    HEALTH_STATUS
+    HEALTH_STATUS,
+    TARGET,
 )
 
 DALL = {
@@ -85,7 +87,8 @@ DALL = {
     METHOD,
     LAB_METHOD,
     VACCINE,
-    HEALTH_STATUS
+    HEALTH_STATUS,
+    TARGET,
 }
 
 # set of all tags which are supported by our taggers
@@ -102,7 +105,8 @@ ENT_TYPES_SUPPORTED_BY_TAGGERS = (
     METHOD,
     LAB_METHOD,
     VACCINE,
-    HEALTH_STATUS
+    HEALTH_STATUS,
+    TARGET,
 )
 
 TAG_TYPE_MAPPING = dict(
@@ -121,11 +125,12 @@ TAG_TYPE_MAPPING = dict(
     M=METHOD,
     LM=LAB_METHOD,
     HS=HEALTH_STATUS,
+    T=TARGET,
     A="ALL",
     DA="DALL"
 )
 
-DICT_TAG_TYPES = {"DF", "DR", "DC", "E", "PF", "DA", "D", "M", "LM", "HS"}
+DICT_TAG_TYPES = {"DF", "DR", "DC", "E", "PF", "DA", "D", "M", "LM", "HS", "T"}
 
 ENTITY_TYPES = dict(
     Chemical=CHEMICAL,
@@ -149,4 +154,5 @@ ENTITY_TYPES = dict(
     Method=METHOD,
     LabMethod=LAB_METHOD,
     HealthStatus=HEALTH_STATUS,
+    Target=TARGET,
 )
