@@ -3,7 +3,7 @@ from typing import Dict
 
 from narrant.preprocessing import enttypes as et
 from narrant.preprocessing.pharmacy import chemical, drug, method, labmethod, excipient, plantfamilygenus, disease, \
-    dosage, vaccine, healthstatus
+    dosage, vaccine, healthstatus, target
 from narrant.preprocessing.tagging import indexed_dictagger as dt
 from kgextractiontoolbox.entitylinking.tagging.metadictagger import MetaDicTagger
 
@@ -22,7 +22,8 @@ class PharmDictTagger:
         et.METHOD: method.MethodTagger,
         et.LAB_METHOD: labmethod.LabMethodTagger,
         et.VACCINE: vaccine.VaccineTagger,
-        et.HEALTH_STATUS: healthstatus.HealthStatusTagger
+        et.HEALTH_STATUS: healthstatus.HealthStatusTagger,
+        et.TARGET: target.TargetTagger
     }
 
     @staticmethod
