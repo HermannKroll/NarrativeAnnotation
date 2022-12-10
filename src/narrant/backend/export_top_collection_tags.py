@@ -10,7 +10,7 @@ from argparse import ArgumentParser
 
 
 def main(arguments=None):
-    parser = ArgumentParser(description="Export top [limit(default=100)] tags from the database in csv format")
+    parser = ArgumentParser(description="Export top [limit(default=100)] tags from the database in tsv format")
 
     parser.add_argument("-t", "--tag", choices=TAG_TYPE_MAPPING.keys(), nargs="+", default="DA")
     parser.add_argument("-c", "--collection", required=True)
@@ -23,7 +23,8 @@ def main(arguments=None):
     args = parser.parse_args(arguments)
     ent_types = DALL if "DA" in args.tag else [TAG_TYPE_MAPPING[x] for x in args.tag]
 
-    logging.info(f'Start extracting top 100 tags for entity-type(s) {ent_types} of collection {args.collection}')
+    logging.info('Start extracting top {} tags for entity-type(s) {} of collection {}'
+                 .format(args.limit, ent_types, args.collection))
     session = Session.get()
 
     try:
@@ -40,13 +41,17 @@ def main(arguments=None):
         export_data = list()
         export_data.append('count\tentity id\tname\ttagged mention')
 
-        for tag in tags_query.all():
-            name = EntityResolver.instance().get_name_for_var_ent_id(tag[1], tag[2])
-            export_data.append(f'{tag[0]}\t{tag[1]}\t{name}\t{tag[3]}')
+        for count, ent_id, ent_type, ent_str in tags_query.all():
+            try:
+                name = EntityResolver.instance().get_name_for_var_ent_id(ent_id, ent_type)
+                export_data.append(f'{count}\t{ent_id}\t{name}\t{ent_str}')
+            except Exception as e:
+                logging.error("Exception \"{}\" occurred while resolving id {} \"{}\""
+                              .format(e, ent_id, ent_str))
 
         logging.info('Writing data to file.')
 
-        with open(f'top_{str(args.limit)}_tags_{args.collection}.csv', 'w') as file:
+        with open(f'top_{str(args.limit)}_tags_{args.collection.lower()}.tsv', 'w') as file:
             file.write('\n'.join(export_data))
             file.close()
         logging.info('Write success. Finished!')
