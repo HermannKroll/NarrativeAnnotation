@@ -1,7 +1,7 @@
 import logging
 import pickle
 import random
-from typing import Set
+from typing import Set, List
 
 from sklearn import svm
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -10,22 +10,40 @@ from sklearn.model_selection import train_test_split, GridSearchCV
 from kgextractiontoolbox.backend.database import Session
 from kgextractiontoolbox.backend.models import Document
 from kgextractiontoolbox.backend.retrieve import iterate_over_all_documents_in_collection
+from kgextractiontoolbox.document.document import TaggedDocument
+from kgextractiontoolbox.entitylinking.classifier import BaseClassifier
 
 
-class SVMClassifier:
+class SVMClassifier(BaseClassifier):
     TRAIN_RATIO = 0.8
     TEST_RATIO = 0.2
 
-    def __init__(self):
-        self.model = None
+    def __init__(self, classification: str, model_path: str):
+        super().__init__(classification)
+        logging.info(f'Loading SVM (class = {classification}) files from {model_path}')
+        self.model: svm.SVC = None
         self.vectorizer = None
+        self.__load_model(model_path)
 
-    def load_model(self, model_path: str):
+    def __load_model(self, model_path: str):
         logging.info(f'Loading SVM model from {model_path}')
         self.vectorizer = TfidfVectorizer()
         with open(model_path, 'rb') as f:
             self.model = pickle.load(f)
         logging.info('Model loaded')
+
+    def classify_document(self, doc: TaggedDocument, consider_sections=False):
+        """
+        Applies the loaded SVM model to a list of documents
+        :param doc: a document
+        :param consider_sections: should the fulltext sections be considered
+        :return: None
+        """
+        texts = [doc.get_text_content(sections=consider_sections)]
+        text_vec = self.vectorizer.transform(texts)
+        labels = self.model.predict(text_vec)
+        if labels[0] == 1:
+            doc.classification[self.classification] = "SVM"
 
     @staticmethod
     def get_negative_document_ids(positive_document_ids: Set[int], document_collection: str):
@@ -114,6 +132,3 @@ class SVMClassifier:
             pickle.dump(grid.best_estimator_, f)
 
         logging.info('Finished')
-
-    def apply_model(self):
-        pass
