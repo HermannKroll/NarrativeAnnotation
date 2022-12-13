@@ -13,7 +13,7 @@ from kgextractiontoolbox.backend.models import Tag
 from narrant.config import GENE_FILE, GENE_INDEX_FILE, MESH_DESCRIPTORS_FILE, MESH_ID_TO_HEADING_INDEX_FILE, \
     TAXONOMY_INDEX_FILE, TAXONOMY_FILE, MESH_SUPPLEMENTARY_FILE, \
     MESH_SUPPLEMENTARY_ID_TO_HEADING_INDEX_FILE, CHEMBL_DRUG_CSV, DOSAGEFORM_TAGGER_VOCAB, VACCINE_TAGGER_VOCAB, \
-    CHEMBL_TARGET_CSV
+    TARGET_TAGGER_VOCAB
 from narrant.entity.meshontology import MeSHOntology
 from narrant.mesh.data import MeSHDB
 from narrant.mesh.supplementary import MeSHDBSupplementary
@@ -324,11 +324,11 @@ class ChEMBLDatabaseResolver:
                 chembl_id = row[0].strip()
                 pref_name = row[1].lower().strip().capitalize()
                 self.chemblid2name[chembl_id] = pref_name
-        with open(CHEMBL_TARGET_CSV, 'rt') as f:
-            reader = csv.reader(f, delimiter=',')
+        with open(TARGET_TAGGER_VOCAB, 'rt') as f:
+            reader = csv.reader(f, delimiter='\t')
             for row in islice(reader, 1, None):
                 chembl_id = row[0].strip()
-                pref_name = row[1].lower().strip().capitalize()
+                pref_name = row[2].lower().strip().capitalize()
                 if not chembl_id in self.chemblid2name.keys():
                     self.chemblid2name[chembl_id] = pref_name
         logging.info(f'{len(self.chemblid2name)} ChEMBL id mappings load in {(datetime.now() - start_time)}s')
