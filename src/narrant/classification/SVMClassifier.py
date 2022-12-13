@@ -98,13 +98,13 @@ class SVMClassifier:
         # Split into train and test
         x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, test_size=1 - SVMClassifier.TRAIN_RATIO)
 
-        logging.info(f'Data split into {len(x_train)} train / {len(x_test)} test '
+        logging.info(f'Data split into {x_train.shape[0]} train / {x_test.shape[0]} test '
                      f'({SVMClassifier.TRAIN_RATIO}/{SVMClassifier.TEST_RATIO})')
 
         logging.info(f'Training SVM with Hyper-Parameter search (on train with cv = 10 and {no_workers} workers)...')
         param_grid = {'C': [0.1, 1, 100, 1000], 'kernel': ['rbf', 'poly', 'sigmoid', 'linear'],
                       'degree': [1, 2, 3, 4, 5, 6]}
-        grid = GridSearchCV(svm.SVC(), param_grid, cv=10, n_jobs=no_workers)
+        grid = GridSearchCV(svm.SVC(), param_grid, cv=10, n_jobs=no_workers, verbose=10)
         grid.fit(x_train, y_train)
 
         logging.info(f'Found best parameters: {grid.best_params_}')
