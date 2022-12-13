@@ -43,8 +43,9 @@ class SVMClassifier:
         negative_document_ids = negative_document_ids - positive_document_ids
         return negative_document_ids
 
-    def train_model(self, document_id_file: str, document_collection: str, model_path: str,
-                    train_sample_size=100000, no_workers=1):
+    @staticmethod
+    def train_model(document_id_file: str, document_collection: str, model_path: str,
+                    train_sample_size=100000, no_workers=-1):
         """
         Trains a SVM based on a set of document ids. Negative examples are randomly sampled from the database
         The SVM model learns to predict the document's class based on the title+abstract
@@ -52,7 +53,7 @@ class SVMClassifier:
         :param document_collection: the corresponding document collection in the database
         :param model_path: path to store the trained SVM model
         :param train_sample_size: how many documents should be sampled for training (Does not have an effect if the number of document ids is less than this parameter)
-        :param no_workers: number of parallel works to train the SVM
+        :param no_workers: number of parallel works to train the SVM (-1 = no cores)
         :return: None
         """
         logging.info('Beginning SVM training...')
