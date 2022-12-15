@@ -56,6 +56,7 @@ SELECT ?taxonname WHERE {
         wdt:P1421 ?GRIN .
   
 }
+ORDER BY ASC(?taxonname)
 ```
 Export results as a TSV file and store the results to:
 ```
