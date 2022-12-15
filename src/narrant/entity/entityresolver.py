@@ -12,8 +12,8 @@ from kgextractiontoolbox.backend.database import Session
 from kgextractiontoolbox.backend.models import Tag
 from narrant.config import GENE_FILE, GENE_INDEX_FILE, MESH_DESCRIPTORS_FILE, MESH_ID_TO_HEADING_INDEX_FILE, \
     TAXONOMY_INDEX_FILE, TAXONOMY_FILE, MESH_SUPPLEMENTARY_FILE, \
-    MESH_SUPPLEMENTARY_ID_TO_HEADING_INDEX_FILE, CHEMBL_DRUG_CSV, DOSAGEFORM_TAGGER_VOCAB, VACCINE_TAGGER_VOCAB, \
-    TARGET_TAGGER_VOCAB
+    MESH_SUPPLEMENTARY_ID_TO_HEADING_INDEX_FILE, DOSAGEFORM_TAGGER_VOCAB, VACCINE_TAGGER_VOCAB, \
+    TARGET_TAGGER_VOCAB, DRUG_TAGGER_VOCAB
 from narrant.entity.meshontology import MeSHOntology
 from narrant.mesh.data import MeSHDB
 from narrant.mesh.supplementary import MeSHDBSupplementary
@@ -315,22 +315,18 @@ class ChEMBLDatabaseResolver:
     def __init__(self):
         self.chemblid2name = {}
 
-    def load_index(self, chembl_db_file: str = CHEMBL_DRUG_CSV):
+    def load_index(self, vocabularies: list[str] = [DRUG_TAGGER_VOCAB, TARGET_TAGGER_VOCAB]):
         self.chemblid2name.clear()
         start_time = datetime.now()
-        with open(chembl_db_file, 'rt') as f:
-            reader = csv.reader(f, delimiter=',')
-            for row in islice(reader, 1, None):
-                chembl_id = row[0].strip()
-                pref_name = row[1].lower().strip().capitalize()
-                self.chemblid2name[chembl_id] = pref_name
-        with open(TARGET_TAGGER_VOCAB, 'rt') as f:
-            reader = csv.reader(f, delimiter='\t')
-            for row in islice(reader, 1, None):
-                chembl_id = row[0].strip()
-                pref_name = row[2].lower().strip().capitalize()
-                if not chembl_id in self.chemblid2name.keys():
-                    self.chemblid2name[chembl_id] = pref_name
+
+        for file in vocabularies:
+            with open(file, 'rt') as f:
+                reader = csv.reader(f, delimiter='\t')
+                for row in islice(reader, 1, None):
+                    chembl_id = row[0].strip()
+                    pref_name = row[2].lower().strip().capitalize()
+                    if not chembl_id in self.chemblid2name.keys():
+                        self.chemblid2name[chembl_id] = pref_name
         logging.info(f'{len(self.chemblid2name)} ChEMBL id mappings load in {(datetime.now() - start_time)}s')
 
     def chemblid_to_name(self, chembl_id: str) -> str:
