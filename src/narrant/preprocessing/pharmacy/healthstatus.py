@@ -24,7 +24,7 @@ class HealthStatusTagger(IndexedDictTagger):
         self.logger.info(f'{len(self.desc_by_term)} Health Status terms found in database')
 
     def custom_tag_filter_logic(self, in_doc: TaggedDocument):
-        hs_tags = set([x for x in in_doc.tags if x.ent_type == HEALTH_STATUS])
+        hs_tags = list([x for x in in_doc.tags if x.ent_type == HEALTH_STATUS])
         if len(hs_tags) == 0:
             return
 
@@ -37,5 +37,6 @@ class HealthStatusTagger(IndexedDictTagger):
         text_tkns = word_tokenize(abstract[abs_min:abs_max].strip(" ,.!?;'`-_+*~\"%&/\\"))
         noun_tags = set([x[0] for x in pos_tag(text_tkns) if x[1] in {'NN', 'NNS', 'NNP', 'NNPS'}])
 
-        # keep tags only if they are nouns
-        in_doc.tags = [x for x in hs_tags if x.text in noun_tags]
+        # keep tags only if they are nouns (keep normal + filtered health status)
+        filtered_hs = [x for x in hs_tags if x.text in noun_tags]
+        in_doc.tags = [t for t in in_doc.tags if t.ent_type != HEALTH_STATUS] + filtered_hs
