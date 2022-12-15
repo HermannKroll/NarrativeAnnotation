@@ -10,7 +10,3 @@ mv supp2023 data/supp2023.xml
 
 wget ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/gene_info.gz
 mv gene_info.gz data/gene_info_2023.gz
-
-wget ftp://ftp.ncbi.nlm.nih.gov/pub/pmc/PMC-ids.csv.gz
-gzip -d PMC-ids.csv.gz
-mv PMC-ids.csv data/PMC-ids.csv
