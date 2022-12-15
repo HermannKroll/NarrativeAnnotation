@@ -18,7 +18,7 @@ class DrugTagger(IndexedDictTagger):
 
     def __init__(self, *args, **kwargs):
         super().__init__("drug", "DrugTagger", DrugTagger.__version__,
-                         enttypes.DRUG, config.CHEMBL_DRUG_CSV,
+                         enttypes.DRUG, config.DRUG_TAGGER_VOCAB,
                          *args, **kwargs)
 
     def _index_from_source(self):

@@ -70,6 +70,8 @@ DOSAGEFORM_TAGGER_VOCAB = os.path.join(DOSAGEFORM_TAGGER_VOCAB_DIRECTORY, "vocab
 # Drug Tagger
 CHEMBL_CHEMICAL_DATABASE_FILE = os.path.join(RESOURCE_DIR, "vocabularies/chemical/chembl_chemicals.txt")
 CHEMBL_BLACKLIST_FILE = os.path.join(RESOURCE_DIR, "vocabularies/drug/chembl_blacklist.txt")
+DRUG_TAGGER_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, "vocabularies/drug")
+DRUG_TAGGER_VOCAB = os.path.join(DRUG_TAGGER_VOCAB_DIRECTORY, "vocabulary.tsv")
 
 # Excipient Tagger
 EXCIPIENT_TAGGER_DATABASE_FILE = os.path.join(RESOURCE_DIR, 'vocabularies/excipient/excipient_database_2020.csv')
