@@ -104,17 +104,21 @@ Save it in the vocabulary for diseases.
 Query Wikidata vaccines
 ```
 #Vaccines 
-SELECT ?item  ?itemLabel  ?mesh (GROUP_CONCAT(?altLabel;separator=";") AS ?labels)
+SELECT ?itemID ?ent_type ?itemLabel  (GROUP_CONCAT(?altLabel;separator=";") AS ?synonyms)
 WHERE 
 {
   VALUES ?vacc {wd:Q87719492 wd:Q85795487 wd:Q134808 wd:Q105967696 wd:Q58624061 wd:Q1810913 wd:Q58630730 wd:Q3560939 wd:Q28051899 wd:Q96841548 wd:Q578537 wd:Q85795487 wd:Q97153933 wd:Q58623657 wd:Q99518999} 
   ?item wdt:P31+|wdt:P279+ ?vacc;
   OPTIONAL { ?item wdt:P486 ?mesh }
+  BIND ("Vaccine" AS ?ent_type) .
+  BIND (CONCAT('MESH:', ?mesh) AS ?meshLabel).
+  BIND (if (exists { ?item wdt:P486 ?mesh}, ?meshLabel, ?item) AS ?itemID)
+
   
   ?item skos:altLabel ?altLabel . FILTER (lang(?altLabel) = "en")       
   SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }     
 }
-GROUP BY ?item ?itemLabel ?mesh
+GROUP BY ?itemID ?itemLabel ?ent_type
 ORDER BY ASC(?itemLabel)
 ```
 
