@@ -108,7 +108,7 @@ class DrugVocabulary(ChemblVocabulary):
         chembl_id_to_terms = defaultdict(set)
 
         vocab = Vocabulary(source_file)
-        vocab.load_vocab(expand_terms=False)
+        vocab.load_vocab(expand_terms=expand_terms)
 
         for entry in vocab.vocabulary_entries:
             chembl_id = entry.entity_id
