@@ -58,7 +58,7 @@ class ExcipientVocabulary:
 
     @staticmethod
     def create_excipient_vocabulary(excipient_database=config.EXCIPIENT_TAGGER_DATABASE_FILE,
-                                    chembl_db_file=config.CHEMBL_DRUG_CSV, ):
+                                    chembl_db_file=config.DRUG_TAGGER_VOCAB, ):
         # we cannot ignore the excipient terms while reading chembl here (else our mapping would be empty)
         chembl_terms = drug_vocab.DrugVocabulary.create_drug_vocabulary_from_chembl(source_file=chembl_db_file,
                                                                                     ignore_excipient_terms=False,

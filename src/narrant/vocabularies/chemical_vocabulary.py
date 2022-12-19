@@ -17,7 +17,7 @@ class ChemicalVocabulary:
 
     @staticmethod
     def create_chembl_chemical_vocabulary(chemical_list=config.CHEMBL_CHEMICAL_DATABASE_FILE,
-                                          chembl_db_file=config.CHEMBL_DRUG_CSV,
+                                          chembl_db_file=config.DRUG_TAGGER_VOCAB,
                                           excipient_db=config.EXCIPIENT_TAGGER_DATABASE_FILE):
         # we cannot ignore the excipient terms while reading Chembl here (else our mapping would be empty)
         drugbank_terms = drug_vocab.DrugVocabulary.create_drug_vocabulary_from_chembl(source_file=chembl_db_file,
