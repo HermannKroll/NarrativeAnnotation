@@ -82,3 +82,32 @@ class Test(TestCase):
         self.assertEqual(len(desc1.allowable_qualifiers_list), 14)
         for q in desc1.allowable_qualifiers_list:
             self.assertIn(q.qualifier_ui, allowed_qualifiers)
+
+    def test_super_descriptors(self):
+        # Breast Neoplasm example
+        bn_super_descs = {desc for desc, _ in self.db.retrieve_superdescriptors('D001943')}
+        self.assertNotIn('D001943', bn_super_descs)
+        self.assertIn('D001941', bn_super_descs)
+        self.assertIn('D012871', bn_super_descs)
+        self.assertIn('D017437', bn_super_descs)
+        self.assertIn('D009371', bn_super_descs)
+        self.assertIn('D009369', bn_super_descs)
+        self.assertEqual(5, len(bn_super_descs))
+
+        # Arrhythmias, Cardiac example
+        ac_super_descs = {desc for desc, _ in self.db.retrieve_superdescriptors('D001145')}
+        self.assertNotIn('D001145', bn_super_descs)
+        self.assertIn('D006331', ac_super_descs)
+        self.assertIn('D002318', ac_super_descs)
+        self.assertIn('D010335', ac_super_descs)
+        self.assertIn('D013568', ac_super_descs)
+        self.assertEqual(4, len(bn_super_descs))
+
+        # Drug Chronotherapy example
+        dc_super_descs = {desc for desc, _ in self.db.retrieve_superdescriptors('D055870')}
+        self.assertNotIn('D055870', dc_super_descs)
+        self.assertIn('D004334', dc_super_descs)
+        self.assertIn('D004358', dc_super_descs)
+        self.assertIn('D013812', dc_super_descs)
+        self.assertIn('D019454', dc_super_descs)
+        self.assertEqual(4, len(dc_super_descs))

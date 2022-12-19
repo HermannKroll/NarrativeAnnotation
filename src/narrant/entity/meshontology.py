@@ -240,6 +240,26 @@ class MeSHOntology:
                 sub_descriptors.add(res)
         return sub_descriptors
 
+    def retrieve_superdescriptors(self, decriptor_id: str) -> [(str)]:
+        """
+        retrieves a list of all super-descriptors for a given descriptor
+        :param decriptor_id: a mesh descriptor id
+        :return: a list of super-descriptor (id, heading)
+        """
+        tree_nos = self.get_tree_numbers_for_descriptor(descriptor_id=decriptor_id)
+        super_descriptors = set()
+        for tn in tree_nos:
+            # Numbers are organized as follows:
+            # C18.452.394.750
+            # C19.246
+            # So we need to split by each '.'
+            # Iterate over tn as long as '.' between it (results in 'C18.452.394', 'C18.452', 'C18')
+            while '.' in tn:
+                tn = tn.rpartition('.')[0]
+                super_descriptors.add(self.treeno2desc[tn])
+
+        return super_descriptors
+
     @staticmethod
     def get_name_for_tree(tree_start_character):
         """
