@@ -30,7 +30,7 @@ def convert_pubtator_biocxml2pubtator(input_dir: str, output: str, workers=1, es
 
     def generate_tasks():
         logging.info('Counting files...')
-        all_files = list(glob.glob(f'{input_dir}/**/BioCXML.*.gz', recursive=True))
+        all_files = list(glob.glob(f'{input_dir}/**/BioCXML.*.tar', recursive=True))
         logging.info(f'Find {len(all_files)} files')
         for tar_file in all_files:
             yield tar_file
@@ -61,7 +61,11 @@ def convert_pubtator_biocxml2pubtator(input_dir: str, output: str, workers=1, es
                                 document_id = int(document.passages[0].infons['article-id_pmid'])
                             else:
                                 # its a pmid id
-                                document_id = int(document.id)
+                                try:
+                                    document_id = int(document.id)
+                                except ValueError:
+                                    logging.debug(f'Document has no PMID - id is ({document.id})')
+                                    continue
                             title = document.passages[0].text
                             abstract = []
                             entities = []
@@ -99,8 +103,6 @@ def convert_pubtator_biocxml2pubtator(input_dir: str, output: str, workers=1, es
                             doc.sort_tags()
                             doc.check_and_repair_tag_integrity()
                             yield doc
-                    #  except ValueError:
-                    #     logging.warning(f'Skip document because {ValueError}')
                     except KeyError:
                         logging.warning(f'Skip document because {KeyError}')
 
