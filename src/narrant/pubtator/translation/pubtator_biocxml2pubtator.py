@@ -8,6 +8,7 @@ import tarfile
 
 import multiprocessing
 
+from lxml.etree import XMLSyntaxError
 
 from kgextractiontoolbox.progress import Progress
 from kgextractiontoolbox.document.document import TaggedDocument, TaggedEntity
@@ -53,58 +54,63 @@ def convert_pubtator_biocxml2pubtator(input_dir: str, output: str, workers=1, es
                 # read from a ByteIO
                 reader = bioc.BioCXMLDocumentReader(member)
                 collection_info = reader.get_collection_info()
-                for document in reader:
-                    try:
-                        if document.passages:
-                            if 'article-id_pmid' in document.passages[0].infons:
-                                # convert pmcid id to pmid
-                                document_id = int(document.passages[0].infons['article-id_pmid'])
-                            else:
-                                # its a pmid id
-                                try:
-                                    document_id = int(document.id)
-                                except ValueError:
-                                    logging.debug(f'Document has no PMID - id is ({document.id})')
-                                    continue
-                            title = document.passages[0].text
-                            abstract = []
-                            entities = []
-                            for idx, passage in enumerate(document.passages):
-                                # starts with ensures that abstract_titles as well as abstracts are exported
-                                if "type" in passage.infons and passage.infons["type"] == "abstract":
-                                    if passage.text.lower().startswith("citation"):
-                                        break  # skip citations
-                                    abstract.append(passage.text)
-                                # is it a abstract section title?
-                                elif "type" in passage.infons and passage.infons["type"] == "abstract_title_1":
-                                    if passage.text.lower().startswith("citation"):
-                                        break  # skip citations
-                                    abstract.append(passage.text)
-                                elif idx > 0:
-                                    break  # no title, no abstract, do not care
-                                if passage.annotations:
-                                    for anno in passage.annotations:
-                                        if "identifier" in anno.infons:
-                                            ent_id = anno.infons["identifier"]
-                                            ent_type = anno.infons["type"]
-                                            ent_txt = anno.text
-                                            for loc in anno.locations:
-                                                ent_start = loc.offset
-                                                ent_stop = loc.end
-                                                ent_len = loc.end
-                                                entities.append(TaggedEntity(document=document_id, start=ent_start,
-                                                                             end=ent_stop, text=ent_txt,
-                                                                             ent_type=ent_type,
-                                                                             ent_id=ent_id))
+                try:
+                    for document in reader:
+                        try:
+                            if document.passages:
+                                if 'article-id_pmid' in document.passages[0].infons:
+                                    # convert pmcid id to pmid
+                                    document_id = int(document.passages[0].infons['article-id_pmid'])
+                                else:
+                                    # its a pmid id
+                                    try:
+                                        document_id = int(document.id)
+                                    except ValueError:
+                                        logging.debug(f'Document has no PMID - id is ({document.id})')
+                                        continue
+                                title = document.passages[0].text
+                                abstract = []
+                                entities = []
+                                for idx, passage in enumerate(document.passages):
+                                    # starts with ensures that abstract_titles as well as abstracts are exported
+                                    if "type" in passage.infons and passage.infons["type"] == "abstract":
+                                        if passage.text.lower().startswith("citation"):
+                                            break  # skip citations
+                                        abstract.append(passage.text)
+                                    # is it a abstract section title?
+                                    elif "type" in passage.infons and passage.infons["type"] == "abstract_title_1":
+                                        if passage.text.lower().startswith("citation"):
+                                            break  # skip citations
+                                        abstract.append(passage.text)
+                                    elif idx > 0:
+                                        break  # no title, no abstract, do not care
+                                    if passage.annotations:
+                                        for anno in passage.annotations:
+                                            if "identifier" in anno.infons:
+                                                ent_id = anno.infons["identifier"]
+                                                ent_type = anno.infons["type"]
+                                                ent_txt = anno.text
+                                                for loc in anno.locations:
+                                                    ent_start = loc.offset
+                                                    ent_stop = loc.end
+                                                    ent_len = loc.end
+                                                    entities.append(TaggedEntity(document=document_id, start=ent_start,
+                                                                                 end=ent_stop, text=ent_txt,
+                                                                                 ent_type=ent_type,
+                                                                                 ent_id=ent_id))
 
-                            abstract = ' '.join(abstract)
-                            doc = TaggedDocument(title=title, abstract=abstract, id=document_id)
-                            doc.tags = entities
-                            doc.sort_tags()
-                            doc.check_and_repair_tag_integrity()
-                            yield doc
-                    except KeyError:
-                        logging.warning(f'Skip document because {KeyError}')
+                                abstract = ' '.join(abstract)
+                                doc = TaggedDocument(title=title, abstract=abstract, id=document_id)
+                                doc.tags = entities
+                                doc.sort_tags()
+                                doc.check_and_repair_tag_integrity()
+                                yield doc
+                        except KeyError:
+                            logging.warning(f'Skip document because {KeyError}')
+                        except XMLSyntaxError:
+                            logging.warning(f'XMLSyntaxError error while parsing file: {tar_input_file} (Skipping part of file)')
+                except XMLSyntaxError:
+                    logging.warning(f'XMLSyntaxError error while parsing file: {tar_input_file} (Skipping rest of file)')
 
     task_queue = multiprocessing.Queue()
     result_queue = multiprocessing.Queue()
