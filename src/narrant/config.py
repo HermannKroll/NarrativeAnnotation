@@ -8,10 +8,10 @@ from pathlib import Path
 def search_config(start: Path, dirname: Path, filename: Path):
     if not start.is_dir():
         return None
-    if not (start/dirname).is_dir() or not (start/dirname/filename).is_file():
-        return search_config(start/"..", dirname, filename)
+    if not (start / dirname).is_dir() or not (start / dirname / filename).is_file():
+        return search_config(start / "..", dirname, filename)
     else:
-        return (start/dirname/filename).resolve()
+        return (start / dirname / filename).resolve()
 
 
 GIT_ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../.."))
@@ -38,7 +38,7 @@ MESH_ID_TO_HEADING_INDEX_FILE = os.path.join(TMP_DIR, 'desc2023_id2heading.pkl')
 MESH_SUPPLEMENTARY_ID_TO_HEADING_INDEX_FILE = os.path.join(TMP_DIR, 'supp2023_id2heading.pkl')
 
 # CHEMBL
-#CHEMBL_DRUG_CSV = os.path.join(RESOURCE_DIR, "vocabularies/drug/chembl29.csv")
+# CHEMBL_DRUG_CSV = os.path.join(RESOURCE_DIR, "vocabularies/drug/chembl29.csv")
 
 # DrugBank
 DRUGBANK_XML_DUMP = os.path.join(DATA_DIR, "drugbank2021.xml")
@@ -56,8 +56,8 @@ TAXONOMY_INDEX_FILE = os.path.join(TMP_DIR, 'taxonomy_name_index.pkl')
 PREPROCESS_CONFIG = str(search_config(Path(CONFIG_DIR) / '..', Path('config'), Path('preprocess.json')))
 
 # Backend for Tagging
-#BACKEND_CONFIG = os.path.join(CONFIG_DIR, "backend.json")
-BACKEND_CONFIG = str(search_config(Path(CONFIG_DIR)/'..', Path('config'), Path('backend.json')))
+# BACKEND_CONFIG = os.path.join(CONFIG_DIR, "backend.json")
+BACKEND_CONFIG = str(search_config(Path(CONFIG_DIR) / '..', Path('config'), Path('backend.json')))
 
 # Dict Tagger
 DICT_TAGGER_BLACKLIST = os.path.join(RESOURCE_DIR, "dict_tagger_blacklist.txt")
@@ -65,7 +65,6 @@ DICT_TAGGER_BLACKLIST = os.path.join(RESOURCE_DIR, "dict_tagger_blacklist.txt")
 # DosageForm Tagger
 DOSAGEFORM_TAGGER_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, 'vocabularies/dosageform')
 DOSAGEFORM_TAGGER_VOCAB = os.path.join(DOSAGEFORM_TAGGER_VOCAB_DIRECTORY, "vocabulary.tsv")
-
 
 # Drug Tagger
 CHEMBL_CHEMICAL_DATABASE_FILE = os.path.join(RESOURCE_DIR, "vocabularies/chemical/chembl_chemicals.txt")
@@ -100,3 +99,11 @@ HEALTH_STATUS_TAGGER_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, 'vocabularies/
 # Target Tagger
 TARGET_TAGGER_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, 'vocabularies/target')
 TARGET_TAGGER_VOCAB = os.path.join(TARGET_TAGGER_VOCAB_DIRECTORY, "vocabulary.tsv")
+
+# Organism Tagger
+ORGANISM_TAGGER_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, 'vocabularies/organism')
+ORGANISM_TAGGER_VOCAB = os.path.join(ORGANISM_TAGGER_VOCAB_DIRECTORY, "vocabulary.tsv")
+
+# Tissue Tagger
+TISSUE_TAGGER_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, 'vocabularies/tissue')
+TISSUE_TAGGER_VOCAB = os.path.join(TISSUE_TAGGER_VOCAB_DIRECTORY, "vocabulary.tsv")
