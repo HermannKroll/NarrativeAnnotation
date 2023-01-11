@@ -187,3 +187,6 @@ compound
 compounds
 novel
 native
+large
+root
+roots
