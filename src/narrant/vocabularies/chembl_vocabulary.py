@@ -51,7 +51,7 @@ class ChemblVocabulary(ABC):
 
         root_dir = tempfile.mkdtemp()
         logging.info("Using tmp dir {}.".format(root_dir))
-        num_targets = self._request_target_jsons(root_dir)
+        num_targets = self._request_chembl_jsons(root_dir)
 
         if num_targets == 0:
             logging.error("No {} data available. Removing tmp dir. Stopping...".format(self.vocab_type))
@@ -63,7 +63,7 @@ class ChemblVocabulary(ABC):
         logging.info(f'Remove temp directory: {root_dir}')
         shutil.rmtree(root_dir)
 
-    def _request_target_jsons(self, tmp_dir):
+    def _request_chembl_jsons(self, tmp_dir):
         total_requests = 0
         actual_targets = 0
         iteration = 0
