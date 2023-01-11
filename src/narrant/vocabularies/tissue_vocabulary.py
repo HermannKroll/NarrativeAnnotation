@@ -12,7 +12,7 @@ class TissueVocabulary(TargetVocabulary):
     def __init__(self):
         super().__init__(TISSUE_TAGGER_VOCAB, entity_type_in_vocab=TISSUE)
         self.ignored_target_types = {}
-        self.allowed_target_types = {'TISSUE'}
+        self.allowed_target_types = {'tissue'}
 
     @staticmethod
     def create_tissue_vocabulary(expand_by_s_and_e=True):
