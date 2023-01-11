@@ -2,6 +2,7 @@ import logging
 import os
 
 from narrant.config import TISSUE_TAGGER_VOCAB, TISSUE_TAGGER_VOCAB_DIRECTORY
+from narrant.preprocessing.enttypes import TISSUE
 from narrant.vocabularies.generic_vocabulary import GenericVocabulary
 from narrant.vocabularies.target_vocabulary import TargetVocabulary
 
@@ -9,7 +10,7 @@ from narrant.vocabularies.target_vocabulary import TargetVocabulary
 class TissueVocabulary(TargetVocabulary):
 
     def __init__(self):
-        super().__init__(TISSUE_TAGGER_VOCAB)
+        super().__init__(TISSUE_TAGGER_VOCAB, entity_type_in_vocab=TISSUE)
         self.ignored_target_types = {}
         self.allowed_target_types = {'TISSUE'}
 

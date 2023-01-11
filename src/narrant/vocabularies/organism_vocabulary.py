@@ -2,6 +2,7 @@ import logging
 import os
 
 from narrant.config import ORGANISM_TAGGER_VOCAB, ORGANISM_TAGGER_VOCAB_DIRECTORY
+from narrant.preprocessing.enttypes import ORGANISM
 from narrant.vocabularies.generic_vocabulary import GenericVocabulary
 from narrant.vocabularies.target_vocabulary import TargetVocabulary
 
@@ -9,7 +10,7 @@ from narrant.vocabularies.target_vocabulary import TargetVocabulary
 class OrganismVocabulary(TargetVocabulary):
 
     def __init__(self):
-        super().__init__(ORGANISM_TAGGER_VOCAB)
+        super().__init__(ORGANISM_TAGGER_VOCAB, entity_type_in_vocab=ORGANISM)
         self.ignored_target_types = {}
         self.allowed_target_types = {'organism'}
 

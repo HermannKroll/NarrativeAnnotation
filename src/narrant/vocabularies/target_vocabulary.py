@@ -14,10 +14,11 @@ URL_PATH = "/chembl/api/data/target?format=json&limit={}"
 
 class TargetVocabulary(ChemblVocabulary):
 
-    def __init__(self, vocab_file=TARGET_TAGGER_VOCAB, entity_type=TARGET):
+    def __init__(self, vocab_file=TARGET_TAGGER_VOCAB, entity_type=TARGET, entity_type_in_vocab=TARGET):
         super().__init__(vocab_file, entity_type)
         self.ignored_target_types = {'organism', 'tissue', 'unchecked', 'no target'}
         self.allowed_target_types = {}
+        self.entity_type_in_vocab = entity_type_in_vocab
 
     @staticmethod
     def create_target_vocabulary(expand_by_s_and_e=True):
@@ -65,7 +66,7 @@ class TargetVocabulary(ChemblVocabulary):
                     else:
                         syn_str = ""
 
-                    vocabulary.add_vocab_entry(entity_id, self.vocab_type, heading, syn_str)
+                    vocabulary.add_vocab_entry(entity_id, self.entity_type_in_vocab, heading, syn_str)
 
         logging.info("Parsed {} targets with {} terms. Saving vocabulary..."
                      .format(vocabulary.count_distinct_entities(),
