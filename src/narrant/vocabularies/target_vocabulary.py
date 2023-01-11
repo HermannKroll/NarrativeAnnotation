@@ -13,6 +13,9 @@ URL_PATH = "/chembl/api/data/target?format=json&limit={}"
 
 
 class TargetVocabulary(ChemblVocabulary):
+
+    IGNORED_TARGET_TYPES = {'organism', 'tissue', 'unchecked', 'no target'}
+
     def __init__(self):
         super().__init__(TARGET_TAGGER_VOCAB, TARGET)
 
@@ -38,6 +41,9 @@ class TargetVocabulary(ChemblVocabulary):
             with open(file_name) as file:
                 for t in json.load(file):
                     if not (t['target_chembl_id'] or t['component_description']):
+                        continue
+                    # ignore certain target types
+                    if t["target_type"].strip().lower() in TargetVocabulary.IGNORED_TARGET_TYPES:
                         continue
 
                     entity_id = t['target_chembl_id']
