@@ -14,10 +14,10 @@ URL_PATH = "/chembl/api/data/target?format=json&limit={}"
 
 class TargetVocabulary(ChemblVocabulary):
 
-    IGNORED_TARGET_TYPES = {'organism', 'tissue', 'unchecked', 'no target'}
-
-    def __init__(self):
-        super().__init__(TARGET_TAGGER_VOCAB, TARGET)
+    def __init__(self, vocab_file=TARGET_TAGGER_VOCAB, entity_type=TARGET):
+        super().__init__(vocab_file, entity_type)
+        self.ignored_target_types = {'organism', 'tissue', 'unchecked', 'no target'}
+        self.allowed_target_types = {}
 
     @staticmethod
     def create_target_vocabulary(expand_by_s_and_e=True):
@@ -43,7 +43,10 @@ class TargetVocabulary(ChemblVocabulary):
                     if not (t['target_chembl_id'] or t['component_description']):
                         continue
                     # ignore certain target types
-                    if t["target_type"].strip().lower() in TargetVocabulary.IGNORED_TARGET_TYPES:
+                    if self.ignored_target_types and t["target_type"].strip().lower() in self.ignored_target_types:
+                        continue
+                    # if certain types are allowed, check type
+                    if self.allowed_target_types and t["target_type"].strip().lower() not in self.allowed_target_types:
                         continue
 
                     entity_id = t['target_chembl_id']
