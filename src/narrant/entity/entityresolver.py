@@ -210,6 +210,8 @@ class SpeciesResolver:
 
     def __init__(self):
         self.speciesid2name = defaultdict(dict)
+        trans_map = {p: '' for p in '[]()'}
+        self.__translator = str.maketrans(trans_map)
 
     def get_reverse_index(self):
         s2n = dict()
@@ -231,6 +233,8 @@ class SpeciesResolver:
                     components = line.split('\t')
                     species_id = components[0]
                     name = components[2]
+                    # Remove brackets
+                    name = name.translate(self.__translator).strip()
 
                     # skip species that are not in the Tag table
                     if query_db_species_ids and int(species_id) not in species_ids_in_db:
