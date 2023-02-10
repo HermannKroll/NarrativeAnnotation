@@ -7,7 +7,7 @@ from narrant.vocabularies.tissue_vocabulary import TissueVocabulary
 class TissueTagger(IndexedDictTagger):
     TYPES = (enttypes.TISSUE,)
     __name__ = "TissueTagger"
-    __version__ = "1.0.0"
+    __version__ = "1.2.0"
 
     def __init__(self, *args, **kwargs):
         super().__init__("tissue", "TissueTagger", TissueTagger.__version__,
