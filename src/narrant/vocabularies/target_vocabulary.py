@@ -18,6 +18,7 @@ class TargetVocabulary(ChemblVocabulary):
         super().__init__(vocab_file, entity_type)
         self.ignored_target_types = {'organism', 'tissue', 'unchecked', 'no target'}
         self.allowed_target_types = {}
+        self.allowed_organism = {}
         self.entity_type_in_vocab = entity_type_in_vocab
 
     @staticmethod
@@ -44,11 +45,19 @@ class TargetVocabulary(ChemblVocabulary):
                     if not (t['target_chembl_id'] or t['component_description']):
                         continue
                     # ignore certain target types
-                    if self.ignored_target_types and t["target_type"].strip().lower() in self.ignored_target_types:
+                    if len(self.ignored_target_types) > 0 \
+                            and t["target_type"].strip().lower() in self.ignored_target_types:
                         continue
                     # if certain types are allowed, check type
-                    if self.allowed_target_types and t["target_type"].strip().lower() not in self.allowed_target_types:
+                    if len(self.allowed_target_types) > 0\
+                            and t["target_type"].strip().lower() not in self.allowed_target_types:
                         continue
+
+                    # Ignore targets if they belong to an organism that is not desired
+                    if len(self.allowed_organism) > 0 and 'organism' in t:
+                        if t["organism"] and t["organism"].strip().lower() not in self.allowed_organism:
+                            continue
+                        # otherwise organism not known -> continue
 
                     entity_id = t['target_chembl_id']
                     heading = t['pref_name']
