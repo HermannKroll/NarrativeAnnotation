@@ -7,7 +7,7 @@ from narrant.vocabularies.target_vocabulary import TargetVocabulary
 class TargetTagger(IndexedDictTagger):
     TYPES = (enttypes.TARGET,)
     __name__ = "TargetTagger"
-    __version__ = "1.0.0"
+    __version__ = "1.7.0"
 
     def __init__(self, *args, **kwargs):
         super().__init__("target", "TargetTagger", TargetTagger.__version__,
