@@ -37,7 +37,7 @@ class TargetVocabulary(ChemblVocabulary):
         logging.info("Start creating target vocabulary.")
         target2organism = {}
         target2entry = {}
-        term2targets = {}
+
         target2no_of_synonyms = {}
 
         for file_name in os.listdir(tmp_dir):
@@ -82,16 +82,11 @@ class TargetVocabulary(ChemblVocabulary):
 
                     target2entry[entity_id] = (heading, synonyms)
                     target2no_of_synonyms[entity_id] = len(synonyms)
-                    for term in [heading] + synonyms:
-                        term = term.strip().lower()
-                        if term in term2targets:
-                            term2targets[term].add(entity_id)
-                        else:
-                            term2targets[term] = {entity_id}
 
         logging.info('Computing vocabulary...')
         heading2synonyms = {}
         heading2best_heading = {}
+        term2targets = {}
         trans_map = {p: '' for p in string.punctuation}
         translator = str.maketrans(trans_map)
         for entity_id in target2entry:
@@ -107,52 +102,22 @@ class TargetVocabulary(ChemblVocabulary):
                 heading2best_heading[heading_l] = heading
                 heading2synonyms[heading_l] = set(synonyms)
 
+            for term in [heading] + synonyms:
+                term = term.strip().lower()
+                if term in term2targets:
+                    term2targets[term].add(heading_l)
+                else:
+                    term2targets[term] = {heading_l}
+
+        ignored_terms = set()
+        for term, targets in term2targets.items():
+            if len(targets) > 2:
+                ignored_terms.add(term)
+
         for heading_l, synonyms in heading2synonyms.items():
             heading = heading2best_heading[heading_l]
-            vocabulary.add_vocab_entry(heading, self.entity_type_in_vocab, heading, ";".join(synonyms))
-
-       #  for entity_id in target2entry:
-       #      heading, synonyms = target2entry[entity_id]
-       #      # If this target belongs to humans, everything is fine
-       #    #  if target2organism[entity_id] == self.preferred_target_organism:
-       #  #        vocabulary.add_vocab_entry(entity_id, self.entity_type_in_vocab, heading, ";".join(synonyms))
-       # #     else:
-       #      # Search whether the term already refers to a human target
-       #      # if so, just keep the human target (preferred one)
-       #      # if not, prefer target with more synonyms
-       #      add_target = True
-       #      for term in synonyms + [heading]:
-       #          term = term.strip().lower()
-       #          possible_target_ids = list([t for t in term2targets[term] if t != entity_id])
-       #          # if we have several options for that term
-       #          if len(possible_target_ids) > 0:
-       #              organisms = list([target2organism[t] for t in possible_target_ids])
-       #              # if some other has a human organism - take this
-       #              if self.preferred_target_organism in organisms \
-       #                      and target2organism[entity_id] != self.preferred_target_organism:
-       #                  add_target = False
-       #                  break
-       #
-       #              current_syn_no = target2no_of_synonyms[entity_id]
-       #              min_syn_no = min([target2no_of_synonyms[t] for t in possible_target_ids])
-       #              # if some other has more synonyms
-       #              if current_syn_no < min_syn_no:
-       #                  add_target = False
-       #                  break
-       #              # same number of synonyms
-       #              elif current_syn_no == min_syn_no:
-       #                  possible_target_ids = sorted(possible_target_ids, key=lambda x: len(x))
-       #                  # take the lowest one in alphanumerical order
-       #                  if len(entity_id) > len(possible_target_ids[0]):
-       #                      add_target = False
-       #                      break
-       #                  elif len(entity_id) == len(possible_target_ids[0]) and entity_id > possible_target_ids[0]:
-       #                      add_target = False
-       #                      break
-       #                  # Otherwise you can take it
-
-          #  if add_target:
-          #      vocabulary.add_vocab_entry(entity_id, self.entity_type_in_vocab, heading, ";".join(synonyms))
+            filtered_synonyms = [s for s in synonyms if s.lower().strip() not in ignored_terms]
+            vocabulary.add_vocab_entry(heading, self.entity_type_in_vocab, heading, ";".join(filtered_synonyms))
 
         logging.info("Parsed {} targets with {} terms. Saving vocabulary..."
                      .format(vocabulary.count_distinct_entities(),
