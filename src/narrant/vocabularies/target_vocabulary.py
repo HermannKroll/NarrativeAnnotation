@@ -22,6 +22,7 @@ class TargetVocabulary(ChemblVocabulary):
         self.allowed_organism = {}
         self.entity_type_in_vocab = entity_type_in_vocab
         self.preferred_target_organism = "homo sapiens"
+        self.use_headings_as_key = True
 
     @staticmethod
     def create_target_vocabulary(expand_by_s_and_e=True):
@@ -83,41 +84,46 @@ class TargetVocabulary(ChemblVocabulary):
                     target2entry[entity_id] = (heading, synonyms)
                     target2no_of_synonyms[entity_id] = len(synonyms)
 
-        logging.info('Computing vocabulary...')
-        heading2synonyms = {}
-        heading2best_heading = {}
-        term2targets = {}
-        trans_map = {p: '' for p in string.punctuation}
-        translator = str.maketrans(trans_map)
-        for entity_id in target2entry:
-            heading, synonyms = target2entry[entity_id]
-            heading_l = heading.lower().translate(translator).strip()
-            if heading_l in heading2synonyms:
-                h_old = sum([1 for c in heading2best_heading[heading_l] if c.isupper()])
-                h_new = sum([1 for c in heading if c.isupper()])
-                if h_new > h_old:
-                    heading2best_heading[heading_l] = heading
-                heading2synonyms[heading_l].update(synonyms)
-            else:
-                heading2best_heading[heading_l] = heading
-                heading2synonyms[heading_l] = set(synonyms)
-
-            for term in [heading] + synonyms:
-                term = term.strip().lower()
-                if term in term2targets:
-                    term2targets[term].add(heading_l)
+        if self.use_headings_as_key:
+            logging.info('Computing vocabulary...')
+            heading2synonyms = {}
+            heading2best_heading = {}
+            term2targets = {}
+            trans_map = {p: '' for p in string.punctuation}
+            translator = str.maketrans(trans_map)
+            for entity_id in target2entry:
+                heading, synonyms = target2entry[entity_id]
+                heading_l = heading.lower().translate(translator).strip()
+                if heading_l in heading2synonyms:
+                    h_old = sum([1 for c in heading2best_heading[heading_l] if c.isupper()])
+                    h_new = sum([1 for c in heading if c.isupper()])
+                    if h_new > h_old:
+                        heading2best_heading[heading_l] = heading
+                    heading2synonyms[heading_l].update(synonyms)
                 else:
-                    term2targets[term] = {heading_l}
+                    heading2best_heading[heading_l] = heading
+                    heading2synonyms[heading_l] = set(synonyms)
 
-        ignored_terms = set()
-        for term, targets in term2targets.items():
-            if len(targets) > 2:
-                ignored_terms.add(term)
+                for term in [heading] + synonyms:
+                    term = term.strip().lower()
+                    if term in term2targets:
+                        term2targets[term].add(heading_l)
+                    else:
+                        term2targets[term] = {heading_l}
 
-        for heading_l, synonyms in heading2synonyms.items():
-            heading = heading2best_heading[heading_l]
-            filtered_synonyms = [s for s in synonyms if s.lower().strip() not in ignored_terms]
-            vocabulary.add_vocab_entry(heading, self.entity_type_in_vocab, heading, ";".join(filtered_synonyms))
+            ignored_terms = set()
+            for term, targets in term2targets.items():
+                if len(targets) > 2:
+                    ignored_terms.add(term)
+
+            for heading_l, synonyms in heading2synonyms.items():
+                heading = heading2best_heading[heading_l]
+                filtered_synonyms = [s for s in synonyms if s.lower().strip() not in ignored_terms]
+                vocabulary.add_vocab_entry(heading, self.entity_type_in_vocab, heading, ";".join(filtered_synonyms))
+        else:
+            for target in target2entry:
+                heading, synonyms = target2entry[target]
+                vocabulary.add_vocab_entry(target, self.entity_type_in_vocab, heading, ";".join(synonyms))
 
         logging.info("Parsed {} targets with {} terms. Saving vocabulary..."
                      .format(vocabulary.count_distinct_entities(),

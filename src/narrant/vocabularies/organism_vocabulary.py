@@ -13,6 +13,7 @@ class OrganismVocabulary(TargetVocabulary):
         super().__init__(ORGANISM_TAGGER_VOCAB, entity_type_in_vocab=ORGANISM)
         self.ignored_target_types = {}
         self.allowed_target_types = {'organism'}
+        self.use_headings_as_key = False
 
     @staticmethod
     def create_organism_vocabulary(expand_by_s_and_e=True):
