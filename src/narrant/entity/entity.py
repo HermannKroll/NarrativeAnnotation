@@ -34,4 +34,4 @@ class Entity:
             return {self.entity_id}
 
     def to_dict(self):
-        return dict(entity_id=self.entity_id, entity_type=self.entity_type)
+        return dict(entity_id=self.entity_id, entity_type=self.entity_type, entity_name=self.entity_name)
