@@ -27,9 +27,8 @@ class SVMClassifier(BaseClassifier):
 
     def __load_model(self, model_path: str):
         logging.info(f'Loading SVM model from {model_path}')
-        self.vectorizer = TfidfVectorizer()
         with open(model_path, 'rb') as f:
-            self.model = pickle.load(f)
+            self.vectorizer, self.model = pickle.load(f)
         logging.info('Model loaded')
 
     def classify_document(self, doc: TaggedDocument, consider_sections=False):
@@ -129,6 +128,6 @@ class SVMClassifier(BaseClassifier):
         logging.info(f'Model achieved {grid.score(x_test, y_test)} score on test')
         logging.info(f'Storing model to {model_path}')
         with open(model_path, 'wb') as f:
-            pickle.dump(grid.best_estimator_, f)
+            pickle.dump((vectorizer, grid.best_estimator_), f)
 
         logging.info('Finished')
