@@ -1,3 +1,21 @@
+# Narrative Annotation
+This repository brings all the pharmaceutical specific entity linking and text classification logic. 
+
+Therefore it builds upon a subproject:
+- [KGExtractionToolbox](https://github.com/HermannKroll/KGExtractionToolbox): Basic entity linking methods / information extraction / pipelines for automatisation
+
+
+To use this project, clone this project and its submodules via:
+```
+git clone --recurse-submodules git@github.com:HermannKroll/NarrativeAnnotation.git
+```
+
+Please follow the basic [setup instructions for the toolbox](https://github.com/HermannKroll/KGExtractionToolbox/blob/main/README.md).
+
+# Setup
+
+
+
 # General 
 This repository contains methods to annotate entities in document text. We build the pipeline upon a relational database structure, i.e., 
 all relevant information will be stored in the database. For example, annotating documents will first insert the documents into the database and then insert the 
@@ -15,6 +33,9 @@ Some general remarks:
 - documents that do not meet the above constraint may be transformed first. See the src/narrant/pubtator/translation for good examples
 - there is an additional table (DocumentTranslation) in which such a translation could be stored
 - Documents won't be inserted twice. There is a global setting that duplicated tuples are ignored when inserted in the database.
+
+# Requirements
+
 
 ## Vocabulary Documentation
 The vocabulary documentation can be found [here](README_Vocabularies).
