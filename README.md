@@ -14,9 +14,53 @@ Please follow the basic [setup instructions for the toolbox](https://github.com/
 
 # Setup
 
+### Hardware Requirements
+We recommend having at least 16GB of RAM available. 
 
+## Setup Python
+Install python >= 3.7.
+Decider whether you want to work with a global python version or with a conda environment (see [tutorial](https://towardsdatascience.com/getting-started-with-python-environments-using-conda-32e9f2779307))
+E.g., a virtual environment on your machine via Conda.
+```
+conda create --n narrant python=3.8
+```
 
-# General 
+Activate the environment
+```
+conda activate narrant
+```
+
+## Dependencies
+Install all Python requirements:
+```
+pip install -r requirements.txt
+pip install -r lib/KGExtractionToolbox/requirements.txt
+```
+
+## Setup Python Path
+You need to setup the python path. 
+This procedure must be repeated every time you create a new shell. 
+You can add the path to your bash defaults.
+To run scripts from this project, please set the Python path as follows:
+```
+export PYTHONPATH="/home/kroll/NarrativeAnnotation/src/:/home/kroll/NarrativeAnnotation/lib/KGExtractionToolbox/src/"
+```
+
+### Setup NLTK
+Please run the following script to configure NLTK:
+```
+python lib/KGExtractionToolbox/src/kgextractiontoolbox/setup_nltk.py
+```
+
+### Download required data
+Then,additional data must be downloaded.
+Switch to the NarrativeAnnotation directory and execute the bash script:
+```
+cd NarrativeAnnotation/
+./download_data.sh
+```
+
+# General Remarks
 This repository contains methods to annotate entities in document text. We build the pipeline upon a relational database structure, i.e., 
 all relevant information will be stored in the database. For example, annotating documents will first insert the documents into the database and then insert the 
 produced annotations as well. After the annotation is completed, the annotation can be exported.
@@ -29,53 +73,33 @@ Some general remarks:
 - document ids must be integer and must be unique within a document collection
 - a document collection can be an arbitrary string
 - documents won't be tagged twice. Our pipeline checks whether the documents were tagged for the given entity types before. Only new documents will be tagged.  
-- documents must be in the PubTator format
+- documents must be in PubTator or JSON format
 - documents that do not meet the above constraint may be transformed first. See the src/narrant/pubtator/translation for good examples
 - there is an additional table (DocumentTranslation) in which such a translation could be stored
 - Documents won't be inserted twice. There is a global setting that duplicated tuples are ignored when inserted in the database.
 
-# Requirements
-
-
-## Vocabulary Documentation
-The vocabulary documentation can be found [here](README_Vocabularies).
-
-## Database Schema
-
-![DB Scheme](dbschema.png)
-created with app.quickdatabasediagrams.com
-
-
-# Preprocessing
-### Hardware Configuration
-We recommend having at least 32GB of RAM available. 
-### Checkout or download the GitHub project
-
-Then,additional data must be downloaded.
-Switch to the NarrativeAnnotation directory and execute the bash script:
-```
-cd NarrativeAnnotation/
-./download_data.sh
-```
-
-We have switched to the ChemBL Database. 
-No additional files are required!
-
-
+# Database
 ### Database Setup
+The project was tested on SQLlite and PostgresDB databases. 
+For larger databases, we recommend to use PostgresDB. 
+
 1. Setup a PostgresDB environment (see [official instructions](https://www.postgresql.org)). Tagging results, documents and more will be stored in this relational database. 
 2. Create a new database and user for the preprocessing pipeline, e.g. *taggingdb* and *tagginguser*
 
 ### Database configuration
+The toolbox stores all produced data in a relational database. 
 Setup the database configuration in the project
 ```
-cd NarrativeAnnotation/config/
+cd config/
 cp backend.prod.json backend.json
 nano backend.json
 ```
-Enter your database credentials, e.g.:
+Please enter your database credentials in this file. We support Postgres and SQlite databases. 
+If you would like to work with SQLite then enable the *use_SQLite* property and set a corresponding path.
 ```
 {
+  "use_SQLite": false,
+  "SQLite_path": "sqlitebase.db",
   "POSTGRES_DB": "example",
   "POSTGRES_HOST": "127.0.0.1",
   "POSTGRES_PORT": "5432",
@@ -85,19 +109,11 @@ Enter your database credentials, e.g.:
 }
 ```
 
-### Install Python
-Install python >= 3.7. Decider whether you want to work with a global python version or with a conda environment (see [tutorial](https://towardsdatascience.com/getting-started-with-python-environments-using-conda-32e9f2779307))
-### Dependencies
-Install all packages from requirements.txt
-```
-pip3 install -r requirements.txt
-```
+# Vocabulary Documentation
+This project supports the annotation of documents by utilizing different biomedical vocabularies. 
+The project will build vocabularies automatically when being used.
+However, additional vocabulary documentation can be found [here](README_Vocabularies).
 
-### Python Path
-You need to setup the python path. This procedure must be repeated every time you create a new shell. You can add the path to your bash defaults.
-```
-export PYTHONPATH=/home/kroll/NarrativeAnnotation/src/
-```
 
 
 ## Supported JSON Document Format
@@ -133,7 +149,6 @@ python src/narrant/backend/load_document.py DOCUMENTS.json --collection COLLECTI
 ```
 
 
-
 # Running the Annotators
 In this section, we briefly describe how to use our pipeline.
 For the examples below, we suppose you to be in the correct directory. So,
@@ -143,7 +158,8 @@ cd ~/NarrativeAnnotation/
 
 First, create a copy of the preprocessing configuration.
 ```
-cp config/preprocessing.prod.json config/preprocessing.json
+cp config/entity_linking.prod.json config/entity_linking.json
+nano config/entity_linking.json
 ```
 
 The idea of our pipeline is based on entity types. For example, if a user want to annotate drugs in text, then the corresponding annotation tool will be invoked. 
@@ -202,11 +218,11 @@ A setup guide is available here: [Setup Guide](README_BIOMEDICAL_TOOS.md).
 ### Run the ThirdParty Annotators
 You may annotate documents with TaggerOne. Assume we have a test document test.pubtator.
 ```
-python3 src/narrant/preprocessing/preprocess.py test.json --collection test --tagger-one 
+python3 lib/KGExtractionToolbo/src/kgextractiontoolbox/entitylinking/biomedical_entity_linking.py test.json --collection test --tagger-one 
 ```
 In addition, you may annotate documents with GNormPlus. 
 ```
-python3 src/narrant/preprocessing/preprocess.py test.json --collection test --gnormplus
+python3 lib/KGExtractionToolbo/src/kgextractiontoolbox/entitylinking/biomedical_entity_linking.py test.json --collection test --gnormplus
 ```
 
 The pipeline will invoke the taggers to tag the documents. The document corpus is *test*.
@@ -218,7 +234,7 @@ Note: only one tagger can be selected in a tagging process.
 
 The pipeline will work in a temporary directory and remove it if the task is completed. If you want to work in a specified directory, use
 ```
-python3 src/narrant/preprocessing/preprocess.py test.pubtator --collection test --workdir temp/ --gnormplus 
+python3 lib/KGExtractionToolbo/src/kgextractiontoolbox/entitylinking/biomedical_entity_linking.py --collection test --workdir temp/ --gnormplus 
 ```
 The temporary created files as well as all logs won't be removed then.
 
