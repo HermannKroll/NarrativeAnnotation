@@ -23,7 +23,6 @@ class PharmDictTagger:
         et.LAB_METHOD: labmethod.LabMethodTagger,
         et.VACCINE: vaccine.VaccineTagger,
         et.HEALTH_STATUS: healthstatus.HealthStatusTagger,
-        et.TARGET: target.TargetTagger,
         et.ORGANISM: organism.OrganismTagger,
         et.TISSUE: tissue.TissueTagger
     }

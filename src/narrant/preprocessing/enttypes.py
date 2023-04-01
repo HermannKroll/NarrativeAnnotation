@@ -92,7 +92,6 @@ DALL = {
     LAB_METHOD,
     VACCINE,
     HEALTH_STATUS,
-    TARGET,
     ORGANISM,
     TISSUE
 }
@@ -133,7 +132,6 @@ TAG_TYPE_MAPPING = dict(
     M=METHOD,
     LM=LAB_METHOD,
     HS=HEALTH_STATUS,
-    T=TARGET,
     O=ORGANISM,
     TI=TISSUE,
     A="ALL",
