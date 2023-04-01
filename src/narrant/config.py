@@ -106,4 +106,3 @@ ORGANISM_TAGGER_VOCAB = os.path.join(ORGANISM_TAGGER_VOCAB_DIRECTORY, "vocabular
 
 # Tissue Tagger
 TISSUE_TAGGER_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, 'vocabularies/tissue')
-TISSUE_TAGGER_VOCAB = os.path.join(TISSUE_TAGGER_VOCAB_DIRECTORY, "vocabulary.tsv")
