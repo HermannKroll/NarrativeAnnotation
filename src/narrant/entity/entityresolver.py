@@ -13,7 +13,7 @@ from kgextractiontoolbox.backend.models import Tag
 from narrant.config import GENE_FILE, GENE_INDEX_FILE, MESH_DESCRIPTORS_FILE, MESH_ID_TO_HEADING_INDEX_FILE, \
     TAXONOMY_INDEX_FILE, TAXONOMY_FILE, MESH_SUPPLEMENTARY_FILE, \
     MESH_SUPPLEMENTARY_ID_TO_HEADING_INDEX_FILE, DOSAGEFORM_TAGGER_VOCAB, VACCINE_TAGGER_VOCAB, \
-    TARGET_TAGGER_VOCAB, DRUG_TAGGER_VOCAB
+    TARGET_TAGGER_VOCAB, DRUG_TAGGER_VOCAB, ORGANISM_TAGGER_VOCAB
 from narrant.entity.meshontology import MeSHOntology
 from narrant.mesh.data import MeSHDB
 from narrant.mesh.supplementary import MeSHDBSupplementary
@@ -319,7 +319,7 @@ class ChEMBLDatabaseResolver:
     def __init__(self):
         self.chemblid2name = {}
 
-    def load_index(self, vocabularies: list[str] = [DRUG_TAGGER_VOCAB, TARGET_TAGGER_VOCAB]):
+    def load_index(self, vocabularies: list[str] = [DRUG_TAGGER_VOCAB, ORGANISM_TAGGER_VOCAB]):
         self.chemblid2name.clear()
         start_time = datetime.now()
 
