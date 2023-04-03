@@ -4,7 +4,7 @@ from datetime import datetime
 
 from narrant.config import MESH_DESCRIPTORS_FILE, MESH_ONTOLOGY_INDEX_FILE
 from narrant.mesh.data import MeSHDB
-from narrant.preprocessing.enttypes import DOSAGE_FORM, METHOD, DISEASE, VACCINE
+from narrant.preprocessing.enttypes import DOSAGE_FORM, METHOD, DISEASE, VACCINE, HEALTH_STATUS, TISSUE
 from kgextractiontoolbox.progress import print_progress_with_eta
 
 MESH_TREE_NAMES = dict(
@@ -38,7 +38,9 @@ MESH_TREE_TO_ENTITY_TYPE = [
     ("E", DOSAGE_FORM),
     ("C", DISEASE),
     ("F03", DISEASE),
-    ("F02", DISEASE)
+    ("F02", DISEASE),
+    ("M01", HEALTH_STATUS),
+    ("A10", TISSUE)
 ]
 
 
