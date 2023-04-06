@@ -57,7 +57,7 @@ class MeSHOntologyTestCase(TestCase):
         for tn in self.ontology.get_tree_numbers_for_descriptor('D053769'):
             self.assertIn(tn, tree_numbers)
 
-        tree_numbers = ['E05.290.500']
+        tree_numbers = ['E05.290.563.250']
         self.assertEqual(1, len(self.ontology.get_tree_numbers_for_descriptor('D015195')))
         for tn in self.ontology.get_tree_numbers_for_descriptor('D015195'):
             self.assertIn(tn, tree_numbers)
@@ -68,7 +68,7 @@ class MeSHOntologyTestCase(TestCase):
         for tn in self.ontology.get_tree_numbers_with_entity_type_for_descriptor('D053769'):
             self.assertIn(tn, tree_numbers)
 
-        tree_numbers = ['E05.290.500']
+        tree_numbers = ['E05.290.563.250']
         self.assertEqual(1, len(self.ontology.get_tree_numbers_with_entity_type_for_descriptor('D015195')))
         for tn in self.ontology.get_tree_numbers_with_entity_type_for_descriptor('D015195'):
             self.assertIn(tn, tree_numbers)

@@ -27,6 +27,6 @@ class TestDiseaseVocabulary(unittest.TestCase):
             self.assertEqual(positions[idx][1], tag.end)
 
         t0, t1, t2 = doc.tags[0:3]
-        self.assertEqual('MESH:C000711409', t0.ent_id)
+        self.assertEqual('MESH:D000094024', t0.ent_id)
         self.assertEqual('MESH:D000086382', t1.ent_id)
         self.assertEqual('MESH:D007239', t2.ent_id)
