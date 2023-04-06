@@ -33,10 +33,20 @@ class HealthStatusTagger(IndexedDictTagger):
         abs_min = max(min([t.start for t in hs_tags]) - 25, 0)
         abs_max = min(max([t.end for t in hs_tags]) + 25, len(abstract) - 1)
 
-        # get noun tags from abstract. select only nouns, plural forms and proper nouns
-        text_tkns = word_tokenize(abstract[abs_min:abs_max].strip(" ,.!?;'`-_+*~\"%&/\\"))
-        noun_tags = set([x[0] for x in pos_tag(text_tkns) if x[1] in {'NN', 'NNS', 'NNP', 'NNPS'}])
+        if abs(abs_max - abs_min) == 0:
+            # empty text span - Stop here
+            in_doc.tags = [t for t in in_doc.tags if t.ent_type != HEALTH_STATUS]
+            return
 
-        # keep tags only if they are nouns (keep normal + filtered health status)
-        filtered_hs = [x for x in hs_tags if x.text in noun_tags]
-        in_doc.tags = [t for t in in_doc.tags if t.ent_type != HEALTH_STATUS] + filtered_hs
+        # get noun tags from abstract. select only nouns, plural forms and proper nouns
+        try:
+            text_tkns = word_tokenize(abstract[abs_min:abs_max].strip(" ,.!?;'`-_+*~\"%&/\\"))
+            noun_tags = set([x[0] for x in pos_tag(text_tkns) if x[1] in {'NN', 'NNS', 'NNP', 'NNPS'}])
+
+            # keep tags only if they are nouns (keep normal + filtered health status)
+            filtered_hs = [x for x in hs_tags if x.text in noun_tags]
+            in_doc.tags = [t for t in in_doc.tags if t.ent_type != HEALTH_STATUS] + filtered_hs
+        except IndexError:
+            # IF NLTK stops working
+            in_doc.tags = [t for t in in_doc.tags if t.ent_type != HEALTH_STATUS]
+
