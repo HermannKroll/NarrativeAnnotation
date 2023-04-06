@@ -1,6 +1,8 @@
 import unittest
 
 import narranttests.util
+from kgextractiontoolbox.backend.database import Session
+from kgextractiontoolbox.backend.retrieve import iterate_over_all_documents_in_collection
 from kgextractiontoolbox.document.extract import read_tagged_documents
 from kgextractiontoolbox.document.load_document import document_bulk_load
 from narrant.preprocessing import dictpreprocess
@@ -102,6 +104,17 @@ class TestPreprocess(unittest.TestCase):
         self.assertEqual(0, len(doc_tags))
         doc_tags = list([t for t in list(util.get_tags_from_database(10002)) if t.ent_type == PLANT_FAMILY_GENUS])
         self.assertEqual(1, len(doc_tags))
+
+    def test_dictpreprocess_json_input_issue_out_of_index(self):
+        workdir = narranttests.util.make_test_tempdir()
+        args = [
+            *f"-i {util.resource_rel_path('infiles/test_dictagger/issue_out_of_index.json')} -c PREPTEST_ISSUE_NLTK --loglevel DEBUG --workdir {workdir} -w 1 -y".split()
+        ]
+        dictpreprocess.main(args)
+        session = Session.get()
+        docs = list(iterate_over_all_documents_in_collection(session, "PREPTEST_ISSUE_NLTK", consider_tag=True))
+        self.assertNotEquals(0, len(docs[0].tags))
+        util.clear_database()
 
 
 if __name__ == '__main__':
