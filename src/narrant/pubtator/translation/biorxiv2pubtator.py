@@ -4,7 +4,7 @@ import re
 from argparse import ArgumentParser
 from itertools import islice
 
-from narrant.backend.models import Document
+from kgextractiontoolbox.backend.models import Document
 
 ARTIFICIL_IDS_START_AT_BIORXIV = 200000000
 

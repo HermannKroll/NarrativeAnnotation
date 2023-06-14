@@ -8,17 +8,44 @@ from collections import defaultdict
 from datetime import datetime
 from itertools import islice
 
-from narrant.backend.database import Session
-from narrant.backend.models import Tag
+from kgextractiontoolbox.backend.database import Session
+from kgextractiontoolbox.backend.models import Tag
 from narrant.config import GENE_FILE, GENE_INDEX_FILE, MESH_DESCRIPTORS_FILE, MESH_ID_TO_HEADING_INDEX_FILE, \
     TAXONOMY_INDEX_FILE, TAXONOMY_FILE, MESH_SUPPLEMENTARY_FILE, \
-    MESH_SUPPLEMENTARY_ID_TO_HEADING_INDEX_FILE, CHEMBL_DRUG_CSV, DOSAGEFORM_TAGGER_VOCAB, VACCINE_TAGGER_VOCAB
+    MESH_SUPPLEMENTARY_ID_TO_HEADING_INDEX_FILE, DOSAGEFORM_TAGGER_VOCAB, VACCINE_TAGGER_VOCAB, \
+    TARGET_TAGGER_VOCAB, DRUG_TAGGER_VOCAB, ORGANISM_TAGGER_VOCAB
 from narrant.entity.meshontology import MeSHOntology
 from narrant.mesh.data import MeSHDB
 from narrant.mesh.supplementary import MeSHDBSupplementary
 from narrant.preprocessing.enttypes import GENE, CHEMICAL, DISEASE, SPECIES, DOSAGE_FORM, EXCIPIENT, PLANT_FAMILY_GENUS, \
     LAB_METHOD, METHOD, VACCINE
-from narrant.preprocessing.tagging.vocabulary import Vocabulary
+from kgextractiontoolbox.entitylinking.tagging.vocabulary import Vocabulary
+
+
+def get_gene_ids(session):
+    logging.info('Querying gene ids in Tag table...')
+    gene_ids_in_db = set()
+    q = session.query(Tag.ent_id.distinct()).filter(Tag.ent_type == GENE)
+    for r in session.execute(q):
+        try:
+            gene_ids_in_db.add(int(r[0]))
+        except ValueError:
+            continue
+    logging.info('{} gene ids retrieved'.format(len(gene_ids_in_db)))
+    return gene_ids_in_db
+
+
+def get_species_ids(session):
+    logging.info('Querying species ids in Tag table...')
+    gene_ids_in_db = set()
+    q = session.query(Tag.ent_id.distinct()).filter(Tag.ent_type == SPECIES)
+    for r in session.execute(q):
+        try:
+            gene_ids_in_db.add(int(r[0]))
+        except ValueError:
+            continue
+    logging.info('{} species ids retrieved'.format(len(gene_ids_in_db)))
+    return gene_ids_in_db
 
 
 class MeshResolver:
@@ -99,7 +126,7 @@ class GeneResolver:
     def build_index(self, gene_input=GENE_FILE, index_file=GENE_INDEX_FILE, query_db_gene_ids=True):
         gene_ids_in_db = set()
         if query_db_gene_ids:
-            gene_ids_in_db = Tag.get_gene_ids(Session.get())
+            gene_ids_in_db = get_gene_ids(Session.get())
         logging.info('Reading gene input file: {}'.format(gene_input))
         with gzip.open(gene_input, 'rt') as f:
             for line in islice(f, 1, None):
@@ -183,6 +210,8 @@ class SpeciesResolver:
 
     def __init__(self):
         self.speciesid2name = defaultdict(dict)
+        trans_map = {p: '' for p in '[]()'}
+        self.__translator = str.maketrans(trans_map)
 
     def get_reverse_index(self):
         s2n = dict()
@@ -196,7 +225,7 @@ class SpeciesResolver:
     def build_index(self, species_input=TAXONOMY_FILE, index_file=TAXONOMY_INDEX_FILE, query_db_species_ids=True):
         species_ids_in_db = set()
         if query_db_species_ids:
-            species_ids_in_db = Tag.get_species_ids(Session.get())
+            species_ids_in_db = get_species_ids(Session.get())
         logging.info('Reading species input file: {}'.format(species_input))
         with gzip.open(species_input, 'rt') as f:
             for line in islice(f, 1, None):
@@ -204,6 +233,8 @@ class SpeciesResolver:
                     components = line.split('\t')
                     species_id = components[0]
                     name = components[2]
+                    # Remove brackets
+                    name = name.translate(self.__translator).strip()
 
                     # skip species that are not in the Tag table
                     if query_db_species_ids and int(species_id) not in species_ids_in_db:
@@ -288,15 +319,18 @@ class ChEMBLDatabaseResolver:
     def __init__(self):
         self.chemblid2name = {}
 
-    def load_index(self, chembl_db_file: str = CHEMBL_DRUG_CSV):
+    def load_index(self, vocabularies: list[str] = [DRUG_TAGGER_VOCAB, ORGANISM_TAGGER_VOCAB]):
         self.chemblid2name.clear()
         start_time = datetime.now()
-        with open(chembl_db_file, 'rt') as f:
-            reader = csv.reader(f, delimiter=',')
-            for row in islice(reader, 1, None):
-                chembl_id = row[0].strip()
-                pref_name = row[1].lower().strip().capitalize()
-                self.chemblid2name[chembl_id] = pref_name
+
+        for file in vocabularies:
+            with open(file, 'rt') as f:
+                reader = csv.reader(f, delimiter='\t')
+                for row in islice(reader, 1, None):
+                    chembl_id = row[0].strip()
+                    pref_name = row[2].lower().strip().capitalize()
+                    if not chembl_id in self.chemblid2name.keys():
+                        self.chemblid2name[chembl_id] = pref_name
         logging.info(f'{len(self.chemblid2name)} ChEMBL id mappings load in {(datetime.now() - start_time)}s')
 
     def chemblid_to_name(self, chembl_id: str) -> str:

@@ -1,0 +1,2300 @@
+id	type	heading	synonyms
+CHEMBL1075341	Organism	Streptococcus dysgalactiae	
+CHEMBL1075342	Organism	Agrostis stolonifera	
+CHEMBL1075343	Organism	Arthrobacter aurescens	
+CHEMBL1075344	Organism	Aspergillus ficuum	
+CHEMBL1075345	Organism	Brontispa longissima	
+CHEMBL1075346	Organism	Entamoeba invadens	
+CHEMBL1075347	Organism	Glomerella	
+CHEMBL1075348	Organism	Helicoverpa armigera	
+CHEMBL1075349	Organism	Kocuria rhizophila	
+CHEMBL1075350	Organism	Kocuria sp. 10-4DEP	
+CHEMBL1075351	Organism	Microdochium nivale	
+CHEMBL1075352	Organism	Oceanobacillus iheyensis	
+CHEMBL1075353	Organism	Ochrobactrum pseudogrignonense	
+CHEMBL1075354	Organism	Parabodo caudatus	
+CHEMBL1075355	Organism	Phytophthora sojae	
+CHEMBL1075356	Organism	Pseudomonas agarici	
+CHEMBL1075357	Organism	Pythium debaryanum	
+CHEMBL1075358	Organism	Saprolegnia parasitica	
+CHEMBL1075359	Organism	Stenotrophomonas	
+CHEMBL1075360	Organism	Streptococcus minor	
+CHEMBL1075361	Organism	Trichophyton longifusum	
+CHEMBL1075362	Organism	Trypanosoma evansi	
+CHEMBL1075363	Organism	Uromyces viciae-fabae	
+CHEMBL1075364	Organism	Brucella suis	
+CHEMBL1169591	Organism	Brevibacterium epidermidis	
+CHEMBL1169592	Organism	Dermabacter hominis	
+CHEMBL2093135	Organism	Onchocerca ochengi	
+CHEMBL2093136	Organism	Onchocerca lienalis	
+CHEMBL2111188	Organism	Mycobacterium tuberculosis H37Rv	
+CHEMBL2366621	Organism	Cardamine hirsuta	
+CHEMBL2366622	Organism	Curculionidae	
+CHEMBL2366623	Organism	Alticini	
+CHEMBL2366624	Organism	Pythium irregulare	
+CHEMBL2366625	Organism	Cyclamen persicum	
+CHEMBL2366626	Organism	Trianthema	
+CHEMBL2366627	Organism	Thysanoptera	
+CHEMBL2366628	Organism	Aleyrodidae	
+CHEMBL2366629	Organism	Cydia pomonella	
+CHEMBL2366630	Organism	Verticillium dahliae	
+CHEMBL2366631	Organism	Typhlodromus pyri	
+CHEMBL2366632	Organism	Monilinia fructicola	
+CHEMBL2366633	Organism	Urochloa platyphylla	
+CHEMBL2366634	Organism	Mycobacterium tuberculosis H37Ra	
+CHEMBL2366635	Organism	Heterodera zeae	
+CHEMBL2366636	Organism	Ipomoea nil	
+CHEMBL2366637	Organism	Cirsium arvense	
+CHEMBL2366638	Organism	Euphorbia heterophylla	
+CHEMBL2366639	Organism	Meloidogyne javanica	
+CHEMBL2366640	Organism	Carnation latent virus	
+CHEMBL2366641	Organism	Staphylococcus epidermidis ATCC 12228	
+CHEMBL2366642	Organism	Brevicoryne brassicae	
+CHEMBL2366643	Organism	Taraxacum officinale	
+CHEMBL2366644	Organism	Capsicum annuum	
+CHEMBL2366645	Organism	Colletotrichum orbiculare	
+CHEMBL2366646	Organism	Fusarium oxysporum f. cubense	
+CHEMBL2366647	Organism	Oreochromis	
+CHEMBL2366648	Organism	Colletotrichum camelliae	
+CHEMBL2366649	Organism	Peregrinus maidis	
+CHEMBL2366650	Organism	Cynodon dactylon	
+CHEMBL2366651	Organism	Achillea millefolium	
+CHEMBL2366652	Organism	Erwinia piriflorinigrans	
+CHEMBL2366653	Organism	Geranium molle	
+CHEMBL2366654	Organism	Latrodectus Hesperus	
+CHEMBL2366655	Organism	Candida azyma	
+CHEMBL2366656	Organism	Rhopalosiphum padi	
+CHEMBL2366657	Organism	Centaurea cyanus	
+CHEMBL2366658	Organism	Eleocharis acicularis	
+CHEMBL2366659	Organism	Arion subfuscus	
+CHEMBL2366660	Organism	Cyprinidae	
+CHEMBL2366661	Organism	Colletotrichum destructivum	
+CHEMBL2366662	Organism	Phytophthora parasitica	
+CHEMBL2366663	Organism	Chilo suppressalis	
+CHEMBL2366664	Organism	Ascia monuste	
+CHEMBL2366665	Organism	Gaeumannomyces graminis	
+CHEMBL2366666	Organism	Vigna unguiculata	
+CHEMBL2366667	Organism	Bromus tectorum	
+CHEMBL2366668	Organism	Eretmocerus eremicus	
+CHEMBL2366669	Organism	Escherichia coli O157:H7	
+CHEMBL2366670	Organism	Pseudocercospora fijiensis	
+CHEMBL2366671	Organism	Puccinia graminis f. tritici	
+CHEMBL2366672	Organism	Alternaria brassicae	
+CHEMBL2366673	Organism	Fusarium decemcellulare	
+CHEMBL2366674	Organism	Acanthoscelides obtectus	
+CHEMBL2366675	Organism	Tagetes	
+CHEMBL2366676	Organism	Streptococcus mutans UA159	
+CHEMBL2366677	Organism	Eragrostis cilianensis	
+CHEMBL2366678	Organism	Sclerotinia minor	
+CHEMBL2366679	Organism	Trifolium alexandrinum	
+CHEMBL2366681	Organism	Hanseniaspora vineae	
+CHEMBL2366682	Organism	Puccinia allii	
+CHEMBL2366683	Organism	Puccinia asparagi	
+CHEMBL2366684	Organism	Athalia rosae ruficornis	
+CHEMBL2366685	Organism	Olepa ricini	
+CHEMBL2366686	Organism	Leishmania	
+CHEMBL2366687	Organism	Apolygus lucorum	
+CHEMBL2366688	Organism	Tineola bisselliella	
+CHEMBL2366689	Organism	Daphnia pulex	
+CHEMBL2366690	Organism	Schizophyllum commune	
+CHEMBL2366691	Organism	Acari	
+CHEMBL2366692	Organism	Clavigralla tomentosicollis	
+CHEMBL2366693	Organism	Murdannia keisak	
+CHEMBL2366694	Organism	Fusarium oxysporum f. sp. cubense race 4	
+CHEMBL2366695	Organism	Contarinia nasturtii	
+CHEMBL2366696	Organism	Corchorus olitorius	
+CHEMBL2366697	Organism	Liposcelis entomophila	
+CHEMBL2366698	Organism	Lactobacillus rhamnosus	
+CHEMBL2366699	Organism	Lygaeidae	
+CHEMBL2366700	Organism	Arvicola amphibius	
+CHEMBL2366701	Organism	Anastrepha striata	
+CHEMBL2366702	Organism	Alternaria humicola	
+CHEMBL2366703	Organism	Laodelphax striatella	
+CHEMBL2366704	Organism	Neofusicoccum australe	
+CHEMBL2366705	Organism	Ewingella americana	
+CHEMBL2366706	Organism	Alopecurus japonicus	
+CHEMBL2366707	Organism	Taphrina deformans	
+CHEMBL2366708	Organism	Drosophila suzukii	
+CHEMBL2366710	Organism	Empoasca fabae	
+CHEMBL2366711	Organism	Pestalotia longiseta	
+CHEMBL2366712	Organism	Myosoton aquaticum	
+CHEMBL2366713	Organism	Phytophthora katsurae	
+CHEMBL2366714	Organism	Sonchus asper	
+CHEMBL2366715	Organism	Symphyotrichum subulatum	
+CHEMBL2366716	Organism	Coccinella septempunctata brucki	
+CHEMBL2366717	Organism	Liriomyza trifolii	
+CHEMBL2366718	Organism	Adoxophyes honmai	
+CHEMBL2366719	Organism	Hellula undalis	
+CHEMBL2366720	Organism	Goatpox virus	
+CHEMBL2366721	Organism	Cyperus compressus	
+CHEMBL2366722	Organism	Setosphaeria rostrata	
+CHEMBL2366723	Organism	Ocimum basilicum	
+CHEMBL2366724	Organism	Auxenochlorella protothecoides	
+CHEMBL2366725	Organism	Malassezia pachydermatis	
+CHEMBL2366726	Organism	Callosobruchus analis	
+CHEMBL2366727	Organism	Culex pipiens pallens	
+CHEMBL2366728	Organism	Stellaria media	
+CHEMBL2366729	Organism	Diptera	
+CHEMBL2366730	Organism	Laetiporus sulphureus	
+CHEMBL2366731	Organism	Avena sterilis	
+CHEMBL2366732	Organism	Boerhavia erecta	
+CHEMBL2366733	Organism	Portulaca oleracea	
+CHEMBL2366734	Organism	Amaranthus dubius	
+CHEMBL2366735	Organism	Rhyzopertha dominica	
+CHEMBL2366736	Organism	Rotylenchulus reniformis	
+CHEMBL2366737	Organism	Helicoverpa assulta	
+CHEMBL2366738	Organism	Daucus carota	
+CHEMBL2366739	Organism	Puccinia triticina	
+CHEMBL2366740	Organism	Escherichia coli DH5[alpha]	
+CHEMBL2366741	Organism	Anticarsia gemmatalis	
+CHEMBL2366742	Organism	Fusarium udum	
+CHEMBL2366743	Organism	Fusarium oxysporum f. sp. niveum	
+CHEMBL2366744	Organism	Trifolium pratense	
+CHEMBL2366745	Organism	Sonchus arvensis	
+CHEMBL2366746	Organism	Musa acuminata AAA Group	
+CHEMBL2366747	Organism	Fomitopsis palustris	
+CHEMBL2366748	Organism	Liposcelis bostrychophila	
+CHEMBL2366749	Organism	Amaranthus caudatus	
+CHEMBL2366750	Organism	Diplodia seriata	
+CHEMBL2366751	Organism	Plodia interpunctella	
+CHEMBL2366752	Organism	Vicia faba	
+CHEMBL2366753	Organism	Dothiorella gregaria	
+CHEMBL2366754	Organism	Piptatherum miliaceum	
+CHEMBL2366755	Organism	Human herpesvirus 2 strain G	
+CHEMBL2366756	Organism	Erwinia pyrifoliae	
+CHEMBL2366757	Organism	Commelina communis	
+CHEMBL2366758	Organism	Conyza sumatrensis	
+CHEMBL2366759	Organism	Pseudomonas syringae pv. phaseolicola	
+CHEMBL2366760	Organism	Scytonema hofmanni	
+CHEMBL2366761	Organism	Doru	
+CHEMBL2366762	Organism	Malva sylvestris	
+CHEMBL2366763	Organism	Matricaria	
+CHEMBL2366764	Organism	Monographella nivalis var. nivalis	
+CHEMBL2366765	Organism	Centaurea maculosa	
+CHEMBL2366766	Organism	Tetranychus kanzawai	
+CHEMBL2366767	Organism	Elatine triandra	
+CHEMBL2366768	Organism	Frankliniella occidentalis	
+CHEMBL2366769	Organism	Veronica persica	
+CHEMBL2366770	Organism	Dermatophagoides farinae	
+CHEMBL2366771	Organism	Vigna angularis	
+CHEMBL2366772	Organism	Plasmodiophora brassicae	
+CHEMBL2366773	Organism	Phalaris arundinacea	
+CHEMBL2366774	Organism	Matricaria chamomilla	
+CHEMBL2366775	Organism	Sphaerotheca cucurbitae	
+CHEMBL2366776	Organism	Trichothecium roseum	
+CHEMBL2366777	Organism	Delphacodes	
+CHEMBL2366778	Organism	Pyrenophora tritici-repentis	
+CHEMBL2366779	Organism	Festuca rubra	
+CHEMBL2366780	Organism	Metaseiulus occidentalis	
+CHEMBL2366781	Organism	Trypanosoma lewisi	
+CHEMBL2366782	Organism	Solanum melongena	
+CHEMBL2366783	Organism	Apera spica-venti	
+CHEMBL2366784	Organism	Allium tuberosum	
+CHEMBL2366785	Organism	Photorhabdus luminescens	
+CHEMBL2366786	Organism	Henosepilachna vigintioctopunctata	
+CHEMBL2366787	Organism	Saccharomycodes ludwigii	
+CHEMBL2366788	Organism	Rhizoctonia solani AG-1 IA	
+CHEMBL2366789	Organism	Diaphorina citri	
+CHEMBL2366791	Organism	Planorbella trivolvis	
+CHEMBL2366792	Organism	Euproctis fraterna	
+CHEMBL2366793	Organism	Mycobacterium smegmatis str. MC2 155	
+CHEMBL2366794	Organism	Streptococcus pneumoniae R6	
+CHEMBL2366795	Organism	Aphelenchoides besseyi	
+CHEMBL2366796	Organism	Cheumatopsyche	
+CHEMBL2366797	Organism	Daedalea dickinsii	
+CHEMBL2366798	Organism	Micrococcus luteus NCTC 2665	
+CHEMBL2366799	Organism	Prosopis farcta	
+CHEMBL2366800	Organism	Staphylococcus aureus subsp. aureus	
+CHEMBL2366801	Organism	Leptosphaeria biglobosa	
+CHEMBL2366802	Organism	Urochloa mutica	
+CHEMBL2366803	Organism	Descurainia sophia	
+CHEMBL2366804	Organism	Symmetrischema tangolias	
+CHEMBL2366805	Organism	Phthorimaea operculella	
+CHEMBL2366806	Organism	Paraixeris denticulata	
+CHEMBL2366807	Organism	Pestalotiopsis sp.	
+CHEMBL2366809	Organism	Helicobasidium mompa	
+CHEMBL2366811	Organism	Boehmeria nivea	
+CHEMBL2366812	Organism	Agrobacterium tumefaciens str. B6	
+CHEMBL2366813	Organism	Curcuma longa	
+CHEMBL2366814	Organism	Xanthomonas campestris pv. campestris	
+CHEMBL2366815	Organism	Persicaria hydropiper	
+CHEMBL2366816	Organism	Trichoderma reesei	
+CHEMBL2366817	Organism	Ditylenchus myceliophagus	
+CHEMBL2366818	Organism	Calendula officinalis	
+CHEMBL2366819	Organism	Monascus purpureus	
+CHEMBL2366820	Organism	Sphaerotheca humuli	
+CHEMBL2366821	Organism	Isoptera	
+CHEMBL2366822	Organism	Mythimna separata	
+CHEMBL2366823	Organism	Meloidogyne hapla	
+CHEMBL2366824	Organism	Sitophilus oryzae	
+CHEMBL2366825	Organism	Pyrenophora teres	
+CHEMBL2366826	Organism	Pestalotiopsis microspora	
+CHEMBL2366827	Organism	Physalis ixocarpa	
+CHEMBL2366828	Organism	Brassica rapa subsp. oleifera	
+CHEMBL2366829	Organism	Monochoria vaginalis	
+CHEMBL2366830	Organism	Brassica rapa subsp. chinensis	
+CHEMBL2366831	Organism	Carnation ringspot virus	
+CHEMBL2366832	Organism	Reticulitermes speratus	
+CHEMBL2366833	Organism	Eysarcoris	
+CHEMBL2366834	Organism	Fusarium graminearum	
+CHEMBL2366835	Organism	Elymus repens	
+CHEMBL2366836	Organism	Cochliobolus pallescens	
+CHEMBL2366837	Organism	Hordeum vulgare	
+CHEMBL2366838	Organism	Diplodia mutila	
+CHEMBL2366839	Organism	Neofusicoccum luteum	
+CHEMBL2366840	Organism	Arenaria serpyllifolia	
+CHEMBL2366841	Organism	Capsella bursa-pastoris	
+CHEMBL2366842	Organism	Pseudomonas syringae pv. syringae	
+CHEMBL2366843	Organism	Pseudomonas syringae pv. lachrymans	
+CHEMBL2366844	Organism	Rumex crispus	
+CHEMBL2366845	Organism	Lathyrus sativus	
+CHEMBL2366846	Organism	Lens culinaris	
+CHEMBL2366847	Organism	Escherichia coli ATCC 8739	
+CHEMBL2366848	Organism	Phytophthora melonis	
+CHEMBL2366849	Organism	Lenzites betulinus	
+CHEMBL2366850	Organism	Zoysia matrella	
+CHEMBL2366851	Organism	Panonychus citri	
+CHEMBL2366852	Organism	Thielaviopsis basicola	
+CHEMBL2366853	Organism	Digitaria ciliaris	
+CHEMBL2366854	Organism	Tyrophagus putrescentiae	
+CHEMBL2366855	Organism	Pieris brassicae	
+CHEMBL2366856	Organism	Fusarium oxysporum f. sp. melongenae	
+CHEMBL2366857	Organism	Pueraria montana var. lobata	
+CHEMBL2366858	Organism	Cucurbita moschata x Cucurbita maxima	
+CHEMBL2366859	Organism	Orobanche minor	
+CHEMBL2366860	Organism	Bacillus subtilis subsp. subtilis	
+CHEMBL2366861	Organism	Hyaloperonospora parasitica	
+CHEMBL2366862	Organism	Typhlodromips swirskii	
+CHEMBL2366863	Organism	Bactrocera oleae	
+CHEMBL2366864	Organism	Poa pratensis subsp. pratensis	
+CHEMBL2366865	Organism	Human immunodeficiency virus type 2 (ISOLATE ROD)	
+CHEMBL2366866	Organism	Gloeocercospora sorghi	
+CHEMBL2366867	Organism	Human herpesvirus 3 strain Oka vaccine	
+CHEMBL2366868	Organism	Colletotrichum truncatum	
+CHEMBL2366869	Organism	Sclerotium delphinii	
+CHEMBL2366870	Organism	Staphylococcus xylosus	
+CHEMBL2366871	Organism	Erysiphe necator	
+CHEMBL2366872	Organism	Setophoma terrestris	
+CHEMBL2366873	Organism	Schoenoplectus acutus	
+CHEMBL2366874	Organism	Olea europaea	
+CHEMBL2366875	Organism	Puccinia arachidis	
+CHEMBL2366876	Organism	Persicaria lapathifolia	
+CHEMBL2366877	Organism	Malus x domestica	
+CHEMBL2366878	Organism	Anastrepha ludens	
+CHEMBL2366879	Organism	Oscillatoria perornata	
+CHEMBL2366880	Organism	Brassica rapa subsp. pekinensis	
+CHEMBL2366881	Organism	Sagittaria pygmaea	
+CHEMBL2366882	Organism	Panonychus ulmi	
+CHEMBL2366883	Organism	Eleusine coracana	
+CHEMBL2366884	Organism	Microtus arvalis	
+CHEMBL2366885	Organism	Streptomyces acidiscabies	
+CHEMBL2366886	Organism	Lissorhoptrus oryzophilus	
+CHEMBL2366887	Organism	Pratylenchus penetrans	
+CHEMBL2366888	Organism	Oculimacula acuformis	
+CHEMBL2366889	Organism	Heterodera schachtii	
+CHEMBL2366890	Organism	Neoseiulus cucumeris	
+CHEMBL2366891	Organism	Chrysoperla carnea	
+CHEMBL2366892	Organism	Cotesia glomerata	
+CHEMBL2366893	Organism	Discula theae-sinensis	
+CHEMBL2366894	Organism	Podosphaera aphanis var. aphanis	
+CHEMBL2366895	Organism	Procambarus clarkii	
+CHEMBL2366896	Organism	Saprolegnia monoica	
+CHEMBL2366897	Organism	Alopecurus	
+CHEMBL2366898	Organism	Puccinia graminis f. sp. tritici	
+CHEMBL2366899	Organism	Anomala orientalis	
+CHEMBL2366900	Organism	Chrysosporium keratinophilum	
+CHEMBL2366901	Organism	Agrobacterium sp.	
+CHEMBL2366902	Organism	Influenza A virus H3N2	
+CHEMBL2366903	Organism	Pseudocercospora musae	
+CHEMBL2366904	Organism	Pseudanabaena sp.	
+CHEMBL2366905	Organism	Cichorium intybus	
+CHEMBL2366906	Organism	Staphylococcus aureus subsp. aureus RN4220	
+CHEMBL2366907	Organism	Macrosteles quadripunctulatus	
+CHEMBL2366908	Organism	Candida albicans SC5314	
+CHEMBL2366909	Organism	Sitobion avenae	
+CHEMBL2366910	Organism	Tetragonisca angustula	
+CHEMBL2366911	Organism	Plesiomonas	
+CHEMBL2366912	Organism	Chrysomelidae	
+CHEMBL2366913	Organism	Digitaria	
+CHEMBL2366914	Organism	Cleome viscosa	
+CHEMBL2366915	Organism	Cyperus	
+CHEMBL2366916	Organism	Sesamum indicum	
+CHEMBL2366917	Organism	Callosobruchus chinensis	
+CHEMBL2366918	Organism	Aphididae	
+CHEMBL2366919	Organism	Aphis fabae	
+CHEMBL2366920	Organism	Setaria verticillata	
+CHEMBL2366921	Organism	Sitophilus zeamais	
+CHEMBL2366922	Organism	Plasmodium falciparum 3D7	
+CHEMBL2366923	Organism	Monilinia laxa	
+CHEMBL2366924	Organism	Convolvulus arvensis	
+CHEMBL2366925	Organism	Achaea janata	
+CHEMBL2366926	Organism	Gossypium	
+CHEMBL2366927	Organism	Trifolium repens	
+CHEMBL2366928	Organism	Talinum fruticosum	
+CHEMBL2366929	Organism	Ceratocystis paradoxa	
+CHEMBL2366930	Organism	Nocardia canis	
+CHEMBL2366931	Organism	Trametes versicolor	
+CHEMBL2366932	Organism	Lepidium didymum	
+CHEMBL2366933	Organism	Podosphaera xanthii	
+CHEMBL2366934	Organism	Rosa pendulina	
+CHEMBL2366935	Organism	Carnation mottle virus	
+CHEMBL2366936	Organism	Pseudoperonospora cubensis	
+CHEMBL2366937	Organism	Diaporthe citri	
+CHEMBL2366938	Organism	Macrophoma	
+CHEMBL2366939	Organism	Conyza bonariensis	
+CHEMBL2366940	Organism	Zymoseptoria tritici	
+CHEMBL2366941	Organism	Zingiber officinale	
+CHEMBL2366942	Organism	Colletotrichum acutatum	
+CHEMBL2366943	Organism	Cnaphalocrocis medinalis	
+CHEMBL2366944	Organism	Pisum fulvum	
+CHEMBL2366945	Organism	Avena sterilis subsp. ludoviciana	
+CHEMBL2366946	Organism	Spirodela polyrhiza	
+CHEMBL2366947	Organism	Erwinia billingiae	
+CHEMBL2366948	Organism	Erwinia tasmaniensis	
+CHEMBL2366949	Organism	Sitophilus granarius	
+CHEMBL2366950	Organism	Euphorbia helioscopia	
+CHEMBL2366951	Organism	Viola arvensis	
+CHEMBL2366952	Organism	Echinochloa oryzicola	
+CHEMBL2366953	Organism	Schoenoplectiella juncoides	
+CHEMBL2366954	Organism	Deroceras panormitanum	
+CHEMBL2366955	Organism	Calystegia sepium	
+CHEMBL2366956	Organism	Beta vulgaris	
+CHEMBL2366957	Organism	Pectobacterium carotovorum subsp. carotovorum	
+CHEMBL2366958	Organism	Senna occidentalis	
+CHEMBL2366959	Organism	Lagenaria siceraria	
+CHEMBL2366960	Organism	Orobanche ramosa	
+CHEMBL2366961	Organism	Amaranthus blitum	
+CHEMBL2366962	Organism	Cytospora	
+CHEMBL2366963	Organism	Dactylis glomerata	
+CHEMBL2366964	Organism	Daphnia	
+CHEMBL2366965	Organism	Xanthomonas campestris pv. sesami	
+CHEMBL2366966	Organism	Human poliovirus 1 strain Sabin	
+CHEMBL2366967	Organism	Brassica rapa	
+CHEMBL2366968	Organism	Acinetobacter radioresistens	
+CHEMBL2366969	Organism	Pichia membranifaciens	
+CHEMBL2366970	Organism	Agrostis stolonifera var. palustris	
+CHEMBL2366971	Organism	Agrilus planipennis	
+CHEMBL2366972	Organism	Brassica oleracea var. italica	
+CHEMBL2366973	Organism	Uromyces appendiculatus	
+CHEMBL2366974	Organism	Fusarium oxysporum f. sp. dianthi	
+CHEMBL2366975	Organism	Aspergillus awamori	
+CHEMBL2366976	Organism	Anastrepha obliqua	
+CHEMBL2366977	Organism	Diaporthe longicolla	
+CHEMBL2366978	Organism	Nitrosomonas sp. TK794	
+CHEMBL2366979	Organism	Muhlenbergia	
+CHEMBL2366980	Organism	Crotalaria juncea	
+CHEMBL2366981	Organism	Belonolaimus	
+CHEMBL2366982	Organism	Blatta orientalis	
+CHEMBL2366983	Organism	Paralobesia	
+CHEMBL2366984	Organism	Trialeurodes vaporariorum	
+CHEMBL2366985	Organism	Euphorbia hirta	
+CHEMBL2366986	Organism	Aleurodicus dispersus	
+CHEMBL2366987	Organism	Glomerella cingulata	
+CHEMBL2366988	Organism	Phasmarhabditis hermaphrodita	
+CHEMBL2366989	Organism	Ipomoea lacunosa	
+CHEMBL2366990	Organism	Streptomyces scabiei	
+CHEMBL2366991	Organism	Enterobacter asburiae	
+CHEMBL2366992	Organism	Serratia marcescens subsp. marcescens	
+CHEMBL2366993	Organism	Elsinoe ampelina	
+CHEMBL2366994	Organism	Cercospora theae	
+CHEMBL2366995	Organism	Leveillula taurica	
+CHEMBL2366996	Organism	Phytophthora porri	
+CHEMBL2366997	Organism	Enterococcus faecalis ATCC 29212	
+CHEMBL2366998	Organism	Xanthomonas campestris pv. Phaseoli	
+CHEMBL2366999	Organism	Candida aaseri	
+CHEMBL2367000	Organism	Aegopodium podagraria	
+CHEMBL2367001	Organism	Hylobius abietis	
+CHEMBL2367002	Organism	Aspergillus niger ATCC 1015	
+CHEMBL2367003	Organism	Meloidogyne	
+CHEMBL2367004	Organism	Lolium perenne	
+CHEMBL2367005	Organism	Lepidoptera	
+CHEMBL2367006	Organism	Empoasca	
+CHEMBL2367007	Organism	Poaceae	
+CHEMBL2367008	Organism	Eleusine indica	
+CHEMBL2367009	Organism	Cucurbita pepo	
+CHEMBL2367010	Organism	Armillaria mellea	
+CHEMBL2367011	Organism	Leptocorisa acuta	
+CHEMBL2367012	Organism	Medicago polymorpha	
+CHEMBL2367013	Organism	Phalaris minor	
+CHEMBL2367014	Organism	Alternaria porri	
+CHEMBL2367015	Organism	Brassica oleracea	
+CHEMBL2367016	Organism	Corticium	
+CHEMBL2367017	Organism	Phomopsis asparagi	
+CHEMBL2367018	Organism	Synedrella nodiflora	
+CHEMBL2367019	Organism	Ageratum conyzoides	
+CHEMBL2367020	Organism	Cyperus rotundus	
+CHEMBL2367021	Organism	Cenchrus americanus	
+CHEMBL2367023	Organism	Lipaphis erysimi	
+CHEMBL2367024	Organism	Frankliniella fusca	
+CHEMBL2367025	Organism	Cerastium arvense	
+CHEMBL2367026	Organism	Vigna radiata var. radiata	
+CHEMBL2367027	Organism	Cryptolestes ferrugineus	
+CHEMBL2367028	Organism	Polygonum humifusum	
+CHEMBL2367029	Organism	Leucania	
+CHEMBL2367030	Organism	Botryosphaeria dothidea	
+CHEMBL2367031	Organism	Podosphaera fuliginea	
+CHEMBL2367032	Organism	Medicago truncatula	
+CHEMBL2367033	Organism	Lupinus albus	
+CHEMBL2367034	Organism	Human herpesvirus 1 strain KOS	
+CHEMBL2367035	Organism	Thlaspi arvense	
+CHEMBL2367036	Organism	Centaurea diffusa	
+CHEMBL2367037	Organism	Liposcelis paeta	
+CHEMBL2367038	Organism	Golovinomyces cichoracearum	
+CHEMBL2367039	Organism	Geranium dissectum	
+CHEMBL2367040	Organism	Sesbania herbacea	
+CHEMBL2367041	Organism	Eleocharis kuroguwai	
+CHEMBL2367042	Organism	Orobanche crenata	
+CHEMBL2367043	Organism	Fusarium oxysporum f. sp. gladioli	
+CHEMBL2367044	Organism	Bombus terrestris	
+CHEMBL2367045	Organism	Amaranthus tuberculatus	
+CHEMBL2367046	Organism	Tetranychus evansi	
+CHEMBL2367047	Organism	Sitophilus	
+CHEMBL2367048	Organism	Cyperus esculentus	
+CHEMBL2367049	Organism	Micrococcus lylae	
+CHEMBL2367050	Organism	Pseudomonas oleovorans	
+CHEMBL2367051	Organism	Schwanniomyces occidentalis	
+CHEMBL2367052	Organism	Entamoeba histolytica HM-1:IMSS	
+CHEMBL2367053	Organism	Theba pisana	
+CHEMBL2367054	Organism	Magnaporthe salvinii	
+CHEMBL2367055	Organism	Nigrospora	
+CHEMBL2367056	Organism	Laetisaria fuciformis	
+CHEMBL2367057	Organism	Bemisia argentifolii	
+CHEMBL2367058	Organism	Cryphonectria parasitica	
+CHEMBL2367059	Organism	Fusarium oxysporum f. sp. lini	
+CHEMBL2367060	Organism	Sagittaria latifolia	
+CHEMBL2367061	Organism	Aphidius colemani	
+CHEMBL2367062	Organism	Persicaria longiseta	
+CHEMBL2367063	Organism	Citrus	
+CHEMBL2367064	Organism	Pycnoporus coccineus	
+CHEMBL2367065	Organism	Pestalotiopsis theae	
+CHEMBL2367066	Organism	Earias	
+CHEMBL2367067	Organism	Schistocerca americana	
+CHEMBL2367068	Organism	Diaprepes abbreviatus	
+CHEMBL2367069	Organism	Aulacophora femoralis	
+CHEMBL2367070	Organism	Puccinia coronata	
+CHEMBL2367071	Organism	Polygonum aviculare	
+CHEMBL2367072	Organism	Raphanus raphanistrum	
+CHEMBL2367073	Organism	Cricetomys gambianus	
+CHEMBL2367074	Organism	Rhabditis sp.	
+CHEMBL2367075	Organism	Anastrepha serpentina	
+CHEMBL2367076	Organism	Mycogone perniciosa	
+CHEMBL2367077	Organism	Hemiptera	
+CHEMBL2367078	Organism	Botryotinia squamosa	
+CHEMBL2367079	Organism	Crocidolomia	
+CHEMBL2367080	Organism	Veronica hederifolia	
+CHEMBL2367081	Organism	Alisma canaliculatum	
+CHEMBL2367082	Organism	Streptomyces alboniger	
+CHEMBL2367083	Organism	Encarsia formosa	
+CHEMBL2367084	Organism	Pieris rapae crucivora	
+CHEMBL2367085	Organism	Autographa nigrisigna	
+CHEMBL2367086	Organism	Rhizoctonia solani AG-4	
+CHEMBL2367087	Organism	Thrips tabaci	
+CHEMBL2367088	Organism	Aspergillus pterus	
+CHEMBL2367089	Organism	Unidentified Influenza A virus (H1N2)	
+CHEMBL2367090	Organism	Poa annua	
+CHEMBL2367091	Organism	Diaporthe ampelina	
+CHEMBL2367092	Organism	Pseudococcidae	
+CHEMBL2367093	Organism	Blumeria graminis f. sp. tritici	
+CHEMBL2367094	Organism	Ammannia baccifera	
+CHEMBL2367095	Organism	Chromolaena odorata	
+CHEMBL2367096	Organism	Eclipta prostrata	
+CHEMBL2367097	Organism	Commelina diffusa	
+CHEMBL2367098	Organism	Calopogonium mucunoides	
+CHEMBL2367099	Organism	Cannabis sativa	
+CHEMBL2367100	Organism	Colletotrichum capsici	
+CHEMBL2367101	Organism	Ipomoea grandifolia	
+CHEMBL2367102	Organism	Mimosa pudica	
+CHEMBL2367103	Organism	Abelmoschus esculentus	
+CHEMBL2367104	Organism	Cyperus iria	
+CHEMBL2367105	Organism	Cercospora canescens	
+CHEMBL2367106	Organism	Neofusicoccum parvum	
+CHEMBL2367107	Organism	Plasmodium falciparum D6	
+CHEMBL2367108	Organism	Rumex confertus	
+CHEMBL2367109	Organism	Pythium dissimile	
+CHEMBL2367110	Organism	Deroceras reticulatum	
+CHEMBL2367111	Organism	Ascochyta	
+CHEMBL2367112	Organism	Diplotaxis erucoides	
+CHEMBL2367113	Organism	Buffalopox virus	
+CHEMBL2367114	Organism	Leptochloa	
+CHEMBL2367115	Organism	Listeria monocytogenes ATCC 19115	
+CHEMBL2367116	Organism	Trogoderma granarium	
+CHEMBL2367117	Organism	Chenopodium murale	
+CHEMBL2367118	Organism	Ceratitis capitata	
+CHEMBL2367119	Organism	Chironomus riparius	
+CHEMBL2367120	Organism	Linaria genistifolia subsp. dalmatica	
+CHEMBL2367121	Organism	Consolida regalis	
+CHEMBL2367122	Organism	Oncorhynchus mykiss	
+CHEMBL2367123	Organism	Rotala indica	
+CHEMBL2367124	Organism	Amaranthus blitum subsp. oleraceus	
+CHEMBL2367125	Organism	Bionectria ochroleuca	
+CHEMBL2367126	Organism	Ustilaginoidea	
+CHEMBL2367127	Organism	Cyperus serotinus	
+CHEMBL2367128	Organism	Nitrosomonas europaea	
+CHEMBL2367129	Organism	Desmanthus illinoensis	
+CHEMBL2367130	Organism	Bactrocera dorsalis	
+CHEMBL2367131	Organism	Plasmodium falciparum NF54	
+CHEMBL2367132	Organism	Cryptococcus gastricus	
+CHEMBL2367133	Organism	Bacillus fortis	
+CHEMBL2367134	Organism	Sogatella furcifera	
+CHEMBL2367135	Organism	Rhodococcus rhodochrous	
+CHEMBL2367136	Organism	Xanthogaleruca luteola	
+CHEMBL2367137	Organism	Carnation Italian ringspot virus	
+CHEMBL2367138	Organism	Lepinotus reticulatus	
+CHEMBL2367139	Organism	Amblyseius andersoni	
+CHEMBL2367140	Organism	Streptomyces albus	
+CHEMBL2367141	Organism	Colletotrichum lindemuthianum	
+CHEMBL2367142	Organism	Fuchsia	
+CHEMBL2367143	Organism	Anthrenocerus australis	
+CHEMBL2367144	Organism	Sclerotium cepivorum	
+CHEMBL2367145	Organism	Pseudococcus affinis	
+CHEMBL2367146	Organism	Citrus x paradisi	
+CHEMBL2367147	Organism	Pseudomonas stutzeri	
+CHEMBL2367148	Organism	Cyperus microiria	
+CHEMBL2367149	Organism	Popillia japonica	
+CHEMBL2367150	Organism	Cacopsylla melanoneura	
+CHEMBL2367151	Organism	Mamestra brassicae	
+CHEMBL2367152	Organism	Acutodesmus obliquus	
+CHEMBL2367153	Organism	Synechococcus	
+CHEMBL2367154	Organism	[Brevibacterium] frigoritolerans	
+CHEMBL2367155	Organism	Valsa ceratosperma	
+CHEMBL2367156	Organism	Rosellinia necatrix	
+CHEMBL2367157	Organism	Misumenops	
+CHEMBL2367158	Organism	Anas platyrhynchos	
+CHEMBL2367159	Organism	Phytoseiulus persimilis	
+CHEMBL2367160	Organism	Podosphaera pannosa	
+CHEMBL2367161	Organism	Podosphaera leucotricha	
+CHEMBL2367162	Organism	Botryosphaeria berengeriana f.sp. pyricola	
+CHEMBL2367163	Organism	Phytolacca acinosa	
+CHEMBL2367164	Organism	Phytophthora nicotianae	
+CHEMBL2367165	Organism	Harmonia axyridis	
+CHEMBL2367166	Organism	Agrotis ipsilon	
+CHEMBL2367167	Organism	Amphimallon majalis	
+CHEMBL2367168	Organism	Leuciscus idus	
+CHEMBL2367169	Organism	Mycosphaerella nawae	
+CHEMBL2367170	Organism	Bacillus cereus ATCC 10876	
+CHEMBL2367171	Organism	Aspergillus sydowii	
+CHEMBL2367172	Organism	Pyrrhocoris apterus	
+CHEMBL2367173	Organism	Tetranychus cinnabarinus	
+CHEMBL2367174	Organism	Blumeria graminis f. sp. hordei	
+CHEMBL2367175	Organism	Echinochloa colona	
+CHEMBL2367176	Organism	Festuca arundinacea	
+CHEMBL2367177	Organism	Nephotettix cincticeps	
+CHEMBL2367178	Organism	Bacillus subtilis subsp. spizizenii ATCC 6633	
+CHEMBL2367179	Organism	Aspergillus clavatus	
+CHEMBL2367180	Organism	Conyza canadensis	
+CHEMBL2367181	Organism	Mucor fuscus	
+CHEMBL2367182	Organism	Asteraceae	
+CHEMBL2367183	Organism	Amaranthus tricolor	
+CHEMBL2367184	Organism	Urochloa decumbens	
+CHEMBL2367185	Organism	Phleum pratense	
+CHEMBL2367186	Organism	Fusarium oxysporum f. sp. cucumerinum	
+CHEMBL2367187	Organism	Alternaria brassicicola	
+CHEMBL2367188	Organism	Eutypa lata	
+CHEMBL2367189	Organism	Togninia minima	
+CHEMBL2367190	Organism	Xanthomonas vesicatoria	
+CHEMBL2367191	Organism	Encarsia inaron	
+CHEMBL2367192	Organism	Cyperus difformis	
+CHEMBL2367193	Organism	Senna tora	
+CHEMBL2367194	Organism	Solanum nigrum	
+CHEMBL2367195	Organism	Sinapis arvensis	
+CHEMBL2367196	Organism	Pseudomonas fluorescens A506	
+CHEMBL2367197	Organism	Bacopa monnieri	
+CHEMBL2367198	Organism	Silene noctiflora	
+CHEMBL2367199	Organism	Scenedesmus acutus	
+CHEMBL2367200	Organism	Myosotis arvensis	
+CHEMBL2367201	Organism	Bassia scoparia	
+CHEMBL2367202	Organism	Daphnia magna	
+CHEMBL2367203	Organism	Ammannia multiflora	
+CHEMBL2367204	Organism	Lindernia procumbens	
+CHEMBL2367205	Organism	Cercospora kikuchii	
+CHEMBL2367206	Organism	Pythium ultimum var. sporangiiferum	
+CHEMBL2367207	Organism	Echinochloa crus-galli var. crus-galli	
+CHEMBL2367208	Organism	Chenopodium ficifolium	
+CHEMBL2367209	Organism	Persicaria maculosa	
+CHEMBL2367210	Organism	Attelabidae	
+CHEMBL2367211	Organism	Amaranthus viridis	
+CHEMBL2367212	Organism	Papaver rhoeas	
+CHEMBL2367213	Organism	Galium aparine	
+CHEMBL2367214	Organism	Epilachna	
+CHEMBL2367215	Organism	Orobanche cernua var. cumana	
+CHEMBL2367216	Organism	Ceutorhynchus obstrictus	
+CHEMBL2367217	Organism	Zeuzera pyrina	
+CHEMBL2367218	Organism	Fusarium lateritium	
+CHEMBL2367219	Organism	Poria	
+CHEMBL2367220	Organism	Papio ursinus	
+CHEMBL2367221	Organism	Secale cereale	
+CHEMBL2367223	Organism	Ochrobactrum	
+CHEMBL2367225	Organism	Scopulariopsis	
+CHEMBL2367226	Organism	Metaphire posthuma	
+CHEMBL2367227	Organism	Mayaro virus	
+CHEMBL2367228	Organism	Setaria cervi	
+CHEMBL2367229	Organism	Colletotrichum	
+CHEMBL2367230	Organism	Hanseniaspora osmophila	
+CHEMBL2367231	Organism	Saccharomyces cerevisiae FL100 ATCC 28383	
+CHEMBL2367232	Organism	Lemna aequinoctialis	
+CHEMBL2367233	Organism	Cucumis melo	
+CHEMBL2367234	Organism	Pseudococcus viburni	
+CHEMBL2367235	Organism	Persea americana	
+CHEMBL2367236	Organism	Orius insidiosus	
+CHEMBL2367237	Organism	Bromus diandrus var. rigidus	
+CHEMBL2367238	Organism	Vigna mungo	
+CHEMBL2367239	Organism	Bacillus licheniformis DSM 13=ATCC 14580	
+CHEMBL2367240	Organism	Dendroctonus ponderosae	
+CHEMBL2367241	Organism	Bipolaris setariae	
+CHEMBL2367242	Organism	Neofusicoccum ribis	
+CHEMBL2367243	Organism	Anastrepha suspensa	
+CHEMBL2367244	Organism	Tuta absoluta	
+CHEMBL2367245	Organism	Ditylenchus dipsaci	
+CHEMBL2367246	Organism	Bifora radians	
+CHEMBL2367247	Organism	Phaseolus lunatus	
+CHEMBL2367248	Organism	Coleoptera	
+CHEMBL2367249	Organism	Xanthomonas oryzae pv. oryzae	
+CHEMBL2367250	Organism	Pardosa pseudoannulata	
+CHEMBL2367251	Organism	Aphidoletes aphidimyza	
+CHEMBL2367252	Organism	Orius strigicollis	
+CHEMBL2367253	Organism	Phomopsis	
+CHEMBL2367254	Organism	Botryosphaeria	
+CHEMBL2367255	Organism	Galium spurium	
+CHEMBL2367256	Organism	Phytophthora megasperma	
+CHEMBL2367257	Organism	Physalis alkekengi	
+CHEMBL2367258	Organism	Veronica polita	
+CHEMBL2367259	Organism	Tripleurospermum maritimum subsp. inodorum	
+CHEMBL2367260	Organism	Phyllotreta striolata	
+CHEMBL2367261	Organism	Homona magnanima	
+CHEMBL2367262	Organism	Zasmidium citri	
+CHEMBL2367263	Organism	Pseudomonas syringae pv. glycinea	
+CHEMBL2367264	Organism	Diaphania hyalinata	
+CHEMBL2367265	Organism	Spilarctia obliqua	
+CHEMBL2367266	Organism	Gaillardia aristata	
+CHEMBL2367267	Organism	Salmonella enterica subsp. enterica serovar Paratyphi B	
+CHEMBL2367268	Organism	Villosiclava virens	
+CHEMBL2367269	Organism	Amaranthus palmeri	
+CHEMBL2367270	Organism	Feline infectious peritonitis virus	
+CHEMBL2367271	Organism	Issatchenkia hanoiensis	
+CHEMBL2367272	Organism	Sonchus oleraceus	
+CHEMBL2367273	Organism	Solenopsis saevissima	
+CHEMBL2367274	Organism	Lolium multiflorum	
+CHEMBL2367275	Organism	Fusarium oxysporum f. sp. cyclaminis	
+CHEMBL2367276	Organism	Aphis medicaginis	
+CHEMBL2367277	Organism	Phomopsis obscurans	
+CHEMBL2367278	Organism	Amaranthus spinosus	
+CHEMBL2367279	Organism	Miridae	
+CHEMBL2367280	Organism	Tribolium confusum	
+CHEMBL2367281	Organism	Pythium	
+CHEMBL2367282	Organism	Lolium rigidum	
+CHEMBL2367283	Organism	Sinapis alba	
+CHEMBL2367284	Organism	Plantago lanceolata	
+CHEMBL2367285	Organism	Alternaria kikuchiana	
+CHEMBL2367286	Organism	Carnation vein mottle virus	
+CHEMBL2367287	Organism	Rottboellia cochinchinensis	
+CHEMBL2367288	Organism	Melilotus albus	
+CHEMBL2367289	Organism	Carnation etched ring virus	
+CHEMBL2367290	Organism	Gossypium barbadense	
+CHEMBL2367291	Organism	Phaeomoniella chlamydospora	
+CHEMBL2367292	Organism	Pomacea canaliculata	
+CHEMBL2367293	Organism	Ostrinia furnacalis	
+CHEMBL2367294	Organism	Callosobruchus maculatus	
+CHEMBL2367295	Organism	Botrytis	
+CHEMBL2367296	Organism	Pieris rapae	
+CHEMBL2367297	Organism	Colletotrichum gossypii	
+CHEMBL2367298	Organism	Bromus sterilis	
+CHEMBL2367299	Organism	Glomerella tucumanensis	
+CHEMBL2367300	Organism	Phyllosticta	
+CHEMBL2367301	Organism	Echinochloa esculenta	
+CHEMBL2367302	Organism	Rhynchophorus ferrugineus	
+CHEMBL2367303	Organism	Panicum dichotomiflorum	
+CHEMBL2367304	Organism	Stagonosporopsis cucurbitacearum	
+CHEMBL2367305	Organism	Pheretima sieboldi	
+CHEMBL2367306	Organism	Claviceps purpurea	
+CHEMBL2367307	Organism	Ammi majus	
+CHEMBL2367308	Organism	Pseudomonas syringae pv. tabaci	
+CHEMBL2367309	Organism	Frankliniella intonsa	
+CHEMBL2367310	Organism	Thrips palmi	
+CHEMBL2367311	Organism	Trichogramma nubilale	
+CHEMBL2367312	Organism	Thrips obscuratus	
+CHEMBL2367313	Organism	Alternaria longipes	
+CHEMBL2367314	Organism	Echinochloa crus-galli var. formosensis	
+CHEMBL2367315	Organism	Schizaphis graminum	
+CHEMBL2367316	Organism	Xanthomonas campestris pv. oryzae	
+CHEMBL2367317	Organism	Cryptococcus neoformans var. neoformans	
+CHEMBL2367318	Organism	Earias vitella	
+CHEMBL2367319	Organism	Pantoea dispersa	
+CHEMBL2367320	Organism	Magnaporthe poae	
+CHEMBL2367321	Organism	Acheta domesticus	
+CHEMBL2367322	Organism	Neoseiulus fallacis	
+CHEMBL2367323	Organism	Aegilops cylindrica	
+CHEMBL2367324	Organism	Caelifera	
+CHEMBL2367325	Organism	Reticulitermes flavipes	
+CHEMBL2367326	Organism	Bemisia	
+CHEMBL2367327	Organism	Citrus limon	
+CHEMBL2367328	Organism	Citrus sinensis	
+CHEMBL2367329	Organism	Ludwigia prostrata	
+CHEMBL2367331	Organism	Heterorhabditis bacteriophora	
+CHEMBL2367332	Organism	Rhizopus stolonifer	
+CHEMBL2367333	Organism	Galinsoga quadriradiata	
+CHEMBL2367334	Organism	Podosphaera aphanis	
+CHEMBL2367335	Organism	Trichophyton verrucosum	
+CHEMBL2367336	Organism	Parthenium hysterophorus	
+CHEMBL2367337	Organism	Adoxophyes orana	
+CHEMBL2367338	Organism	Dinebra chinensis	
+CHEMBL2367339	Organism	Radopholus similis	
+CHEMBL2367340	Organism	Diatraea saccharalis	
+CHEMBL2367341	Organism	Beauveria bassiana	
+CHEMBL2367342	Organism	Dictyoptera	
+CHEMBL2367343	Organism	Persicaria nodosa	
+CHEMBL2367344	Organism	Kummerowia striata	
+CHEMBL2367345	Organism	Phytophthora nicotianae var. parasitica	
+CHEMBL2367346	Organism	Helianthus	
+CHEMBL2367347	Organism	Phytophthora palmivora	
+CHEMBL2367348	Organism	Coturnix japonica	
+CHEMBL2367349	Organism	Maladera castanea	
+CHEMBL2367350	Organism	Agrotis segetum	
+CHEMBL2367351	Organism	Pseudomonas viridiflava	
+CHEMBL2367352	Organism	Arthrobacter sp.	
+CHEMBL2367353	Organism	Pyrenochaeta lycopersici	
+CHEMBL3140321	Organism	Acinetobacter pittii	
+CHEMBL3140322	Organism	Cunninghamella bertholletiae	
+CHEMBL3140323	Organism	Burkholderia pseudomallei	
+CHEMBL3301401	Organism	Plasmodium gallinaceum	
+CHEMBL3301402	Organism	Streptococcus intermedius	
+CHEMBL3301403	Organism	Macacine herpesvirus 1	
+CHEMBL3301404	Organism	Streptococcus suis	
+CHEMBL3301405	Organism	Campylobacter coli	
+CHEMBL3301406	Organism	Ajellomyces dermatitidis	
+CHEMBL3301407	Organism	Mycoplasma bovis	
+CHEMBL3301408	Organism	Coxiella burnetii	
+CHEMBL3301409	Organism	Mycobacterium leprae	
+CHEMBL3301410	Organism	Aspergillus tubingensis	
+CHEMBL3301411	Organism	Fonsecaea monophora	
+CHEMBL3301412	Organism	Burkholderia cenocepacia	
+CHEMBL3301413	Organism	Naegleria fowleri	
+CHEMBL346	Organism	Arthroderma benhamiae	
+CHEMBL347	Organism	Streptococcus pneumoniae	
+CHEMBL348	Organism	Pseudomonas aeruginosa	
+CHEMBL349	Organism	Enterobacter cloacae	
+CHEMBL350	Organism	Klebsiella pneumoniae	
+CHEMBL351	Organism	Salmonella typhimurium	
+CHEMBL352	Organism	Staphylococcus aureus	
+CHEMBL353	Organism	Staphylococcus epidermidis	
+CHEMBL354	Organism	Escherichia coli	
+CHEMBL355	Organism	Haemophilus influenzae	
+CHEMBL356	Organism	Streptococcus pyogenes	
+CHEMBL357	Organism	Enterococcus faecium	
+CHEMBL358	Organism	Aspergillus niger	
+CHEMBL359	Organism	Bacillus subtilis	
+CHEMBL360	Organism	Mycobacterium tuberculosis	
+CHEMBL361	Organism	Saccharomyces cerevisiae	
+CHEMBL362	Organism	Enterococcus faecalis	
+CHEMBL363	Organism	Aspergillus fumigatus	
+CHEMBL364	Organism	Plasmodium falciparum	
+CHEMBL365	Organism	Filobasidiella neoformans	
+CHEMBL366	Organism	Candida albicans	
+CHEMBL367	Organism	Leishmania donovani	
+CHEMBL368	Organism	Trypanosoma cruzi	
+CHEMBL369	Organism	Cavia porcellus	
+CHEMBL370	Organism	Human herpesvirus 2	
+CHEMBL371	Organism	Human herpesvirus 5	
+CHEMBL372	Organism	Homo sapiens	
+CHEMBL373	Organism	Canis familiaris	
+CHEMBL374	Organism	Oryctolagus cuniculus	
+CHEMBL375	Organism	Mus musculus	
+CHEMBL376	Organism	Rattus norvegicus	
+CHEMBL377	Organism	Human herpesvirus 1	
+CHEMBL378	Organism	Human immunodeficiency virus 1	
+CHEMBL379	Organism	Hepatitis C virus	
+CHEMBL380	Organism	Human immunodeficiency virus 2	
+CHEMBL4296393	Organism	Murine norovirus	
+CHEMBL4296394	Organism	Tulane virus	
+CHEMBL4296549	Organism	Alistipes	
+CHEMBL4296550	Organism	Anabaena cylindrica	
+CHEMBL4296551	Organism	Anopheles gambiae	
+CHEMBL4296552	Organism	Arcobacter butzleri	
+CHEMBL4296553	Organism	Arcobacter cryaerophilus	
+CHEMBL4296554	Organism	Aspergillus brasiliensis	
+CHEMBL4296555	Organism	Azotobacter chroococcum	
+CHEMBL4296556	Organism	Betaproteobacteria	
+CHEMBL4296557	Organism	Brucella neotomae	
+CHEMBL4296558	Organism	Burkholderia multivorans	
+CHEMBL4296559	Organism	Carnobacterium funditum	
+CHEMBL4296560	Organism	Carnobacterium maltaromaticum	
+CHEMBL4296561	Organism	Carnobacterium mobile	
+CHEMBL4296562	Organism	Cercospora sojina	
+CHEMBL4296563	Organism	Chikungunya virus	
+CHEMBL4296564	Organism	Chlamydomonas reinhardtii	
+CHEMBL4296565	Organism	Classical swine fever virus	
+CHEMBL4296566	Organism	Colletotrichum asianum	
+CHEMBL4296567	Organism	Curvularia brachyspora	
+CHEMBL4296568	Organism	Dunaliella salina	
+CHEMBL4296569	Organism	Dunaliella tertiolecta	
+CHEMBL4296570	Organism	Edwardsiella ictaluri	
+CHEMBL4296571	Organism	Flavobacterium columnare	
+CHEMBL4296572	Organism	Gammaproteobacteria	
+CHEMBL4296573	Organism	Lachnospiraceae	
+CHEMBL4296574	Organism	Lactobacillus acidophilus	
+CHEMBL4296575	Organism	Lactobacillus delbrueckii	
+CHEMBL4296576	Organism	Lactobacillus reuteri	
+CHEMBL4296577	Organism	Marburgvirus	
+CHEMBL4296578	Organism	Middle East respiratory syndrome-related coronavirus	
+CHEMBL4296579	Organism	Mucor plumbeus	
+CHEMBL4296580	Organism	Mycobacterium frederiksbergense	
+CHEMBL4296581	Organism	Mycobacterium peregrinum	
+CHEMBL4296582	Organism	Nocardia carnea	
+CHEMBL4296583	Organism	Nocardia cyriacigeorgica	
+CHEMBL4296584	Organism	Norovirus	
+CHEMBL4296585	Organism	Nostoc commune	
+CHEMBL4296586	Organism	Oscillibacter	
+CHEMBL4296587	Organism	Paenibacillus polymyxa	
+CHEMBL4296588	Organism	Paracoccidioides brasiliensis	
+CHEMBL4296589	Organism	Paramphistomum	
+CHEMBL4296590	Organism	Penicillium cyclopium	
+CHEMBL4296591	Organism	Phytophthora litchii	
+CHEMBL4296592	Organism	Prevotella	
+CHEMBL4296593	Organism	Proteus hauseri	
+CHEMBL4296594	Organism	Pseudoalteromonas lipolytica	
+CHEMBL4296595	Organism	Pseudoalteromonas ulvae	
+CHEMBL4296596	Organism	Rhodococcus erythropolis	
+CHEMBL4296597	Organism	Ruegeria atlantica	
+CHEMBL4296598	Organism	Schistosoma haematobium	
+CHEMBL4296599	Organism	Selenomonas	
+CHEMBL4296600	Organism	Shewanella baltica	
+CHEMBL4296601	Organism	Streptomyces tendae	
+CHEMBL4296602	Organism	Tannerella forsythia	
+CHEMBL4296603	Organism	Tetrahymena	
+CHEMBL4296604	Organism	Tick-borne encephalitis virus	
+CHEMBL4296605	Organism	Trichormus variabilis	
+CHEMBL4296606	Organism	Trichosporon cutaneum	
+CHEMBL4296607	Organism	Trypanosoma congolense	
+CHEMBL4296608	Organism	Tsukamurella pulmonis	
+CHEMBL4296609	Organism	Usutu virus	
+CHEMBL4296610	Organism	Xanthomonas citri pv. malvacearum	
+CHEMBL4296611	Organism	Yersinia ruckeri	
+CHEMBL4296612	Organism	Zika virus	
+CHEMBL4296613	Organism	Kregervanrija fluxuum	
+CHEMBL4303835	Organism	SARS-CoV-2	
+CHEMBL4303836	Organism	SARS-CoV	
+CHEMBL4434621	Organism	Ebolavirus	
+CHEMBL4434641	Organism	Coronaviridae	
+CHEMBL4434642	Organism	Pichinde mammarenavirus	
+CHEMBL4513181	Organism	Zaire ebolavirus	
+CHEMBL4513182	Organism	Alternaria fragaria	
+CHEMBL4513183	Organism	Ambystoma mexicanum	
+CHEMBL4513184	Organism	Arthrobacter gandavensis	
+CHEMBL4513185	Organism	Burkholderia thailandensis	
+CHEMBL4513186	Organism	Candida auris	
+CHEMBL4513187	Organism	Capnocytophaga gingivalis	
+CHEMBL4513188	Organism	Citrobacter farmeri	
+CHEMBL4513189	Organism	Citrobacter rodentium	
+CHEMBL4513190	Organism	Coccidioides posadasii	
+CHEMBL4513191	Organism	Corynebacterium pseudotuberculosis	
+CHEMBL4513192	Organism	Rabies virus	
+CHEMBL4513193	Organism	Western equine encephalomyelitis virus	
+CHEMBL4513195	Organism	Klebsiella variicola	
+CHEMBL4513196	Organism	Norwalk virus	
+CHEMBL4513197	Organism	Fonsecaea compacta	
+CHEMBL4513198	Organism	Folsomia candida	
+CHEMBL4513199	Organism	Feline calicivirus	
+CHEMBL4513200	Organism	Digitaria adscendens	
+CHEMBL4513201	Organism	Lactobacillus jensenii	
+CHEMBL4513203	Organism	Litomosoides sigmodontis	
+CHEMBL4513204	Organism	Malayotyphlops ruber	
+CHEMBL4513205	Organism	Mucor indicus	
+CHEMBL4513206	Organism	Psilocybe cubensis	
+CHEMBL4513207	Organism	Orthopoxvirus	
+CHEMBL4513208	Organism	Rice stripe virus	
+CHEMBL4513209	Organism	Steinernema feltiae	
+CHEMBL4513210	Organism	Suillus luteus	
+CHEMBL4513211	Organism	Synechocystis sp. PCC 6803	
+CHEMBL4513212	Organism	Trichophyton	
+CHEMBL4513213	Organism	Microbacterium	
+CHEMBL4513214	Organism	Pseudoalteromonas antarctica	
+CHEMBL4513215	Organism	Paracoccus sp.	
+CHEMBL4523071	Organism	JC polyomavirus	
+CHEMBL4523072	Organism	Argentinian mammarenavirus	
+CHEMBL4523073	Organism	Plasmodium vinckei	
+CHEMBL4523074	Organism	Pichia sporocuriosa	
+CHEMBL4523075	Organism	Bifidobacterium bifidum	
+CHEMBL4523076	Organism	Vibrio diabolicus	
+CHEMBL4523077	Organism	Ceratobasidium cornigerum	
+CHEMBL4523078	Organism	Histophilus somni	
+CHEMBL4523079	Organism	Arthrobacter crystallopoietes	
+CHEMBL4523080	Organism	Enterococcus casseliflavus	
+CHEMBL4523081	Organism	Chlamydia pecorum	
+CHEMBL4523082	Organism	Blautia coccoides	
+CHEMBL4523083	Organism	Bacteroides dorei	
+CHEMBL4523084	Organism	Cronobacter sakazakii	
+CHEMBL4543332	Organism	Naegleria gruberi	
+CHEMBL4630663	Organism	Acinetobacter baylyi	
+CHEMBL4630664	Organism	Escovopsis sp.	
+CHEMBL4630665	Organism	Bacillus amyloliquefaciens	
+CHEMBL4630666	Organism	Enterobacterales	
+CHEMBL4630667	Organism	Heterosigma akashiwo	
+CHEMBL4630668	Organism	Isochrysis galbana	
+CHEMBL4630669	Organism	Leishmania martiniquensis	
+CHEMBL4630670	Organism	Shewanella oneidensis	
+CHEMBL4630671	Organism	Leishmania orientalis	
+CHEMBL4630672	Organism	Lytechinus variegatus	
+CHEMBL4630673	Organism	Pseudonocardia	
+CHEMBL4630674	Organism	Streptomyces fradiae	
+CHEMBL4630675	Organism	Sporosarcina sp. NB90	
+CHEMBL4630676	Organism	Wolbachia	
+CHEMBL4630677	Organism	Karenia mikimotoi	
+CHEMBL4630678	Organism	Tetraselmis helgolandic	
+CHEMBL4630679	Organism	Tenacibaculum maritimum	
+CHEMBL4630680	Organism	Pestalotiopsis calabae	
+CHEMBL4630681	Organism	Paenibacillus larvae	
+CHEMBL4630682	Organism	Lysinibacillus	
+CHEMBL4630683	Organism	Kocuria	
+CHEMBL4630685	Organism	Pseudomonas sp. NB86	
+CHEMBL4649981	Organism	Wolbachia pipientis	
+CHEMBL4665601	Organism	Mycobacterium intracellulare subsp. chimaera	
+CHEMBL4879401	Organism	Trichophyton interdigitale	
+CHEMBL4879402	Organism	Infectious hematopoietic necrosis virus	
+CHEMBL4879403	Organism	Fig mosaic emaravirus	
+CHEMBL4879404	Organism	Micropterus salmoides rhabdovirus	
+CHEMBL4879405	Organism	Carp sprivivirus	
+CHEMBL4879406	Organism	Enterovirus E	
+CHEMBL4888462	Organism	Porcine epidemic diarrhea virus	
+CHEMBL4888463	Organism	Primates	
+CHEMBL4888465	Organism	Staphylococcus ureilyticus	
+CHEMBL4888466	Organism	Hepatitis delta virus	
+CHEMBL4888467	Organism	Tritrichomonas foetus	
+CHEMBL4888468	Organism	Cladosporium phlei	
+CHEMBL4888469	Organism	Corynebacterium ulcerans	
+CHEMBL4888470	Organism	Eubacterium sp.	
+CHEMBL4888471	Organism	Hantaan orthohantavirus	
+CHEMBL4888472	Organism	O'nyong-nyong virus	
+CHEMBL4888473	Organism	Powassan virus	
+CHEMBL4888474	Organism	Omsk hemorrhagic fever virus	
+CHEMBL4888476	Organism	Lactobacillus gasseri	
+CHEMBL4888477	Organism	Machupo mammarenavirus	
+CHEMBL4888478	Organism	Moraxella	
+CHEMBL4888479	Organism	Una virus	
+CHEMBL4888480	Organism	Human polyomavirus 1	
+CHEMBL4888481	Organism	Valsa ambiens	
+CHEMBL4888482	Organism	Veillonella	
+CHEMBL4888483	Organism	Plasmodium	
+CHEMBL612234	Organism	Prevotella buccae	
+CHEMBL612235	Organism	Prevotella disiens	
+CHEMBL612236	Organism	Prevotella melaninogenica	
+CHEMBL612237	Organism	Human adenovirus type 5	
+CHEMBL612238	Organism	Sandfly fever sicilian virus	
+CHEMBL612240	Organism	Penicillium funiculosum	
+CHEMBL612241	Organism	Leishmania sp.	
+CHEMBL612242	Organism	Mycobacterium lufu	
+CHEMBL612243	Organism	Staphylococcus sp.	
+CHEMBL612244	Organism	Veillonella parvula	
+CHEMBL612245	Organism	Sporothrix schenckii	
+CHEMBL612276	Organism	Xanthomonas campestris	
+CHEMBL612277	Organism	Aspergillus terreus	
+CHEMBL612278	Organism	Microsporum	
+CHEMBL612283	Organism	Alternaria solani	
+CHEMBL612284	Organism	Diabrotica undecimpunctata	
+CHEMBL612285	Organism	Caulobacter vibrioides	
+CHEMBL612286	Organism	Bordetella bronchiseptica	
+CHEMBL612287	Organism	Bacteroides vulgatus	
+CHEMBL612288	Organism	Corynebacterium xerosis	
+CHEMBL612289	Organism	Actinomyces meyeri	
+CHEMBL612290	Organism	Oryza sp.	
+CHEMBL612291	Organism	Ancylostoma ceylanicum	
+CHEMBL612292	Organism	Enterococcus durans	
+CHEMBL612293	Organism	Salmonella paratyphi	
+CHEMBL612294	Organism	Plasmodium vinckei vinckei	
+CHEMBL612296	Organism	Sternbergia lutea	
+CHEMBL612298	Organism	Listonella anguillarum	
+CHEMBL612299	Organism	Salmonella enterica subsp. enterica serovar Anatum	
+CHEMBL612301	Organism	Cooperia curticei	
+CHEMBL612302	Organism	Plumeria rubra	
+CHEMBL612304	Organism	Arthroderma gypseum	
+CHEMBL612305	Organism	Mucor fragilis	
+CHEMBL612306	Organism	Rhizopus oryzae	
+CHEMBL612307	Organism	Neonectria radicicola	
+CHEMBL612308	Organism	Benjaminiella	
+CHEMBL612309	Organism	Pichia jadinii	
+CHEMBL612310	Organism	Candida zeylanoides	
+CHEMBL612313	Organism	Streptococcus	
+CHEMBL612314	Organism	Streptococcus sanguinis	
+CHEMBL612315	Organism	Streptococcus thermophilus	
+CHEMBL612316	Organism	Streptococcus sobrinus	
+CHEMBL612318	Organism	Enterococcus	
+CHEMBL612319	Organism	Human papillomavirus	
+CHEMBL612320	Organism	Human coxsackievirus B4	
+CHEMBL612321	Organism	Prevotella bivia	
+CHEMBL612322	Organism	Spodoptera eridania	
+CHEMBL612323	Organism	Pythium ultimum	
+CHEMBL612325	Organism	Rodentia sp.	
+CHEMBL612326	Organism	Penicillium oxalicum	
+CHEMBL612327	Organism	Dipetalogaster maximus	
+CHEMBL612328	Organism	Plasmodium yoelii yoelii	
+CHEMBL612329	Organism	Arthroderma uncinatum	
+CHEMBL612331	Organism	Mannheimia haemolytica	
+CHEMBL612332	Organism	Streptococcus viridans	
+CHEMBL612333	Organism	Cephalosporium	
+CHEMBL612334	Organism	Trichophyton quinckeanum	
+CHEMBL612335	Organism	Microsporum canis	
+CHEMBL612336	Organism	Escherichia coli K12	
+CHEMBL612337	Organism	Eggerthella lenta	
+CHEMBL612338	Organism	Proteus inconstans	
+CHEMBL612340	Organism	Taenia pisiformis	
+CHEMBL612341	Organism	Artemia salina	
+CHEMBL612342	Organism	Oesophagostomum columbianum	
+CHEMBL612343	Organism	Echinochloa crus-galli	
+CHEMBL612344	Organism	Papio papio	
+CHEMBL612345	Organism	Cryptococcus albidus	
+CHEMBL612346	Organism	Tolypocladium inflatum	
+CHEMBL612347	Organism	Plasmodium yoelii nigeriensis	
+CHEMBL612348	Organism	Trypanosoma brucei rhodesiense	
+CHEMBL612349	Organism	Balanus amphitrite	
+CHEMBL612351	Organism	Anaerococcus prevotii	
+CHEMBL612352	Organism	Neisseria perflava	
+CHEMBL612353	Organism	Echovirus	
+CHEMBL612354	Organism	Enterococcus avium	
+CHEMBL612355	Organism	Pichia ohmeri	
+CHEMBL612356	Organism	Blumeria graminis	
+CHEMBL612357	Organism	Trichophyton schoenleinii	
+CHEMBL612358	Organism	Microsporum audouinii	
+CHEMBL612359	Organism	Human immunodeficiency virus 3	
+CHEMBL612360	Organism	Mastomys coucha	
+CHEMBL612361	Organism	Cricetinae gen. sp.	
+CHEMBL612362	Organism	Clavispora lusitaniae	
+CHEMBL612363	Organism	Chaetomium globosum	
+CHEMBL612365	Organism	Penicillium italicum	
+CHEMBL612366	Organism	Stenotrophomonas maltophilia	
+CHEMBL612367	Organism	Anethum graveolens	
+CHEMBL612368	Organism	Yersinia sp.	
+CHEMBL612369	Organism	Absidia corymbifera	
+CHEMBL612370	Organism	Anas sp.	
+CHEMBL612371	Organism	Human rhinovirus 21	
+CHEMBL612372	Organism	Human rhinovirus 50	
+CHEMBL612373	Organism	Dictyostelium discoideum	
+CHEMBL612374	Organism	Candida tenuis	
+CHEMBL612375	Organism	Paecilomyces variotii	
+CHEMBL612376	Organism	Eimeria brunetti	
+CHEMBL612377	Organism	Eimeria necatrix	
+CHEMBL612378	Organism	Tetranychus urticae	
+CHEMBL612379	Organism	unidentified	
+CHEMBL612380	Organism	Peptostreptococcus micros	
+CHEMBL612381	Organism	Lepidium sativum	
+CHEMBL612384	Organism	Arthrodermataceae	
+CHEMBL612385	Organism	Trichophyton tonsurans	
+CHEMBL612386	Organism	Epidermophyton floccosum	
+CHEMBL612387	Organism	Cercopithecine herpesvirus 9	
+CHEMBL612388	Organism	Stomoxys calcitrans	
+CHEMBL612389	Organism	Streptococcus sp. 'group A'	
+CHEMBL612390	Organism	Penicillium digitatum	
+CHEMBL612391	Organism	Porphyromonas canoris	
+CHEMBL612392	Organism	Phoma	
+CHEMBL612393	Organism	Escherichia coli B	
+CHEMBL612395	Organism	Banzi virus	
+CHEMBL612396	Organism	Phialophora verrucosa	
+CHEMBL612397	Organism	Trichostrongylus axei	
+CHEMBL612398	Organism	Scopulariopsis brevicaulis	
+CHEMBL612399	Organism	Botryotinia fuckeliana	
+CHEMBL612400	Organism	Rumex acetosa	
+CHEMBL612401	Organism	Umbelopsis ramanniana	
+CHEMBL612402	Organism	Enterobacter sp.	
+CHEMBL612403	Organism	Human rhinovirus 29	
+CHEMBL612425	Organism	Staphylococcus simulans	
+CHEMBL612426	Organism	Streptococcus mutans	
+CHEMBL612427	Organism	Streptococcus equi	
+CHEMBL612428	Organism	Bacillus	
+CHEMBL612429	Organism	Bacillus pumilus	
+CHEMBL612430	Organism	Rhizopus	
+CHEMBL612431	Organism	Pichia stipitis	
+CHEMBL612432	Organism	Leptosphaeria maculans	
+CHEMBL612433	Organism	Penicillium citrinum	
+CHEMBL612435	Organism	Clostridium botulinum A	
+CHEMBL612436	Organism	Human enterovirus 71	
+CHEMBL612437	Organism	Fonsecaea pedrosoi	
+CHEMBL612438	Organism	Scedosporium prolificans	
+CHEMBL612439	Organism	Rhodococcus equi	
+CHEMBL612448	Organism	Bipolaris oryzae	
+CHEMBL612450	Organism	Hymenolepis nana	
+CHEMBL612451	Organism	Bacteroides capillosus	
+CHEMBL612452	Organism	Influenza B virus (B/Lee/40)	
+CHEMBL612453	Organism	Acinetobacter calcoaceticus subsp. anitratus	
+CHEMBL612454	Organism	Thanatephorus cucumeris	
+CHEMBL612457	Organism	Pythium mamillatum	
+CHEMBL612458	Organism	Arthroderma obtusum	
+CHEMBL612459	Organism	Cercospora beticola	
+CHEMBL612460	Organism	Providencia alcalifaciens	
+CHEMBL612461	Organism	Phoma destructiva	
+CHEMBL612462	Organism	Poliovirus	
+CHEMBL612463	Organism	Plasmopara viticola	
+CHEMBL612464	Organism	Human rhinovirus 45	
+CHEMBL612465	Organism	Human rhinovirus 6	
+CHEMBL612466	Organism	Human rhinovirus B	
+CHEMBL612467	Organism	Human rhinovirus 5	
+CHEMBL612468	Organism	Magnaporthe grisea	
+CHEMBL612469	Organism	Emericella nidulans	
+CHEMBL612470	Organism	Human rhinovirus sp.	
+CHEMBL612471	Organism	Primula vulgaris	
+CHEMBL612473	Organism	Human rhinovirus 9	
+CHEMBL612474	Organism	Human rhinovirus 22	
+CHEMBL612475	Organism	Human rhinovirus 30	
+CHEMBL612476	Organism	Human rhinovirus 41	
+CHEMBL612477	Organism	Human rhinovirus 59	
+CHEMBL612478	Organism	Human rhinovirus 63	
+CHEMBL612479	Organism	Human rhinovirus 70	
+CHEMBL612480	Organism	Human rhinovirus 86	
+CHEMBL612481	Organism	Dysdercus cingulatus	
+CHEMBL612482	Organism	Streptomyces aureus	
+CHEMBL612484	Organism	Enterococcus faecalis V583	
+CHEMBL612486	Organism	Plakortis simplex	
+CHEMBL612487	Organism	Botrytis allii	
+CHEMBL612488	Organism	Oxalobacteraceae bacterium Cafi2	
+CHEMBL612490	Organism	Bacteria	
+CHEMBL612491	Organism	Brachyspira hyodysenteriae	
+CHEMBL612492	Organism	Campylobacter jejuni	
+CHEMBL612493	Organism	Alteromonas sp.	
+CHEMBL612494	Organism	Brucella melitensis biovar Abortus	
+CHEMBL612495	Organism	Paracoccus denitrificans	
+CHEMBL612498	Organism	Pseudomonas	
+CHEMBL612499	Organism	Burkholderia cepacia	
+CHEMBL612500	Organism	Pseudomonas fluorescens	
+CHEMBL612501	Organism	Pseudomonas putida	
+CHEMBL612502	Organism	Pseudomonas sp.	
+CHEMBL612504	Organism	Agrobacterium tumefaciens	
+CHEMBL612505	Organism	Legionella pneumophila	
+CHEMBL612506	Organism	Fusarium solani	
+CHEMBL612507	Organism	Staphylococcus haemolyticus	
+CHEMBL612508	Organism	Klebsiella aerogenes	
+CHEMBL612509	Organism	Aeromonas hydrophila	
+CHEMBL612510	Organism	Kocuria rosea	
+CHEMBL612511	Organism	Brevibacterium linens	
+CHEMBL612513	Organism	Heliothis virescens	
+CHEMBL612521	Organism	Mucor	
+CHEMBL612522	Organism	Zygosaccharomyces bailii	
+CHEMBL612523	Organism	Equine infectious anemia virus	
+CHEMBL612524	Organism	Human rhinovirus 4	
+CHEMBL612525	Organism	Human rhinovirus 15	
+CHEMBL612526	Organism	Human rhinovirus 25	
+CHEMBL612527	Organism	Human rhinovirus 39	
+CHEMBL612528	Organism	Human rhinovirus 67	
+CHEMBL612529	Organism	Human rhinovirus 85	
+CHEMBL612531	Organism	Staphylococcus aureus subsp. aureus MW2	
+CHEMBL612532	Organism	Salmonella enterica subsp. enterica serovar Typhi str. CT18	
+CHEMBL612533	Organism	Lycopus europaeus	
+CHEMBL612534	Organism	Staphylococcus aureus subsp. aureus MRSA252	
+CHEMBL612535	Organism	Klebsiella	
+CHEMBL612536	Organism	Proteus	
+CHEMBL612537	Organism	Providencia rettgeri	
+CHEMBL612538	Organism	Providencia sp.	
+CHEMBL612549	Organism	Human rhinovirus 72	
+CHEMBL612550	Organism	Teladorsagia circumcincta	
+CHEMBL612551	Organism	San Angelo virus	
+CHEMBL612563	Organism	Syrian golden hamster	
+CHEMBL612571	Organism	Bovine viral diarrhea virus	
+CHEMBL612575	Organism	SARS coronavirus	
+CHEMBL612600	Organism	Helicobacter pylori	
+CHEMBL612601	Organism	Chryseobacterium meningosepticum	
+CHEMBL612602	Organism	Ralstonia solanacearum	
+CHEMBL612603	Organism	Sinorhizobium meliloti	
+CHEMBL612604	Organism	Salmonella enterica subsp. enterica serovar Gallinarum	
+CHEMBL612605	Organism	Sulfolobus solfataricus	
+CHEMBL612607	Organism	Human rhinovirus 51	
+CHEMBL612608	Organism	Plasmodium falciparum (isolate FcB1 / Columbia)	
+CHEMBL612610	Organism	Influenza A virus (A/PR/8/34(H1N1))	
+CHEMBL612611	Organism	Escherichia	
+CHEMBL612612	Organism	Klebsiella pneumoniae subsp. ozaenae	
+CHEMBL612613	Organism	Neisseria sicca	
+CHEMBL612614	Organism	Eikenella corrodens	
+CHEMBL612615	Organism	Citrobacter freundii	
+CHEMBL612616	Organism	Klebsiella sp.	
+CHEMBL612617	Organism	Providencia	
+CHEMBL612618	Organism	Salmonella sp.	
+CHEMBL612619	Organism	Shigella dysenteriae	
+CHEMBL612620	Organism	Aeromonas sp.	
+CHEMBL612621	Organism	Vibrio mimicus	
+CHEMBL612622	Organism	Bacteroides uniformis	
+CHEMBL612623	Organism	Planktothrix agardhii	
+CHEMBL612624	Organism	Staphylococcus	
+CHEMBL612625	Organism	Staphylococcus warneri	
+CHEMBL612626	Organism	Bacillus licheniformis	
+CHEMBL612627	Organism	Mycoplasma pneumoniae	
+CHEMBL612628	Organism	Abutilon	
+CHEMBL612629	Organism	Prunus domestica	
+CHEMBL612631	Organism	Sorghum halepense	
+CHEMBL612632	Organism	Schizosaccharomyces pombe	
+CHEMBL612633	Organism	Aspergillus sp.	
+CHEMBL612635	Organism	Clostridium novyi	
+CHEMBL612636	Organism	Listeria innocua	
+CHEMBL612637	Organism	Arcanobacterium pyogenes	
+CHEMBL612638	Organism	Corynebacterium diphtheriae	
+CHEMBL612639	Organism	Propionibacterium acnes	
+CHEMBL612640	Organism	Mycobacterium intracellulare	
+CHEMBL612641	Organism	Mycobacterium chelonae	
+CHEMBL612642	Organism	Mycobacterium xenopi	
+CHEMBL612643	Organism	Mycoplasma gallisepticum	
+CHEMBL612644	Organism	Schistosoma japonicum	
+CHEMBL612645	Organism	Amorphotheca resinae	
+CHEMBL612646	Organism	Microbotryum violaceum	
+CHEMBL612647	Organism	Candida glabrata	
+CHEMBL612648	Organism	Fusarium oxysporum	
+CHEMBL612649	Organism	Trichophyton rubrum	
+CHEMBL612650	Organism	Crithidia fasciculata	
+CHEMBL612651	Organism	Leishmania aethiopica	
+CHEMBL612652	Organism	Giardia intestinalis	
+CHEMBL612653	Organism	Plasmodium berghei	
+CHEMBL612658	Organism	Acyrthosiphon pisum	
+CHEMBL612659	Organism	Choristoneura fumiferana	
+CHEMBL612661	Organism	Electrophorus electricus	
+CHEMBL612662	Organism	Heligmosomoides polygyrus	
+CHEMBL612663	Organism	Periplaneta americana	
+CHEMBL612664	Organism	Galleria mellonella	
+CHEMBL612665	Organism	Apis mellifera	
+CHEMBL612666	Organism	Torpedo	
+CHEMBL612667	Organism	Xenopus sp.	
+CHEMBL612669	Organism	Coturnix coturnix	
+CHEMBL612670	Organism	Felis catus	
+CHEMBL612671	Organism	Gerbillinae	
+CHEMBL612672	Organism	Cowpox virus	
+CHEMBL612673	Organism	Bovine herpesvirus 1	
+CHEMBL612675	Organism	Junin virus	
+CHEMBL612677	Organism	Human coxsackievirus B1	
+CHEMBL612678	Organism	Human rhinovirus 2	
+CHEMBL612679	Organism	Respiratory syncytial virus	
+CHEMBL612680	Organism	Human parainfluenza virus 1	
+CHEMBL612681	Organism	Staphylococcus capitis	
+CHEMBL612683	Organism	Myzus persicae	
+CHEMBL612685	Organism	Cooperia	
+CHEMBL612686	Organism	Bacteroides ovatus	
+CHEMBL612687	Organism	Prevotella oralis	
+CHEMBL612688	Organism	Anolis carolinensis	
+CHEMBL612690	Organism	Fusobacterium sp.	
+CHEMBL612692	Organism	Collinsella aerofaciens	
+CHEMBL612693	Organism	Arthroderma cajetani	
+CHEMBL612694	Organism	Chlamydophila pneumoniae	
+CHEMBL612696	Organism	Oculimacula yallundae	
+CHEMBL612697	Organism	Streptococcus equi subsp. zooepidemicus	
+CHEMBL612698	Organism	Eurotium repens	
+CHEMBL612710	Organism	Arabidopsis thaliana	
+CHEMBL612713	Organism	Arachis hypogaea	
+CHEMBL612714	Organism	Erythrina corallodendron	
+CHEMBL612715	Organism	Pisum sativum	
+CHEMBL612716	Organism	Capsicum	
+CHEMBL612717	Organism	Dengue virus 3	
+CHEMBL612718	Organism	Desmodesmus subspicatus	
+CHEMBL612719	Organism	Diabrotica undecimpunctata howardi	
+CHEMBL612720	Organism	Didymella rabiei	
+CHEMBL612721	Organism	Digitaria sanguinalis	
+CHEMBL612722	Organism	Dipodascus capitatus	
+CHEMBL612723	Organism	Drechslera	
+CHEMBL612724	Organism	Drosophila	
+CHEMBL612725	Organism	Eastern equine encephalitis virus	
+CHEMBL612726	Organism	Echinochloa frumentacea	
+CHEMBL612727	Organism	Echinococcus equinus	
+CHEMBL612728	Organism	Ectromelia virus Moscow	
+CHEMBL612729	Organism	Ehrlichia canis	
+CHEMBL612730	Organism	Eimeria mitis	
+CHEMBL612731	Organism	Eimeria tenella str. Houghton	
+CHEMBL612732	Organism	Enterobacter cloacae subsp. dissolvens	
+CHEMBL612733	Organism	Ephydatia fluviatilis	
+CHEMBL612734	Organism	Epilachna varivestis	
+CHEMBL612735	Organism	Eremothecium coryli	
+CHEMBL612736	Organism	Erwinia amylovora	
+CHEMBL612737	Organism	Eschscholzia californica	
+CHEMBL612738	Organism	Euphorbia esula	
+CHEMBL612739	Organism	Eurotium rubrum	
+CHEMBL612740	Organism	Exophiala dermatitidis	
+CHEMBL612741	Organism	Fabaceae	
+CHEMBL612742	Organism	Fallopia convolvulus	
+CHEMBL612743	Organism	Felid herpesvirus 1	
+CHEMBL612744	Organism	Feline coronavirus	
+CHEMBL612745	Organism	Feline leukemia virus	
+CHEMBL612746	Organism	Flavobacterium	
+CHEMBL612747	Organism	Flavobacterium johnsoniae	
+CHEMBL612748	Organism	Francisella tularensis subsp. tularensis SCHU S4	
+CHEMBL612749	Organism	Fusarium	
+CHEMBL612750	Organism	Fusarium acuminatum	
+CHEMBL612751	Organism	Fusarium avenaceum	
+CHEMBL612752	Organism	Fusarium culmorum	
+CHEMBL612753	Organism	Fusarium equiseti	
+CHEMBL612754	Organism	Fusarium incarnatum	
+CHEMBL612755	Organism	Fusarium oxysporum f. sp. lycopersici	
+CHEMBL612756	Organism	Fusarium sp.	
+CHEMBL612757	Organism	Fusarium subglutinans	
+CHEMBL612758	Organism	Fusarium tricinctum	
+CHEMBL612759	Organism	Gambusia affinis	
+CHEMBL612760	Organism	Getah virus	
+CHEMBL612761	Organism	Gibberella fujikuroi	
+CHEMBL612762	Organism	Gloeophyllum trabeum	
+CHEMBL612763	Organism	Glomerella graminicola	
+CHEMBL612764	Organism	Gryllus bimaculatus	
+CHEMBL612765	Organism	H2N2 subtype	
+CHEMBL612766	Organism	Haemophilus ducreyi 35000HP	
+CHEMBL612767	Organism	Halocynthia roretzi	
+CHEMBL612768	Organism	Hanseniaspora guilliermondii	
+CHEMBL612769	Organism	HBV genotype D	
+CHEMBL612770	Organism	Helicoverpa punctigera	
+CHEMBL612771	Organism	Helicoverpa zea	
+CHEMBL612772	Organism	Helminthosporium	
+CHEMBL612773	Organism	Heterobasidion annosum	
+CHEMBL612774	Organism	Heteropogon contortus	
+CHEMBL612775	Organism	HIV-1 M:B_Lai	
+CHEMBL612776	Organism	Human adenovirus 37	
+CHEMBL612777	Organism	Human coxsackievirus A24	
+CHEMBL612778	Organism	Human coxsackievirus B6	
+CHEMBL612779	Organism	Human echovirus 6	
+CHEMBL612780	Organism	Human herpesvirus 8	
+CHEMBL612781	Organism	Hypocrea koningii	
+CHEMBL612782	Organism	Hypocrea lixii	
+CHEMBL612783	Organism	Influenza C virus	
+CHEMBL612784	Organism	Ipomoea hederacea	
+CHEMBL612785	Organism	Iva	
+CHEMBL612786	Organism	Kluyveromyces lactis	
+CHEMBL612787	Organism	La Crosse virus	
+CHEMBL612788	Organism	Lasiodiplodia theobromae	
+CHEMBL612789	Organism	Leeuwenhoekiella marinoflava	
+CHEMBL612790	Organism	Leishmania chagasi	
+CHEMBL612792	Organism	Leishmania enriettii	
+CHEMBL612793	Organism	Leishmania guyanensis	
+CHEMBL612823	Organism	Acholeplasma laidlawii	
+CHEMBL612824	Organism	Spinacia oleracea	
+CHEMBL612826	Organism	Armoracia rusticana	
+CHEMBL612827	Organism	Brassica oleracea var. capitata	
+CHEMBL612830	Organism	Glycine max	
+CHEMBL612832	Organism	Catharanthus roseus	
+CHEMBL612833	Organism	Solanum	
+CHEMBL612834	Organism	Avena fatua	
+CHEMBL612835	Organism	Setaria viridis	
+CHEMBL612836	Organism	Triticum aestivum	
+CHEMBL612837	Organism	Saprolegnia	
+CHEMBL612838	Organism	Phytophthora capsici	
+CHEMBL612839	Organism	Rhizomucor miehei	
+CHEMBL612840	Organism	Rhizopus microsporus var. chinensis	
+CHEMBL612841	Organism	Issatchenkia orientalis	
+CHEMBL612842	Organism	Kluyveromyces marxianus	
+CHEMBL612843	Organism	Pichia guilliermondii	
+CHEMBL612844	Organism	Yarrowia lipolytica	
+CHEMBL612845	Organism	Aspergillus oryzae	
+CHEMBL612846	Organism	Aspergillus wentii	
+CHEMBL612847	Organism	Penicillium chrysogenum	
+CHEMBL612848	Organism	Leishmania infantum	
+CHEMBL612849	Organism	Trypanosoma brucei	
+CHEMBL612851	Organism	Trypanosoma brucei brucei	
+CHEMBL612852	Organism	Tritrichomonas foetus	
+CHEMBL612853	Organism	Entamoeba histolytica	
+CHEMBL612854	Organism	Eimeria tenella	
+CHEMBL612855	Organism	Cryptosporidium parvum	
+CHEMBL612856	Organism	Plasmodium falciparum (isolate K1 / Thailand)	
+CHEMBL612858	Organism	Tetrahymena thermophila	
+CHEMBL612859	Organism	Encephalitozoon cuniculi	
+CHEMBL612860	Organism	Fasciola hepatica	
+CHEMBL612861	Organism	Dermatophagoides pteronyssinus	
+CHEMBL612862	Organism	Myrothecium verrucaria	
+CHEMBL612863	Organism	Ophiostoma ulmi	
+CHEMBL612864	Organism	Ustilago maydis	
+CHEMBL612865	Organism	Cryptococcus laurentii	
+CHEMBL612866	Organism	Colletotrichum musae	
+CHEMBL612867	Organism	Candida	
+CHEMBL612868	Organism	Candida parapsilosis	
+CHEMBL612869	Organism	Candida rugosa	
+CHEMBL612870	Organism	Candida tropicalis	
+CHEMBL612871	Organism	Rhodotorula mucilaginosa	
+CHEMBL612872	Organism	Trichoderma	
+CHEMBL612873	Organism	Trichoderma viride	
+CHEMBL612874	Organism	Trichosporon beigelii	
+CHEMBL612875	Organism	Aureobasidium pullulans	
+CHEMBL612876	Organism	Pseudallescheria boydii	
+CHEMBL612877	Organism	Leishmania amazonensis	
+CHEMBL612878	Organism	Leishmania braziliensis	
+CHEMBL612879	Organism	Leishmania major	
+CHEMBL612880	Organism	Leishmania mexicana	
+CHEMBL612881	Organism	Leishmania tropica	
+CHEMBL612882	Organism	Leishmania panamensis	
+CHEMBL612883	Organism	Trypanosoma	
+CHEMBL612884	Organism	Trichomonas vaginalis	
+CHEMBL612885	Organism	Eimeria	
+CHEMBL612886	Organism	Eimeria acervulina	
+CHEMBL612887	Organism	Eimeria maxima	
+CHEMBL612888	Organism	Toxoplasma gondii	
+CHEMBL612889	Organism	Plasmodium yoelii	
+CHEMBL612890	Organism	Theileria parva	
+CHEMBL612891	Organism	Tetrahymena pyriformis	
+CHEMBL612893	Organism	Schistosoma mansoni	
+CHEMBL612894	Organism	Taenia crassiceps	
+CHEMBL612895	Organism	Locusta migratoria	
+CHEMBL612896	Organism	Bombyx mori	
+CHEMBL612897	Organism	Spodoptera littoralis	
+CHEMBL612898	Organism	Manduca sexta	
+CHEMBL612899	Organism	Drosophila melanogaster	
+CHEMBL612900	Organism	Calliphoridae	
+CHEMBL612901	Organism	Phormia regina	
+CHEMBL612902	Organism	Ctenocephalides felis	
+CHEMBL612903	Organism	Hemicentrotus pulcherrimus	
+CHEMBL612905	Organism	Cyprinus carpio	
+CHEMBL612906	Organism	Rana pipiens	
+CHEMBL612907	Organism	Serpentes	
+CHEMBL612913	Organism	Leishmania mexicana venezuelensis	
+CHEMBL612914	Organism	Leishmania pifanoi	
+CHEMBL612915	Organism	Leishmania tarentolae	
+CHEMBL612916	Organism	Lemna paucicostata	
+CHEMBL612917	Organism	Leptomonas seymouri	
+CHEMBL612918	Organism	Leptothorax	
+CHEMBL612919	Organism	Leuconostoc	
+CHEMBL612920	Organism	Lindra thalassiae	
+CHEMBL612921	Organism	Lucilia sericata	
+CHEMBL612922	Organism	Lymantria dispar	
+CHEMBL612923	Organism	Lymnaea natalensis	
+CHEMBL612924	Organism	Madracis mirabilis	
+CHEMBL612925	Organism	Magnaporthe oryzae	
+CHEMBL612926	Organism	Malassezia furfur	
+CHEMBL612927	Organism	Mammalian orthoreovirus 1	
+CHEMBL612928	Organism	Mammalian orthoreovirus 3	
+CHEMBL612929	Organism	Marinobacterium stanieri	
+CHEMBL612930	Organism	marmosets	
+CHEMBL612931	Organism	Measles virus genotype A	
+CHEMBL612932	Organism	Measles virus genotype D6	
+CHEMBL612933	Organism	Measles virus genotype D7	
+CHEMBL612934	Organism	Medicago sativa	
+CHEMBL612935	Organism	Metapneumovirus	
+CHEMBL612936	Organism	Microbacterium maritypicum	
+CHEMBL612937	Organism	Micrococcus	
+CHEMBL612938	Organism	Micrococcus flavus	
+CHEMBL612939	Organism	Maize chlorotic mottle virus	
+CHEMBL612940	Organism	Malassezia	
+CHEMBL612941	Organism	Micrococcus sp.	
+CHEMBL612942	Organism	Microcystis aeruginosa	
+CHEMBL612943	Organism	Microcystis aeruginosa NIES-88	
+CHEMBL612944	Organism	Microsporum distortum	
+CHEMBL612945	Organism	Microsporum gypseum	
+CHEMBL612946	Organism	Modoc virus	
+CHEMBL612947	Organism	Monilinia fructigena	
+CHEMBL612948	Organism	Mucor circinelloides	
+CHEMBL612949	Organism	Mucor hiemalis	
+CHEMBL612950	Organism	Mucor racemosus	
+CHEMBL612951	Organism	Mycobacterium abscessus	
+CHEMBL612952	Organism	Mycobacterium aurum	
+CHEMBL612953	Organism	Mycobacterium avium complex	
+CHEMBL612954	Organism	Mycobacterium avium-intracellulare	
+CHEMBL612955	Organism	Mycobacterium conspicuum	
+CHEMBL612956	Organism	Mycobacterium diernhoferi	
+CHEMBL612957	Organism	Mycobacterium hiberniae	
+CHEMBL612958	Organism	Mycobacterium interjectum	
+CHEMBL612959	Organism	Mycobacterium mageritense	
+CHEMBL612960	Organism	Mycobacterium microti	
+CHEMBL612961	Organism	Mycobacterium novocastrense	
+CHEMBL612962	Organism	Mycobacterium shimoidei	
+CHEMBL612963	Organism	Mycobacterium sp.	
+CHEMBL612964	Organism	Mycobacterium szulgai	
+CHEMBL612965	Organism	Mycobacterium ulcerans	
+CHEMBL612966	Organism	Mycoplasma mycoides subsp. mycoides SC	
+CHEMBL612967	Organism	Mycosphaerella	
+CHEMBL612968	Organism	Mycosphaerella graminicola	
+CHEMBL612969	Organism	Mycotypha microspora	
+CHEMBL612970	Organism	Nadsonia fulvescens	
+CHEMBL612971	Organism	Neisseria	
+CHEMBL612972	Organism	Neospora caninum	
+CHEMBL612973	Organism	Neurospora crassa	
+CHEMBL612974	Organism	Nilaparvata lugens	
+CHEMBL612975	Organism	Nippostrongylus	
+CHEMBL612976	Organism	Nocardia brasiliensis	
+CHEMBL612977	Organism	Nocardia nova	
+CHEMBL612978	Organism	Nocardia pseudobrasiliensis	
+CHEMBL612979	Organism	Nocardia sp.	
+CHEMBL612980	Organism	Ochlerotatus atropalpus	
+CHEMBL612981	Organism	Ophiostoma minus	
+CHEMBL612982	Organism	Oreochromis mossambicus	
+CHEMBL612983	Organism	Orf virus	
+CHEMBL612984	Organism	Oryzias latipes	
+CHEMBL612985	Organism	Ostrinia nubilalis	
+CHEMBL612986	Organism	Paecilomyces	
+CHEMBL612987	Organism	Panagrellus redivivus	
+CHEMBL612988	Organism	Papio anubis	
+CHEMBL612989	Organism	Pectinophora gossypiella	
+CHEMBL612990	Organism	Pectobacterium carotovorum	
+CHEMBL612991	Organism	Penicillium crustosum	
+CHEMBL612992	Organism	Penicillium expansum	
+CHEMBL612993	Organism	Penicillium inflatum	
+CHEMBL612994	Organism	Penicillium marneffei	
+CHEMBL612995	Organism	Penicillium ochrochloron	
+CHEMBL612996	Organism	Penicillium verrucosum	
+CHEMBL612997	Organism	Phaedon cochleariae	
+CHEMBL612998	Organism	Phaseolus vulgaris	
+CHEMBL612999	Organism	Phoma tracheiphila	
+CHEMBL613000	Organism	Photobacterium phosphoreum	
+CHEMBL613001	Organism	Physalospora pyricola	
+CHEMBL613002	Organism	Phytophthora cinnamomi	
+CHEMBL613003	Organism	Pichia angusta	
+CHEMBL613004	Organism	Pichia anomala	
+CHEMBL613005	Organism	Pichia dryadoides	
+CHEMBL613006	Organism	Pichia kluyveri	
+CHEMBL613007	Organism	Pichia nakazawae	
+CHEMBL613008	Organism	Picornaviridae	
+CHEMBL613009	Organism	Pimephales promelas	
+CHEMBL613010	Organism	Pinus radiata	
+CHEMBL613011	Organism	Plasmodium knowlesi	
+CHEMBL613012	Organism	Plasmodium vinckei petteri	
+CHEMBL613013	Organism	Plasmodium vivax	
+CHEMBL613014	Organism	Pluteus	
+CHEMBL613015	Organism	Poecilia reticulata	
+CHEMBL613016	Organism	Porcine endogenous retrovirus	
+CHEMBL613017	Organism	Potato virus X	
+CHEMBL613018	Organism	Prorocentrum micans	
+CHEMBL613019	Organism	Proteus sp.	
+CHEMBL613020	Organism	Pseudoalteromonas	
+CHEMBL613021	Organism	Pseudoalteromonas haloplanktis	
+CHEMBL613022	Organism	Pseudomonas cichorii	
+CHEMBL613023	Organism	Pseudomonas reptilovora	
+CHEMBL613024	Organism	Pseudomonas savastanoi	
+CHEMBL613025	Organism	Pseudomonas syringae	
+CHEMBL613026	Organism	Pseudomonas tolaasii	
+CHEMBL613027	Organism	Pycnoporus sanguineus	
+CHEMBL613028	Organism	Pyricularia	
+CHEMBL613029	Organism	Pythium middletonii	
+CHEMBL613030	Organism	Pythium rostratum	
+CHEMBL613031	Organism	Rana temporaria	
+CHEMBL613032	Organism	Rheum x hybridum	
+CHEMBL613033	Organism	Rhizoctonia bataticola	
+CHEMBL613034	Organism	Rhizomucor	
+CHEMBL613035	Organism	Rhizopus microsporus var. rhizopodiformis	
+CHEMBL613036	Organism	Rhodococcus fascians	
+CHEMBL613037	Organism	Rhodococcus sp.	
+CHEMBL613038	Organism	Rhodotorula	
+CHEMBL613039	Organism	Rhynchosporium secalis	
+CHEMBL613040	Organism	Saccharomyces	
+CHEMBL613041	Organism	Saccharomycopsis	
+CHEMBL613042	Organism	Saimiri	
+CHEMBL613043	Organism	Salinivibrio costicola	
+CHEMBL613044	Organism	Salmonella enterica subsp. enterica	
+CHEMBL613045	Organism	Schistocerca nitens	
+CHEMBL613046	Organism	Sclerotinia	
+CHEMBL613047	Organism	Selenastrum capricornutum	
+CHEMBL613048	Organism	Senna obtusifolia	
+CHEMBL613049	Organism	Setaria faberi	
+CHEMBL613050	Organism	Setaria italica	
+CHEMBL613051	Organism	Simian virus 40	
+CHEMBL613052	Organism	Skeletonema costatum	
+CHEMBL613053	Organism	Solanum tuberosum	
+CHEMBL613054	Organism	Sordaria fimicola	
+CHEMBL613055	Organism	Sorghum bicolor	
+CHEMBL613056	Organism	Spiroplasma apis	
+CHEMBL613057	Organism	Spiroplasma citri	
+CHEMBL613058	Organism	Spodoptera exempta	
+CHEMBL613059	Organism	Nicotiana tabacum	
+CHEMBL613060	Organism	Helianthus annuus	
+CHEMBL613061	Organism	Oryza sativa	
+CHEMBL613062	Organism	Zea mays	
+CHEMBL613063	Organism	Fungi	
+CHEMBL613064	Organism	Pneumocystis carinii	
+CHEMBL613065	Organism	Phytophthora infestans	
+CHEMBL613066	Organism	Pichia pastoris	
+CHEMBL613067	Organism	Dekkera bruxellensis	
+CHEMBL613068	Organism	Penicillium	
+CHEMBL613069	Organism	Lactococcus lactis	
+CHEMBL613070	Organism	Bacillus cereus	
+CHEMBL613071	Organism	Bacillus megaterium	
+CHEMBL613072	Organism	Clostridium sordellii	
+CHEMBL613073	Organism	Clostridium tetani	
+CHEMBL613074	Organism	Clostridium tertium	
+CHEMBL613075	Organism	Lactobacillus casei	
+CHEMBL613076	Organism	Lactobacillus fermentum	
+CHEMBL613077	Organism	Erysipelothrix rhusiopathiae	
+CHEMBL613078	Organism	Actinomyces viscosus	
+CHEMBL613079	Organism	Corynebacterium ammoniagenes	
+CHEMBL613080	Organism	Corynebacterium	
+CHEMBL613081	Organism	Corynebacterium sp.	
+CHEMBL613082	Organism	Porphyridium aerugineum	
+CHEMBL613083	Organism	Prototheca wickerhamii	
+CHEMBL613084	Organism	Eubacterium limosum	
+CHEMBL613086	Organism	Mycobacterium bovis	
+CHEMBL613087	Organism	Mycobacterium avium subsp. paratuberculosis	
+CHEMBL613088	Organism	Mycobacterium smegmatis	
+CHEMBL613089	Organism	Mycobacterium flavescens	
+CHEMBL613090	Organism	Mycobacterium malmoense	
+CHEMBL613091	Organism	Mycobacterium scrofulaceum	
+CHEMBL613092	Organism	Streptomyces coelicolor	
+CHEMBL613093	Organism	Streptomyces chartreusis	
+CHEMBL613108	Organism	Crotalus adamanteus	
+CHEMBL613109	Organism	Gallus gallus	
+CHEMBL613110	Organism	Meleagris gallopavo	
+CHEMBL613111	Organism	Callitrichidae	
+CHEMBL613112	Organism	Papio hamadryas	
+CHEMBL613113	Organism	Pan troglodytes	
+CHEMBL613114	Organism	Mustela putorius furo	
+CHEMBL613115	Organism	Equus caballus	
+CHEMBL613116	Organism	Ovis aries	
+CHEMBL613117	Organism	Marmota monax	
+CHEMBL613118	Organism	Meriones unguiculatus	
+CHEMBL613119	Organism	Mastomys natalensis	
+CHEMBL613120	Organism	Monkeypox virus	
+CHEMBL613121	Organism	Molluscum contagiosum virus	
+CHEMBL613122	Organism	Equid herpesvirus 1	
+CHEMBL613123	Organism	Human herpesvirus 5 strain AD169	
+CHEMBL613124	Organism	Human herpesvirus 4	
+CHEMBL613126	Organism	Human parainfluenza virus 3	
+CHEMBL613127	Organism	Human respiratory syncytial virus	
+CHEMBL613128	Organism	unidentified influenza virus	
+CHEMBL613129	Organism	Influenza B virus	
+CHEMBL613130	Organism	Rift Valley fever virus	
+CHEMBL613131	Organism	Tacaribe virus	
+CHEMBL613132	Organism	Human herpesvirus 3	
+CHEMBL613133	Organism	Suid herpesvirus 1	
+CHEMBL613134	Organism	Cytomegalovirus	
+CHEMBL613135	Organism	Caenorhabditis elegans	
+CHEMBL613136	Organism	Ascaris suum	
+CHEMBL613139	Organism	Acanthocheilonema viteae	
+CHEMBL613140	Organism	Brugia malayi	
+CHEMBL613141	Organism	Brugia pahangi	
+CHEMBL613142	Organism	Onchocerca volvulus	
+CHEMBL613143	Organism	Onchocerca gutturosa	
+CHEMBL613144	Organism	Haemonchus contortus	
+CHEMBL613145	Organism	Litomosoides carinii	
+CHEMBL613146	Organism	Spodoptera litura	
+CHEMBL613147	Organism	Sporobolomyces	
+CHEMBL613148	Organism	Sporotrichum	
+CHEMBL613149	Organism	Staphylococcus lentus	
+CHEMBL613150	Organism	Staphylococcus sciuri	
+CHEMBL613151	Organism	Streptococcus constellatus	
+CHEMBL613152	Organism	Streptococcus gordonii	
+CHEMBL613153	Organism	Streptococcus pasteurianus	
+CHEMBL613154	Organism	Streptomyces lividans	
+CHEMBL613155	Organism	Strongylocentrotus intermedius	
+CHEMBL613156	Organism	Strongylocentrotus purpuratus	
+CHEMBL613157	Organism	Syncephalastrum	
+CHEMBL613158	Organism	Thamnocephalus platyurus	
+CHEMBL613159	Organism	Toxoplasma gondii RH	
+CHEMBL613160	Organism	Tribolium castaneum	
+CHEMBL613161	Organism	Trichomonas	
+CHEMBL613162	Organism	Trichophyton mentagrophytes	
+CHEMBL613163	Organism	Trichosporon	
+CHEMBL613164	Organism	Trichosporon asahii	
+CHEMBL613165	Organism	unidentified herpesvirus	
+CHEMBL613166	Organism	Ustilago nuda	
+CHEMBL613167	Organism	Vaccinia virus Copenhagen	
+CHEMBL613168	Organism	Vaccinia virus WR	
+CHEMBL613169	Organism	Valsa mali	
+CHEMBL613170	Organism	Venturia inaequalis	
+CHEMBL613171	Organism	Verticillium albo-atrum	
+CHEMBL613172	Organism	Vesicular stomatitis Indiana virus	
+CHEMBL613173	Organism	Vibrio	
+CHEMBL613174	Organism	Vibrio harveyi	
+CHEMBL613175	Organism	Vibrio sp.	
+CHEMBL613176	Organism	Vibrio splendidus	
+CHEMBL613177	Organism	Vitis vinifera	
+CHEMBL613179	Organism	Woodchuck hepatitis virus	
+CHEMBL613180	Organism	Trichosporon loubieri	
+CHEMBL613181	Organism	Trichosporon mucoides	
+CHEMBL613182	Organism	Ulva	
+CHEMBL613183	Organism	Xanthium strumarium	
+CHEMBL613184	Organism	Xanthomonas euvesicatoria	
+CHEMBL613185	Organism	Yersinia pseudotuberculosis	
+CHEMBL613186	Organism	Streptococcus sp. group B	
+CHEMBL613187	Organism	Chlorella fusca	
+CHEMBL613188	Organism	Fusarium oxysporum f. sp. vasinfectum	
+CHEMBL613189	Organism	Gaeumannomyces graminis var. tritici	
+CHEMBL613190	Organism	Gibberella pulicaris	
+CHEMBL613191	Organism	Glomerella acutata	
+CHEMBL613192	Organism	Gossypium hirsutum	
+CHEMBL613194	Organism	Hafnia alvei	
+CHEMBL613195	Organism	Halomonas aquamarina	
+CHEMBL613196	Organism	Hanseniaspora uvarum	
+CHEMBL613197	Organism	Helicobacter pylori SS1	
+CHEMBL613198	Organism	Helix aspersa	
+CHEMBL613199	Organism	Helminthosporium maydis	
+CHEMBL613200	Organism	Herpes simplex virus (type 1 / strain F)	
+CHEMBL613201	Organism	Hoplobatrachus tigerinus	
+CHEMBL613202	Organism	Human coxsackievirus B2	
+CHEMBL613203	Organism	Human echovirus 13	
+CHEMBL613204	Organism	Human enterovirus 68	
+CHEMBL613205	Organism	Human papillomavirus type 16	
+CHEMBL613206	Organism	Ipomoea	
+CHEMBL613207	Organism	Klebsiella pneumoniae subsp. pneumoniae	
+CHEMBL613208	Organism	Lachnellula	
+CHEMBL613209	Organism	Lecanicillium muscarium	
+CHEMBL613210	Organism	Legionella	
+CHEMBL613211	Organism	Leishmania aristidesi	
+CHEMBL613212	Organism	Leishmania donovani donovani	
+CHEMBL613213	Organism	Leishmania garnhami	
+CHEMBL613214	Organism	Leishmania mexicana mexicana	
+CHEMBL613215	Organism	Leishmania peruviana	
+CHEMBL613216	Organism	Lemna minor	
+CHEMBL613217	Organism	Leptinotarsa decemlineata	
+CHEMBL613218	Organism	Leptospira interrogans serovar Portlandvere	
+CHEMBL613219	Organism	Lipomyces lipofer	
+CHEMBL613220	Organism	Lymnaea	
+CHEMBL613221	Organism	Macrophomina phaseolina	
+CHEMBL613222	Organism	Magnaporthe grisea 70-15	
+CHEMBL613223	Organism	Mycobacterium terrae	
+CHEMBL613224	Organism	Mycobacterium vaccae	
+CHEMBL613225	Organism	Mycoplasma putrefaciens	
+CHEMBL613226	Organism	Mycosphaerella arachidis	
+CHEMBL613227	Organism	Mytilus edulis	
+CHEMBL613228	Organism	Nasturtium officinale	
+CHEMBL613229	Organism	Neoscytalidium dimidiatum	
+CHEMBL613230	Organism	Nigrospora oryzae	
+CHEMBL613231	Organism	Nocardia asteroides	
+CHEMBL613232	Organism	Nocardia farcinica	
+CHEMBL613233	Organism	Nocardia otitidiscaviarum	
+CHEMBL613234	Organism	Nocardia transvalensis	
+CHEMBL613235	Organism	Oncopeltus fasciatus	
+CHEMBL613236	Organism	Oreochromis niloticus	
+CHEMBL613237	Organism	Oscillatoria amphibia	
+CHEMBL613238	Organism	Paenibacillus alvei	
+CHEMBL613239	Organism	Pantoea agglomerans	
+CHEMBL613240	Organism	Paracentrotus lividus	
+CHEMBL613241	Organism	Pectobacterium atrosepticum	
+CHEMBL613242	Organism	Penicillium brevicompactum	
+CHEMBL613243	Organism	Penicillium griseofulvum	
+CHEMBL613244	Organism	Penicillium islandicum	
+CHEMBL613245	Organism	Penicillium sp.	
+CHEMBL613246	Organism	Perknaster fuscus	
+CHEMBL613247	Organism	Phalaris canariensis	
+CHEMBL613248	Organism	Phellinus tremulae	
+CHEMBL613249	Organism	Photobacterium leiognathi	
+CHEMBL613250	Organism	Phytophthora cactorum	
+CHEMBL613251	Organism	Phytophthora citrophthora	
+CHEMBL613252	Organism	Pichia caribbica	
+CHEMBL613253	Organism	Pichia fermentans	
+CHEMBL613254	Organism	Pichia norvegensis	
+CHEMBL613255	Organism	Pinus halepensis	
+CHEMBL613256	Organism	Plasmodium chabaudi	
+CHEMBL613257	Organism	Plasmodium malariae	
+CHEMBL613258	Organism	Pleurotus ostreatus	
+CHEMBL613259	Organism	Pneumonia virus of mice 15	
+CHEMBL613260	Organism	Postia placenta	
+CHEMBL613261	Organism	Prevotella intermedia	
+CHEMBL613262	Organism	Prospect Hill virus	
+CHEMBL613263	Organism	Pseudoalteromonas espejiana	
+CHEMBL613264	Organism	Pseudomonas aeruginosa PAO1	
+CHEMBL613265	Organism	Pseudomonas coronafaciens	
+CHEMBL613266	Organism	Pseudomonas savastanoi pv. savastanoi	
+CHEMBL613267	Organism	Psoroptes cuniculi	
+CHEMBL613268	Organism	Pyrenophora graminea	
+CHEMBL613269	Organism	Pythium aphanidermatum	
+CHEMBL613270	Organism	Pythium vexans	
+CHEMBL613271	Organism	Raoultella planticola	
+CHEMBL613272	Organism	Rhizoctonia solani	
+CHEMBL613273	Organism	Rhizopus microsporus var. microsporus	
+CHEMBL613274	Organism	Rhodococcus corynebacterioides	
+CHEMBL613275	Organism	Rhodotorula glutinis	
+CHEMBL613276	Organism	Ruminococcus sp.	
+CHEMBL613277	Organism	Saccharomyces carlsbergensis	
+CHEMBL613279	Organism	Sandfly fever Naples virus	
+CHEMBL613280	Organism	Sclerotinia sclerotiorum	
+CHEMBL613281	Organism	Sendai virus	
+CHEMBL613282	Organism	Serratia sp.	
+CHEMBL613283	Organism	Sida spinosa	
+CHEMBL613284	Organism	Stachybotrys chartarum	
+CHEMBL613293	Organism	Radish	
+CHEMBL613303	Organism	Staphylococcus lugdunensis	
+CHEMBL613304	Organism	Streptococcus equinus	
+CHEMBL613305	Organism	Streptococcus oralis	
+CHEMBL613306	Organism	Streptomyces galilaeus	
+CHEMBL613307	Organism	Streptomyces viridochromogenes	
+CHEMBL613308	Organism	Strongylocentrotus nudus	
+CHEMBL613309	Organism	Sydowia polyspora	
+CHEMBL613310	Organism	Torula	
+CHEMBL613311	Organism	Transmissible gastroenteritis virus	
+CHEMBL613312	Organism	Trichoderma hamatum	
+CHEMBL613313	Organism	Trichophyton tonsurans var. sulfureum	
+CHEMBL613314	Organism	Trichosporon inkin	
+CHEMBL613315	Organism	Bacillus subtilis subsp. subtilis str. 168	
+CHEMBL613316	Organism	Simplexvirus	
+CHEMBL613317	Organism	Solanum lycopersicum	
+CHEMBL613318	Organism	Sorghum	
+CHEMBL613319	Organism	Sphaerechinus granularis	
+CHEMBL613320	Organism	Spiroplasma floricola	
+CHEMBL613321	Organism	Spodoptera exigua	
+CHEMBL613322	Organism	Sporidiobolus salmonicolor	
+CHEMBL613323	Organism	Benjaminiella poitrasii	
+CHEMBL613324	Organism	Biomphalaria glabrata	
+CHEMBL613325	Organism	Bipolaris leersiae	
+CHEMBL613326	Organism	Bipolaris sorokiniana	
+CHEMBL613327	Organism	Botrytis fabae	
+CHEMBL613328	Organism	Bovine respiratory syncytial virus	
+CHEMBL613329	Organism	Brassica rapa subsp. campestris	
+CHEMBL613330	Organism	Brochothrix thermosphacta	
+CHEMBL613331	Organism	Bursaphelenchus xylophilus	
+CHEMBL613332	Organism	Camelpox virus	
+CHEMBL613333	Organism	Candida africana	
+CHEMBL613334	Organism	Candida dubliniensis	
+CHEMBL613335	Organism	Candida inconspicua	
+CHEMBL613336	Organism	Candida metapsilosis	
+CHEMBL613337	Organism	Candida palmioleophila	
+CHEMBL613338	Organism	Candida stellata	
+CHEMBL613339	Organism	Capnocytophaga ochracea	
+CHEMBL613340	Organism	Ceratobasidium cereale	
+CHEMBL613341	Organism	Chlorella salina	
+CHEMBL613342	Organism	Chlorella vulgaris	
+CHEMBL613343	Organism	Chryseobacterium indologenes	
+CHEMBL613344	Organism	Cladosporium cladosporioides	
+CHEMBL613345	Organism	Cladosporium sphaerospermum	
+CHEMBL613346	Organism	Clavibacter michiganensis subsp. michiganensis	
+CHEMBL613347	Organism	Colletotrichum coccodes	
+CHEMBL613348	Organism	Colletotrichum gloeosporioides	
+CHEMBL613349	Organism	Coniophora puteana	
+CHEMBL613350	Organism	Cornus florida	
+CHEMBL613351	Organism	Corynebacterium jeikeium	
+CHEMBL613352	Organism	Corynebacterium pseudodiphtheriticum	
+CHEMBL613353	Organism	Cryptosporidium hominis	
+CHEMBL613354	Organism	Culex pipiens molestus	
+CHEMBL613355	Organism	Cupressus arizonica	
+CHEMBL613356	Organism	Cupressus sempervirens	
+CHEMBL613357	Organism	Curvularia	
+CHEMBL613358	Organism	Cylindrocladium canadense	
+CHEMBL613359	Organism	Davidiella tassiana	
+CHEMBL613360	Organism	Dengue virus 1	
+CHEMBL613365	Organism	African green monkey	
+CHEMBL613453	Organism	Meloidogyne incognita	
+CHEMBL613454	Organism	Trichostrongylus colubriformis	
+CHEMBL613455	Organism	Trichinella spiralis	
+CHEMBL613459	Organism	Artemia	
+CHEMBL613460	Organism	Majidae	
+CHEMBL613461	Organism	Limulus	
+CHEMBL613463	Organism	Schistocerca gregaria	
+CHEMBL613464	Organism	Tenebrio molitor	
+CHEMBL613465	Organism	Spodoptera frugiperda	
+CHEMBL613466	Organism	Trichoplusia ni	
+CHEMBL613467	Organism	Culicidae	
+CHEMBL613468	Organism	Aedes aegypti	
+CHEMBL613469	Organism	Musca domestica	
+CHEMBL613470	Organism	Lucilia cuprina	
+CHEMBL613471	Organism	Siphonaptera	
+CHEMBL613473	Organism	Echinoidea	
+CHEMBL613475	Organism	Anguilliformes	
+CHEMBL613476	Organism	Carassius auratus	
+CHEMBL613477	Organism	Anura	
+CHEMBL613478	Organism	Xenopus laevis	
+CHEMBL613482	Organism	Bothrops jararacussu	
+CHEMBL613483	Organism	Aves	
+CHEMBL613484	Organism	Columba livia	
+CHEMBL613485	Organism	Suncus murinus	
+CHEMBL613488	Organism	Sus scrofa	
+CHEMBL613489	Organism	Bos taurus	
+CHEMBL613490	Organism	Mus sp.	
+CHEMBL613491	Organism	Rattus	
+CHEMBL613493	Organism	Vaccinia virus	
+CHEMBL613494	Organism	Variola virus	
+CHEMBL613495	Organism	Murine cytomegalovirus	
+CHEMBL613496	Organism	Human herpesvirus 6	
+CHEMBL613497	Organism	Hepatitis B virus	
+CHEMBL613498	Organism	Human immunodeficiency virus type 1 (RF/HAT ISOLATE)	
+CHEMBL613499	Organism	Simian immunodeficiency virus	
+CHEMBL613500	Organism	Moloney murine leukemia virus	
+CHEMBL613501	Organism	Moloney murine sarcoma virus	
+CHEMBL613550	Organism	Avian myeloblastosis virus	
+CHEMBL613551	Organism	Human T-lymphotropic virus 1	
+CHEMBL613552	Organism	Human echovirus 9	
+CHEMBL613553	Organism	Human coxsackievirus A21	
+CHEMBL613554	Organism	Human coxsackievirus B3	
+CHEMBL613555	Organism	Human coxsackievirus B5	
+CHEMBL613556	Organism	Human poliovirus 1	
+CHEMBL613557	Organism	Human poliovirus 3	
+CHEMBL613558	Organism	Encephalomyocarditis virus	
+CHEMBL613713	Organism	Human rhinovirus 1B	
+CHEMBL613714	Organism	African swine fever virus	
+CHEMBL613715	Organism	Human adenovirus type 2	
+CHEMBL613716	Organism	unidentified adenovirus	
+CHEMBL613717	Organism	Human papillomavirus type 11	
+CHEMBL613718	Organism	Enterobacteria phage T4	
+CHEMBL613720	Organism	Mammalian orthoreovirus 3	
+CHEMBL613721	Organism	Reovirus sp.	
+CHEMBL613722	Organism	Rotavirus	
+CHEMBL613723	Organism	Simian rotavirus	
+CHEMBL613724	Organism	Semliki forest virus	
+CHEMBL613725	Organism	Sindbis virus	
+CHEMBL613726	Organism	Venezuelan equine encephalitis virus	
+CHEMBL613727	Organism	Flavivirus	
+CHEMBL613728	Organism	Dengue virus type 4	
+CHEMBL613729	Organism	Japanese encephalitis virus	
+CHEMBL613730	Organism	West Nile virus	
+CHEMBL613731	Organism	Yellow fever virus	
+CHEMBL613732	Organism	Coronavirus	
+CHEMBL613733	Organism	Murine hepatitis virus	
+CHEMBL613734	Organism	Murine hepatitis virus (strain A59)	
+CHEMBL613735	Organism	Mumps virus	
+CHEMBL613736	Organism	Newcastle disease virus	
+CHEMBL613737	Organism	Human parainfluenza virus 2	
+CHEMBL613738	Organism	Measles virus	
+CHEMBL613739	Organism	Vesicular stomatitis virus	
+CHEMBL613740	Organism	Influenza A virus	
+CHEMBL613741	Organism	Punta Toro virus	
+CHEMBL613742	Organism	Pichinde virus	
+CHEMBL613743	Organism	Retroviridae	
+CHEMBL613744	Organism	Feline immunodeficiency virus	
+CHEMBL613745	Organism	Visna virus	
+CHEMBL613746	Organism	Murine leukemia virus	
+CHEMBL613748	Organism	Rauscher murine leukemia virus	
+CHEMBL613749	Organism	Enterovirus	
+CHEMBL613750	Organism	Coxsackievirus	
+CHEMBL613751	Organism	Human echovirus 11	
+CHEMBL613752	Organism	Human poliovirus 2	
+CHEMBL613753	Organism	Hepatitis A virus	
+CHEMBL613754	Organism	Mengo virus	
+CHEMBL613756	Organism	Human rhinovirus 89	
+CHEMBL613757	Organism	Dengue virus	
+CHEMBL613758	Organism	Human immunodeficiency virus	
+CHEMBL613759	Organism	Human rhinovirus 14	
+CHEMBL613760	Organism	Human rhinovirus 1A	
+CHEMBL613761	Organism	Duck hepatitis B virus	
+CHEMBL613762	Organism	Salmonella enterica	
+CHEMBL613763	Organism	Actinomyces sp.	
+CHEMBL613764	Organism	Staphylococcus saprophyticus	
+CHEMBL613765	Organism	Salmonella enterica subsp. enterica serovar Abony	
+CHEMBL613766	Organism	Tolypocladium	
+CHEMBL613767	Organism	Mucor mucedo	
+CHEMBL613768	Organism	Trypanosoma brucei gambiense	
+CHEMBL613769	Organism	Human rhinovirus 16	
+CHEMBL613770	Organism	Enterococcus sp.	
+CHEMBL613772	Organism	Phaeosphaeria nodorum	
+CHEMBL613773	Organism	Rubus	
+CHEMBL613774	Organism	Saccharomyces pastorianus	
+CHEMBL613775	Organism	Galactomyces geotrichum	
+CHEMBL613776	Organism	Puccinia recondita	
+CHEMBL613777	Organism	Cooperia oncophora	
+CHEMBL613778	Organism	Acinetobacter lwoffii	
+CHEMBL613779	Organism	Absidia	
+CHEMBL613780	Organism	Abutilon theophrasti	
+CHEMBL613781	Organism	Acalymma vittatum	
+CHEMBL613782	Organism	Acinetobacter haemolyticus	
+CHEMBL613783	Organism	Acodontaster conspicuus	
+CHEMBL613784	Organism	Adoxophyes	
+CHEMBL613785	Organism	Aedes albopictus	
+CHEMBL613786	Organism	Aeromonas punctata	
+CHEMBL613787	Organism	Aeromonas salmonicida	
+CHEMBL613788	Organism	Agrobacterium rhizogenes	
+CHEMBL613789	Organism	Agrostis alba	
+CHEMBL613790	Organism	Allium cepa	
+CHEMBL613791	Organism	Alopecurus myosuroides	
+CHEMBL613792	Organism	Alphaproteobacteria	
+CHEMBL613793	Organism	Alternaria	
+CHEMBL613794	Organism	Alternaria alternata	
+CHEMBL613795	Organism	Alternaria citri	
+CHEMBL613796	Organism	Alternaria mali	
+CHEMBL613797	Organism	Alternaria tenuis	
+CHEMBL613798	Organism	Alteromonas	
+CHEMBL613799	Organism	Amaranthus hypochondriacus	
+CHEMBL613800	Organism	Amaranthus retroflexus	
+CHEMBL613801	Organism	Ambrosia artemisiifolia	
+CHEMBL613802	Organism	Amylomyces rouxii	
+CHEMBL613803	Organism	Anopheles minimus	
+CHEMBL613804	Organism	Anopheles stephensi	
+CHEMBL613805	Organism	Antarctic bacterium	
+CHEMBL613806	Organism	Aphis craccivora	
+CHEMBL613807	Organism	Aphis gossypii	
+CHEMBL613808	Organism	Apophysomyces elegans	
+CHEMBL613809	Organism	Arabidopsis	
+CHEMBL613810	Organism	Artemia franciscana	
+CHEMBL613811	Organism	Arthrobacter citreus	
+CHEMBL613812	Organism	Ascobolus	
+CHEMBL613813	Organism	Ascobolus stercorarius	
+CHEMBL613814	Organism	Aspergillus parasiticus	
+CHEMBL613816	Organism	Bacillus coagulans	
+CHEMBL613817	Organism	Enterococcus gallinarum	
+CHEMBL613818	Organism	Tobacco mosaic virus	
+CHEMBL613819	Organism	Cotton rat	
+CHEMBL613821	Organism	Squirrel monkey	
+CHEMBL613822	Organism	Nippostrongylus brasiliensis	
+CHEMBL613823	Organism	Fusarium moniliforme	
+CHEMBL613837	Organism	Human coronavirus 229E	
+CHEMBL613844	Organism	Rat cytomegalovirus	
+CHEMBL613845	Organism	Influenza A virus (H5N1)	
+CHEMBL613846	Organism	Riparian frogs	
+CHEMBL613847	Organism	Cynomolgus monkey	
+CHEMBL613848	Organism	Gerbil, jird	
+CHEMBL613849	Organism	Clavibacter michiganensis	
+CHEMBL613856	Organism	Plectosphaerella cucumerina	
+CHEMBL613861	Organism	Xanthomonas oryzae	
+CHEMBL613862	Organism	Chromobacterium violaceum	
+CHEMBL613863	Organism	Bacillus sphaericus	
+CHEMBL613864	Organism	Gibberella zeae	
+CHEMBL613865	Organism	Cebus apella	
+CHEMBL613874	Organism	Lactuca sativa	
+CHEMBL613875	Organism	Hamster	
+CHEMBL613877	Organism	Rotifers	
+CHEMBL613882	Organism	Bipolaris maydis	
+CHEMBL613883	Organism	Plasmodium cynomolgi	
+CHEMBL613884	Organism	Baboon	
+CHEMBL613885	Organism	Trichophyton violaceum	
+CHEMBL613886	Organism	Simian-human immunodeficiency virus	
+CHEMBL613887	Organism	Physalospora piricola	
+CHEMBL613899	Organism	Asterotremella humicola	
+CHEMBL613900	Organism	Athelia rolfsii	
+CHEMBL613901	Organism	Avena sativa	
+CHEMBL613902	Organism	Babesia divergens	
+CHEMBL613903	Organism	Babesia gibsoni	
+CHEMBL613904	Organism	Bacillus anthracis	
+CHEMBL613905	Organism	Bacillus circulans	
+CHEMBL613906	Organism	Bacillus clausii	
+CHEMBL613907	Organism	Bacillus subtilis subsp. spizizenii	
+CHEMBL613908	Organism	Bacteroides sp.	
+CHEMBL613909	Organism	Balanus improvisus	
+CHEMBL613910	Organism	Bemisia tabaci	
+CHEMBL613911	Organism	Bifidobacterium longum	
+CHEMBL613912	Organism	Biomphalaria alexandrina	
+CHEMBL613913	Organism	Biomphalaria pfeifferi	
+CHEMBL613915	Organism	BK polyomavirus	
+CHEMBL613916	Organism	Blattella germanica	
+CHEMBL613917	Organism	Brachiomonas submarina	
+CHEMBL613918	Organism	Brassica juncea	
+CHEMBL613919	Organism	Brassica napus	
+CHEMBL613920	Organism	Brevundimonas diminuta	
+CHEMBL613921	Organism	Brucella suis 1330	
+CHEMBL613922	Organism	Bulinus africanus	
+CHEMBL613923	Organism	Calliphora vicina	
+CHEMBL613924	Organism	Callithrix jacchus	
+CHEMBL613925	Organism	Campylobacter fetus	
+CHEMBL613926	Organism	Candida deformans	
+CHEMBL613927	Organism	Candida famata	
+CHEMBL613928	Organism	Candida haemulonii	
+CHEMBL613929	Organism	Candida magnoliae	
+CHEMBL613930	Organism	Candida maltosa	
+CHEMBL613931	Organism	Candida orthopsilosis	
+CHEMBL613932	Organism	Candida sake	
+CHEMBL613933	Organism	Candida shehatae	
+CHEMBL613934	Organism	Canine distemper virus	
+CHEMBL613935	Organism	Carassius carassius	
+CHEMBL613936	Organism	Carpophilus	
+CHEMBL613937	Organism	Chaetomium	
+CHEMBL613938	Organism	Chenopodium album	
+CHEMBL613939	Organism	Chlorella sorokiniana	
+CHEMBL613940	Organism	Chlorophyta	
+CHEMBL613941	Organism	Cicer arietinum	
+CHEMBL613942	Organism	Ciona savignyi	
+CHEMBL613943	Organism	Cladosporium	
+CHEMBL613944	Organism	Cladosporium cucumerinum	
+CHEMBL613945	Organism	Clavibacter michiganensis subsp. insidiosus	
+CHEMBL613946	Organism	Claviceps	
+CHEMBL613947	Organism	Cobetia marina	
+CHEMBL613948	Organism	Cochliobolus lunatus	
+CHEMBL613949	Organism	Colletotrichum fragariae	
+CHEMBL613950	Organism	Colletotrichum lagenarium	
+CHEMBL613951	Organism	Convolvulaceae	
+CHEMBL613952	Organism	Coptotermes formosanus	
+CHEMBL613953	Organism	Corynebacterium bovis	
+CHEMBL613954	Organism	Corynebacterium minutissimum	
+CHEMBL613955	Organism	Corynebacterium urealyticum	
+CHEMBL613956	Organism	Cucumis sativus	
+CHEMBL613957	Organism	Culex pipiens	
+CHEMBL613958	Organism	Culex quinquefasciatus	
+CHEMBL613959	Organism	Cunninghamella	
+CHEMBL613960	Organism	Cupressus macrocarpa	
+CHEMBL613961	Organism	Curtobacterium flaccumfaciens	
+CHEMBL613962	Organism	Cylas formicarius	
+CHEMBL613963	Organism	Danio rerio	
+CHEMBL613964	Organism	Datura stramonium	
+CHEMBL613965	Organism	Debaryomyces hansenii	
+CHEMBL613966	Organism	Dengue virus 2	
+CHEMBL614394	Organism	Serratia liquefaciens	
+CHEMBL614395	Organism	Shigella boydii	
+CHEMBL614396	Organism	Shigella flexneri	
+CHEMBL614397	Organism	Shigella sp.	
+CHEMBL614398	Organism	Yersinia enterocolitica	
+CHEMBL614399	Organism	Aeromonas	
+CHEMBL614400	Organism	Aeromonas sobria	
+CHEMBL614402	Organism	Vibrio cholerae	
+CHEMBL614403	Organism	Vibrio parahaemolyticus	
+CHEMBL614404	Organism	Vibrio vulnificus	
+CHEMBL614405	Organism	Plesiomonas shigelloides	
+CHEMBL614406	Organism	Actinobacillus actinomycetemcomitans	
+CHEMBL614407	Organism	Haemophilus	
+CHEMBL614408	Organism	Haemophilus parainfluenzae	
+CHEMBL614409	Organism	Pasteurella multocida	
+CHEMBL614410	Organism	Chlamydia	
+CHEMBL614411	Organism	Bacteroides fragilis	
+CHEMBL614412	Organism	Bacteroides thetaiotaomicron	
+CHEMBL614413	Organism	Bacteroides distasonis	
+CHEMBL614414	Organism	Porphyromonas gingivalis	
+CHEMBL614415	Organism	Fusobacterium mortiferum	
+CHEMBL614416	Organism	Fusobacterium varium	
+CHEMBL614417	Organism	Fusobacterium necrophorum	
+CHEMBL614418	Organism	Peptostreptococcus	
+CHEMBL614419	Organism	Peptoniphilus asaccharolyticus	
+CHEMBL614420	Organism	Peptostreptococcus anaerobius	
+CHEMBL614421	Organism	Micrococcus luteus	
+CHEMBL614422	Organism	Staphylococcus intermedius	
+CHEMBL614423	Organism	Staphylococcus hominis	
+CHEMBL614424	Organism	Acinetobacter	
+CHEMBL614425	Organism	Acinetobacter baumannii	
+CHEMBL614426	Organism	Acinetobacter calcoaceticus	
+CHEMBL614427	Organism	Acinetobacter sp.	
+CHEMBL614428	Organism	Moraxella bovis	
+CHEMBL614429	Organism	Moraxella catarrhalis	
+CHEMBL614430	Organism	Neisseria gonorrhoeae	
+CHEMBL614431	Organism	Neisseria meningitidis	
+CHEMBL614432	Organism	Alcaligenes	
+CHEMBL614433	Organism	Alcaligenes faecalis	
+CHEMBL614434	Organism	Bordetella pertussis	
+CHEMBL614436	Organism	Enterobacteriaceae	
+CHEMBL614437	Organism	Citrobacter	
+CHEMBL614438	Organism	Citrobacter koseri	
+CHEMBL614439	Organism	Enterobacter	
+CHEMBL614440	Organism	Erwinia chrysanthemi	
+CHEMBL614441	Organism	Klebsiella oxytoca	
+CHEMBL614442	Organism	Morganella	
+CHEMBL614443	Organism	Morganella morganii	
+CHEMBL614444	Organism	Proteus mirabilis	
+CHEMBL614445	Organism	Providencia stuartii	
+CHEMBL614446	Organism	Salmonella	
+CHEMBL614447	Organism	Salmonella enteritidis	
+CHEMBL614448	Organism	Salmonella typhi	
+CHEMBL614450	Organism	Proteus vulgaris	
+CHEMBL614592	Organism	Serratia	
+CHEMBL614593	Organism	Serratia marcescens	
+CHEMBL614594	Organism	Shigella	
+CHEMBL614595	Organism	Shigella sonnei	
+CHEMBL614597	Organism	Yersinia pestis	
+CHEMBL614598	Organism	Edwardsiella tarda	
+CHEMBL614599	Organism	Vibrio alginolyticus	
+CHEMBL614600	Organism	Vibrio fischeri	
+CHEMBL614602	Organism	Vibrio fluvialis	
+CHEMBL614603	Organism	Actinobacillus pleuropneumoniae	
+CHEMBL614604	Organism	Haemophilus ducreyi	
+CHEMBL614605	Organism	Pasteurella sp.	
+CHEMBL614606	Organism	Chlamydia trachomatis	
+CHEMBL614607	Organism	Prevotella loescheii	
+CHEMBL614608	Organism	Fusobacterium	
+CHEMBL614609	Organism	Fusobacterium nucleatum	
+CHEMBL614614	Organism	Anabaena flos-aquae	
+CHEMBL614615	Organism	Finegoldia magna	
+CHEMBL614616	Organism	Peptostreptococcus sp.	
+CHEMBL614617	Organism	Sarcina	
+CHEMBL614618	Organism	Staphylococcus carnosus	
+CHEMBL614619	Organism	Staphylococcus hyicus	
+CHEMBL614620	Organism	Streptococcus salivarius	
+CHEMBL614621	Organism	Streptococcus sp.	
+CHEMBL614622	Organism	Streptococcus agalactiae	
+CHEMBL614623	Organism	Enterococcus hirae	
+CHEMBL614624	Organism	Brevibacillus brevis	
+CHEMBL614625	Organism	Ajellomyces capsulatus	
+CHEMBL614626	Organism	Aspergillus	
+CHEMBL614677	Organism	Plutella xylostella	
+CHEMBL614679	Organism	Streptomyces thermonitrificans	
+CHEMBL614682	Organism	Guinea pig cytomegalovirus	
+CHEMBL614744	Organism	Acanthamoeba castellanii	
+CHEMBL614745	Organism	Acanthamoeba hatchetti	
+CHEMBL614746	Organism	Acanthamoeba polyphaga	
+CHEMBL614747	Organism	Anaerococcus tetradius	
+CHEMBL614748	Organism	Anaerococcus vaginalis	
+CHEMBL614749	Organism	Bacteroides caccae	
+CHEMBL614750	Organism	Bacteroides stercoris	
+CHEMBL614751	Organism	Balamuthia mandrillaris	
+CHEMBL614752	Organism	Bifidobacterium thermophilum	
+CHEMBL614753	Organism	Biomphalaria peregrina	
+CHEMBL614754	Organism	Candida intermedia	
+CHEMBL614755	Organism	Candida nivariensis	
+CHEMBL614756	Organism	Cantagalo virus	
+CHEMBL614757	Organism	Carnobacterium divergens	
+CHEMBL614758	Organism	Chlamydophila psittaci 6BC	
+CHEMBL614759	Organism	Clostridium aminovalericum	
+CHEMBL614760	Organism	Clostridium clostridioforme	
+CHEMBL614761	Organism	Clostridium innocuum	
+CHEMBL614874	Organism	Monkey	
+CHEMBL614875	Organism	Rhesus monkey	
+CHEMBL614951	Organism	Rous sarcoma virus	
+CHEMBL614952	Organism	Streptococcus mitis	
+CHEMBL614954	Organism	Aspergillus ochraceus	
+CHEMBL614955	Organism	Aspergillus flavus	
+CHEMBL614956	Organism	Bacillus sp.	
+CHEMBL614957	Organism	Geobacillus stearothermophilus	
+CHEMBL614959	Organism	Bacillus thuringiensis	
+CHEMBL614960	Organism	Bacillus lentus	
+CHEMBL614961	Organism	Clostridium acetobutylicum	
+CHEMBL614962	Organism	Clostridium bifermentans	
+CHEMBL614963	Organism	Clostridium botulinum	
+CHEMBL614964	Organism	Clostridium butyricum	
+CHEMBL614965	Organism	Clostridium difficile	
+CHEMBL614966	Organism	Clostridium histolyticum	
+CHEMBL614967	Organism	Clostridium perfringens	
+CHEMBL614968	Organism	Clostridium septicum	
+CHEMBL614969	Organism	Clostridium sporogenes	
+CHEMBL614970	Organism	Clostridium cadaveris	
+CHEMBL614971	Organism	Clostridium ramosum	
+CHEMBL614973	Organism	Lactobacillus plantarum	
+CHEMBL614974	Organism	Listeria monocytogenes	
+CHEMBL614975	Organism	Actinomyces naeslundii	
+CHEMBL614976	Organism	Actinomyces israelii	
+CHEMBL614979	Organism	Corynebacterium glutamicum	
+CHEMBL614980	Organism	Propionibacterium	
+CHEMBL614981	Organism	Mycobacterium	
+CHEMBL614982	Organism	Mycobacterium avium	
+CHEMBL614983	Organism	Mycobacterium fortuitum	
+CHEMBL614984	Organism	Mycobacterium kansasii	
+CHEMBL614985	Organism	Mycobacterium phlei	
+CHEMBL614986	Organism	Mycobacterium gordonae	
+CHEMBL614987	Organism	Mycobacterium marinum	
+CHEMBL614988	Organism	Mycobacterium simiae	
+CHEMBL614989	Organism	Streptomyces	
+CHEMBL614990	Organism	Streptomyces griseus	
+CHEMBL614991	Organism	Streptomyces sp.	
+CHEMBL614994	Organism	Gardnerella vaginalis	
+CHEMBL614995	Organism	Chlorella pyrenoidosa	
+CHEMBL614996	Organism	Amaranthus	
+CHEMBL615026	Organism	Clostridium malenominatum	
+CHEMBL615027	Organism	Clostridium paraputrificum	
+CHEMBL615028	Organism	Clostridium sphenoides	
+CHEMBL615029	Organism	Corynebacterium accolens	
+CHEMBL615030	Organism	Corynebacterium amycolatum	
+CHEMBL615031	Organism	Corynebacterium aurimucosum	
+CHEMBL615032	Organism	Corynebacterium simulans	
+CHEMBL615033	Organism	Corynebacterium striatum	
+CHEMBL615034	Organism	Corynespora cassiicola	
+CHEMBL615035	Organism	Cryptococcus bacillisporus	
+CHEMBL615036	Organism	Cryptosporidium	
+CHEMBL615037	Organism	Dialister invisus	
+CHEMBL615038	Organism	Dialister micraerophilus	
+CHEMBL615039	Organism	Dialister pneumosintes	
+CHEMBL615040	Organism	Dialister propionicifaciens	
+CHEMBL615041	Organism	Echinococcus multilocularis	
+CHEMBL615042	Organism	Enterobacter gergoviae	
+CHEMBL615043	Organism	Enterobacter hormaechei	
+CHEMBL615044	Organism	Enterocytozoon bieneusi	
+CHEMBL615045	Organism	Geotrichum	
+CHEMBL615046	Organism	Giardia	
+CHEMBL615047	Organism	Human metapneumovirus	
+CHEMBL615048	Organism	Human rhinovirus strain Hanks	
+CHEMBL615049	Organism	Ipomoea purpurea	
+CHEMBL615050	Organism	Lactobacillus johnsonii	
+CHEMBL615051	Organism	Lassa virus	
+CHEMBL615052	Organism	Mycobacterium bovis BCG	
+CHEMBL615053	Organism	Mycoplasma hominis	
+CHEMBL615054	Organism	Myxococcus xanthus DK 1622	
+CHEMBL615055	Organism	Nipah virus	
+CHEMBL615056	Organism	Oncomelania hupensis	
+CHEMBL615057	Organism	Parabacteroides merdae	
+CHEMBL615058	Organism	Porphyromonas asaccharolytica	
+CHEMBL615059	Organism	Porphyromonas levii	
+CHEMBL615060	Organism	Porphyromonas somerae	
+CHEMBL615061	Organism	Prevotella corporis	
+CHEMBL615062	Organism	Prevotella denticola	
+CHEMBL615063	Organism	Prevotella nigrescens	
+CHEMBL615064	Organism	Sporothrix	
+CHEMBL615065	Organism	Sporothrix albicans	
+CHEMBL615066	Organism	Sporothrix globosa	
+CHEMBL615067	Organism	Streptococcus dysgalactiae subsp. equisimilis	
+CHEMBL615068	Organism	Streptomyces albulus	
+CHEMBL615069	Organism	Ureaplasma	
+CHEMBL615070	Organism	Williopsis saturnus	
+CHEMBL615071	Organism	Zygosaccharomyces	
+CHEMBL615072	Organism	Acanthamoeba lenticulata	
+CHEMBL615073	Organism	Acanthamoeba lugdunensis	
+CHEMBL615074	Organism	Aspergillus versicolor	
+CHEMBL615075	Organism	Bacillus mycoides	
+CHEMBL615076	Organism	Botryosphaeria berengeriana	
+CHEMBL615077	Organism	Citrobacter amalonaticus	
+CHEMBL615078	Organism	Cochliobolus australiensis	
+CHEMBL615079	Organism	Cylindrotheca closterium	
+CHEMBL615080	Organism	Delftia acidovorans	
+CHEMBL615081	Organism	Erwinia	
+CHEMBL615082	Organism	Exanthemachrysis gayraliae	
+CHEMBL615083	Organism	Exophiala spinifera	
+CHEMBL615084	Organism	Fowl plague virus	
+CHEMBL615085	Organism	Fusarium proliferatum	
+CHEMBL615086	Organism	Human coxsackievirus A9	
+CHEMBL615087	Organism	Human papillomavirus - 16	
+CHEMBL615088	Organism	Lactobacillus sp.	
+CHEMBL615089	Organism	Macaca arctoides	
+CHEMBL615090	Organism	Passalora fulva	
+CHEMBL615091	Organism	Penicillium roqueforti	
+CHEMBL615092	Organism	Pleurochrysis roscoffensis	
+CHEMBL615093	Organism	Polaribacter irgensii	
+CHEMBL615094	Organism	Pseudoalteromonas elyakovii	
+CHEMBL615095	Organism	Sargassum muticum	
+CHEMBL615096	Organism	Scedosporium apiospermum	
+CHEMBL615097	Organism	Staphylococcus cohnii	
+CHEMBL615098	Organism	Syncephalastrum racemosum	
+CHEMBL615099	Organism	Trichophyton erinacei	
+CHEMBL615100	Organism	Ulva intestinalis	
+CHEMBL615101	Organism	Vibrio aestuarianus	
+CHEMBL615102	Organism	Xanthomonas axonopodis	

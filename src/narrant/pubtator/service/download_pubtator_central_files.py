@@ -5,8 +5,8 @@ from typing import Set
 
 import requests
 
-from narrant.progress import Progress
-from narrant.pubtator.document import TaggedDocument
+from kgextractiontoolbox.progress import Progress
+from kgextractiontoolbox.document.document import TaggedDocument
 from narrant.util.helpers import chunks
 
 DOWNLOAD_BATCH_SIZE = 950

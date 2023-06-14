@@ -25,6 +25,8 @@ FIDX24	DosageForm	poultices
 FIDX25	DosageForm	intrauterine device
 FIDX26	DosageForm	microneedle	micro needle;micro-needle
 FIDX27	DosageForm	nanoneedle	nano needle;nano-needle
+FIDX28	DosageForm	nanobubble	nano bubble; nano-bubble
+FIDX29	DosageForm	microbubble	micro bubble; micro-bubble
 MESH:D000075162	DosageForm	Abuse-Deterrent Formulations	abuse-proof dosage form;abuse-proof dosage forms;Tamper-resistant dosage form;Tamper-resistant dosage forms;Tamper resistant dosage form;Tamper resistant dosage forms;Tamper-proof dosage form;Tamper-proof dosage forms;Tamper proof dosage form;Tamper proof dosage forms
 MESH:D000335	DosageForm	Aerosol Propellants	Propellant gas
 MESH:D000336	DosageForm	Aerosols

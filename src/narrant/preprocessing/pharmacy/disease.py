@@ -1,10 +1,10 @@
 from narrant import config
 from narrant.preprocessing import enttypes
-from narrant.preprocessing.tagging.dictagger import DictTagger
+from narrant.preprocessing.tagging.indexed_dictagger import IndexedDictTagger
 from narrant.vocabularies.disease_vocabulary import DiseaseVocabulary
 
 
-class DiseaseTagger(DictTagger):
+class DiseaseTagger(IndexedDictTagger):
     TYPES = (enttypes.DISEASE,)
     __name__ = "DiseaseTagger"
     __version__ = "1.0.0"

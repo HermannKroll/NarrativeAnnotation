@@ -4,8 +4,8 @@ from datetime import datetime
 
 from narrant.config import MESH_DESCRIPTORS_FILE, MESH_ONTOLOGY_INDEX_FILE
 from narrant.mesh.data import MeSHDB
-from narrant.preprocessing.enttypes import DOSAGE_FORM, METHOD, DISEASE, VACCINE
-from narrant.progress import print_progress_with_eta
+from narrant.preprocessing.enttypes import DOSAGE_FORM, METHOD, DISEASE, VACCINE, HEALTH_STATUS, TISSUE
+from kgextractiontoolbox.progress import print_progress_with_eta
 
 MESH_TREE_NAMES = dict(
     A="Anatomy",
@@ -38,7 +38,9 @@ MESH_TREE_TO_ENTITY_TYPE = [
     ("E", DOSAGE_FORM),
     ("C", DISEASE),
     ("F03", DISEASE),
-    ("F02", DISEASE)
+    ("F02", DISEASE),
+    ("M01", HEALTH_STATUS),
+    ("A10", TISSUE)
 ]
 
 
@@ -239,6 +241,26 @@ class MeSHOntology:
             for res in self.find_descriptors_start_with_tree_no(t_n):
                 sub_descriptors.add(res)
         return sub_descriptors
+
+    def retrieve_superdescriptors(self, decriptor_id: str) -> [(str)]:
+        """
+        retrieves a list of all super-descriptors for a given descriptor
+        :param decriptor_id: a mesh descriptor id
+        :return: a list of super-descriptor (id, heading)
+        """
+        tree_nos = self.get_tree_numbers_for_descriptor(descriptor_id=decriptor_id)
+        super_descriptors = set()
+        for tn in tree_nos:
+            # Numbers are organized as follows:
+            # C18.452.394.750
+            # C19.246
+            # So we need to split by each '.'
+            # Iterate over tn as long as '.' between it (results in 'C18.452.394', 'C18.452', 'C18')
+            while '.' in tn:
+                tn = tn.rpartition('.')[0]
+                super_descriptors.add(self.treeno2desc[tn])
+
+        return super_descriptors
 
     @staticmethod
     def get_name_for_tree(tree_start_character):

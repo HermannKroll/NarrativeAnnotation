@@ -4,7 +4,7 @@ from typing import List, Set
 
 from narrant.config import MESH_DESCRIPTORS_FILE
 from narrant.mesh.data import MeSHDB
-from narrant.preprocessing.tagging.vocabulary import expand_vocabulary_term
+from kgextractiontoolbox.entitylinking.tagging.vocabulary import expand_vocabulary_term
 
 
 class MeSHVocabulary:

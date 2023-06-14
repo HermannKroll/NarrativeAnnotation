@@ -1,10 +1,10 @@
 from narrant import config
 from narrant.preprocessing import enttypes
-from narrant.preprocessing.tagging.dictagger import DictTagger
+from narrant.preprocessing.tagging.indexed_dictagger import IndexedDictTagger
 from narrant.vocabularies.excipient_vocabulary import ExcipientVocabulary
 
 
-class ExcipientTagger(DictTagger):
+class ExcipientTagger(IndexedDictTagger):
     TYPES = (enttypes.EXCIPIENT,)
     __name__ = "ExcipientTagger"
     __version__ = "2.1.0"

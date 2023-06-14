@@ -2,11 +2,11 @@ import argparse
 import json
 import logging
 
-from narrant.backend.export import export
+from kgextractiontoolbox.document.export import export
 from narrant.entity.entityresolver import EntityResolver
 from narrant.preprocessing import enttypes
 from narrant.preprocessing.enttypes import get_entity_source
-from narrant.pubtator.document import TaggedDocument
+from kgextractiontoolbox.document.document import TaggedDocument
 
 
 def write_doc_with_entity_source(doc: TaggedDocument, export_format: str, f, first_doc: bool, export_content=True,

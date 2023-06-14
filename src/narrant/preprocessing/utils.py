@@ -1,5 +1,5 @@
-from narrant.pubtator.document import TaggedDocument
-from narrant.pubtator.regex import DOCUMENT_ID
+from kgextractiontoolbox.document.document import TaggedDocument
+from kgextractiontoolbox.document.regex import DOCUMENT_ID
 
 
 class DocumentError(Exception):

@@ -1,10 +1,10 @@
 from narrant import config
 from narrant.preprocessing import enttypes
-from narrant.preprocessing.tagging.dictagger import DictTagger
+from narrant.preprocessing.tagging.indexed_dictagger import IndexedDictTagger
 from narrant.vocabularies.chemical_vocabulary import ChemicalVocabulary
 
 
-class ChemicalTagger(DictTagger):
+class ChemicalTagger(IndexedDictTagger):
     TYPES = (enttypes.CHEMICAL,)
     __name__ = "ChemicalTagger"
     __version__ = "2.1.0"

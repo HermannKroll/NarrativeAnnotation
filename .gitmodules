@@ -1,0 +1,3 @@
+[submodule "lib/KGExtractionToolbox"]
+	path = lib/KGExtractionToolbox
+	url = git@github.com:HermannKroll/KGExtractionToolbox

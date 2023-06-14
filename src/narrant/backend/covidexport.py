@@ -9,13 +9,12 @@ from pathlib import Path
 
 from sqlalchemy import func
 
-from narrant.backend.database import Session
-from narrant.backend.export import create_tag_query, TAG_BUFFER_SIZE
-from narrant.backend.models import DocumentTranslation, Tag
+from kgextractiontoolbox.backend.database import Session
+from kgextractiontoolbox.backend.models import DocumentTranslation, Tag
 from narrant.preprocessing import enttypes
 from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING
-from narrant.progress import print_progress_with_eta
-from narrant.pubtator.regex import ILLEGAL_CHAR
+from kgextractiontoolbox.progress import print_progress_with_eta
+from kgextractiontoolbox.document.regex import ILLEGAL_CHAR
 from narrant.pubtator.translation.cord19.cord19ft2pubtator import NEXT_DOCUMENT_ID_OFFSET, PARAGRAPH_TITLE_DUMMY
 from narrant.pubtator.translation.cord19.filereader import FileReader
 from narrant.pubtator.translation.cord19.metareader import MetaReader
@@ -51,7 +50,6 @@ class CovExport:
         self._docid_index = self._build_docid_index()
         logger.debug(f"{len(self._docid_index)} rows for collection {collection if collection else 'any'} and "
                      f"{len(document_ids) if document_ids else 'any'}ids")
-        self.tag_buffer = TAG_BUFFER_SIZE
 
     def _build_docid_index(self):
         return {row.document_id: n for n, row in enumerate(self.translation_query)}
@@ -150,7 +148,12 @@ class CovExport:
         :return: (tag_json, translation_json)
         """
         session = Session.get()
-        tag_query = create_tag_query(session, self.collection, self.document_ids, tag_types, self.tag_buffer)
+        tag_query = session.query(Tag).yield_per(10000000)
+        tag_query = tag_query.filter_by(document_collection=self.collection)
+        tag_query = tag_query.filter(Tag.document_id.in_(self.document_ids))
+        tag_query = tag_query.filter(Tag.ent_type.in_(self.tag_types))
+        tag_query = tag_query.order_by(Tag.document_collection, Tag.document_id, Tag.start, Tag.id)
+
         tag_amount = session.query(func.count(Tag.document_id)).filter_by(document_collection=self.collection).scalar()
         logging.info(f"Retrieved {tag_amount} tags")
         tag_json = {}

@@ -16,22 +16,23 @@ Both tools require a Java installation. To use TaggerOne, see its readme file. S
 Configure the tagger locations for the project
 ```
 cd NarrativeAnnotation/config/
-cp preprocess.prod.json preprocess.json
+cp entity_linking.prod.json entity_linking.json
 nano preprocess.json
 ```
 Enter your GNormPlus and TaggerOne root paths
 ```
 {
   "taggerOne": {
-    "root": "/home/kroll/tools/tagger/TaggerOne-0.2.1",
+    "root": "../TaggerOne-0.2.1",
     "model": "models/model_BC5CDRJ_011.bin",
     "batchSize": 10000,
-    "timeout": 15,
+    "timeout": 10,
     "max_retries": 1
   },
   "gnormPlus": {
-    "root": "/home/kroll/tools/tagger/GNormPlusJava",
-    "javaArgs": "-Xmx16G -Xms10G"
+    "root": "../GNormPlusJava",
+    "javaArgs": "-Xmx16G -Xms10G",
+    "timeout": 10
   },
   "dict": {
     "max_words": 5,
@@ -39,11 +40,9 @@ Enter your GNormPlus and TaggerOne root paths
     "custom_abbreviations": "true",
     "min_full_tag_len": 5
   },
-  "drug": {
-    "check_products" : 0,
-    "max_per_product": 2,
-    "min_name_length": 3,
-    "ignore_excipient_terms": 1
+  "stanza": {
+    "document_batch_size": 1000,
+    "entity_type_blocked_list": ["ORDINAL", "QUANTITY", "PERCENT"]
   }
 }
 ```

@@ -7,20 +7,20 @@ from argparse import ArgumentParser
 from datetime import datetime
 from typing import Set, List
 
-from narrant.backend.database import Session
-from narrant.backend.load_document import document_bulk_load
-from narrant.backend.models import DocTaggedBy, Document
+from kgextractiontoolbox.backend.database import Session
+from kgextractiontoolbox.backend.models import DocTaggedBy, Document
+from kgextractiontoolbox.backend.retrieve import iterate_over_all_documents_in_collection
+from kgextractiontoolbox.document import count
+from kgextractiontoolbox.document.document import TaggedDocument, TaggedEntity
+from kgextractiontoolbox.document.extract import read_pubtator_documents
+from kgextractiontoolbox.document.load_document import document_bulk_load
+from kgextractiontoolbox.progress import Progress
 from narrant.config import PREPROCESS_CONFIG
 from narrant.preprocessing.config import Config
 from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, DALL
 from narrant.preprocessing.pharmacy.pharmdicttagger import PharmDictTagger
 from narrant.preprocessing.preprocess import init_preprocess_logger, init_sqlalchemy_logger, \
     get_untagged_doc_ids_by_tagger
-from narrant.progress import Progress
-from narrant.pubtator import count
-from narrant.pubtator.document import TaggedDocument, TaggedEntity
-from narrant.pubtator.extract import read_pubtator_documents
-from narrant.pubtator.sanitize import filter_and_sanitize
 from narrant.util.multiprocessing.ConsumerWorker import ConsumerWorker
 from narrant.util.multiprocessing.ProducerWorker import ProducerWorker
 from narrant.util.multiprocessing.Worker import Worker
@@ -28,7 +28,7 @@ from narrant.util.multiprocessing.Worker import Worker
 BULK_INSERT_AFTER_K = 1000
 
 
-def prepare_input(in_file: str, out_file: str, logger: logging.Logger, collection: str) -> Set[int]:
+def find_untagged_ids(in_file: str, logger: logging.Logger, collection: str) -> Set[int]:
     if not os.path.exists(in_file):
         logger.error("Input file not found!")
         return set()
@@ -37,7 +37,6 @@ def prepare_input(in_file: str, out_file: str, logger: logging.Logger, collectio
     logger.info(f"{len(in_ids)} given, checking against database...")
     todo_ids = set()
     todo_ids |= get_untagged_doc_ids_by_tagger(collection, in_ids, PharmDictTagger, logger)
-    filter_and_sanitize(in_file, out_file, todo_ids, logger)
     return todo_ids
 
 
@@ -89,6 +88,8 @@ def main(arguments=None):
     parser.add_argument("-y", "--yes_force", help="skip prompt for workdir deletion", action="store_true")
 
     parser.add_argument("-i", "--input", required=False, help="composite pubtator file", metavar="IN_DIR")
+    parser.add_argument("--sections", action="store_true", default=False,
+                        help="Should the section texts be considered when tagging?")
     args = parser.parse_args(arguments)
 
     conf = Config(args.config)
@@ -96,8 +97,7 @@ def main(arguments=None):
     # create directories
     root_dir = os.path.abspath(args.workdir) if args.workdir else tempfile.mkdtemp()
     log_dir = os.path.abspath(os.path.join(root_dir, "log"))
-    ext_in_file = args.input
-    in_file = os.path.abspath(os.path.join(root_dir, "in.pubtator"))
+    in_file = args.input
 
     if args.workdir and os.path.exists(root_dir):
         if not args.yes_force:
@@ -128,7 +128,7 @@ def main(arguments=None):
 
     if args.input:
         input_file_given = True
-        document_ids = prepare_input(ext_in_file, in_file, logger, args.collection)
+        document_ids = find_untagged_ids(in_file, logger, args.collection)  #
         number_of_docs = len(document_ids)
 
         if not args.skip_load:
@@ -146,7 +146,7 @@ def main(arguments=None):
         logger.info(f'Getting document ids from database for collection: {args.collection}...')
         document_ids_in_db = Document.get_document_ids_for_collection(session, args.collection)
         logger.info(f'{len(document_ids_in_db)} found')
-       
+
         input_file_given = False
         logger.info('No input file given')
         logger.info(f'Retrieving document count for collection: {args.collection}')
@@ -158,8 +158,6 @@ def main(arguments=None):
         document_ids = todo_ids
         number_of_docs = len(document_ids)
         session.remove()
-
-
 
     if number_of_docs == 0:
         logger.info('No documents to process - stopping')
@@ -174,29 +172,34 @@ def main(arguments=None):
     metatag.prepare()
     metatag.base_insert_tagger()
 
+    consider_sections = args.sections
+    logger.info(f'Consider sections: {consider_sections}')
+
     def generate_tasks():
         if input_file_given:
             for doc in read_pubtator_documents(in_file):
                 t_doc = TaggedDocument(doc, ignore_tags=True)
-                if t_doc and t_doc.has_content():
+                if t_doc and t_doc.id in document_ids and t_doc.has_content():
                     yield t_doc
         else:
             db_session = Session.get()
             logger.info('Retrieving documents from database...')
-            for doc in Document.iterate_over_documents_in_collection(db_session, args.collection):
-                if doc.id in document_ids:
-                    t_doc = TaggedDocument(id=doc.id, title=doc.title, abstract=doc.abstract)
-                    if t_doc.has_content():
-                        yield t_doc
+            for t_doc in iterate_over_all_documents_in_collection(db_session, args.collection,
+                                                                  consider_sections=consider_sections):
+                if t_doc.id in document_ids and t_doc.has_content():
+                    yield t_doc
             db_session.remove()
 
     def do_task(in_doc: TaggedDocument):
         try:
-            tagged_doc = metatag.tag_doc(in_doc)
+            tagged_doc = metatag.tag_doc(in_doc, consider_sections=consider_sections)
             tagged_doc.clean_tags()
             return tagged_doc.tags
-        except Exception:
-            logger.error('An error has occurred when tagging...')
+        except Exception as e:
+            if in_doc:
+                logger.error(f'Error when tagging {in_doc.id} ({str(e)})')
+            else:
+                logger.error('An error has occurred when tagging (document is None)')
             return []
 
     docs_done = multiprocessing.Value('i', 0)

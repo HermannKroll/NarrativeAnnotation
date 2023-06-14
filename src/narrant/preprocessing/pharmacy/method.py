@@ -1,10 +1,10 @@
 from narrant import config
 from narrant.preprocessing import enttypes
-from narrant.preprocessing.tagging.dictagger import DictTagger
+from narrant.preprocessing.tagging.indexed_dictagger import IndexedDictTagger
 from narrant.vocabularies.method_vocabulary import MethodVocabulary
 
 
-class MethodTagger(DictTagger):
+class MethodTagger(IndexedDictTagger):
     TYPES = (enttypes.METHOD,)
     __name__ = "MethodTagger"
     __version__ = "1.0.0"

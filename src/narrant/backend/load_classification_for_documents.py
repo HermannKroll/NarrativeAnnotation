@@ -4,7 +4,7 @@ import logging
 from typing import Set
 
 from narraint.backend.database import SessionExtended
-from narrant.backend.models import Document, DocumentClassification
+from kgextractiontoolbox.backend.models import Document, DocumentClassification
 
 
 def load_document_class(document_ids: Set[int], document_collection: str, document_class: str):

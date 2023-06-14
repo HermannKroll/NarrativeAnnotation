@@ -3,16 +3,16 @@ from typing import Dict
 
 from narrant.preprocessing import enttypes as et
 from narrant.preprocessing.pharmacy import chemical, drug, method, labmethod, excipient, plantfamilygenus, disease, \
-    dosage, vaccine
-from narrant.preprocessing.tagging import dictagger as dt
-from narrant.preprocessing.tagging.metadictagger import MetaDicTagger
+    dosage, vaccine, healthstatus, target, organism, tissue
+from narrant.preprocessing.tagging import indexed_dictagger as dt
+from kgextractiontoolbox.entitylinking.tagging.metadictagger import MetaDicTagger
 
 
 class PharmDictTagger:
     __name__ = "PharmDictTagger"
     __version__ = "1.0"
 
-    tagger_by_type: Dict[str, dt.DictTagger] = {
+    tagger_by_type: Dict[str, dt.IndexedDictTagger] = {
         et.DRUG: drug.DrugTagger,
         et.DOSAGE_FORM: dosage.DosageFormTagger,
         et.EXCIPIENT: excipient.ExcipientTagger,
@@ -21,7 +21,10 @@ class PharmDictTagger:
         et.DISEASE: disease.DiseaseTagger,
         et.METHOD: method.MethodTagger,
         et.LAB_METHOD: labmethod.LabMethodTagger,
-        et.VACCINE: vaccine.VaccineTagger
+        et.VACCINE: vaccine.VaccineTagger,
+        et.HEALTH_STATUS: healthstatus.HealthStatusTagger,
+        et.ORGANISM: organism.OrganismTagger,
+        et.TISSUE: tissue.TissueTagger
     }
 
     @staticmethod
