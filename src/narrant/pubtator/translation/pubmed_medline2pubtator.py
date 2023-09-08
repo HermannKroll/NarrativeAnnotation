@@ -1,3 +1,4 @@
+import gzip
 import logging
 import os
 from argparse import ArgumentParser
@@ -12,7 +13,7 @@ from kgextractiontoolbox.document.document import TaggedDocument
 
 def pubmed_medline_load_file(filename):
     """
-    Process the XML file *filename* and only process the documents whose PMID is contained in *dm_pmids*.
+    Process the XML (or GZIP) file *filename* and only process the documents whose PMID is contained in *dm_pmids*.
     One file contains multiple documents.
 
     .. note::
@@ -20,12 +21,15 @@ def pubmed_medline_load_file(filename):
        Some descriptors are artificial. Descriptors and Qualifiers are concatenated by an "_", e.g., D001 and Q001
        become D001_Q001.
 
-    :param filename: Filename of XML file
-    :param db_pmids: Set of PMIDs (int) to process
+    :param filename: Filename of XML or GZIP file
     :return: Dictionary PMID -> set(Descriptors)
     """
-    with open(filename) as f:
-        tree = etree.parse(f)
+    if filename.endswith('.xml'):
+        with open(filename) as f:
+            tree = etree.parse(f)
+    elif filename.endswith('.xml.gz'):
+        with gzip.open(filename) as f:
+            tree = etree.parse(f)
 
     pubmed_articles = []
     for article in tree.iterfind("PubmedArticle"):
