@@ -1,3 +1,4 @@
+import glob
 import gzip
 import logging
 import os
@@ -81,7 +82,9 @@ def pubmed_medline_load_files(directory, output):
     """
     desc_to_pmids = {}
 
-    files = [os.path.join(directory, fn) for fn in os.listdir(directory) if fn.endswith(".xml")]
+    if directory[-1] == '/':
+        directory = directory[:-1]
+    files = glob.glob(f'{directory}/**/*.xml.gz', recursive=True) + glob.glob(f'{directory}/**/*.xml', recursive=True)
 
     start = datetime.now()
     with open(output, 'wt') as f:
