@@ -51,9 +51,8 @@ def download_pubtator_files_from_pubtator_central(pmids: Set[int], output_file: 
                     except:
                         logging.warning(f'Skipping document: {doc_content}')
                         pass
-
-            elif result.status_code == 400:
-                logging.error(f'Error from PubTator Central: {result.text}')
+            else:
+                logging.info(f'Received status code {result.status_code} from PubTator Central ({result.text})')
                 break
 
             # Sleep a bit to prevent being blocked
