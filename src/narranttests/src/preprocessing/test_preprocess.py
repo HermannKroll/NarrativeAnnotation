@@ -4,6 +4,7 @@ import narranttests.util
 from kgextractiontoolbox.backend.database import Session
 from kgextractiontoolbox.backend.retrieve import iterate_over_all_documents_in_collection
 from kgextractiontoolbox.document.extract import read_tagged_documents
+from kgextractiontoolbox.document.document import TaggedDocument
 from kgextractiontoolbox.document.load_document import document_bulk_load
 from narrant.preprocessing import dictpreprocess
 from narrant.preprocessing.enttypes import PLANT_FAMILY_GENUS
@@ -12,6 +13,32 @@ from narranttests.src.preprocessing.tagging.test_pharmdicttagger import assert_t
 
 
 class TestPreprocess(unittest.TestCase):
+
+    def test_dictpreprocess_without_input_file(self):
+        util.clear_database()
+        workdir = narranttests.util.make_test_tempdir()
+        document_bulk_load(util.resource_rel_path('infiles/test_metadictagger/abbrev_tagged.txt'), collection="PREPTEST")
+        args = [
+            *f"-c PREPTEST --loglevel DEBUG --workdir {workdir} -w 1 -y".split()
+        ]
+        dictpreprocess.main(args)
+        tags = set(util.get_tags_from_database())
+        self.assertGreater(len(tags), 0)
+        util.clear_database()
+
+    def test_dictpreprocess_ignore_already_tagged_documents(self):
+        workdir = narranttests.util.make_test_tempdir()
+        with self.assertRaises(SystemExit):
+            util.clear_database()
+            args = [
+                *f"-i {util.resource_rel_path('infiles/json_infiles')} -c PREPTEST --loglevel DEBUG --workdir {workdir} -w 1 -y".split()
+            ]
+            dictpreprocess.main(args)
+            args = [
+                *f"-i {util.resource_rel_path('infiles/json_infiles')} -c PREPTEST --loglevel DEBUG --workdir {workdir} -w 1 -y".split()
+            ]
+            dictpreprocess.main(args)
+            util.clear_database()
 
     def test_dictpreprocess_json_input(self):
         workdir = narranttests.util.make_test_tempdir()
