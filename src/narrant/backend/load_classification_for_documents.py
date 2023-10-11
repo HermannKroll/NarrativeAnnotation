@@ -3,7 +3,7 @@ import csv
 import logging
 from typing import Set
 
-from narraint.backend.database import SessionExtended
+from kgextractiontoolbox.backend.database import Session
 from kgextractiontoolbox.backend.models import Document, DocumentClassification
 
 
@@ -17,7 +17,7 @@ def load_document_class(document_ids: Set[int], document_collection: str, docume
     :return: None
     """
     logging.info(f'Querying for document ids in collection: {document_collection}')
-    session = SessionExtended.get()
+    session = Session.get()
     known_doc_ids = Document.get_document_ids_for_collection(session, document_collection)
 
     relevant_ids_in_db = document_ids.intersection(known_doc_ids)

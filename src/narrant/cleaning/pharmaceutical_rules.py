@@ -8,10 +8,9 @@ from sqlalchemy import update, or_, delete
 from sqlalchemy.cimmutabledict import immutabledict
 
 from kgextractiontoolbox.backend.database import Session
+from kgextractiontoolbox.backend.models import Predication, PredicationToDelete, Sentence
 from kgextractiontoolbox.progress import print_progress_with_eta
-from narraint.backend.database import SessionExtended
-from narraint.backend.models import Predication, PredicationToDelete, Sentence
-from narraint.cleaning.pharmaceutical_vocabulary import DOSAGE_FORM_PREDICATE, METHOD_PREDICATE, \
+from narrant.cleaning.pharmaceutical_vocabulary import DOSAGE_FORM_PREDICATE, METHOD_PREDICATE, \
     ASSOCIATED_PREDICATE_UNSURE
 from narrant.cleaning.pharmaceutical_vocabulary import SYMMETRIC_PREDICATES, PREDICATE_TYPING, sort_symmetric_arguments, \
     are_subject_and_object_correctly_ordered
@@ -40,7 +39,7 @@ def insert_predication_ids_to_delete(predication_ids: [int]):
     :param predication_ids: a list of integers
     :return: None
     """
-    session = SessionExtended.get()
+    session = Session.get()
     start_time = datetime.now()
     if Session.is_postgres:
         logging.debug('Using fast postgres copy mode...')
@@ -123,7 +122,7 @@ def clean_redundant_predicate_tuples(session, symmetric_relation: str):
 
 
 def clean_redundant_symmetric_predicates():
-    session = SessionExtended.get()
+    session = Session.get()
     clean_predication_to_delete_table(session)
 
     logging.info(f'Cleaning the following predicates: {SYMMETRIC_PREDICATES}')
@@ -141,7 +140,7 @@ def clean_redundant_symmetric_predicates():
 
 
 def clean_unreferenced_sentences():
-    session = SessionExtended.get()
+    session = Session.get()
     logging.info('Querying all sentence ids...')
     all_sent_ids = set()
     for r in session.execute(session.query(Sentence.id)):
@@ -174,7 +173,7 @@ def dosage_form_rule(document_collection=None, predicate_id_minimum=None):
     :return: None
     """
     logging.info('Applying DosageForm rule...')
-    session = SessionExtended.get()
+    session = Session.get()
     logging.info(
         f'{document_collection}: updating predicate to "{DOSAGE_FORM_PREDICATE}" for (DosageForm, *) pairs')
     stmt_1 = update(Predication).where(or_(Predication.subject_type == DOSAGE_FORM,
@@ -196,7 +195,7 @@ def method_rule(document_collection=None, predicate_id_minimum=None):
     :return: None
     """
     logging.info('Applying Method rule...')
-    session = SessionExtended.get()
+    session = Session.get()
     logging.info(f'{document_collection}: updating predicate to "{METHOD_PREDICATE}" for (Method, *) pairs')
     stmt_1 = update(Predication).where(
         or_(Predication.subject_type.in_([METHOD, LAB_METHOD]), Predication.object_type.in_([METHOD, LAB_METHOD])))
@@ -219,7 +218,7 @@ def associated_rule(document_collection=None, predicate_id_minimum=None):
     :return:
     """
     logging.info('Applying Method rule...')
-    session = SessionExtended.get()
+    session = Session.get()
     logging.info(f'{document_collection}: updating predicate to "{ASSOCIATED_PREDICATE_UNSURE}" where relation is null')
     stmt_1 = update(Predication).where(Predication.relation.is_(None))
     if document_collection:
@@ -242,7 +241,7 @@ def check_type_constraints(reorder_tuples=True, document_collection: str = None,
     """
     preds_to_associate = set()
     preds_to_reorder = set()
-    session = SessionExtended.get()
+    session = Session.get()
 
     logging.info('Counting the number of predications...')
     pred_count_q = session.query(Predication)
@@ -351,7 +350,7 @@ def main():
     logging.info('=' * 60)
 
     logging.info('=' * 60)
-    session = SessionExtended.get()
+    session = Session.get()
     clean_predication_to_delete_table(session)
     logging.info('=' * 60)
     check_type_constraints(document_collection=document_collection, predicate_id_minimum=args.predicate_id_minimum)
