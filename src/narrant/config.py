@@ -112,3 +112,6 @@ TISSUE_TAGGER_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, 'vocabularies/tissue'
 PHARM_RELATION_VOCABULARY = os.path.join(RESOURCE_DIR, "pharm_relation_vocab.json")
 # Constraint file
 PHARM_RELATION_CONSTRAINTS = os.path.join(RESOURCE_DIR, "pharm_relation_type_constraints.json")
+
+# CHEMBL ATC Classification
+CHEMBL_ATC_CLASSIFICATION_FILE = os.path.join(RESOURCE_DIR, "chembl_atc_classification.csv")
