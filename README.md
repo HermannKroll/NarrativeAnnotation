@@ -17,6 +17,9 @@ We recommend having at least 16GB of RAM available and 100GB of disk space.
 Our annotation and extraction methods will work in a temporary directory in /tmp/ (so please make sure to have at least 100GB available).
 
 # Database Setup
+The project was tested on SQLlite and PostgresDB databases. 
+For larger databases, we recommend to use PostgresDB. 
+Setup a PostgresDB environment (see [official instructions](https://www.postgresql.org)).
 This project stores its processed data in a relational database that stores the processed documents. 
 So first please setup a Postgres database by following the official instructions. 
 We used V14. 
@@ -88,10 +91,29 @@ GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO mininguser;
 ```
 
 
-
+## Database configuration
+Configure the database configuration in the project:
+```
+cd config/
+cp backend.prod.json backend.json
+nano backend.json
+```
+Please enter your database credentials in this file. We support Postgres and SQlite databases. 
+If you would like to work with SQLite then enable the *use_SQLite* property and set a corresponding path.
+```
+{
+  "use_SQLite": false,
+  "SQLite_path": "sqlitebase.db",
+  "POSTGRES_DB": "fidpharmazie",
+  "POSTGRES_HOST": "127.0.0.1",
+  "POSTGRES_PORT": "5432",
+  "POSTGRES_USER": "mininguser",
+  "POSTGRES_PW": "EXAMPLE_PW",
+  "POSTGRES_SCHEMA": "public"
+}
+```
 
 # Python Setup
-
 First, make sure that a gcc is installed in your system.
 ```
 sudo apt-get install gcc python3-dev
@@ -182,36 +204,6 @@ Some general remarks:
 - there is an additional table (DocumentTranslation) in which such a translation could be stored
 - Documents won't be inserted twice. There is a global setting that duplicated tuples are ignored when inserted in the database.
 
-# Database
-### Database Setup
-The project was tested on SQLlite and PostgresDB databases. 
-For larger databases, we recommend to use PostgresDB. 
-
-1. Setup a PostgresDB environment (see [official instructions](https://www.postgresql.org)). Tagging results, documents and more will be stored in this relational database. 
-2. Create a new database and user for the preprocessing pipeline, e.g. *taggingdb* and *tagginguser*
-
-### Database configuration
-The toolbox stores all produced data in a relational database. 
-Setup the database configuration in the project
-```
-cd config/
-cp backend.prod.json backend.json
-nano backend.json
-```
-Please enter your database credentials in this file. We support Postgres and SQlite databases. 
-If you would like to work with SQLite then enable the *use_SQLite* property and set a corresponding path.
-```
-{
-  "use_SQLite": false,
-  "SQLite_path": "sqlitebase.db",
-  "POSTGRES_DB": "example",
-  "POSTGRES_HOST": "127.0.0.1",
-  "POSTGRES_PORT": "5432",
-  "POSTGRES_USER": "user",
-  "POSTGRES_PW": "pw",
-  "POSTGRES_SCHEMA": "public"
-}
-```
 
 # Vocabulary Documentation
 This project supports the annotation of documents by utilizing different biomedical vocabularies. 
