@@ -334,7 +334,10 @@ python3 lib/KGExtractionToolbo/src/kgextractiontoolbox/entitylinking/biomedical_
 ```
 The temporary created files as well as all logs won't be removed then.
 
-# Indexes
+# Pharmaceutical Extraction Pipeline
+
+
+# Concept/Entity Indexes
 If you want to export in our specified XML format, you need to create some indexes before you can use the XML export.
 There are two index modes:
 - a complete index (takes more space, but only computed once)
@@ -358,7 +361,7 @@ Therefore, run:
 python3 src/narrant/build_all_indexes.py --complete
 ```
 
-# Export
+# Export Annotation Data
 Please ensure, that all indexes have been build (see previous step).
 
 
@@ -473,7 +476,7 @@ See help for parameter description. The output format looks like: document_id.xm
 </document>
 ```
 
-# Translation 
+# Translating document formats 
 In this section, we describe how to convert different formats into JSON format.
 ## Patents
 Suppose you have the Patents available text file (see the following example).
@@ -514,7 +517,7 @@ python3 src/narrant/backend/exports/json_ub_export.py OUTPUT -c COLLECTION_NAME 
 The argument **--translate_ids** will force the script to translate the patent ids back to their original ids.
 
 
-## Cleaning a Document Collection 
+# Cleaning a Document Collection 
 You can delete all information that are stored for a document collection by running:
 ```
 python src/narrant/backend/delete_collection.py COLLECTION
