@@ -53,7 +53,7 @@ TAXONOMY_FILE = os.path.join(RESOURCE_DIR, 'taxonomy_names_2020.gz')
 TAXONOMY_INDEX_FILE = os.path.join(TMP_DIR, 'taxonomy_name_index.pkl')
 
 # Preprocessing
-PREPROCESS_CONFIG = str(search_config(Path(CONFIG_DIR) / '..', Path('config'), Path('preprocess.json')))
+PREPROCESS_CONFIG = str(search_config(Path(CONFIG_DIR) / '..', Path('config'), Path('entity_linking.json')))
 
 # Backend for Tagging
 # BACKEND_CONFIG = os.path.join(CONFIG_DIR, "backend.json")
