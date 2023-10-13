@@ -53,7 +53,7 @@ TAXONOMY_FILE = os.path.join(RESOURCE_DIR, 'taxonomy_names_2020.gz')
 TAXONOMY_INDEX_FILE = os.path.join(TMP_DIR, 'taxonomy_name_index.pkl')
 
 # Preprocessing
-PREPROCESS_CONFIG = str(search_config(Path(CONFIG_DIR) / '..', Path('config'), Path('preprocess.json')))
+PREPROCESS_CONFIG = str(search_config(Path(CONFIG_DIR) / '..', Path('config'), Path('entity_linking.json')))
 
 # Backend for Tagging
 # BACKEND_CONFIG = os.path.join(CONFIG_DIR, "backend.json")
@@ -106,3 +106,12 @@ ORGANISM_TAGGER_VOCAB = os.path.join(ORGANISM_TAGGER_VOCAB_DIRECTORY, "vocabular
 
 # Tissue Tagger
 TISSUE_TAGGER_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, 'vocabularies/tissue')
+
+
+# Relation Vocabulary File
+PHARM_RELATION_VOCABULARY = os.path.join(RESOURCE_DIR, "pharm_relation_vocab.json")
+# Constraint file
+PHARM_RELATION_CONSTRAINTS = os.path.join(RESOURCE_DIR, "pharm_relation_type_constraints.json")
+
+# CHEMBL ATC Classification
+CHEMBL_ATC_CLASSIFICATION_FILE = os.path.join(RESOURCE_DIR, "chembl_atc_classification.csv")
