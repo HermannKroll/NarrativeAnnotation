@@ -3,8 +3,8 @@ import logging
 
 from sqlalchemy import func
 
-from narraint.backend.database import SessionExtended
-from narraint.backend.models import Tag
+from kgextractiontoolbox.backend.database import Session
+from kgextractiontoolbox.backend.models import Tag
 
 
 def main():
@@ -20,7 +20,7 @@ def main():
     collection = args.collection
 
     logging.info('Querying relevant document ids...')
-    session = SessionExtended.get()
+    session = Session.get()
     # subquery_drug = session.query(Tag.document_id).filter(and_(Tag.document_collection == collection,
     #                                                           Tag.ent_type.in_(
     #                                                               [DRUG, PLANT_FAMILY_GENUS]))).distinct()

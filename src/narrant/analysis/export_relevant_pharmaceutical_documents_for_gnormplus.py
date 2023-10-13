@@ -4,8 +4,8 @@ import logging
 
 from sqlalchemy import and_
 
-from narraint.backend.database import SessionExtended
-from narraint.backend.models import Document, DocTaggedBy, Tag
+from kgextractiontoolbox.backend.database import Session
+from kgextractiontoolbox.backend.models import Document, Tag
 from narrant.preprocessing.enttypes import PLANT_FAMILY_GENUS, DRUG, SPECIES, GENE
 
 
@@ -22,7 +22,7 @@ def main():
     collection = args.collection
 
     logging.info('Querying relevant document ids...')
-    session = SessionExtended.get()
+    session = Session.get()
     subquery = session.query(Tag.document_id).filter(and_(Tag.document_collection == collection,
                                                           Tag.ent_type.in_([DRUG, PLANT_FAMILY_GENUS]))).distinct()
     subquery2 = session.query(Tag.document_id).filter(and_(Tag.document_collection == collection,
