@@ -91,6 +91,37 @@ GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO mininguser;
 
 
 # Python Setup
+
+First, make sure that a gcc is installed in your system.
+```
+sudo apt-get install gcc python3-dev
+```
+
+
+## Create a virtual environment
+
+### Install Anaconda
+Make sure that conda (with Python 3 support) is installed.
+If not, install it via:
+
+```
+curl https://repo.anaconda.com/archive/Anaconda3-2021.11-Linux-x86_64.sh --output anaconda.sh
+bash anaconda.sh
+```
+
+It is a good idea to perform conda init, so that conda commands are available in your shell. 
+By default, anaconda will be installed to
+```
+/home/pubpharm/anaconda3
+```
+
+If you did not run conda init, then run:
+```
+eval "$(/home/pubpharm/anaconda3/bin/conda shell.bash hook)"
+conda init
+```
+
+
 Install python >= 3.7.
 Decider whether you want to work with a global python version or with a conda environment (see [tutorial](https://towardsdatascience.com/getting-started-with-python-environments-using-conda-32e9f2779307))
 E.g., a virtual environment on your machine via Conda.
