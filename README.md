@@ -10,14 +10,87 @@ To use this project, clone this project and its submodules via:
 git clone --recurse-submodules git@github.com:HermannKroll/NarrativeAnnotation.git
 ```
 
-Please follow the basic [setup instructions for the toolbox](https://github.com/HermannKroll/KGExtractionToolbox/blob/main/README.md).
-
 # Setup
 
 ### Hardware Requirements
-We recommend having at least 16GB of RAM available. 
+We recommend having at least 16GB of RAM available and 100GB of disk space. 
+Our annotation and extraction methods will work in a temporary directory in /tmp/ (so please make sure to have at least 100GB available).
 
-## Setup Python
+# Database Setup
+This project stores its processed data in a relational database that stores the processed documents. 
+So first please setup a Postgres database by following the official instructions. 
+We used V14. 
+
+## Configure Postgres
+
+```
+sudo nano /etc/postgresql/14/main
+```
+
+Change the following settings. 
+More memory is better.
+```
+shared_buffers = 10GB	
+work_mem = 2GB			
+```
+
+Restart Postgres Server.
+```
+sudo systemctl restart postgresql
+```
+
+## Configure fidpharmazie database
+
+Create a new postgres database. 
+Log in first.
+```
+psql -h localhost -U postgres -W
+```
+
+Create the database.
+```
+CREATE DATABASE fidpharmazie;
+```
+
+
+Edit the following file
+```
+nano /etc/postgresql/14/main/pg_hba.conf
+```
+by adding the line
+``` 
+host    fidpharmazie    all             127.0.0.1/32            md5
+```
+This line allows accessing the database from localhost. 
+
+If you already have a database dump, load it now.
+Restore the database dump via:
+``` 
+pg_restore -h 127.0.0.1 -O -U postgres -W -d fidpharmazie fidpharmazie_2023_06_12.dump
+``` 
+
+After the database has been restored, we need to create an user for the database. 
+Login into the database as the postgres user.
+```
+psql -h localhost -U postgres -W -d fidpharmazie
+```
+Create user for the service.
+Please replace EXAMPLE_PW by a real password.
+```
+CREATE USER mininguser WITH PASSWORD 'EXAMPLE_PW';
+```
+
+Setup user permissions:
+```
+GRANT ALL PRIVILEGES ON SCHEMA public TO mininguser;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO mininguser;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO mininguser;
+```
+
+
+
+
+# Python Setup
 Install python >= 3.7.
 Decider whether you want to work with a global python version or with a conda environment (see [tutorial](https://towardsdatascience.com/getting-started-with-python-environments-using-conda-32e9f2779307))
 E.g., a virtual environment on your machine via Conda.
