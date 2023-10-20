@@ -1,5 +1,5 @@
 # Narrative Annotation
-This repository brings all the pharmaceutical specific entity linking and text classification logic. 
+This repository brings all the pharmaceutical specific entity linking, text classification and statement extraction logic. 
 
 Therefore it builds upon a subproject:
 - [KGExtractionToolbox](https://github.com/HermannKroll/KGExtractionToolbox): Basic entity linking methods / information extraction / pipelines for automatisation
@@ -169,21 +169,163 @@ This procedure must be repeated every time you create a new shell.
 You can add the path to your bash defaults.
 To run scripts from this project, please set the Python path as follows:
 ```
-export PYTHONPATH="/home/kroll/NarrativeAnnotation/src/:/home/kroll/NarrativeAnnotation/lib/KGExtractionToolbox/src/"
+export PYTHONPATH="/home/pubpharm/NarrativeAnnotation/src/:/home/pubpharm/NarrativeAnnotation/lib/KGExtractionToolbox/src/"
 ```
 
-### Setup NLTK
+
+# Configuration (Additional Dependencies)
+First go into the NarrativeAnnotation directory. 
+```
+cd NarrativeAnnotation/
+```
+
+
+For the following configuration, wget and zip need to be installed.
+```
+apt install wget zip
+```
+
+## Setup NLTK
 Please run the following script to configure NLTK:
 ```
 python lib/KGExtractionToolbox/src/kgextractiontoolbox/setup_nltk.py
 ```
 
-### Download required data
+## Download required data
 Then,additional data must be downloaded.
 Switch to the NarrativeAnnotation directory and execute the bash script:
 ```
 cd NarrativeAnnotation/
 ./download_data.sh
+```
+
+
+## Entity Linking Configuration
+First create a directory for external annotation tools.
+```
+mkdir ~/tools
+```
+
+We use GNormPlus as an external annotation tool. 
+Download [GNormPlus](https://www.ncbi.nlm.nih.gov/research/bionlp/Tools/gnormplus/), unzip it and put it into the tools directory.
+
+```
+tools/
+  GNormPlusJava/
+```
+
+First make sure, that Java is installed on your system.
+```
+java --version
+```
+
+If java is not installed, then install it via:
+```
+sudo apt install default-jre
+```
+
+Configure the entity linking configuration for the project.
+```
+cd NarrativeAnnotation/config/
+cp entity_linking.prod.json entity_linking.json
+nano preprocess.json
+```
+Enter your GNormPlus root path. TaggerOne does not need to be set.
+```
+{
+  "taggerOne": {
+    "root": "/home/pubpharm/tools/tagger/TaggerOne-0.2.1",
+    "model": "models/model_BC5CDRJ_011.bin",
+    "batchSize": 10000,
+    "timeout": 10,
+    "max_retries": 1
+  },
+  "gnormPlus": {
+    "root": "/home/pubpharm/tools/tagger/GNormPlusJava",
+    "javaArgs": "-Xmx16G -Xms10G",
+    "timeout": 10
+  },
+  "dict": {
+    "max_words": 5,
+    "check_abbreviation": "true",
+    "custom_abbreviations": "true",
+    "min_full_tag_len": 5
+  },
+  "drug": {
+    "check_products": 0,
+    "max_per_product": 2,
+    "min_name_length": 3,
+    "ignore_excipient_terms": 1
+  },
+  "stanza": {
+    "document_batch_size": 1000,
+    "entity_type_blocked_list": ["ORDINAL", "QUANTITY", "PERCENT"]
+  }
+}
+```
+
+We also support [TaggerOne](https://www.ncbi.nlm.nih.gov/research/bionlp/tools/taggerone/) but **do not** use it at the moment.
+You can also download the tool and put it into the tools repository. 
+However, TaggerOne requires to build some models.
+To use TaggerOne, see its readme file. 
+Some models must be build manually.
+As you do not indent to use it at the moment, you can ignore this step.
+
+Otherwise, download the tool and put it here.
+```
+tools/
+  GNormPlusJava/
+  TaggerOne-0.2.1/
+```
+Then edit the previous configuration and setup the TaggerOne Path.
+
+
+## Extraction Configuration
+This project will utilize PathIE to do the extraction.
+Therefore, you need to install 
+- [Stanford CoreNLP](https://stanfordnlp.github.io/CoreNLP/)
+
+First make sure, that Java is installed on your system.
+```
+java --version
+```
+
+If java is not installed, then install it via:
+```
+sudo apt install default-jre
+```
+
+Download the tool and extract the tool.
+```
+wget https://nlp.stanford.edu/software/stanford-corenlp-4.5.5.zip
+```
+```
+unzip stanford-corenlp-4.5.5.zip
+```
+Note, you can store the tool anywhere you want. 
+
+Next, edit the nlp.conf in this directory.
+```
+cp config/nlp.prod.conf config/nlp.conf 
+nano config/nlp.conf
+```
+
+Then edit the following **corenlp** path. We just need the corenlp path.
+```
+{
+  "corenlp": ".../stanford-corenlp-4.1.0/", # required for PathIE and CoreNLP OpenIE
+  "openie6": ".../openie6/", # Optional for OpenIE6
+  "openie5.1": { # Optional for OpenIE 5.1
+    "port": 8085,
+    "jar": ".../OpenIE-standalone/openie-assembly-5.0-SNAPSHOT.jar"
+  }
+}
+```
+If you want to use the other tools, see the following [Readme](https://github.com/HermannKroll/KGExtractionToolbox/blob/main/README_03_EXTRACTION.md) for details.
+
+Next, add the +x flag to our bash script to invoke PathIE. 
+```
+chmod +x ~/NarrativeAnnotation/lib/KGExtractionToolbox/src/kgextractiontoolbox/extraction/pathie/run.sh
 ```
 
 # General Remarks
@@ -199,7 +341,7 @@ Some general remarks:
 - document ids must be integer and must be unique within a document collection
 - a document collection can be an arbitrary string
 - documents won't be tagged twice. Our pipeline checks whether the documents were tagged for the given entity types before. Only new documents will be tagged.  
-- documents must be in PubTator or JSON format
+- documents must be in PubTator, JSON or JSON Line (JSONL) format
 - documents that do not meet the above constraint may be transformed first. See the src/narrant/pubtator/translation for good examples
 - there is an additional table (DocumentTranslation) in which such a translation could be stored
 - Documents won't be inserted twice. There is a global setting that duplicated tuples are ignored when inserted in the database.
@@ -211,8 +353,7 @@ The project will build vocabularies automatically when being used.
 However, additional vocabulary documentation can be found [here](README_Vocabularies).
 
 
-
-## Supported JSON Document Format
+## Supported JSON and JSONL Document Format
 Here is an example of our JSON format:
 ```
 [
@@ -226,10 +367,22 @@ Here is an example of our JSON format:
 ```
 The outmost array brackets `[]` can be omitted if only a single json document should be contained within the file.
 
+
+We also support the .jsonl format, where each document JSON is stored in a single line. 
+Files must have the suffix: .jsonl
+Here is an example of the JSONL format:
+```
+{"id": "1", "title": "Comparing Letrozole", "abstract": "Abstract 1"}
+{"id": "2", "title": "A Study Investigating", "abstract": "Abstract 2"}
+{"id": "3", "title": "Title 3", "abstract": "Abstract 3"}
+```
+
+
 Note:
 - a document id must be an integer
 - id, title and abstracts field are required
-- the abstract field may be empty
+- title or abstract field may be empty
+
 
 ## Loading Documents
 You can load your documents:
@@ -244,278 +397,23 @@ If you don't want to include tags, use the **--ignore_tags** argument.
 python src/narrant/backend/load_document.py DOCUMENTS.json --collection COLLECTION --ignore_tags
 ```
 
+# Document Translation
+See the following [Readme](README_01_TRANSLATION.md) for details.
 
-# Running the Annotators
-In this section, we briefly describe how to use our pipeline.
-For the examples below, we suppose you to be in the correct directory. So,
-```
-cd ~/NarrativeAnnotation/
-```
+# Entity Linking
+See the following [Readme](README_02_ENTITY_LINKING.md) for details.
 
-First, create a copy of the preprocessing configuration.
-```
-cp config/entity_linking.prod.json config/entity_linking.json
-nano config/entity_linking.json
-```
-
-The idea of our pipeline is based on entity types. For example, if a user want to annotate drugs in text, then the corresponding annotation tool will be invoked. 
-Hence, the user could specifiy which entity types she wants to annotate in texts.
-
-## Annotation Data (Tags)
-The tagging pipeline produces tags. A tag represents an annotation and consists of a:
-- document id (int)
-- document collection (string)
-- start position in text (int)
-- end position in text (int)
-- entity str (the annotated text sequence, string)  
-- entity id (string)
-- entity type (string)
-
-
-
-## Dictionary-based Taggers (Own Vocabularies)
-The documents must be in the database for annotation purposes. If you call an annotation script, the documents will automatically be inserted. 
-You can invoke our own dictionary-based tagger pipeline via
-```
-python3 src/narrant/preprocessing/dictpreprocess.py -i test.json --collection test
-```
-This call will invoke the pipeline to annoate all known entity types.
-The pipeline annotates Diseases, Dosage Forms, Drugs, Chemicals, Excipients, Methods, LebMethods and Plant Families.
-The first run will build all necessary indexes that will speed up further runs. So, the first run may take a bit.
-
-
-You can may also speedup the tagging process. You invoke multiple parallel workers. 
-The number of parallel workers can be specified as follows:
-```
-python3 src/narrant/preprocessing/dictpreprocess.py -i test.json --collection test --workers 10
-```
-
-If you are certain that all documents are already in the database, you may skip the loading phase by:
-```
-python3 src/narrant/preprocessing/dictpreprocess.py -i test.json --collection test --skip-load
-```
-
-
-The pipeline will work in a temporary directory (random directory in /tmp/) and remove it if the task is completed. If you want to work in a specified directory, use
-```
-python3 src/narrant/preprocessing/dictpreprocess.py -i test.json --collection test --workdir temp/
-```
-The temporary created files as well as all logs won't be removed then. 
-
-
-## TaggerOne and GNormPlus (ThirdParty)
-In addition to our own annotation tools, we build support for two frequently used biomedical tools. 
-TaggerOne supports the annotation of Chemicals and Diseases.
-GNormPlus supports the annotation of Genes and Species.
-
-A setup guide is available here: [Setup Guide](README_BIOMEDICAL_TOOS.md).
-
-
-### Run the ThirdParty Annotators
-You may annotate documents with TaggerOne. Assume we have a test document test.pubtator.
-```
-python3 lib/KGExtractionToolbo/src/kgextractiontoolbox/entitylinking/biomedical_entity_linking.py test.json --collection test --tagger-one 
-```
-In addition, you may annotate documents with GNormPlus. 
-```
-python3 lib/KGExtractionToolbo/src/kgextractiontoolbox/entitylinking/biomedical_entity_linking.py test.json --collection test --gnormplus
-```
-
-The pipeline will invoke the taggers to tag the documents. The document corpus is *test*.
-The tools can be invoked by:
-- tagger-one means that TaggerOne will be used to annotate Chemicals and Diseases.
-- gnormplus means that GNormPlus will be used to annotate Genes and Species.
-
-Note: only one tagger can be selected in a tagging process.
-
-The pipeline will work in a temporary directory and remove it if the task is completed. If you want to work in a specified directory, use
-```
-python3 lib/KGExtractionToolbo/src/kgextractiontoolbox/entitylinking/biomedical_entity_linking.py --collection test --workdir temp/ --gnormplus 
-```
-The temporary created files as well as all logs won't be removed then.
+# Document Classification:
+See the following [Readme](README_03_CLASSIFICATION.md) for details.
 
 # Pharmaceutical Extraction Pipeline
+See the following [Readme](README_04_EXTRACTION.md) for details.
 
+# Example Pipelines (used for the [Narrative Service](https://github.com/HermannKroll/NarrativeIntelligence))
+See the following [Readme](README_05_PIPELINES.md) for details.
 
-# Concept/Entity Indexes
-If you want to export in our specified XML format, you need to create some indexes before you can use the XML export.
-There are two index modes:
-- a complete index (takes more space, but only computed once)
-- a partial index (only includes tagged entity ids in our db, smaller but must be recreated if new entites are tagged)
-
-
-Partial index: Run the following script to create a **partial index**.
-The script will ask you if your database connection is configured properly. 
-```
-python3 src/narrant/build_all_indexes.py
-```
-...and enter yes if the correct database connection is selected.
-This might take a while and will build all required indexes. 
-Attention: indexes for genes and species will only be build for those tag ids that have been annotated so far. 
-If you annotate more documents, you **must** rebuild the indexes. 
-
-
-Complete index: You can prevent rebuilding the index creation by creating a complete entity index. 
-Therefore, run:
-```
-python3 src/narrant/build_all_indexes.py --complete
-```
-
-# Export Annotation Data
-Please ensure, that all indexes have been build (see previous step).
-
-
-### JSON UB Format
-Finally, you can export the documents in a JSON Format:
-```
-python3 src/narrant/backend/exports/json_ub_export.py OUTPUT_FILE -c COLLECTION_NAME
-```
-
-The written JSON content looks like: (Note URI do not exists for all entities)
-
-```
-{                                                                                                                                                                                                                                                |
-     "id": 92116,                                                                                                                                                                                                                                    
-     "tags": [
-          {
-               "id": "31285",
-               "mention": "Trypanosoma gambiense",
-               "start": 66,
-               "end": 87,
-               "type": "Species",
-               "name": "Trypanosoma brucei gambiense",
-               "source": "NCBI Taxonomy",
-               "URI": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=31285"
-          },
-          {
-               "id": "MESH:D014355",
-               "mention": "Trypanosoma",
-               "start": 258,
-               "end": 269,
-               "type": "Disease",
-               "name": "Chagas Disease",
-               "source": "MeSH",
-               "URI": "https://meshb.nlm.nih.gov/record/ui?ui=D014355"
-          },
-          {
-               "id": "31285",
-               "mention": "gambiense",
-               "start": 270,
-               "end": 279,
-               "type": "Species",
-               "name": "Trypanosoma brucei gambiense",
-               "source": "NCBI Taxonomy",
-               "URI": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=31285"
-          },
-          {
-               "id": "CHEMBL284328",
-               "mention": "ethidium bromide",
-               "start": 369,
-               "end": 385,
-               "type": "Drug",
-               "name": "Homidium bromide",
-               "source": "ChEMBL",
-               "URI": "https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL284328"
-          }
-    ]
-}
-```
-
-
-You may export the document content via:
-```
-python3 src/narrant/backend/exports/json_ub_export.py OUTPUT_FILE -c COLLECTION_NAME -d
-```
-
-- the optional **-d** will force to export the document content (title and abstract)
-
-The written JSON content looks like: (Note **URI** do not exists for all entities)
-```
-{                                                                                                                                                                                                                                                |
-     "id": 92116,    
-     "title": "In situ microspectrofluorometry of nuclear and kinetoplast DNA in Trypanosoma gambiense.",                                                                                                                                            
-     "abstract": "Using a spectrofluorometer with the Zeiss Universal Micro-Spectrophotometer 1 (UMSP 1), [...]",                                                                                                                                                                                                                                                 
-     "tags": [
-          {
-               "id": "31285",
-               "mention": "Trypanosoma gambiense",
-               "start": 66,
-               "end": 87,
-               "type": "Species",
-               "name": "Trypanosoma brucei gambiense",
-               "source": "NCBI Taxonomy",
-               "URI": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=31285"
-          } 
-      ]
-}
-```
-
-### Export XML UB (Deprecated)
-Finally, you can export the documents:
-```
-python3 src/narrant/backend/exports/xml_export.py output_dir -c COLLECTION_NAME
-```
-See help for parameter description. The output format looks like: document_id.xml and the content:
-
-
-
-```
-<?xml version="1.0" ?>
-<document>
-   <tag source="NCBI Gene">eukaryotic translation initiation factor 2 alpha kinase 2</tag>
-   <tag source="NCBI Gene">Atf4</tag>
-   <tag source="NCBI Gene">DNA damage inducible transcript 3</tag>
-   <tag source="NCBI Gene">DDIT3</tag>
-   <tag source="NCBI Gene">eukaryotic translation initiation factor 2 alpha kinase 3</tag>
-   <tag source="NCBI Gene">EIF2AK3</tag>
-   <tag source="DrugBank">Toyocamycin</tag>
-   <tag source="NCBI Taxonomy">house mouse</tag>
-   <tag source="NCBI Taxonomy">Mus musculus</tag>
-   <tag source="MeSH">Wounds and Injuries</tag>
-   <tag source="MeSH">Death</tag>
-</document>
-```
-
-# Translating document formats 
-In this section, we describe how to convert different formats into JSON format.
-## Patents
-Suppose you have the Patents available text file (see the following example).
-```
-oai:tib.eu:epa:EP3423078|T-CELL MODULATORY MULTIMERIC POLYPEPTIDES AND METHODS OF USE THEREOF
-oai:tib.eu:epa:EP3423078|The present disclosure provides variant immunomodulatory polypeptides, and fusion polypeptides comprising the variant immunomodulatory peptides. The present disclosure provides T-cell modulatory multimeric polypeptides, and compositions comprising same, where the T-cell modulatory multimeric polypeptides comprise a variant immunomodulatory polypeptide of the present disclosure. The present disclosure provides nucleic acids comprising nucleotide sequences encoding the T-cell modulatory multimeric polypeptides, and host cells comprising the nucleic acids. The present disclosure provides methods of modulating the activity of a T cell; the methods comprise contacting the T cell with a T-cell modulatory multimeric polypeptide of the present disclosure.
-oai:tib.eu:epa:EP3424500|PHARMACEUTICAL COMPOSITION COMPRISING PYRROLO-FUSED SIX-MEMBERED HETEROCYCLIC COMPOUND
-oai:tib.eu:epa:EP3424500|The present invention provides a pharmaceutical composition comprising a pyrrolo-fused six-membered heterocyclic compound or a pharmaceutically acceptable salt of the compound. Specifically, the invention provides a pharmaceutical composition comprising 5-(2-diethylamino-ethyl)-2-(5-fluoro-2-oxo-1,2-dihydro-indol-3-ylidene-methyl)-3-met hyl-1,5,6,7-tetrahydro-pyrrolo[3,2-c]pyridin-4-one or a pharmaceutically acceptable salt thereof, and at least one water soluble filler. The pharmaceutical composition of the invention features rapid dissolution and good stability.
-```
-You can convert the patents by calling:
-```
-python3 src/narrant/pubtator/translation/patent.py PATENT_FILE OUTPUT -c COLLECTION
-```
-
-The Patent converter will automatically convert source ids (oai:tib.eu:epa:EP3423078) to internal ids.
-
-The following output will be produced:
-```
-[
-    {
-        "id": 1,
-        "title": "T-Cell Modulatory Multimeric Polypeptides And Methods Of Use Thereof",
-        "abstract": "The present disclosure provides variant immunomodulatory polypeptides [...]"
-    },
-    {
-        "id": 2,
-        "title": "Pharmaceutical Composition Comprising Pyrrolo-Fused Six-Membered Heterocyclic Compound",
-        "abstract": "The present invention provides a pharmaceutical composition [...]"
-    }
-]
-```
-
-### Exporting Patents
-Finally, you can export the patents via:
-```
-python3 src/narrant/backend/exports/json_ub_export.py OUTPUT -c COLLECTION_NAME --translate_ids
-```
-The argument **--translate_ids** will force the script to translate the patent ids back to their original ids.
-
+# Export
+See the following [Readme](README_06_EXPORT.md) for details.
 
 # Cleaning a Document Collection 
 You can delete all information that are stored for a document collection by running:
