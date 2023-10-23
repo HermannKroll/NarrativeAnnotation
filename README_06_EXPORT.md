@@ -9,7 +9,7 @@ There are two index modes:
 Partial index: Run the following script to create a **partial index**.
 The script will ask you if your database connection is configured properly. 
 ```
-python3 src/narrant/build_all_indexes.py
+python3 ~/NarrativeAnnotation/src/narrant/build_all_indexes.py
 ```
 ...and enter yes if the correct database connection is selected.
 This might take a while and will build all required indexes. 
@@ -20,7 +20,7 @@ If you annotate more documents, you **must** rebuild the indexes.
 Complete index: You can prevent rebuilding the index creation by creating a complete entity index. 
 Therefore, run:
 ```
-python3 src/narrant/build_all_indexes.py --complete
+python3 ~/NarrativeAnnotation/src/narrant/build_all_indexes.py --complete
 ```
 
 # Export Annotation Data
@@ -30,7 +30,7 @@ Please ensure, that all indexes have been build (see previous step).
 ### JSON UB Format
 Finally, you can export the documents in a JSON Format:
 ```
-python3 src/narrant/backend/exports/json_ub_export.py OUTPUT_FILE -c COLLECTION_NAME
+python3 ~/NarrativeAnnotation/src/narrant/backend/exports/json_ub_export.py OUTPUT_FILE -c COLLECTION_NAME
 ```
 
 The written JSON content looks like: (Note URI do not exists for all entities)
@@ -86,7 +86,7 @@ The written JSON content looks like: (Note URI do not exists for all entities)
 
 You may export the document content via:
 ```
-python3 src/narrant/backend/exports/json_ub_export.py OUTPUT_FILE -c COLLECTION_NAME -d
+python3 ~/NarrativeAnnotation/src/narrant/backend/exports/json_ub_export.py OUTPUT_FILE -c COLLECTION_NAME -d
 ```
 
 - the optional **-d** will force to export the document content (title and abstract)
@@ -115,7 +115,7 @@ The written JSON content looks like: (Note **URI** do not exists for all entitie
 ### Export XML UB (Deprecated)
 Finally, you can export the documents:
 ```
-python3 src/narrant/backend/exports/xml_export.py output_dir -c COLLECTION_NAME
+python3 ~/NarrativeAnnotation/src/narrant/backend/exports/xml_export.py output_dir -c COLLECTION_NAME
 ```
 See help for parameter description. The output format looks like: document_id.xml and the content:
 
@@ -138,42 +138,10 @@ See help for parameter description. The output format looks like: document_id.xm
 </document>
 ```
 
-# Translating document formats 
-In this section, we describe how to convert different formats into JSON format.
-## Patents
-Suppose you have the Patents available text file (see the following example).
-```
-oai:tib.eu:epa:EP3423078|T-CELL MODULATORY MULTIMERIC POLYPEPTIDES AND METHODS OF USE THEREOF
-oai:tib.eu:epa:EP3423078|The present disclosure provides variant immunomodulatory polypeptides, and fusion polypeptides comprising the variant immunomodulatory peptides. The present disclosure provides T-cell modulatory multimeric polypeptides, and compositions comprising same, where the T-cell modulatory multimeric polypeptides comprise a variant immunomodulatory polypeptide of the present disclosure. The present disclosure provides nucleic acids comprising nucleotide sequences encoding the T-cell modulatory multimeric polypeptides, and host cells comprising the nucleic acids. The present disclosure provides methods of modulating the activity of a T cell; the methods comprise contacting the T cell with a T-cell modulatory multimeric polypeptide of the present disclosure.
-oai:tib.eu:epa:EP3424500|PHARMACEUTICAL COMPOSITION COMPRISING PYRROLO-FUSED SIX-MEMBERED HETEROCYCLIC COMPOUND
-oai:tib.eu:epa:EP3424500|The present invention provides a pharmaceutical composition comprising a pyrrolo-fused six-membered heterocyclic compound or a pharmaceutically acceptable salt of the compound. Specifically, the invention provides a pharmaceutical composition comprising 5-(2-diethylamino-ethyl)-2-(5-fluoro-2-oxo-1,2-dihydro-indol-3-ylidene-methyl)-3-met hyl-1,5,6,7-tetrahydro-pyrrolo[3,2-c]pyridin-4-one or a pharmaceutically acceptable salt thereof, and at least one water soluble filler. The pharmaceutical composition of the invention features rapid dissolution and good stability.
-```
-You can convert the patents by calling:
-```
-python3 src/narrant/pubtator/translation/patent.py PATENT_FILE OUTPUT -c COLLECTION
-```
-
-The Patent converter will automatically convert source ids (oai:tib.eu:epa:EP3423078) to internal ids.
-
-The following output will be produced:
-```
-[
-    {
-        "id": 1,
-        "title": "T-Cell Modulatory Multimeric Polypeptides And Methods Of Use Thereof",
-        "abstract": "The present disclosure provides variant immunomodulatory polypeptides [...]"
-    },
-    {
-        "id": 2,
-        "title": "Pharmaceutical Composition Comprising Pyrrolo-Fused Six-Membered Heterocyclic Compound",
-        "abstract": "The present invention provides a pharmaceutical composition [...]"
-    }
-]
-```
 
 ### Exporting Patents
 Finally, you can export the patents via:
 ```
-python3 src/narrant/backend/exports/json_ub_export.py OUTPUT -c COLLECTION_NAME --translate_ids
+python3 ~/NarrativeAnnotation/src/narrant/backend/exports/json_ub_export.py OUTPUT -c COLLECTION_NAME --translate_ids
 ```
 The argument **--translate_ids** will force the script to translate the patent ids back to their original ids.
