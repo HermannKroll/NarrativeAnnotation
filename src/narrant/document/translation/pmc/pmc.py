@@ -11,10 +11,10 @@ from lxml import etree, html
 
 from kgextractiontoolbox.backend.models import Document
 from narrant.config import PREPROCESS_CONFIG
-from narrant.preprocessing.collect import PMCCollector
+from narrant.document import conversion_errors
+from narrant.document.translation.pmc.collect import PMCCollector
+from narrant.document.translation.pmc.convertids import load_pmcids_to_pmid_index
 from narrant.preprocessing.config import Config
-from narrant.preprocessing.convertids import load_pmcids_to_pmid_index
-from narrant.pubtator import conversion_errors
 
 
 class PMCConverter:

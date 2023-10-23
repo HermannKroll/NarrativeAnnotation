@@ -1,8 +1,8 @@
+from kgextractiontoolbox.document.document import TaggedDocument
+from kgextractiontoolbox.entitylinking.classifier import Classifier
 from narrant import config
 from narrant.preprocessing import enttypes
-from kgextractiontoolbox.entitylinking.classifier import Classifier
 from narrant.preprocessing.tagging.indexed_dictagger import IndexedDictTagger
-from kgextractiontoolbox.document.document import TaggedDocument
 from narrant.vocabularies.plant_family_genus import PlantFamilyGenusVocabulary
 
 

@@ -1,7 +1,7 @@
 import logging
 import pickle
 import random
-from typing import Set, List
+from typing import Set
 
 from sklearn import svm
 from sklearn.feature_extraction.text import TfidfVectorizer

@@ -7,7 +7,7 @@ from narrant.preprocessing.pharmacy.pharmdicttagger import PharmDictTagger
 
 
 def build_tagging_indexes():
-    logging.info('=='*60)
+    logging.info('==' * 60)
     logging.info('Building Tagging Indexes')
     logging.info('==' * 60)
     kwargs = dict(logger=logging, config=PREPROCESS_CONFIG, collection="Test")

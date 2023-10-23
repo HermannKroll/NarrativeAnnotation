@@ -1,15 +1,14 @@
 import glob
 import gzip
 import logging
-import os
 from argparse import ArgumentParser
 from datetime import datetime
 
 from lxml import etree
 
 from kgextractiontoolbox.backend.models import Document
-from kgextractiontoolbox.progress import print_progress_with_eta
 from kgextractiontoolbox.document.document import TaggedDocument
+from kgextractiontoolbox.progress import print_progress_with_eta
 
 
 def pubmed_medline_load_file(filename):

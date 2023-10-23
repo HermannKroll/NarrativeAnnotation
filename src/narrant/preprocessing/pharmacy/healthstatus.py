@@ -1,11 +1,11 @@
+from nltk import pos_tag, word_tokenize
+
 from kgextractiontoolbox.document.document import TaggedDocument
 from narrant import config
 from narrant.preprocessing import enttypes
 from narrant.preprocessing.enttypes import HEALTH_STATUS
 from narrant.preprocessing.tagging.indexed_dictagger import IndexedDictTagger
 from narrant.vocabularies.healthstatus_vocabulary import HealthStatusVocabulary
-
-from nltk import pos_tag, word_tokenize
 
 
 class HealthStatusTagger(IndexedDictTagger):
@@ -49,4 +49,3 @@ class HealthStatusTagger(IndexedDictTagger):
         except IndexError:
             # IF NLTK stops working
             in_doc.tags = [t for t in in_doc.tags if t.ent_type != HEALTH_STATUS]
-

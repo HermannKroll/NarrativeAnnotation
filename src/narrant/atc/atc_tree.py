@@ -58,7 +58,7 @@ class ATCTree:
             reader = csv.reader(f, delimiter=',')
             for row in islice(reader, 1, None):
                 c_id, who_name, level1, level2, level3, level4, level5, \
-                level1_desc, level2_desc, level3_desc, level4_desc, = row
+                    level1_desc, level2_desc, level3_desc, level4_desc, = row
 
                 for level in [level1, level2, level3, level4, level5]:
                     self.atcclass2chembl[level.strip().lower()].add(c_id)

@@ -1,12 +1,12 @@
 import logging
+from argparse import ArgumentParser
+
+from sqlalchemy import func, desc
 
 from kgextractiontoolbox.backend.database import Session
 from kgextractiontoolbox.backend.models import Tag
 from narrant.entity.entityresolver import EntityResolver
 from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, DALL
-
-from sqlalchemy import func, desc
-from argparse import ArgumentParser
 
 
 def main(arguments=None):

@@ -4,11 +4,12 @@ import sys
 from datetime import datetime
 
 from kgextractiontoolbox.backend.database import Session
-from kgextractiontoolbox.document.load_document import get_tagger_for_enttype, read_tagger_mapping, UNKNOWN_TAGGER, insert_taggers
 from kgextractiontoolbox.backend.models import Document, Tag, DocTaggedBy
-from kgextractiontoolbox.progress import print_progress_with_eta
 from kgextractiontoolbox.document.document import TaggedDocument, TaggedEntity
+from kgextractiontoolbox.document.load_document import get_tagger_for_enttype, read_tagger_mapping, UNKNOWN_TAGGER, \
+    insert_taggers
 from kgextractiontoolbox.document.regex import TAG_LINE_NORMAL
+from kgextractiontoolbox.progress import print_progress_with_eta
 
 BULK_LOAD_COMMIT_AFTER = 50000
 PRINT_ETA_EVERY_K_DOCUMENTS = 100

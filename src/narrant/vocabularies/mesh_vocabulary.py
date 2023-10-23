@@ -2,9 +2,9 @@ import logging
 from collections import defaultdict
 from typing import List, Set
 
+from kgextractiontoolbox.entitylinking.tagging.vocabulary import expand_vocabulary_term
 from narrant.config import MESH_DESCRIPTORS_FILE
 from narrant.mesh.data import MeSHDB
-from kgextractiontoolbox.entitylinking.tagging.vocabulary import expand_vocabulary_term
 
 
 class MeSHVocabulary:

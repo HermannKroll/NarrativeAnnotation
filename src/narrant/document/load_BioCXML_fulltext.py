@@ -1,9 +1,11 @@
-import bioc
 import logging
+from argparse import ArgumentParser
 from datetime import datetime
+
+import bioc
+
 from kgextractiontoolbox.backend.database import Session
 from kgextractiontoolbox.backend.models import DocumentSection, Document
-from argparse import ArgumentParser
 
 
 def load_bioCXML_fulltexts_from_file(input_file: str, collection):

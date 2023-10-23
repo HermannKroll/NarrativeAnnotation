@@ -2,8 +2,8 @@ import csv
 
 from narrant.entity.entityresolver import EntityResolver
 from narrant.preprocessing.enttypes import DRUG
-from narrant.vocabularies.drug_vocabulary import DrugVocabulary
 from narrant.tools import reverse_set_index
+from narrant.vocabularies.drug_vocabulary import DrugVocabulary
 
 
 def main():

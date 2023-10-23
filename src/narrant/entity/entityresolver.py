@@ -10,16 +10,16 @@ from itertools import islice
 
 from kgextractiontoolbox.backend.database import Session
 from kgextractiontoolbox.backend.models import Tag
+from kgextractiontoolbox.entitylinking.tagging.vocabulary import Vocabulary
 from narrant.config import GENE_FILE, GENE_INDEX_FILE, MESH_DESCRIPTORS_FILE, MESH_ID_TO_HEADING_INDEX_FILE, \
     TAXONOMY_INDEX_FILE, TAXONOMY_FILE, MESH_SUPPLEMENTARY_FILE, \
     MESH_SUPPLEMENTARY_ID_TO_HEADING_INDEX_FILE, DOSAGEFORM_TAGGER_VOCAB, VACCINE_TAGGER_VOCAB, \
-    TARGET_TAGGER_VOCAB, DRUG_TAGGER_VOCAB, ORGANISM_TAGGER_VOCAB
+    DRUG_TAGGER_VOCAB, ORGANISM_TAGGER_VOCAB
 from narrant.entity.meshontology import MeSHOntology
 from narrant.mesh.data import MeSHDB
 from narrant.mesh.supplementary import MeSHDBSupplementary
 from narrant.preprocessing.enttypes import GENE, CHEMICAL, DISEASE, SPECIES, DOSAGE_FORM, EXCIPIENT, PLANT_FAMILY_GENUS, \
     LAB_METHOD, METHOD, VACCINE
-from kgextractiontoolbox.entitylinking.tagging.vocabulary import Vocabulary
 
 
 def get_gene_ids(session):

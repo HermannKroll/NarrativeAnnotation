@@ -1,7 +1,6 @@
+import logging
 import multiprocessing
 from time import sleep
-
-import logging
 
 from narrant.util.multiprocessing.Worker import SHUTDOWN_SIGNAL
 from narrant.util.multiprocessing.WorkerProcess import WorkerProcess

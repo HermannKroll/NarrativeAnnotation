@@ -416,7 +416,7 @@ class MeSHDB:
         for x in diseases:
             if x != diseases[0]:
                 diseases_string = diseases_string[:-1]
-                diseases_string += ', '  + self.build_string(self.desc_by_tree_number(x))[1:]
+                diseases_string += ', ' + self.build_string(self.desc_by_tree_number(x))[1:]
             else:
                 diseases_string += self.build_string(self.desc_by_tree_number(x))
         return diseases_string
@@ -429,9 +429,13 @@ class MeSHDB:
         par_tree_str = par_tree_list[0]
         first_dots = par_tree_str.count('.')
         if len(self.descs_under_tree_number(par_tree_str)) == 0:
-            result_string = '[{"name": "' + self.desc_by_tree_number(par_tree_str).heading + '", "children": [{"name": "(MESH:' + self.desc_by_tree_number(par_tree_str).unique_id + ')"}]}, '
+            result_string = '[{"name": "' + self.desc_by_tree_number(
+                par_tree_str).heading + '", "children": [{"name": "(MESH:' + self.desc_by_tree_number(
+                par_tree_str).unique_id + ')"}]}, '
         else:
-            result_string = '[{"name": "' + self.desc_by_tree_number(par_tree_str).heading + ' (MESH:' + self.desc_by_tree_number(par_tree_str).unique_id + ')", "children": '
+            result_string = '[{"name": "' + self.desc_by_tree_number(
+                par_tree_str).heading + ' (MESH:' + self.desc_by_tree_number(
+                par_tree_str).unique_id + ')", "children": '
         child_list = self.descs_under_tree_number(par_tree_str)
         result = []
         for e in child_list:
@@ -446,7 +450,7 @@ class MeSHDB:
         last_leaf_branch = 1
         check_dots = par_tree_str.count('.')
         for element in result:
-            if len(self.descs_under_tree_number(element)) == 0:# and element.count('.') >= check_dots:
+            if len(self.descs_under_tree_number(element)) == 0:  # and element.count('.') >= check_dots:
                 if element.count('.') < check_dots:
                     result_string = result_string[:len(result_string) - 2]
                     for i in range(0, check_dots - element.count('.')):
@@ -454,7 +458,9 @@ class MeSHDB:
                     result_string += ', '
                 if last_leaf_branch == 1:
                     result_string += '['
-                result_string += '{"name": "' + self.desc_by_tree_number(element).heading + '", "children": [{"name": "(MESH:' + self.desc_by_tree_number(element).unique_id + ')"}]}, '
+                result_string += '{"name": "' + self.desc_by_tree_number(
+                    element).heading + '", "children": [{"name": "(MESH:' + self.desc_by_tree_number(
+                    element).unique_id + ')"}]}, '
                 last_leaf_branch = 0
                 check_dots = element.count('.')
             else:
@@ -464,12 +470,14 @@ class MeSHDB:
                         for i in range(0, check_dots - element.count('.')):
                             result_string += ']}'
                     else:
-                        for i in range(0,element.count('.') - check_dots):
+                        for i in range(0, element.count('.') - check_dots):
                             result_string += ']}'
                     result_string += ', '
-                    result_string += '{"name": "' + self.desc_by_tree_number(element).heading + ' (MESH:' + self.desc_by_tree_number(element).unique_id + ')", "children": '
+                    result_string += '{"name": "' + self.desc_by_tree_number(
+                        element).heading + ' (MESH:' + self.desc_by_tree_number(element).unique_id + ')", "children": '
                 else:
-                    result_string += '[{"name": "' + self.desc_by_tree_number(element).heading + ' (MESH:' + self.desc_by_tree_number(element).unique_id + ')", "children": '
+                    result_string += '[{"name": "' + self.desc_by_tree_number(
+                        element).heading + ' (MESH:' + self.desc_by_tree_number(element).unique_id + ')", "children": '
                 last_leaf_branch = 1
                 check_dots = element.count('.')
         result_string = result_string[:len(result_string) - 2]

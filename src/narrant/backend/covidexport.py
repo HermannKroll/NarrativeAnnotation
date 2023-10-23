@@ -11,13 +11,13 @@ from sqlalchemy import func
 
 from kgextractiontoolbox.backend.database import Session
 from kgextractiontoolbox.backend.models import DocumentTranslation, Tag
+from kgextractiontoolbox.document.regex import ILLEGAL_CHAR
+from kgextractiontoolbox.progress import print_progress_with_eta
+from narrant.document.translation.cord19.cord19ft2pubtator import NEXT_DOCUMENT_ID_OFFSET, PARAGRAPH_TITLE_DUMMY
+from narrant.document.translation.cord19.filereader import FileReader
+from narrant.document.translation.cord19.metareader import MetaReader
 from narrant.preprocessing import enttypes
 from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING
-from kgextractiontoolbox.progress import print_progress_with_eta
-from kgextractiontoolbox.document.regex import ILLEGAL_CHAR
-from narrant.pubtator.translation.cord19.cord19ft2pubtator import NEXT_DOCUMENT_ID_OFFSET, PARAGRAPH_TITLE_DUMMY
-from narrant.pubtator.translation.cord19.filereader import FileReader
-from narrant.pubtator.translation.cord19.metareader import MetaReader
 
 TITLE = "title"
 ABSTRACT = "abstract"
