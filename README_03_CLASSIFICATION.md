@@ -125,3 +125,25 @@ Run:
 python3 ~/NarrativeAnnotation/src/narrant/classification/train_svm.py \
     pharmaceutical_technology_articles.ids pharmaceutical_technology_articles_svm.pkl -c PubMed -s 50000 --workers 30
 ```
+
+
+# Load External Classification
+This Readme describes the workflow to download results from PubMed and use them as a document classification in our database.
+In the following, we will load the LitCovid and LongCovid collection as a showcase.
+
+Therefore, first go to the [LitCovid Page](https://www.ncbi.nlm.nih.gov/research/coronavirus/#data-download).
+Download the bibliography data as a TSV file.
+
+Then, load the document classification via:
+```
+python3 ~/NarrativeAnnotation/src/narrant/backend/load_classification_for_documents.py all_litcovid.tsv LitCovid -c PubMed
+```
+
+You can apply a similar workflow for LongCovid documents. 
+Add the condition LongCovid to your search and download the data. 
+The page can be accessed [here](https://www.ncbi.nlm.nih.gov/research/coronavirus/docsum?text=e_condition:LongCovid).
+Download the TSV file.
+Then insert the information to our database via:
+```
+python3 ~/NarrativeAnnotation/src/narrant/backend/load_classification_for_documents.py longcovid.tsv LongCovid -c PubMed
+```
