@@ -4,11 +4,11 @@ import shutil
 import tempfile
 
 from narrant.config import PREPROCESS_CONFIG
-from narrant.preprocessing.collect import PMCCollector
+from narrant.document.translation.pmc.collect import PMCCollector
 from narrant.preprocessing.config import Config
-from narrant.preprocessing.convertids import load_pmcids_to_pmid_index
+from narrant.document.translation.pmc.convertids import load_pmcids_to_pmid_index
 from narrant.pubtator.enrich_docs_with_tags import enrich_pubtator_documents_with_database_tags
-from narrant.pubtator.translation.pmc import PMCConverter
+from narrant.document.translation.pmc.pmc import PMCConverter
 
 
 def export_pmc_fulltexts_with_tags(out_fn, tag_types, doc_ids):

@@ -1,6 +1,6 @@
 import csv
 
-from narrant.pubtator.translation.md5_hasher import get_md5_hash_str
+from narrant.document.md5_hasher import get_md5_hash_str
 
 
 class MetaReader:

@@ -6,7 +6,7 @@ from kgextractiontoolbox.backend.models import Document, DocumentTranslation
 from kgextractiontoolbox.document.document import TaggedDocument
 from kgextractiontoolbox.document.extract import read_pubtator_documents
 from kgextractiontoolbox.document.doctranslation import run_document_translation
-from narrant.pubtator.translation.patent import PatentConverter
+from narrant.document.translation.patent import PatentConverter
 from narranttests.util import get_test_resource_filepath, tmp_rel_path
 
 
