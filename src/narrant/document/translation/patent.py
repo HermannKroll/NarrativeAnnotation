@@ -5,9 +5,9 @@ from pathlib import Path
 from typing import Union, Iterator
 
 from kgextractiontoolbox.backend.models import Document
-from kgextractiontoolbox.document.document import TaggedDocument
 from kgextractiontoolbox.document.doctranslation import DocumentTranslationLoader, SourcedDocument, \
     run_document_translation
+from kgextractiontoolbox.document.document import TaggedDocument
 
 
 class PatentConverter(DocumentTranslationLoader):

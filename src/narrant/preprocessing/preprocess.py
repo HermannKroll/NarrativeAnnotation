@@ -12,19 +12,19 @@ from typing import List, Set
 import psutil
 
 from kgextractiontoolbox.backend.database import Session
-from kgextractiontoolbox.document.load_document import document_bulk_load
 from kgextractiontoolbox.backend.models import DocTaggedBy
-from narrant.config import PREPROCESS_CONFIG
-from kgextractiontoolbox.multi_process_progress import MultiProcessProgress
-from narrant.preprocessing import enttypes
-from narrant.preprocessing.config import Config
-from narrant.preprocessing.enttypes import CHEMICAL, DISEASE, SPECIES, GENE
+from kgextractiontoolbox.document.distribute import distribute_workload, create_parallel_dirs, split_composites
+from kgextractiontoolbox.document.extract import collect_ids_from_dir
+from kgextractiontoolbox.document.load_document import document_bulk_load
+from kgextractiontoolbox.document.sanitize import sanitize
 from kgextractiontoolbox.entitylinking.tagging.external_base import ExternalTaggerBase
 from kgextractiontoolbox.entitylinking.tagging.gnormplus import GNormPlus
 from kgextractiontoolbox.entitylinking.tagging.taggerone import TaggerOne
-from kgextractiontoolbox.document.distribute import distribute_workload, create_parallel_dirs, split_composites
-from kgextractiontoolbox.document.extract import collect_ids_from_dir
-from kgextractiontoolbox.document.sanitize import sanitize
+from kgextractiontoolbox.multi_process_progress import MultiProcessProgress
+from narrant.config import PREPROCESS_CONFIG
+from narrant.preprocessing import enttypes
+from narrant.preprocessing.config import Config
+from narrant.preprocessing.enttypes import CHEMICAL, DISEASE, SPECIES, GENE
 
 LOGGING_FORMAT = '%(asctime)s %(levelname)s %(threadName)s %(module)s:%(lineno)d %(message)s'
 

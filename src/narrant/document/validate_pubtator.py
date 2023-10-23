@@ -4,7 +4,7 @@ import logging
 from kgextractiontoolbox.document.document import TaggedDocument
 
 
-def validate_pubtator_file(input_file:str):
+def validate_pubtator_file(input_file: str):
     from kgextractiontoolbox.document.extract import read_pubtator_documents
     for idx, pubtator_content in enumerate(read_pubtator_documents(input_file)):
         if not pubtator_content:
@@ -16,7 +16,6 @@ def validate_pubtator_file(input_file:str):
 
         if not doc.title and not doc.abstract:
             logging.warning(f'Document title and abstract NOT found in: {pubtator_content}')
-
 
 
 def main(args=None):

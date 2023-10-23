@@ -11,9 +11,9 @@ from kgextractiontoolbox.backend import models
 from kgextractiontoolbox.backend.database import Session
 from kgextractiontoolbox.backend.models import Document, DocumentTranslation
 from kgextractiontoolbox.progress import print_progress_with_eta
+from narrant.document.md5_hasher import get_md5_hash
 from narrant.document.translation.cord19.filereader import FileReader
 from narrant.document.translation.cord19.metareader import MetaReader
-from narrant.document.md5_hasher import get_md5_hash
 
 UNIQUE_ID_START = 100000
 NEXT_DOCUMENT_ID_OFFSET = 100000

@@ -1,8 +1,8 @@
 import re
 from collections import defaultdict
 
-from narrant.config import DOSAGEFORM_TAGGER_VOCAB_DIRECTORY
 from kgextractiontoolbox.entitylinking.tagging.vocabulary import expand_vocabulary_term
+from narrant.config import DOSAGEFORM_TAGGER_VOCAB_DIRECTORY
 from narrant.vocabularies.generic_vocabulary import GenericVocabulary
 
 

@@ -2,10 +2,10 @@ import logging
 import pickle
 from datetime import datetime
 
+from kgextractiontoolbox.progress import print_progress_with_eta
 from narrant.config import MESH_DESCRIPTORS_FILE, MESH_ONTOLOGY_INDEX_FILE
 from narrant.mesh.data import MeSHDB
 from narrant.preprocessing.enttypes import DOSAGE_FORM, METHOD, DISEASE, VACCINE, HEALTH_STATUS, TISSUE
-from kgextractiontoolbox.progress import print_progress_with_eta
 
 MESH_TREE_NAMES = dict(
     A="Anatomy",

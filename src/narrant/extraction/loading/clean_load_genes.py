@@ -3,10 +3,9 @@ from collections import namedtuple
 from datetime import datetime
 from typing import List
 
-
+from kgextractiontoolbox.progress import print_progress_with_eta
 from narrant.entity.entityresolver import GeneResolver
 from narrant.preprocessing.enttypes import GENE
-from kgextractiontoolbox.progress import print_progress_with_eta
 
 PRED = namedtuple('Predication', ['doc_id', 'subj', 'pred', 'pred_cleaned', 'obj', 'conf', 'sent', 's_id', 's_str',
                                   's_type', 'o_id', 'o_str', 'o_type'])

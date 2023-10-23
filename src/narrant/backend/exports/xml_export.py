@@ -9,10 +9,10 @@ from xml.etree.ElementTree import Element, SubElement
 
 from kgextractiontoolbox.backend.database import Session
 from kgextractiontoolbox.backend.models import Tag, DocumentTranslation
+from kgextractiontoolbox.progress import print_progress_with_eta
 from narrant.entity.entityresolver import EntityResolver
 from narrant.preprocessing import enttypes
 from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, get_entity_source
-from kgextractiontoolbox.progress import print_progress_with_eta
 
 CONTENT_BUFFER_SIZE = 10000
 TAG_BUFFER_SIZE = 100000

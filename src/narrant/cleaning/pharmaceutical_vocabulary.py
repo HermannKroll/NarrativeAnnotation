@@ -1,8 +1,7 @@
 from narrant.entity.entity import Entity
-from narrant.preprocessing.enttypes import DISEASE, GENE, CHEMICAL, DOSAGE_FORM, EXCIPIENT, DRUG, CHEMBL_CHEMICAL, \
+from narrant.preprocessing.enttypes import DISEASE, GENE, CHEMICAL, EXCIPIENT, DRUG, CHEMBL_CHEMICAL, \
     SPECIES, \
     PLANT_FAMILY_GENUS, LAB_METHOD, METHOD, HEALTH_STATUS, TARGET
-
 
 DOSAGE_FORM_PREDICATE = "administered"
 METHOD_PREDICATE = "method"
@@ -21,18 +20,19 @@ PREDICATE_EXPANSION = dict(
 SYMMETRIC_PREDICATES = {"interacts", "associated", "induces", "decreases", "administered", "method"}
 PREDICATE_TYPING = {'treats': ({CHEMICAL, DRUG, CHEMBL_CHEMICAL, EXCIPIENT, PLANT_FAMILY_GENUS},
                                {DISEASE, SPECIES, HEALTH_STATUS}),
-     #               'administered': ({DOSAGE_FORM},
-     #                                {SPECIES, DISEASE, CHEMICAL, DRUG, CHEMBL_CHEMICAL, EXCIPIENT,
-     #                                 PLANT_FAMILY_GENUS, DOSAGE_FORM, LAB_METHOD, METHOD}),
-      #              'method': ({METHOD, LAB_METHOD},
-       #                        {SPECIES, DISEASE, CHEMICAL, DRUG, CHEMBL_CHEMICAL, EXCIPIENT,
-        #                        PLANT_FAMILY_GENUS, DOSAGE_FORM, LAB_METHOD, METHOD}),
+                    #               'administered': ({DOSAGE_FORM},
+                    #                                {SPECIES, DISEASE, CHEMICAL, DRUG, CHEMBL_CHEMICAL, EXCIPIENT,
+                    #                                 PLANT_FAMILY_GENUS, DOSAGE_FORM, LAB_METHOD, METHOD}),
+                    #              'method': ({METHOD, LAB_METHOD},
+                    #                        {SPECIES, DISEASE, CHEMICAL, DRUG, CHEMBL_CHEMICAL, EXCIPIENT,
+                    #                        PLANT_FAMILY_GENUS, DOSAGE_FORM, LAB_METHOD, METHOD}),
                     'induces': ({CHEMICAL, DRUG, EXCIPIENT, CHEMBL_CHEMICAL, DISEASE, PLANT_FAMILY_GENUS},
                                 {CHEMICAL, DRUG, EXCIPIENT, CHEMBL_CHEMICAL, DISEASE, PLANT_FAMILY_GENUS}),
                     'decreases': ({CHEMICAL, DRUG, EXCIPIENT, CHEMBL_CHEMICAL, DISEASE, PLANT_FAMILY_GENUS},
                                   {CHEMICAL, DRUG, EXCIPIENT, CHEMBL_CHEMICAL, DISEASE, PLANT_FAMILY_GENUS}),
-                    'interacts': ({CHEMICAL, DRUG, EXCIPIENT, CHEMBL_CHEMICAL, GENE, PLANT_FAMILY_GENUS, TARGET, 'ArabidopsisGene'},
-                                  {CHEMICAL, DRUG, EXCIPIENT, CHEMBL_CHEMICAL, GENE, PLANT_FAMILY_GENUS, TARGET, 'ArabidopsisGene'}),
+                    'interacts': (
+                    {CHEMICAL, DRUG, EXCIPIENT, CHEMBL_CHEMICAL, GENE, PLANT_FAMILY_GENUS, TARGET, 'ArabidopsisGene'},
+                    {CHEMICAL, DRUG, EXCIPIENT, CHEMBL_CHEMICAL, GENE, PLANT_FAMILY_GENUS, TARGET, 'ArabidopsisGene'}),
                     'metabolises': ({GENE, TARGET, 'ArabidopsisGene'},
                                     {CHEMICAL, DRUG, EXCIPIENT, CHEMBL_CHEMICAL, PLANT_FAMILY_GENUS}),
                     'inhibits': ({CHEMICAL, DRUG, EXCIPIENT, CHEMBL_CHEMICAL, PLANT_FAMILY_GENUS},

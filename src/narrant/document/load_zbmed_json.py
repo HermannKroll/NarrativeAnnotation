@@ -5,10 +5,10 @@ from datetime import datetime
 
 from kgextractiontoolbox.backend.database import Session
 from kgextractiontoolbox.backend.models import Document, Tag, DocumentMetadata, DocumentTranslation
+from kgextractiontoolbox.document.document import TaggedEntity, TaggedDocument
+from kgextractiontoolbox.progress import Progress
 from narrant.entity.meshontology import MeSHOntology
 from narrant.preprocessing.enttypes import GENE, DISEASE
-from kgextractiontoolbox.progress import Progress
-from kgextractiontoolbox.document.document import TaggedEntity, TaggedDocument
 
 ZBMED_BULK_INSERT_AFTER_K = 1000
 

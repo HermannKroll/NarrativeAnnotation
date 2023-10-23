@@ -1,5 +1,4 @@
 import argparse
-
 import logging
 
 from sqlalchemy import and_

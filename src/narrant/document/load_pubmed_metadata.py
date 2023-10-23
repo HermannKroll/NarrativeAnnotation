@@ -7,10 +7,10 @@ from typing import Set, Dict, List
 
 from lxml import etree
 
-from kgextractiontoolbox.backend.models import Document
-from kgextractiontoolbox.progress import print_progress_with_eta
 from kgextractiontoolbox.backend.database import Session
+from kgextractiontoolbox.backend.models import Document
 from kgextractiontoolbox.backend.models import DocumentMetadata
+from kgextractiontoolbox.progress import print_progress_with_eta
 
 month_dict = {
     "1": "1", "01": "1", "Jan": "1", "January": "1",

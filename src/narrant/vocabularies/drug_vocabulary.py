@@ -10,11 +10,11 @@ from lxml import etree as ET
 
 import narrant.vocabularies.chemical_vocabulary as chem_vocab
 import narrant.vocabularies.excipient_vocabulary as exc_vocab
-from narrant import config
-from narrant.config import CHEMBL_BLACKLIST_FILE, DRUG_TAGGER_VOCAB
 from kgextractiontoolbox.entitylinking.tagging.dictagger import clean_vocab_word_by_split_rules
 from kgextractiontoolbox.entitylinking.tagging.vocabulary import expand_vocabulary_term, Vocabulary
 from kgextractiontoolbox.progress import print_progress_with_eta
+from narrant import config
+from narrant.config import CHEMBL_BLACKLIST_FILE, DRUG_TAGGER_VOCAB
 from narrant.preprocessing.enttypes import DRUG
 from narrant.vocabularies.chembl_vocabulary import ChemblVocabulary
 
@@ -249,7 +249,7 @@ def get_chemblid2synonym(csv_file):
 
 if __name__ == "__main__":
     logging.basicConfig(format='%(asctime)s,%(msecs)d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
-                            datefmt='%Y-%m-%d:%H:%M:%S',
-                            level=logging.INFO)
+                        datefmt='%Y-%m-%d:%H:%M:%S',
+                        level=logging.INFO)
 
     DrugVocabulary().initialize_vocabulary(force_create=True)

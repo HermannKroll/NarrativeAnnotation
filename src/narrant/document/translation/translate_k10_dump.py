@@ -1,8 +1,8 @@
 import json
 import time
+from json import load, loads, dumps
 from os import path, scandir
 from typing import List, Optional, IO, Dict, AnyStr
-from json import load, loads, dumps
 
 JSON_RESPONSE_KEY = "response"
 JSON_RESPONSE_DOCS_KEY = "docs"
