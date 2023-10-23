@@ -3,6 +3,12 @@ The extraction procedure is based on our toolbox extraction methods.
 However, we require an additional logic to filter gene ids for the extraction.
 That is why we have a pharmaceutical version. 
 
+For the extraction part, additional indexes are required.
+```
+python3 ~/NarrativeAnnotation/src/narrant/build_all_indexes.py
+```
+
+
 Run the pharmaceutical extraction pipeline via:
 ```
 python3 ~/NarrativeAnnotation/src/narrant/extraction/pharmaceutical_pipeline.py --idfile $UPDATED_IDS \ 
