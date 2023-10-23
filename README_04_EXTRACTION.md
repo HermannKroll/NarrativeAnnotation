@@ -24,34 +24,54 @@ The previous procedure extracts noisy verb phrases from texts, e.g., predicates 
 These noise phrases are not mapped to precise relations at the moment.
 Therefore, we designed an canonicalization procedure which utilizes a biomedical word embedding.
 
-The word embedding must be downloaded
+Create a new directory to store the embedding:
+```
+mkdir ~/data/
+cd ~/data/
+```
 
 
+The word embedding must be downloaded from an external source:
 ```
 wget https://ftp.ncbi.nlm.nih.gov/pub/lu/Suppl/BioSentVec/BioWordVec_PubMed_MIMICIII_d200.bin 
 ```
 
+Finally, the noise verb phrases in our database can be canonicalized via:
 ```
-
 # Do the canonicalizing step
-python3 ~NarrativeAnnotation/lib/KGExtractionToolbox/src/kgextractiontoolbox/cleaning/canonicalize_predicates.py \
-    --word2vec_model /data/workingdir/BioWordVec_PubMed_MIMICIII_d200.bin 
-    --relation_vocab ~/NarrativeAnnotation/resources/pharm_relation_vocab.json 
+python3 ~/NarrativeAnnotation/lib/KGExtractionToolbox/src/kgextractiontoolbox/cleaning/canonicalize_predicates.py \
+    --word2vec_model ~/data/BioWordVec_PubMed_MIMICIII_d200.bin \
+    --relation_vocab ~/NarrativeAnnotation/resources/pharm_relation_vocab.json \
     --predicate_id_minimum $PREDICATION_MINIMUM_UPDATE_ID
-
-
 ```
+
+Arguments are:
+- **word2vec_model** specifys the path to the biomedical word embedding
+- **relation_vocab** specifys the path to our relation vocabulary (necessary to canonicalize the extractions)
+- **predicate_id_minimum** is an optional argument to specify which predication ids should be updated.
+
+The idea is that only documents are updated which are new since the last update.
+Therefore, all predication entries are queried that have an id greater equal the minimum predication id.
+This mode is way faster and less memory intensive than canonicalizing the whole table.
 
 
 ## Apply Pharmaceutical Cleaning Logic
-
-
-Apply the rules:
+Next, we have some special pharmaceutical rules. 
+Please run:
 ```
 python3 ~/NarrativeAnnotation/src/narrant/cleaning/pharmaceutical_rules.py --predicate_id_minimum $PREDICATION_MINIMUM_UPDATE_ID
 ```
 
-Execute Cleaning Rules for Predications
+Arguments are:
+- **predicate_id_minimum** is an optional argument to specify which predication ids should be updated.
+
+The idea is that only documents are updated which are new since the last update.
+Therefore, all predication entries are queried that have an id greater equal the minimum predication id.
+This mode is way faster and less memory intensive than apply rules to the the whole table.
+
+
+Finally, we curate some extra cleaning rules formulated in SQL. 
+Execute the following cleaning rules for the Predication table:
 ```
-psql "host=127.0.0.1 port=5432 dbname=fidpharmazie user=USER password=PW" -f home/pubpharm/NarrativeAnnotation/sql/clean_predication.sql
+psql "host=127.0.0.1 port=5432 dbname=fidpharmazie user=USER password=PW" -f ~/NarrativeAnnotation/sql/clean_predication.sql
 ```
