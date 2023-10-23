@@ -63,14 +63,14 @@ Run the pharmaceutical classification via:
 ```
 python3 ~/NarrativeAnnotation/lib/KGExtractionToolbox/src/kgextractiontoolbox/entitylinking/classification.py \
     -i docs.json -c PubMed --cls Pharmaceutical -w 15 --skip-load \
-    -r /home/pubpharm/NarrativeAnnotation/resources/classification/pharmaceutical_classification_rules.txt  
+    -r ~/NarrativeAnnotation/resources/classification/pharmaceutical_classification_rules.txt  
 ```
 
 Run the plant specific classification via:
 ```
 python3 ~/NarrativeAnnotation/lib/KGExtractionToolbox/src/kgextractiontoolbox/entitylinking/classification.py \
     -i docs.json -c PubMed --cls PlantSpecific -w 15 --skip-load \
-    -r /home/pubpharm/NarrativeAnnotation/resources/classification/plant_specific_rules.txt 
+    -r ~/NarrativeAnnotation/resources/classification/plant_specific_rules.txt 
 
 ```
 
@@ -83,7 +83,7 @@ How to make the model available?
 Apply the classification to documents via the following command:
 ```
 python3 ~/NarrativeAnnotation/src/narrant/classification/apply_svm.py \
-    /home/pubpharm/models/pharmaceutical_technology_articles_svm.pkl \ 
+    ~/models/pharmaceutical_technology_articles_svm.pkl \ 
     -i docs.json -c PubMed --cls PharmaceuticalTechnology --workers 2
 ```
 
@@ -110,7 +110,7 @@ The list of journals is available here:
 To reproduce our training, export the document ids fist.
 ```
 python3 ~/NarrativeAnnotation/src/narraint/backend/export_article_ids_from_journals.py \
-    /home/pubpharm/NarrativeAnnotation/resources/classification/pharmaceutical_technology_journals.txt \
+    ~/NarrativeAnnotation/resources/classification/pharmaceutical_technology_journals.txt \
     pharmaceutical_technology_articles.ids -c PubMed
 ```
 
