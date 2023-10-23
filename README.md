@@ -24,6 +24,11 @@ This project stores its processed data in a relational database that stores the 
 So first please setup a Postgres database by following the official instructions. 
 We used V14. 
 
+## Schema
+
+## General Database Schema
+![DB Scheme](dbdiagram.png)
+
 ## Configure Postgres
 
 ```
