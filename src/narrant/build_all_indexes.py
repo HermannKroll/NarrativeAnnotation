@@ -81,6 +81,7 @@ def build_entity_indexes(complete: bool, skip_mesh: bool, force: bool = False):
 
 def main():
     parser = ArgumentParser(description="Recreates Indexes")
+    parser.add_argument("--force", action='store_true', help="Skip asking for the correct DB connection")
     parser.add_argument("--skip-mesh", action='store_true', help="Skip the recreation of MeSH Indexes")
     parser.add_argument("--complete", action='store_true', help="Builds a complete Gene and Species Index...")
     args = parser.parse_args()
@@ -89,7 +90,7 @@ def main():
                         datefmt='%Y-%m-%d:%H:%M:%S',
                         level=logging.DEBUG)
 
-    build_entity_indexes(args.complete, args.skip_mesh)
+    build_entity_indexes(args.complete, args.skip_mesh, force=args.force)
 
 
 if __name__ == "__main__":
