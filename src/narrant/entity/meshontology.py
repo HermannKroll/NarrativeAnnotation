@@ -5,7 +5,7 @@ from datetime import datetime
 from kgextractiontoolbox.progress import print_progress_with_eta
 from narrant.config import MESH_DESCRIPTORS_FILE, MESH_ONTOLOGY_INDEX_FILE
 from narrant.mesh.data import MeSHDB
-from narrant.preprocessing.enttypes import DOSAGE_FORM, METHOD, DISEASE, VACCINE, HEALTH_STATUS, TISSUE
+from narrant.preprocessing.enttypes import DOSAGE_FORM, METHOD, DISEASE, VACCINE, HEALTH_STATUS, TISSUE, LAB_METHOD
 
 MESH_TREE_NAMES = dict(
     A="Anatomy",
@@ -35,6 +35,7 @@ MESH_TREE_TO_ENTITY_TYPE = [
     ("J01.637.512.850", DOSAGE_FORM),  # Nanotubes
     ("J01.637.512.925", DOSAGE_FORM),  # Nanowires
     ("E", METHOD),
+    ("E", LAB_METHOD),   # Each method could be specified to a LabMethod. We don't know it here. 
     ("E", DOSAGE_FORM),
     ("C", DISEASE),
     ("F03", DISEASE),
