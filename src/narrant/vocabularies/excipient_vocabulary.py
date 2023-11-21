@@ -58,13 +58,15 @@ class ExcipientVocabulary:
 
     @staticmethod
     def create_excipient_vocabulary(excipient_database=config.EXCIPIENT_TAGGER_DATABASE_FILE,
-                                    chembl_db_file=config.DRUG_TAGGER_VOCAB, ):
+                                    chembl_db_file=config.DRUG_TAGGER_VOCAB,
+                                    expand_terms=True):
         # we cannot ignore the excipient terms while reading chembl here (else our mapping would be empty)
         chembl_terms = drug_vocab.DrugVocabulary.create_drug_vocabulary_from_chembl(source_file=chembl_db_file,
                                                                                     ignore_excipient_terms=False,
-                                                                                    ignore_drugbank_chemicals=False)
+                                                                                    ignore_drugbank_chemicals=False,
+                                                                                    expand_terms=expand_terms)
         logging.info(f'Reading excipient database: {excipient_database}...')
-        excipient_terms = ExcipientVocabulary.read_excipients_names()
+        excipient_terms = ExcipientVocabulary.read_excipients_names(expand_terms=expand_terms)
         chembl_identifiers_for_excipients = set()
         desc_by_term = {}
         # extend dict by all excipient terms
