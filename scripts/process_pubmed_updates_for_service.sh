@@ -12,11 +12,10 @@ LONGCOVID_ID_FILE="$DATA_PATH"long_covid_ids.tsv
 UPDATES_PUBTATOR="$DATA_PATH"pubtator_updates.pubtator
 UPDATED_IDS="$DATA_PATH"pharmaceutical_relevant_ids.txt
 
-TAG_CLEANING_SQL="~/NarrativeAnnotation/sql/clean_tags.sql"
+TAG_CLEANING_SQL=/home/"$USER"/NarrativeAnnotation/sql/clean_tags.sql
 
 MEDLINE_BASELINE="$DATA_PATH"baseline/
 MEDLINE_UPDATES="$DATA_PATH"updates/
-
 
 
 cd $PUBMED_ROOT
