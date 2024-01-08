@@ -13,3 +13,6 @@ python3 ~/NarrativeAnnotation/src/narrant/cleaning/pharmaceutical_rules.py --pre
 # Execute Cleaning Rules for Predications
 echo 'cleaning predication table with hand-written rules'
 psql "host=127.0.0.1 port=5432 dbname=fidpharmazie user=mininguser password=F2M>FAJL2ptVm)W" -f $PREDICATION_CLEANING_SQL
+
+# Export highest ID for cleaning
+python3 ~/NarrativeAnnotation/lib/KGExtractionToolbox/src/kgextractiontoolbox/backend/export_highest_predication_id.py $PREDICATION_MINIMUM_UPDATE_ID_FILE
