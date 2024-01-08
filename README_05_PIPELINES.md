@@ -4,26 +4,26 @@ The scripts are located in [scripts](scripts/).
 
 Add the +x flag to the scripts first:
 ```
-chmod +x ~/NarrativeAnnotation/scripts/*.bs
+chmod +x ~/NarrativeAnnotation/scripts/*.sh
 ```
 
 
-The [MEDLINE script](scripts/process_pubmed_updates_for_service.bs) downloads MEDLINE metadata updates from the official NLM API.
+The [MEDLINE script](scripts/process_pubmed_updates_for_service.sh) downloads MEDLINE metadata updates from the official NLM API.
 Metadata is then inserted into our database.
 After that, the script downloads new documents plus annotations from the [PubTator Central](https://www.ncbi.nlm.nih.gov/research/pubtator/) service.
 Documents are load, tagged, classified and statements are extracted from them. 
 
 ```
-bash ~/NarrativeAnnotation/scripts/process_pubmed_updates_for_service.bs
+bash ~/NarrativeAnnotation/scripts/process_pubmed_updates_for_service.sh
 ```
 
 
-We implemented a similar [script for the ZB MED pre-prints](scripts/process_zbmed_for_service.bs). 
+We implemented a similar [script for the ZB MED pre-prints](scripts/process_zbmed_for_service.sh). 
 New pre-prints are crawled, transformed, loaded, tagged, classified and statements are extracted from them.
 
 
 ```
-bash ~/NarrativeAnnotation/scripts/process_zbmed_for_service.bs
+bash ~/NarrativeAnnotation/scripts/process_zbmed_for_service.sh
 ```
 
 
@@ -35,7 +35,7 @@ We implemented a script to:
 
 Note that you may adjust the script to enter your Postgres DB credentials. 
 
-The [cleaning script](scripts/process_clean_extractions.bs) can be executed via:
+The [cleaning script](scripts/process_clean_extractions.sh) can be executed via:
 ```
-bash ~/NarrativeAnnotation/scripts/Fprocess_clean_extractions.bs
+bash ~/NarrativeAnnotation/scripts/Fprocess_clean_extractions.sh
 ```
