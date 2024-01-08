@@ -1,22 +1,21 @@
 #!/bin/bash
 
+DATA_PATH="/data/pubmed/"
 
-PHARM_TECH_IDS="/data/pubmed/pharm_technology_ids.tsv"
-ALL_PUBTATOR_PMIDS="/data/pubmed/pubtator_pmids_all.txt"
-PMIDS_IN_DB="/data/pubmed/pmids_in_db.txt"
-IDS_TO_DOWNLOAD="/data/pubmed/pubtator_pmids_to_download.txt"
-LITCOVID_ID_FILE="/data/pubmed/litcovid_ids.tsv"
-LONGCOVID_ID_FILE="/data/pubmed/long_covid_ids.tsv"
+PHARM_TECH_IDS="$DATA_PATH"/pharm_technology_ids.tsv
+ALL_PUBTATOR_PMIDS="$DATA_PATH"pubtator_pmids_all.txt
+PMIDS_IN_DB="$DATA_PATH"pmids_in_db.txt
+IDS_TO_DOWNLOAD="$DATA_PATH"pubtator_pmids_to_download.txt
+LITCOVID_ID_FILE="$DATA_PATH"litcovid_ids.tsv
+LONGCOVID_ID_FILE="$DATA_PATH"long_covid_ids.tsv
 
-UPDATES_PUBTATOR="/data/pubmed/pubtator_updates.pubtator"
-UPDATED_IDS="/data/pubmed/pharmaceutical_relevant_ids.txt"
+UPDATES_PUBTATOR="$DATA_PATH"pubtator_updates.pubtator
+UPDATED_IDS="$DATA_PATH"pharmaceutical_relevant_ids.txt
 
-TAG_CLEANING_SQL="~/NarrativeAnnotation/sql/clean_tags.sql"
+TAG_CLEANING_SQL=/home/"$USER"/NarrativeAnnotation/sql/clean_tags.sql
 
-PUBMED_ROOT="/data/pubmed/"
-MEDLINE_BASELINE="/data/pubmed/2021_12/"
-MEDLINE_UPDATES="/data/pubmed/2022_updates/"
-
+MEDLINE_BASELINE="$DATA_PATH"baseline/
+MEDLINE_UPDATES="$DATA_PATH"updates/
 
 
 cd $PUBMED_ROOT
@@ -25,7 +24,7 @@ mkdir $MEDLINE_UPDATES
 
 # Load the Metadata
 # Donwload the latest medline via
-# wget -m ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline/
+# wget -m ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline/ -P $MEDLINE_BASELINE
 # Download the latest updates via
 wget -m ftp://ftp.ncbi.nlm.nih.gov/pubmed/updatefiles -P $MEDLINE_UPDATES
 
@@ -67,7 +66,7 @@ python3 ~/NarrativeAnnotation/lib/KGExtractionToolbox/src/kgextractiontoolbox/en
 python3 ~/NarrativeAnnotation/src/narrant/classification/apply_svm.py -i $UPDATES_PUBTATOR -c PubMed ~/pharmaceutical_technology_articles_svm.pkl --cls PharmaceuticalTechnology --workers 2
 
 # Load Pharmaceutical Journals as Pharmaceutical Technology
-python3 ~/NarrativeAnnotation/src/narrant/backend/export_articles_from_journals.py ~/NarrativeAnnotation/resources/classification/pharmaceutical_technology_journals.txt $PHARM_TECH_IDS -c PubMed
+python3 ~/NarrativeAnnotation/src/narrant/backend/export_article_ids_from_journals.py ~/NarrativeAnnotation/resources/classification/pharmaceutical_technology_journals.txt $PHARM_TECH_IDS -c PubMed
 python3 ~/NarrativeAnnotation/src/narrant/backend/load_classification_for_documents.py  $PHARM_TECH_IDS PharmaceuticalTechnology -c PubMed
 
 
