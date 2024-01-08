@@ -25,7 +25,7 @@ mkdir $MEDLINE_UPDATES
 
 # Load the Metadata
 # Donwload the latest medline via
-# wget -m ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline/
+# wget -m ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline/ -P $MEDLINE_BASELINE
 # Download the latest updates via
 wget -m ftp://ftp.ncbi.nlm.nih.gov/pubmed/updatefiles -P $MEDLINE_UPDATES
 
