@@ -66,7 +66,7 @@ python3 ~/NarrativeAnnotation/lib/KGExtractionToolbox/src/kgextractiontoolbox/en
 python3 ~/NarrativeAnnotation/src/narrant/classification/apply_svm.py -i $UPDATES_PUBTATOR -c PubMed ~/pharmaceutical_technology_articles_svm.pkl --cls PharmaceuticalTechnology --workers 2
 
 # Load Pharmaceutical Journals as Pharmaceutical Technology
-python3 ~/NarrativeAnnotation/src/narrant/backend/export_articles_from_journals.py ~/NarrativeAnnotation/resources/classification/pharmaceutical_technology_journals.txt $PHARM_TECH_IDS -c PubMed
+python3 ~/NarrativeAnnotation/src/narrant/backend/export_article_ids_from_journals.py ~/NarrativeAnnotation/resources/classification/pharmaceutical_technology_journals.txt $PHARM_TECH_IDS -c PubMed
 python3 ~/NarrativeAnnotation/src/narrant/backend/load_classification_for_documents.py  $PHARM_TECH_IDS PharmaceuticalTechnology -c PubMed
 
 
