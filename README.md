@@ -233,7 +233,7 @@ Configure the entity linking configuration for the project.
 ```
 cd NarrativeAnnotation/config/
 cp entity_linking.prod.json entity_linking.json
-nano preprocess.json
+nano entity_linking.json
 ```
 Enter your GNormPlus root path. TaggerOne does not need to be set.
 ```
