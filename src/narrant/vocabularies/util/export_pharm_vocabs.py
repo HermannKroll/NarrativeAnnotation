@@ -1,7 +1,7 @@
 import logging
 
 from kgextractiontoolbox.entitylinking.tagging.vocabulary import Vocabulary
-from narrant.preprocessing.enttypes import DRUG, VACCINE, CHEMICAL, DOSAGE_FORM, DISEASE, EXCIPIENT, PLANT_FAMILY_GENUS, \
+from narrant.entitylinking.enttypes import DRUG, VACCINE, CHEMICAL, DOSAGE_FORM, DISEASE, EXCIPIENT, PLANT_FAMILY_GENUS, \
     METHOD, LAB_METHOD, HEALTH_STATUS, TARGET
 from narrant.vocabularies.chemical_vocabulary import ChemicalVocabulary
 from narrant.vocabularies.disease_vocabulary import DiseaseVocabulary

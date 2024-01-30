@@ -2,9 +2,9 @@ from nltk import pos_tag, word_tokenize
 
 from kgextractiontoolbox.document.document import TaggedDocument
 from narrant import config
-from narrant.preprocessing import enttypes
-from narrant.preprocessing.enttypes import HEALTH_STATUS
-from narrant.preprocessing.tagging.indexed_dictagger import IndexedDictTagger
+from narrant.entitylinking import enttypes
+from narrant.entitylinking.enttypes import HEALTH_STATUS
+from narrant.entitylinking.tagging.indexed_dictagger import IndexedDictTagger
 from narrant.vocabularies.healthstatus_vocabulary import HealthStatusVocabulary
 
 

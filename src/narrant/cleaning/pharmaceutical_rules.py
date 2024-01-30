@@ -14,7 +14,7 @@ from narrant.cleaning.pharmaceutical_vocabulary import DOSAGE_FORM_PREDICATE, ME
     ASSOCIATED_PREDICATE_UNSURE
 from narrant.cleaning.pharmaceutical_vocabulary import SYMMETRIC_PREDICATES, PREDICATE_TYPING, sort_symmetric_arguments, \
     are_subject_and_object_correctly_ordered
-from narrant.preprocessing.enttypes import DOSAGE_FORM, LAB_METHOD, METHOD
+from narrant.entitylinking.enttypes import DOSAGE_FORM, LAB_METHOD, METHOD
 
 BULK_INSERT_PRED_TO_DELETE_AFTER_K = 1000000
 BULK_QUERY_CURSOR_COUNT = 500000

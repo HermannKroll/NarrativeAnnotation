@@ -16,8 +16,8 @@ from kgextractiontoolbox.progress import print_progress_with_eta
 from narrant.document.translation.cord19.cord19ft2pubtator import NEXT_DOCUMENT_ID_OFFSET, PARAGRAPH_TITLE_DUMMY
 from narrant.document.translation.cord19.filereader import FileReader
 from narrant.document.translation.cord19.metareader import MetaReader
-from narrant.preprocessing import enttypes
-from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING
+from narrant.entitylinking import enttypes
+from narrant.entitylinking.enttypes import TAG_TYPE_MAPPING
 
 TITLE = "title"
 ABSTRACT = "abstract"

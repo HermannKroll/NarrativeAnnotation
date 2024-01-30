@@ -2,10 +2,10 @@ import logging
 from typing import Dict
 
 from kgextractiontoolbox.entitylinking.tagging.metadictagger import MetaDicTagger
-from narrant.preprocessing import enttypes as et
-from narrant.preprocessing.pharmacy import chemical, drug, method, labmethod, excipient, plantfamilygenus, disease, \
+from narrant.entitylinking import enttypes as et
+from narrant.entitylinking.pharmacy import chemical, drug, method, labmethod, excipient, plantfamilygenus, disease, \
     dosage, vaccine, healthstatus, organism, tissue
-from narrant.preprocessing.tagging import indexed_dictagger as dt
+from narrant.entitylinking.tagging import indexed_dictagger as dt
 
 
 class PharmDictTagger:

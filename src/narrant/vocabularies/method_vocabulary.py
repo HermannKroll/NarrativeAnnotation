@@ -1,5 +1,5 @@
 from narrant.config import METHOD_CLASSIFICATION_FILE, METHOD_TAGGER_VOCAB_DIRECTORY
-from narrant.preprocessing.enttypes import LAB_METHOD, METHOD
+from narrant.entitylinking.enttypes import LAB_METHOD, METHOD
 from narrant.vocabularies.generic_vocabulary import GenericVocabulary
 
 

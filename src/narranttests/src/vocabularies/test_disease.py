@@ -1,7 +1,7 @@
 import unittest
 
-from narrant.preprocessing.enttypes import DISEASE
-from narrant.preprocessing.pharmacy.disease import DiseaseTagger
+from narrant.entitylinking.enttypes import DISEASE
+from narrant.entitylinking.pharmacy.disease import DiseaseTagger
 from kgextractiontoolbox.document.document import TaggedDocument
 from narranttests.util import create_test_kwargs
 

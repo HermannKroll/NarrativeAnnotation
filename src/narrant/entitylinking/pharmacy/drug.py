@@ -6,8 +6,8 @@ import tempfile
 import lxml.etree as ET
 
 from narrant import config
-from narrant.preprocessing import enttypes
-from narrant.preprocessing.tagging.indexed_dictagger import IndexedDictTagger
+from narrant.entitylinking import enttypes
+from narrant.entitylinking.tagging.indexed_dictagger import IndexedDictTagger
 from narrant.vocabularies.drug_vocabulary import DrugVocabulary
 
 

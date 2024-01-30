@@ -1,7 +1,7 @@
 import unittest
 
 from kgextractiontoolbox.cleaning.relation_type_constraints import RelationTypeConstraintStore
-from narrant.preprocessing.enttypes import DISEASE, GENE, CHEMICAL, DOSAGE_FORM, EXCIPIENT, DRUG, \
+from narrant.entitylinking.enttypes import DISEASE, GENE, CHEMICAL, DOSAGE_FORM, EXCIPIENT, DRUG, \
     SPECIES, \
     PLANT_FAMILY_GENUS, LAB_METHOD, METHOD
 from narranttests import util

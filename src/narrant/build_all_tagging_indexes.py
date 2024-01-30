@@ -3,7 +3,7 @@ import os
 import shutil
 
 from narrant.config import PREPROCESS_CONFIG, TMP_DIR_TAGGER
-from narrant.preprocessing.pharmacy.pharmdicttagger import PharmDictTagger
+from narrant.entitylinking.pharmacy.pharmdicttagger import PharmDictTagger
 
 
 def build_tagging_indexes():

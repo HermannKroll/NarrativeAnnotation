@@ -10,7 +10,7 @@ from kgextractiontoolbox.document.count import count_documents
 from kgextractiontoolbox.document.extract import read_pubtator_documents
 from kgextractiontoolbox.document.regex import DOCUMENT_ID, TAG_LINE_NORMAL
 from kgextractiontoolbox.progress import print_progress_with_eta
-from narrant.preprocessing.config import Config
+from narrant.entitylinking.config import Config
 
 
 def load_pmcids_to_pmid_index(index_file):

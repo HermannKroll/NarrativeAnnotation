@@ -6,7 +6,7 @@ from sqlalchemy import func, desc
 from kgextractiontoolbox.backend.database import Session
 from kgextractiontoolbox.backend.models import Tag
 from narrant.entity.entityresolver import EntityResolver
-from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, DALL
+from narrant.entitylinking.enttypes import TAG_TYPE_MAPPING, DALL
 
 
 def main(arguments=None):

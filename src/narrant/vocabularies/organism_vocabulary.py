@@ -2,7 +2,7 @@ import logging
 import os
 
 from narrant.config import ORGANISM_TAGGER_VOCAB, ORGANISM_TAGGER_VOCAB_DIRECTORY
-from narrant.preprocessing.enttypes import ORGANISM
+from narrant.entitylinking.enttypes import ORGANISM
 from narrant.vocabularies.generic_vocabulary import GenericVocabulary
 from narrant.vocabularies.target_vocabulary import TargetVocabulary
 

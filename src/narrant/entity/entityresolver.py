@@ -18,7 +18,7 @@ from narrant.config import GENE_FILE, GENE_INDEX_FILE, MESH_DESCRIPTORS_FILE, ME
 from narrant.entity.meshontology import MeSHOntology
 from narrant.mesh.data import MeSHDB
 from narrant.mesh.supplementary import MeSHDBSupplementary
-from narrant.preprocessing.enttypes import GENE, CHEMICAL, DISEASE, SPECIES, DOSAGE_FORM, EXCIPIENT, PLANT_FAMILY_GENUS, \
+from narrant.entitylinking.enttypes import GENE, CHEMICAL, DISEASE, SPECIES, DOSAGE_FORM, EXCIPIENT, PLANT_FAMILY_GENUS, \
     LAB_METHOD, METHOD, VACCINE
 
 

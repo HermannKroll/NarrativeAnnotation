@@ -1,4 +1,4 @@
-from narrant.preprocessing.enttypes import LAB_METHOD
+from narrant.entitylinking.enttypes import LAB_METHOD
 from narrant.vocabularies.method_vocabulary import MethodVocabulary
 
 

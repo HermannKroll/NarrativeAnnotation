@@ -5,7 +5,7 @@ import string
 
 from kgextractiontoolbox.entitylinking.tagging.vocabulary import Vocabulary
 from narrant.config import TARGET_TAGGER_VOCAB_DIRECTORY, TARGET_TAGGER_VOCAB
-from narrant.preprocessing.enttypes import TARGET
+from narrant.entitylinking.enttypes import TARGET
 from narrant.vocabularies.chembl_vocabulary import ChemblVocabulary
 from narrant.vocabularies.generic_vocabulary import GenericVocabulary
 

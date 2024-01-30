@@ -1,7 +1,7 @@
 import unittest
 
-from narrant.preprocessing.enttypes import VACCINE
-from narrant.preprocessing.pharmacy.vaccine import VaccineTagger
+from narrant.entitylinking.enttypes import VACCINE
+from narrant.entitylinking.pharmacy.vaccine import VaccineTagger
 from kgextractiontoolbox.document.document import TaggedDocument
 from narranttests.util import create_test_kwargs
 

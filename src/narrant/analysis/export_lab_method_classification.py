@@ -3,7 +3,7 @@ import logging
 
 from narrant.config import METHOD_TAGGER_VOCAB_DIRECTORY
 from narrant.entity.entityresolver import EntityResolver
-from narrant.preprocessing.enttypes import LAB_METHOD
+from narrant.entitylinking.enttypes import LAB_METHOD
 from narrant.vocabularies.generic_vocabulary import GenericVocabulary
 from narrant.vocabularies.method_vocabulary import MethodVocabulary
 

@@ -16,10 +16,10 @@ from kgextractiontoolbox.document.extract import read_pubtator_documents
 from kgextractiontoolbox.document.load_document import document_bulk_load
 from kgextractiontoolbox.progress import Progress
 from narrant.config import PREPROCESS_CONFIG
-from narrant.preprocessing.config import Config
-from narrant.preprocessing.enttypes import TAG_TYPE_MAPPING, DALL
-from narrant.preprocessing.pharmacy.pharmdicttagger import PharmDictTagger
-from narrant.preprocessing.preprocess import init_preprocess_logger, init_sqlalchemy_logger, \
+from narrant.entitylinking.config import Config
+from narrant.entitylinking.enttypes import TAG_TYPE_MAPPING, DALL
+from narrant.entitylinking.pharmacy.pharmdicttagger import PharmDictTagger
+from narrant.entitylinking.preprocess import init_preprocess_logger, init_sqlalchemy_logger, \
     get_untagged_doc_ids_by_tagger
 from narrant.util.multiprocessing.ConsumerWorker import ConsumerWorker
 from narrant.util.multiprocessing.ProducerWorker import ProducerWorker
@@ -83,7 +83,7 @@ def main(arguments=None):
     group_settings.add_argument("--skip-load", action='store_true',
                                 help="Skip bulk load of documents on start (expert setting)")
 
-    group_settings.add_argument("-w", "--workers", default=1, help="Number of processes for parallelized preprocessing",
+    group_settings.add_argument("-w", "--workers", default=1, help="Number of processes for parallelized entitylinking",
                                 type=int)
     parser.add_argument("-y", "--yes_force", help="skip prompt for workdir deletion", action="store_true")
 
@@ -116,7 +116,7 @@ def main(arguments=None):
     os.makedirs(log_dir)
 
     # create loggers
-    logger = init_preprocess_logger(os.path.join(log_dir, "preprocessing.log"), args.loglevel.upper())
+    logger = init_preprocess_logger(os.path.join(log_dir, "entitylinking.log"), args.loglevel.upper())
     init_sqlalchemy_logger(os.path.join(log_dir, "sqlalchemy.log"), args.loglevel.upper())
     logger.info(f"Project directory:{root_dir}")
 
