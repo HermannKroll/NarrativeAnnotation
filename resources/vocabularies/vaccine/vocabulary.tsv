@@ -1,154 +1,167 @@
 id	enttype	heading	synonyms
-Q98652743	Vaccine	AG0301-COVID19	Osaka University COVID-19 vaccine candidate;Osaka University COVID-19 vaccine candidate;Osaka University COVID-19 vaccine candidate;AG0301;AG0301;AG0301;Osaka University COVID-19 vaccine candidate;AG0301
-Q107860980	Vaccine	ARCT-154	VBC-COV19-154;VBC-COV19-154;VBC-COV19-154
-MESH:D000090985	Vaccine	AZD1222	Vaxzevria;AstraZeneca vaccine;Astra vaccine;AZD1222 Vaccine for the Prevention of COVID-19;AZD 1222;AZD-1222;ChAdOx1 nCoV-19;Covishield;Consortium of the Jenner Institute COVID-19 vaccine candidate;Oxford/AstraZeneca vaccine;Oxford vaccine;Oxford–AstraZeneca COVID-19 vaccine;Vaxzevria;Oxford–AstraZeneca COVID-19 vaccine;Oxford vaccine;Oxford/AstraZeneca vaccine;Consortium of the Jenner Institute COVID-19 vaccine candidate;Covishield;ChAdOx1 nCoV-19;AZD-1222;AZD 1222;AZD1222 Vaccine for the Prevention of COVID-19;Astra vaccine;AstraZeneca vaccine;Vaxzevria;Oxford–AstraZeneca COVID-19 vaccine;Oxford vaccine;Oxford/AstraZeneca vaccine;Covishield;Consortium of the Jenner Institute COVID-19 vaccine candidate;ChAdOx1 nCoV-19;AZD-1222;AZD 1222;AZD1222 Vaccine for the Prevention of COVID-19;Astra vaccine;AstraZeneca vaccine;ChAdOx1 nCoV-19;Consortium of the Jenner Institute COVID-19 vaccine candidate;Covishield;Astra vaccine;AstraZeneca vaccine;AZD1222 Vaccine for the Prevention of COVID-19;AZD-1222;AZD 1222;Oxford–AstraZeneca COVID-19 vaccine;Oxford vaccine;Oxford/AstraZeneca vaccine;Vaxzevria
-Q106390652	Vaccine	Abdala	CIGB-66;CIGB-66
-MESH:D000090984	Vaccine	Ad26.COV2.S	Ad26COVS1;Dutch vaccine;Janssen vaccine;Ad26COVS1;Dutch vaccine;Janssen vaccine;Janssen vaccine;Ad26COVS1;Dutch vaccine;Janssen vaccine;Ad26COVS1;Dutch vaccine;J7;J7;J7;J7;Jhon;Jhon;Jhon;Jhon
-Q96695265	Vaccine	Ad5-nCoV	PakVak;Convidecia;CanSino vaccine;CanSino Biologics COVID-19 vaccine candidate;PakVak;Convidecia;CanSino vaccine;CanSino Biologics COVID-19 vaccine candidate;PakVak;PakVak;Convidecia;Convidecia;CanSino vaccine;CanSino vaccine;CanSino Biologics COVID-19 vaccine candidate;CanSino Biologics COVID-19 vaccine candidate
-MESH:D023582	Vaccine	Alzheimer vaccines	Alzheimer vaccine;Alzheimer vaccine
-Q97154236	Vaccine	Anhui Zhifei Longcom Biopharmaceutical COVID-19 vaccine candidate	RBD-Dimer;RBD-Dimer;ZF2001;RBD-Dimer;ZF2001;RBD-Dimer;ZF2001;ZF2001
-Q4774738	Vaccine	Antigen-presenting cell vaccine	APC vaccine;APC vaccine
-Q97154242	Vaccine	Arcov	People's Liberation Army (PLA) Academy of Military Sciences COVID-19 vaccine candidate;People's Liberation Army (PLA) Academy of Military Sciences COVID-19 vaccine candidate;People's Liberation Army (PLA) Academy of Military Sciences COVID-19 vaccine candidate;People's Liberation Army (PLA) Academy of Military Sciences COVID-19 vaccine candidate;People's Liberation Army (PLA) Academy of Military Sciences COVID-19 vaccine candidate;People's Liberation Army (PLA) Academy of Military Sciences COVID-19 vaccine candidate;People's Liberation Army (PLA) Academy of Military Sciences COVID-19 vaccine candidate
-Q97154230	Vaccine	BBIBP-CorV	Sinopharm vaccine;SARS-CoV-2 Vaccine(Vero Cell);SARS-CoV-2 Vaccine (Vero Cell);inactivated novel coronavirus pneumonia (COVID-19) vaccine (Vero cells);COVID-19 inactivated virus vaccine by Beijing Institute of Biological Products;Beijing Institute of Biological Products COVID-19 vaccine candidate;Sinopharm vaccine;Sinopharm vaccine;Sinopharm vaccine;SARS-CoV-2 Vaccine(Vero Cell);SARS-CoV-2 Vaccine(Vero Cell);SARS-CoV-2 Vaccine(Vero Cell);SARS-CoV-2 Vaccine (Vero Cell);SARS-CoV-2 Vaccine (Vero Cell);SARS-CoV-2 Vaccine (Vero Cell);inactivated novel coronavirus pneumonia (COVID-19) vaccine (Vero cells);inactivated novel coronavirus pneumonia (COVID-19) vaccine (Vero cells);inactivated novel coronavirus pneumonia (COVID-19) vaccine (Vero cells);COVID-19 inactivated virus vaccine by Beijing Institute of Biological Products;COVID-19 inactivated virus vaccine by Beijing Institute of Biological Products;COVID-19 inactivated virus vaccine by Beijing Institute of Biological Products;Beijing Institute of Biological Products COVID-19 vaccine candidate;Beijing Institute of Biological Products COVID-19 vaccine candidate;Beijing Institute of Biological Products COVID-19 vaccine candidate
-MESH:D001500	Vaccine	BCG vaccine	Bacillus Calmette Guerin Vaccine;Bacillus Calmette Guérin Vaccine;Bacillus Calmette Guerin Vaccine;Bacillus Calmette Guérin Vaccine;BCG;BCG
-Q100694835	Vaccine	BriLife	rVSV-SARS-CoV-2-S;IIBR-100;IIBR 100;rVSV-SARS-CoV-2-S;rVSV-SARS-CoV-2-S;IIBR-100;IIBR-100;IIBR 100;IIBR 100
-Q97154237	Vaccine	COVAX-19	Vaxine Pty Ltd COVID-19 vaccine candidate;Vaxine Pty Ltd COVID-19 vaccine candidate;Vaxine Pty Ltd COVID-19 vaccine candidate;Vaxine Pty Ltd COVID-19 vaccine candidate
-Q107864269	Vaccine	COVAX-19	SpikoGen;SpikoGen
-MESH:D000086663	Vaccine	COVID-19 vaccine	COVID vaccine;corona vaccine;coronvirus vaccine;COVID-19 vaccines;SARS-CoV-2 vaccine;COVID-19 vaccines;COVID vaccine;coronvirus vaccine;corona vaccine;SARS-CoV-2 vaccine
-Q106728179	Vaccine	CY-1899	Theradigm-HBV
-Q106514790	Vaccine	Chinese Academy of Medical Sciences COVID-19 vaccine	Covidful;Covidful;Covidful
-Q106350062	Vaccine	Corbevax	BioE COVID-19;BECOV2D;BioE COVID-19;BioE COVID-19;BECOV2D;BECOV2D
-Q97154233	Vaccine	CoronaVac	Sinovac vaccine;Sinovac COVID-19 vaccine;Chinese vaccine;Chinese coronavirus vaccine;Sinovac vaccine;Sinovac vaccine;Sinovac COVID-19 vaccine;Sinovac COVID-19 vaccine;Chinese vaccine;Chinese vaccine;Chinese coronavirus vaccine;Chinese coronavirus vaccine
-Q98703813	Vaccine	Covaxin / BBV152	Indian vaccine;Covaxin;BBV152;Indian vaccine;Indian vaccine;Covaxin;Covaxin;BBV152;BBV152
-MESH:D022482	Vaccine	Cytomegalovirus vaccine	Cytomegalovirus vaccines;Cytomegalovirus vaccines;Cytomegalovirus vaccines
-MESH:D019444	Vaccine	DNA vaccine	DNA-vaccine;DNA-based vaccine;vaccines, DNA;vaccines, DNA;DNA-vaccine;DNA-based vaccine
-MESH:D015721	Vaccine	DPT vaccine	Diphtheria-Tetanus-Pertussis Vaccine;DTP vaccine;DTP vaccine;Diphtheria-Tetanus-Pertussis Vaccine
-MESH:D022681	Vaccine	Diphtheria-Tetanus-acellular Pertussis vaccines	DTaP vaccine;Diphtheria-Tetanus-acellular Pertussis vaccine;Diphtheria-Tetanus-acellular Pertussis vaccine;DTaP vaccine
-MESH:D046129	Vaccine	Ebola vaccine	vaccine against Ebola;vaccine against Ebola;vaccine against Ebola
-Q98947046	Vaccine	EpiVacCorona	VECTOR vaccine;VECTOR vaccine;VECTOR vaccine;VECTOR vaccine
-Q5384030	Vaccine	Epstein–Barr vaccine	Epstein–Barr virus vaccine;Epstein–Barr virus vaccine;Epstein–Barr virus vaccine
-MESH:D022361	Vaccine	Escherichia coli vaccines	E. coli vaccine;E. coli vaccines;Escherichia coli vaccine;Escherichia coli vaccine;E. coli vaccine;E. coli vaccines
-Q98709202	Vaccine	Finlay-FR-1	Soberana 01;Finlay-FR-01;Soberana 01;Finlay-FR-01;Soberana 01;Finlay-FR-01;Soberana 01;Finlay-FR-01
-Q97154228	Vaccine	GX-19	Genexine Consortium (GenNBio COVID-19 vaccine candidate;Genexine Consortium (GenNBio COVID-19 vaccine candidate;Genexine Consortium (GenNBio COVID-19 vaccine candidate;Genexine Consortium (GenNBio COVID-19 vaccine candidate
-Q98270627	Vaccine	Gam-COVID-Vac	Sputnik vaccine;Sputnik V;Russian vaccine;Russian Sputnik vaccine;Gamaleya Research Institute COVID-19 vaccine candidate;Gam-COVID-Vac Lyo;Sputnik vaccine;Sputnik V;Russian vaccine;Russian Sputnik vaccine;Gamaleya Research Institute COVID-19 vaccine candidate;Gam-COVID-Vac Lyo;Sputnik vaccine;Sputnik vaccine;Sputnik V;Sputnik V;Russian vaccine;Russian vaccine;Russian Sputnik vaccine;Russian Sputnik vaccine;Gamaleya Research Institute COVID-19 vaccine candidate;Gamaleya Research Institute COVID-19 vaccine candidate;Gam-COVID-Vac Lyo;Gam-COVID-Vac Lyo
-MESH:D000068857	Vaccine	Gardasil	Gardisil;Human Papillomavirus Recombinant Vaccine Quadrivalent, Types 6, 11, 16, 18;recombinant human papillomavirus vaccine [types 6, 11, 16, 18],;Silgard;Silgard;recombinant human papillomavirus vaccine [types 6, 11, 16, 18],;Human Papillomavirus Recombinant Vaccine Quadrivalent, Types 6, 11, 16, 18;Gardisil
-MESH:D016915	Vaccine	HIV vaccine	AIDS Vaccine;AIDS Vaccines;AIDS Vaccine;AIDS Vaccines;HIV vaccines;HIV vaccines;HIV vaccines;AIDS Vaccines;AIDS Vaccine
-MESH:D053918	Vaccine	HPV vaccine	human papillomavirus vaccine;Papillomavirus Vaccines;Papillomavirus Vaccines;human papillomavirus vaccine;HPV vaccines;HPV vaccines;Gardasil;Gardasil
-MESH:D018073	Vaccine	Haemophilus vaccines	Haemophilus vaccine;Haemophilus vaccine
-MESH:D017325	Vaccine	Hepatitis B vaccine	HBV vaccine;HBV vaccine;HBV vaccine;Hepatitis B vaccines;Hepatitis B vaccines;Hepatitis B vaccines
-MESH:D022301	Vaccine	Herpes Simplex Virus vaccines	Herpes Simplex Virus vaccine;Herpes Simplex Virus vaccine;Herpes Simplex Virus vaccine
-MESH:D022283	Vaccine	Herpesvirus vaccines	Herpesvirus vaccine;Herpesvirus vaccine;Herpesvirus vaccine
-Q368134	Vaccine	Hib vaccine	Haemophilus influenzae type B vaccine;Haemophilus influenzae type B vaccine;Haemophilus influenzae type B vaccine
-Q96695266	Vaccine	INO-4800	pGX9501;pGX9501;Inovio Pharmaceuticals COVID-19 vaccine candidate;Inovio Pharmaceuticals COVID-19 vaccine candidate;pGX9501;Inovio Pharmaceuticals COVID-19 vaccine candidate;pGX9501;Inovio Pharmaceuticals COVID-19 vaccine candidate
-Q67878786	Vaccine	Imovax	Human diploid cell culture rabies vaccine;HDCV;Human diploid cell culture rabies vaccine;HDCV;Human diploid cell culture rabies vaccine;HDCV
-Q97154232	Vaccine	Institute of Medical Biology COVID-19 vaccine candidate	Chinese Academy of Medical Sciences COVID-19 vaccine candidate;Chinese Academy of Medical Sciences COVID-19 vaccine candidate;Chinese Academy of Medical Sciences COVID-19 vaccine candidate;Chinese Academy of Medical Sciences COVID-19 vaccine candidate
-Q97154241	Vaccine	LNP-nCoVsaRNA	Imperial College London COVID-19 vaccine candidate;Imperial College London COVID-19 vaccine candidate;Imperial College London COVID-19 vaccine candidate;Imperial College London COVID-19 vaccine candidate;Imperial College London COVID-19 vaccine candidate;Imperial College London COVID-19 vaccine candidate;Imperial College London COVID-19 vaccine candidate
-MESH:D054332	Vaccine	Leishmaniasis vaccines	Leishmaniasis vaccine;Leishmaniasis vaccine
-Q98713328	Vaccine	Lunar-COV19	ARCT-021;ARCT-021;ARCT-021;ARCT-021;ARCT-021;ARCT-021;ARCT-021
-MESH:D022123	Vaccine	Lyme Disease vaccines	Lyme Disease vaccine;Lyme Disease vaccine
-MESH:D022542	Vaccine	MMR vaccine	Measles-mumps-rubella vaccine;measles, mumps, and rubella vaccine;Measles-mumps-rubella vaccine;measles, mumps, and rubella vaccine;Measles-mumps-rubella vaccine;measles, mumps, and rubella vaccine;Measles-Mumps-Rubella Vaccine;Measles-Mumps-Rubella Vaccine;Measles-Mumps-Rubella Vaccine
-Q101251575	Vaccine	MVC COVID-19 Vaccine	MVC-COV1901;Medigen vaccine;Dynavax vaccine;MVC-COV1901;MVC-COV1901;Medigen vaccine;Medigen vaccine;Dynavax vaccine;Dynavax vaccine;MVC-COV1901;Medigen vaccine;Dynavax vaccine
-Q106577609	Vaccine	Mambisa	CIGB 669;CIGB 669;CIGB 669;CIGB 669
-MESH:D022501	Vaccine	Marek Disease vaccines	Marek Disease vaccine;Marek Disease vaccine
-Q97154243	Vaccine	Medicago Inc. COVID-19 vaccine candidate	Covifenz;Covifenz;CoVLP;CoVLP;Covifenz;Covifenz;CoVLP;CoVLP;Covifenz;CoVLP;Covifenz;Covifenz;CoVLP;CoVLP
-Q106352979	Vaccine	NDV-HXP-S	ButanVac;CoviVac;Patria;ButanVac;CoviVac;Patria
-Q97154235	Vaccine	NVX-CoV2373	Nuvaxovid;SARS-CoV-2 rS nanoparticle vaccine;Novavax COVID-19 vaccine candidate;Nuvaxovid;SARS-CoV-2 rS nanoparticle vaccine;Novavax COVID-19 vaccine candidate;Nuvaxovid;Nuvaxovid;SARS-CoV-2 rS nanoparticle vaccine;SARS-CoV-2 rS nanoparticle vaccine;Novavax COVID-19 vaccine candidate;Novavax COVID-19 vaccine candidate
-Q20801764	Vaccine	OspA lipoprotein	Outer surface protein A precursor;Lyme disease vaccine (recombinant OspA)
-Q96623187	Vaccine	PR1 leukemia peptide vaccine	PR1 peptide vaccine;PR1 peptide;PR1 leukemia peptide;PR1 peptide vaccine;PR1 peptide;PR1 leukemia peptide
-Q105829294	Vaccine	People's Vaccine	People's vaccine;people's vaccine;People's vaccine;people's vaccine
-MESH:D054406	Vaccine	Pseudomonas vaccines	Pseudomonas vaccine;Pseudomonas vaccine
-Q99518269	Vaccine	QazCovid-in	QazCovid;QazCovid;QazCovid;QazCovid
+Q100694835	Vaccine	BriLife	rVSV-SARS-CoV-2-S;IIBR-100;IIBR 100
+Q101251575	Vaccine	MVC COVID-19 Vaccine	MVC-COV1901;Medigen vaccine;Dynavax vaccine
+Q104115692	Vaccine	V451	V451 vaccine;UQ-CSL V451 vaccine
+Q104902499	Vaccine	Valneva COVID-19 vaccine	VLA2101;VLA2001
+Q105047585	Vaccine	SOBERANA 02	FINLAY-FR-2
+Q105829294	Vaccine	People's Vaccine	People's vaccine;people's vaccine
 Q106167301	Vaccine	QazCovid-in	QazVac
-MESH:D000087503	Vaccine	RNA vaccine	messenger RNA vaccine;mRNA vaccine;mRNA-based vaccine;mRNA vaccines;mRNA vaccine;mRNA-based vaccine;mRNA vaccines;messenger RNA vaccine
-Q7277881	Vaccine	RTS,S	RTS.S;RTS,S/AS01;Mosquirix;RTS.S;RTS,S/AS01;Mosquirix
-Q106249963	Vaccine	RTS,S malaria vaccine	mosquirix;mosquirix
-Q106725976	Vaccine	Razi Cov Pars	Razi vaccine;Razi Cov Pars vaccine;Pars vaccine;Cov Pars vaccine
-Q7302700	Vaccine	Recombinant DNA Vaccine	DNA Vaccine;DNA Vaccine
-MESH:D022261	Vaccine	Respiratory Syncytial Virus vaccines	Respiratory Syncytial Virus vaccines;Respiratory Syncytial Virus vaccines;Respiratory Syncytial Virus vaccines
-MESH:D012290	Vaccine	Rickettsial vaccines	Rickettsial vaccine;Rickettsial vaccine
-MESH:D018449	Vaccine	SAIDS vaccines	SAIDS vaccine;SAIDS vaccine;SAIDS vaccine
-Q97154238	Vaccine	SCB-2019	Clover Biopharmaceuticals Inc. COVID-19 vaccine candidate;Clover Biopharmaceuticals Inc. COVID-19 vaccine candidate;Clover Biopharmaceuticals Inc. COVID-19 vaccine candidate;Clover Biopharmaceuticals Inc. COVID-19 vaccine candidate
-Q108044254	Vaccine	SKYCovione	GBP510;GBP510
-Q105047585	Vaccine	SOBERANA 02	FINLAY-FR-2;FINLAY-FR-2
-MESH:D011055	Vaccine	Sabin vaccine	oral polio vaccine;oral poliovirus vaccine;oral poliovirus vaccine;oral polio vaccine;oral poliovirus vaccine;oral polio vaccine;polio vaccine;polio vaccine;polio vaccine
-MESH:D022281	Vaccine	Shigella vaccines	Shigella vaccine;Shigella vaccine
-Q42610038	Vaccine	Shingrix	HZ/su;HZ/su;HZ/su
-Q108688597	Vaccine	Soberana Plus	FINLAY-FR-1A;FINLAY-FR-1A
+Q106247790	Vaccine	Versamune-CoV-2FC	MCTI BR;Versamune
+Q106265257	Vaccine	Sanofi–GSK COVID-19 vaccine	VidPrevtyn Beta;VAT00008;VAT00002
+Q106322660	Vaccine	WIBP-CorV	Wuhan Institute of Biological Products COVID-19 vaccine candidate;Sinopharm WIBP COVID-19 vaccine;COVID-19 inactivated virus vaccine by Wuhan Institute of Biological Products
+Q106336308	Vaccine	viral vector vaccine	vector vaccine
+Q106350062	Vaccine	Corbevax	BioE COVID-19;BECOV2D
+Q106352979	Vaccine	NDV-HXP-S	ButanVac;CoviVac;Patria
+Q106390652	Vaccine	Abdala	CIGB-66
+Q106405764	Vaccine	VBI-2902	VBI-2902a
+Q106488871	Vaccine	Walvax COVID-19 vaccine	AWcorna;ARCoV
+Q106514790	Vaccine	Chinese Academy of Medical Sciences COVID-19 vaccine	Kēwéifú;IMBCAMS COVID-19 vaccine;Covidful
+Q106522065	Vaccine	DelNS1-2019-nCoV-RBD-OPT	Pneucolin
 Q106532118	Vaccine	TURKOVAC	ERUCOV-VAC
-Q104115692	Vaccine	V451	V451 vaccine;UQ-CSL V451 vaccine;V451 vaccine;UQ-CSL V451 vaccine
-Q106405764	Vaccine	VBI-2902	VBI-2902a;VBI-2902a;VBI-2902a;VBI-2902a;VBI-2902a
-Q18085856	Vaccine	VSV-EBOV	VSV-ZEBOV;VSV-ZEBOV;VSV-EBOV;VSV-EBOV;RVSV-ZEBOV vaccine;RVSV-ZEBOV vaccine;rVSV-ZEBOV;rVSV-ZEBOV;VSV-ZEBOV;VSV-EBOV;RVSV-ZEBOV vaccine;rVSV-ZEBOV;VSV-ZEBOV;VSV-EBOV;RVSV-ZEBOV vaccine;rVSV-ZEBOV
-Q104902499	Vaccine	Valneva COVID-19 vaccine	VLA2101;VLA2001;VLA2101;VLA2101;VLA2001;VLA2001
-Q67879458	Vaccine	Verorab	PVRV;Purified Vero cell rabies vaccine;purified chick embryo cell culture rabies vaccine;PCECV;PVRV;Purified Vero cell rabies vaccine;purified chick embryo cell culture rabies vaccine;PCECV;PVRV;Purified Vero cell rabies vaccine;purified chick embryo cell culture rabies vaccine;PCECV
-Q106247790	Vaccine	Versamune-CoV-2FC	Versamune;MCTI BR
-Q7924335	Vaccine	Vi capsular polysaccharide vaccine	ViCPS;Typhim VI;Typherix;ViCPS;Typhim VI;Typherix
-MESH:D022721	Vaccine	Virosome vaccines	Virosome vaccine;Virosome vaccine
-Q106322660	Vaccine	WIBP-CorV	Wuhan Institute of Biological Products COVID-19 vaccine candidate;COVID-19 inactivated virus vaccine by Wuhan Institute of Biological Products;Wuhan Institute of Biological Products COVID-19 vaccine candidate;COVID-19 inactivated virus vaccine by Wuhan Institute of Biological Products;Wuhan Institute of Biological Products COVID-19 vaccine candidate;COVID-19 inactivated virus vaccine by Wuhan Institute of Biological Products
-Q106488871	Vaccine	Walvax COVID-19 vaccine	AWcorna;ARCoV;AWcorna;ARCoV;AWcorna;AWcorna;AWcorna;AWcorna;ARCoV;ARCoV;ARCoV;ARCoV
-MESH:D053060	Vaccine	West Nile Virus vaccine	West Nile Virus vaccine;West Nile Virus vaccine;West Nile Virus vaccine
-Q67876003	Vaccine	YF-Vax	YF-VAX;YF-VAX;YF-VAX;YF-VAX
-Q24657950	Vaccine	Zika fever vaccine	Zika virus vaccine;Zika vaccine;Zika virus vaccine;Zika vaccine
-Q97154000	Vaccine	ZyCoV-D	Zydus Cadila Healthcare Limited COVID-19 vaccine;Zydus Cadila Healthcare Limited COVID-19 vaccine;Zydus Cadila Healthcare Limited COVID-19 vaccine;Zydus Cadila Healthcare Limited COVID-19 vaccine
-MESH:D022282	Vaccine	acellular vaccines	acellular vaccine;acellular vaccine
-MESH:D000087511	Vaccine	artificial virus-like particles	artificial virus-like particle;artificial VLPs;artificial VLP
-MESH:D014613	Vaccine	attenuated vaccine	Live virus vaccine;live-attenuated vaccine;live vaccine;live attenuated vaccine;Vaccines, Attenuated;Vaccines, Attenuated;live vaccine;live attenuated vaccine;Live virus vaccine;live-attenuated vaccine
-MESH:D054991	Vaccine	autovaccine	autogenous vaccine;autovaccination;autovaccination;autogenous vaccine
-MESH:D001428	Vaccine	bacterial vaccine	bacterial vaccines;bacterial vaccines
-MESH:D019496	Vaccine	cancer vaccine	Cancer vaccines;Cancer vaccines
-MESH:D022121	Vaccine	cholera vaccine	cholera vaccines;cholera vaccines
-MESH:D017778	Vaccine	combined vaccine	multivalent vaccine;combined vaccines;combination vaccine;combination vaccine;combined vaccines;multivalent vaccine;polyvalent vaccine;Vaccines, Combined;Vaccines, Combined;polyvalent vaccine
-MESH:D018074	Vaccine	conjugate vaccine	conjugate vaccines;conjugate vaccines
-MESH:D022642	Vaccine	contraceptive vaccines	Vaccines, Contraceptive;Vaccines, Contraceptive;contraceptive vaccine;contraceptive vaccine
-Q38931105	Vaccine	dendritic cell-based cancer vaccines	DCs-based cancer vaccine;DC-based cancer vaccine;dendritic cell-based cancer vaccine
-MESH:D053059	Vaccine	dengue vaccine	dengue vaccines;dengue vaccines;dengue vaccines
-MESH:D005657	Vaccine	fungal vaccines	fungal vaccine;fungal vaccine
-MESH:D022362	Vaccine	hepatitis A vaccine	hepatitis A vaccines;hepatitis A vaccines;hepatitis A vaccines
-MESH:D006514	Vaccine	hepatitis b virus hbsag surface protein antigen	hepatitis b surface antigens;hepatitis b surface antigen vaccine;hepatitis b surface antigen (rdna);hepatitis b surface antigen;hepatitis b antigen;hepatitis-b surface antigen;hbsag;hepatitis-b surface antigen;hepatitis b surface antigens;hepatitis b surface antigen vaccine;hepatitis b surface antigen (rdna);hepatitis b surface antigen;hepatitis b antigen;hbsag;hbsag;hepatitis b antigen;hepatitis b surface antigen vaccine;hepatitis b surface antigens;hepatitis b surface antigen;hepatitis b surface antigen (rdna);hepatitis-b surface antigen
-MESH:D053061	Vaccine	herpes zoster vaccine	zoster vaccine;shingles vaccine;shingles vaccine;zoster vaccine;shingles vaccine;zoster vaccine
-MESH:D015164	Vaccine	inactivated vaccine	killed vaccine;killed vaccine
-MESH:D007252	Vaccine	influenza vaccine	influenza vaccines;flu jab;flu shot;flu jab;flu shot;influenza vaccines;influenza vaccines;flu shot;flu jab
-Q2043512	Vaccine	live attenuated influenza vaccine	live attenuated flu vaccine;live attenuated flu vaccine;live attenuated flu vaccine;live attenuated flu vaccine
-MESH:D062690	Vaccine	live unattenuated vaccines	live unattenuated vaccines;live unattenuated vaccines
-MESH:D000090983	Vaccine	mRNA-1273 vaccine	Moderna vaccine;Moderna/ NIAID/ Lonza/ Catalent/ Rovi Vaccine;Moderna COVID vaccine;Moderna COVID-19 vaccine;CX-024414;Spikevax;Spikevax;CX-024414;Moderna COVID-19 vaccine;Moderna COVID vaccine;Moderna/ NIAID/ Lonza/ Catalent/ Rovi Vaccine;Moderna vaccine;Spikevax;Moderna COVID-19 vaccine;Moderna COVID vaccine;Moderna/ NIAID/ Lonza/ Catalent/ Rovi Vaccine;Moderna vaccine;CX-024414;elasomeran;elasomeran;elasomeran
-MESH:D017780	Vaccine	malaria vaccine	malaria vaccines;malaria vaccines
-MESH:D008458	Vaccine	measles vaccine	measles vaccines;measles vaccines
-MESH:D022401	Vaccine	meningococcal vaccine	meningococcal vaccines;meningococcal vaccines
-Q6889412	Vaccine	modified vaccinia Ankara	MVA;MVA
-MESH:D009108	Vaccine	mumps vaccine	mumps vaccines;mumps vaccines;mumps vaccines
-MESH:D000087504	Vaccine	nucleic acid-based vaccines	nucleic acid-based vaccine
-Q7092116	Vaccine	oncophage	Vitespen;HSPPC-96;cancer vaccine HSPPC-96;cancer vaccine heat shock protein peptide complex-96
-MESH:D022241	Vaccine	parainfluenza vaccines	parainfluenza vaccine;parainfluenza vaccine;parainfluenza vaccine
-Q18387529	Vaccine	pentavalent vaccine	5-in-1 vaccine;5-in-1 vaccine
-MESH:D010567	Vaccine	pertussis vaccine	whooping-cough vaccine;whooping cough vaccine;Wikipedia:WikiProject Medicine/Translation task force/RTT/Simple Pertussis vaccine;whooping-cough vaccine;whooping cough vaccine;Wikipedia:WikiProject Medicine/Translation task force/RTT/Simple Pertussis vaccine
-Q7205991	Vaccine	pneumococcal conjugate vaccine	Synflorix;Prevnar 13;PCV;Synflorix;Prevnar 13;PCV
-Q2100023	Vaccine	pneumococcal polysaccharide vaccine	PPV-23;PPSV;Pneumovax 23;PPV-23;PPSV;Pneumovax 23
-MESH:D022242	Vaccine	pneumococcal vaccine	pneumococcal vaccines;pneumococcal vaccines
-MESH:D023321	Vaccine	polio vaccine	polio vaccines;poliovirus vaccines;poliovirus vaccine;poliomyelitis vaccine;live poliovirus vaccine;live poliovirus vaccine;poliovirus vaccine;poliomyelitis vaccine;poliovirus vaccines;polio vaccines;Salk vaccine;Salk vaccine
-MESH:D016052	Vaccine	protozoan vaccines	protozoan vaccine;antiprotozoal vaccine;antiprotozoal vaccine;protozoan vaccine
-MESH:D011819	Vaccine	rabies vaccine	rabies vaccines;rabies vaccines;HDCV;HDCV
-Q25104603	Vaccine	rindopepimut	CDX-110;CDX-110
-MESH:D022243	Vaccine	rotavirus vaccine	rotavirus vaccines;rotavirus vaccines;rotavirus vaccines
-MESH:D012411	Vaccine	rubella vaccine	rubella virus vaccine;Simple Rubella vaccine;Simple Rubella vaccine;rubella virus vaccine
-MESH:D022562	Vaccine	salmonella vaccines	salmonella vaccine;salmonella vaccine
+Q106577609	Vaccine	Mambisa	CIGB 669
 Q106660164	Vaccine	seviprotimut-L	POL-103A;human polyvalent shedded antigen vaccine
-MESH:D013209	Vaccine	staphylococcal vaccine	staphylococcus vaccines;staphylococcus vaccine;staphylococcal vaccines;staphylococcus vaccines;staphylococcus vaccine;staphylococcal vaccines
-MESH:D022541	Vaccine	streptococcal vaccines	streptococcal vaccine;streptococcal vaccine
-MESH:D022223	Vaccine	subunit vaccines	subunit vaccine;Subunit vaccine;Vaccines, Subunit;Vaccines, Subunit;Subunit vaccine;subunit vaccine
-MESH:D014614	Vaccine	synthetic vaccine	Vaccines, Synthetic;synthetic vaccines;synthetic vaccines;Vaccines, Synthetic
-MESH:D013745	Vaccine	tetanus vaccine	tetanus toxoid;Tetanus Toxoid;Tetanus Toxoid;TT;TT;tetanus toxoid
-MESH:D014121	Vaccine	toxoid	Anatoxin;Anatoxin;Anatoxin
-MESH:D000090982	Vaccine	tozinameran	BioNTech vaccine;BioNTech COVID-19 vaccine;BNT 162;BNT162b2;Fosun/BioNTech vaccine;Fosun COVID-19 vaccine;Comirnaty;Pfizer COVID-19 vaccine;Pfizer/BioNTech vaccine;Pfizer/BioNTech vaccine;Pfizer COVID-19 vaccine;Comirnaty;Fosun/BioNTech vaccine;Fosun COVID-19 vaccine;BioNTech vaccine;BioNTech COVID-19 vaccine;BNT162b2;BNT 162;Pfizer COVID-19 vaccine;Pfizer/BioNTech vaccine;Comirnaty;Fosun COVID-19 vaccine;Fosun/BioNTech vaccine;BNT162b2;BNT 162;BioNTech COVID-19 vaccine;BioNTech vaccine;Fosun/BioNTech COVID-19 vaccine;Pfizer/BioNTech COVID-19 vaccine;Pfizer/BioNTech COVID-19 vaccine;Fosun/BioNTech COVID-19 vaccine;Pfizer/BioNTech COVID-19 vaccine;Fosun/BioNTech COVID-19 vaccine;BNT162 Vaccine;BNT162 Vaccine;BNT162 Vaccine
-MESH:D032581	Vaccine	tuberculosis vaccines	Tuberculosis;Tuberculosis
-Q7852675	Vaccine	tumor antigen vaccine	tumour antigen vaccine;tumour antigen vaccine
-MESH:D014436	Vaccine	typhoid-paratyphoid vaccines	Typhoid-Paratyphoid vaccine;Typhoid-Paratyphoid vaccine
-Q7861366	Vaccine	typhus vaccine	Marburg vaccine;Behring vaccine;Marburg vaccine;Behring vaccine
-Q25326661	Vaccine	universal flu vaccine	flu vaccination;flu vaccination
-Q28051899	Vaccine	vaccine candidate	test vaccine;test vaccine
-MESH:D019433	Vaccine	varicella vaccine	chickenpox vaccine;chickenpox vaccine;chickenpox vaccine;chickenpox vaccine
-Q28859741	Vaccine	varicella-zoster virus strain oka/merck live antigen	zoster vaccine live (oka/merck);zoster vaccine live (oka/merck);varicella-zoster virus strain oka/merck live (attenuated) antigen;varicella-zoster virus strain oka/merck live (attenuated) antigen;varicella-zoster virus (live, attenuated);varicella-zoster virus (live, attenuated);varicella zoster live(attenuated) antigen;varicella zoster live(attenuated) antigen;varicella zoster live (attenuated) antigen;varicella zoster live (attenuated) antigen;varicella virus vaccine live (oka-merck) strain;varicella virus vaccine live (oka-merck) strain;human herpesvirus 3 live (attenuated) antigen;human herpesvirus 3 live (attenuated) antigen;zoster vaccine live (oka/merck);varicella-zoster virus strain oka/merck live (attenuated) antigen;varicella-zoster virus (live, attenuated);varicella zoster live(attenuated) antigen;varicella zoster live (attenuated) antigen;varicella virus vaccine live (oka-merck) strain;human herpesvirus 3 live (attenuated) antigen;zoster vaccine live (oka/merck);varicella-zoster virus strain oka/merck live (attenuated) antigen;varicella-zoster virus (live, attenuated);varicella zoster live(attenuated) antigen;varicella zoster live (attenuated) antigen;varicella virus vaccine live (oka-merck) strain;human herpesvirus 3 live (attenuated) antigen
-MESH:D014761	Vaccine	viral hepatitis vaccines	viral hepatitis vaccine;viral hepatitis vaccine;viral hepatitis vaccine
-MESH:D014765	Vaccine	viral vaccines	viral vaccine;viral vaccine
-Q106336308	Vaccine	viral vector vaccine	vector vaccine;vector vaccine
-Q1475781	Vaccine	virus-like particle	VLP;VLP
-MESH:D058425	Vaccine	virus-like particle vaccine	Vaccines, Virus-Like Particle;virus-like particle vaccines;VLP vaccine;virus-like particle vaccines;VLP vaccine;Vaccines, Virus-Like Particle
-Q97154239	Vaccine	zorecimeran	CVnCoV;CV07050101;CureVac vaccine;CureVac COVID-19 vaccine candidate;CVnCoV;CVnCoV;CVnCoV;CVnCoV;CVnCoV;CVnCoV;CV07050101;CV07050101;CV07050101;CV07050101;CV07050101;CV07050101;CureVac vaccine;CureVac vaccine;CureVac vaccine;CureVac vaccine;CureVac vaccine;CureVac vaccine;CureVac COVID-19 vaccine candidate;CureVac COVID-19 vaccine candidate;CureVac COVID-19 vaccine candidate;CureVac COVID-19 vaccine candidate;CureVac COVID-19 vaccine candidate;CureVac COVID-19 vaccine candidate
+Q106725976	Vaccine	Razi Cov Pars	Razi vaccine;Razi Cov Pars vaccine;Pars vaccine;Cov Pars vaccine
+Q106728179	Vaccine	CY-1899	Theradigm-HBV
+Q107860980	Vaccine	ARCT-154	VBC-COV19-154
+Q107864269	Vaccine	COVAX-19	SpikoGen
+Q108044254	Vaccine	SKYCovione	GBP510
+Q108688597	Vaccine	Soberana Plus	FINLAY-FR-1A
+Q110291641	Vaccine	Sinopharm CNBG COVID-19 vaccine	Sinopharm NVSI COVID-19 vaccine;NVSI-06-08;MutI-tri-RBD
+Q113064436	Vaccine	monkeypox vaccine	monkeypox vaccines
+Q113480445	Vaccine	ACAM2000 smallpox vaccine	ACAM2000
+Q118676001	Vaccine	ACWY vaccine	MCV-4
+Q119041783	Vaccine	Kabuga primary health center	P H  C DEPT
+Q120799016	Vaccine	falimarev	recombinant fowlpox-CEA-MUC-1-TRICOM vaccine
+Q123002456	Vaccine	DTwP-HepB-Hib vaccine	pentavalent vaccine;5-in-1 vaccine
+Q1475781	Vaccine	virus-like particle	VLP
+Q18085856	Vaccine	VSV-EBOV	VSV-ZEBOV;RVSV-ZEBOV vaccine;rVSV-ZEBOV
+Q18387529	Vaccine	pentavalent vaccine	5-in-1 vaccine
+Q2043512	Vaccine	live attenuated influenza vaccine	live attenuated flu vaccine
+Q20801764	Vaccine	OspA lipoprotein	Outer surface protein A precursor;Lyme disease vaccine (recombinant OspA)
+Q2100023	Vaccine	pneumococcal polysaccharide vaccine	PPV-23;PPSV;Pneumovax 23
+Q24657950	Vaccine	Zika fever vaccine	Zika virus vaccine;Zika vaccine
+Q25104603	Vaccine	rindopepimut	CDX-110
+Q25326661	Vaccine	universal flu vaccine	flu vaccination
+Q28051899	Vaccine	vaccine candidate	test vaccine
+Q28859741	Vaccine	varicella-zoster virus strain oka/merck live antigen	zoster vaccine live (oka/merck);varicella-zoster virus strain oka/merck live (attenuated) antigen;varicella-zoster virus (live, attenuated);varicella zoster live(attenuated) antigen;varicella zoster live (attenuated) antigen;varicella virus vaccine live (oka-merck) strain;human herpesvirus 3 live (attenuated) antigen
+Q368134	Vaccine	Hib vaccine	Haemophilus influenzae b vaccine;Haemophilus influenzae type B vaccine
+Q38931105	Vaccine	dendritic cell-based cancer vaccines	dendritic cell-based cancer vaccine;DCs-based cancer vaccine;DC-based cancer vaccine
+Q42610038	Vaccine	Shingrix	HZ/su
+Q4774738	Vaccine	Antigen-presenting cell vaccine	APC vaccine
+Q5120048	Vaccine	CimaVax-EGF	Hu-rhEGF-rP64k;recombinant human EGF-rP64K/montanide ISA 51 vaccine;CimaVax
+Q5384030	Vaccine	Epstein–Barr vaccine	Epstein–Barr virus vaccine
+Q67876003	Vaccine	YF-Vax	YF-VAX
+Q67878786	Vaccine	Imovax	Human diploid cell culture rabies vaccine;HDCV
+Q67879458	Vaccine	Verorab	PVRV;Purified Vero cell rabies vaccine;purified chick embryo cell culture rabies vaccine;PCECV
+Q6889412	Vaccine	modified vaccinia Ankara	MVA
+Q7092116	Vaccine	oncophage	Vitespen;HSPPC-96;cancer vaccine HSPPC-96;cancer vaccine heat shock protein peptide complex-96
+Q7205991	Vaccine	pneumococcal conjugate vaccine	Synflorix;Prevnar;PCV
+Q7277881	Vaccine	RTS,S	RTS.S;RTS,S/AS01;Mosquirix;RTS,S malaria vaccine;mosquirix
+Q7302700	Vaccine	Recombinant DNA Vaccine	DNA Vaccine
+Q7852675	Vaccine	tumor antigen vaccine	tumour antigen vaccine
+Q7861366	Vaccine	typhus vaccine	Marburg vaccine;Behring vaccine
+Q7924335	Vaccine	Vi capsular polysaccharide vaccine	ViCPS;Typhim VI;Typherix
+Q96401585	Vaccine	Respiratory syncytial virus vaccine	RSV vaccine
+Q96623187	Vaccine	PR1 leukemia peptide vaccine	PR1 peptide vaccine;PR1 peptide;PR1 leukemia peptide
+Q96695265	Vaccine	Ad5-nCoV	PakVak;Convidecia;CanSino vaccine;CanSino Biologics COVID-19 vaccine candidate
+Q96695266	Vaccine	INO-4800	pGX9501;Inovio Pharmaceuticals COVID-19 vaccine candidate
+Q97154000	Vaccine	ZyCoV-D	Zydus Cadila Healthcare Limited COVID-19 vaccine
+Q97154228	Vaccine	GX-19	Genexine Consortium (GenNBio COVID-19 vaccine candidate
+Q97154230	Vaccine	BBIBP-CorV	Zhong'aikewei;Hayat-Vax;Sinopharm vaccine;Sinopharm BIBP COVID-19 vaccine;SARS-CoV-2 Vaccine(Vero Cell);SARS-CoV-2 Vaccine (Vero Cell);inactivated novel coronavirus pneumonia (COVID-19) vaccine (Vero cells);COVID-19 inactivated virus vaccine by Beijing Institute of Biological Products;Beijing Institute of Biological Products COVID-19 vaccine candidate
+Q97154232	Vaccine	Institute of Medical Biology COVID-19 vaccine candidate	Chinese Academy of Medical Sciences COVID-19 vaccine candidate
+Q97154233	Vaccine	CoronaVac	PiCoVacc;Sinovac vaccine;Sinovac COVID-19 vaccine;Chinese vaccine;Chinese coronavirus vaccine
+Q97154235	Vaccine	NVX-CoV2373	SARS-CoV-2 rS nanoparticle vaccine;Nuvaxovid;Novavax COVID-19 vaccine candidate
+Q97154236	Vaccine	Anhui Zhifei Longcom Biopharmaceutical COVID-19 vaccine candidate	Zifivax;ZF-UZ-VAC-2001;ZF2001;RBD-Dimer;Zhongyianke Biotech–Liaoning Maokangyuan Biotech COVID-19 vaccine
+Q97154237	Vaccine	COVAX-19	Vaxine Pty Ltd COVID-19 vaccine candidate
+Q97154238	Vaccine	SCB-2019	Clover Biopharmaceuticals Inc. COVID-19 vaccine candidate
+Q97154239	Vaccine	zorecimeran	CureVac COVID-19 vaccine candidate;CVnCoV;CV07050101;CureVac vaccine
+Q97154241	Vaccine	LNP-nCoVsaRNA	Imperial College London COVID-19 vaccine candidate
+Q97154242	Vaccine	Arcov	People's Liberation Army (PLA) Academy of Military Sciences COVID-19 vaccine candidate
+Q97154243	Vaccine	Medicago Inc. COVID-19 vaccine candidate	CoVLP;Covifenz
+Q98270627	Vaccine	Gam-COVID-Vac	Sputnik vaccine;Sputnik V;Russian vaccine;Russian Sputnik vaccine;Gamaleya Research Institute COVID-19 vaccine candidate;Gam-COVID-Vac Lyo
+Q98652743	Vaccine	AG0301-COVID19	Osaka University COVID-19 vaccine candidate;AG0301
+Q98703813	Vaccine	Covaxin / BBV152	Indian vaccine;Covaxin;BBV152
+Q98709202	Vaccine	Finlay-FR-1	Soberana 01;Finlay-FR-01
+Q98713328	Vaccine	Lunar-COV19	ARCT-021
+Q98947046	Vaccine	EpiVacCorona	VECTOR vaccine
+Q99518269	Vaccine	QazCovid-in	QazCovid
+MESH:D000068857	Vaccine	Gardasil	recombinant human papillomavirus vaccine [types 6, 11, 16, 18],;Silgard;Gardisil;Human Papillomavirus Recombinant Vaccine Quadrivalent, Types 6, 11, 16, 18
+MESH:D000086663	Vaccine	COVID-19 vaccine	coronvirus vaccine;corona vaccine;COVID vaccine;COVID-19 vaccines;SARS-CoV-2 vaccine
+MESH:D000087503	Vaccine	RNA vaccine	messenger RNA vaccine;mRNA vaccines;mRNA-based vaccine;mRNA vaccine
+MESH:D000087504	Vaccine	nucleic acid-based vaccine	nucleic acid-based vaccine
+MESH:D000087511	Vaccine	artificial virus-like particles	artificial virus-like particle;artificial VLPs;artificial VLP
+MESH:D000090982	Vaccine	tozinameran	Pfizer COVID-19 vaccine;Pfizer/BioNTech vaccine;Pfizer/BioNTech COVID-19 vaccine;Comirnaty;Fosun/BioNTech COVID-19 vaccine;Fosun COVID-19 vaccine;Fosun/BioNTech vaccine;BioNTech COVID-19 vaccine;BioNTech vaccine;BNT162 Vaccine;BNT 162;BNT162b2
+MESH:D000090983	Vaccine	mRNA-1273 vaccine	elasomeran;CX-024414;Moderna COVID vaccine;Moderna COVID-19 vaccine;Moderna vaccine;Moderna/ NIAID/ Lonza/ Catalent/ Rovi Vaccine;Spikevax
+MESH:D000090984	Vaccine	Ad26.COV2.S	Dutch vaccine;Janssen vaccine;Ad26COVS1;Jcovden;J7;Jhon
+MESH:D000090985	Vaccine	AZD1222	Oxford/AstraZeneca vaccine;Oxford vaccine;Oxford–AstraZeneca COVID-19 vaccine;AZD1222 Vaccine for the Prevention of COVID-19;AZD 1222;Astra vaccine;AstraZeneca vaccine;Covishield;ChAdOx1 nCoV-19;Consortium of the Jenner Institute COVID-19 vaccine candidate;Vaxzevria;AZD-1222
+MESH:D000096202	Vaccine	protein subunit vaccine	Protein subunit vaccine
+MESH:D000097007	Vaccine	nanovaccine	nanovaccines
+MESH:D001428	Vaccine	bacterial vaccine	bacterial vaccines
+MESH:D001500	Vaccine	BCG vaccine	Bacillus Calmette Guérin Vaccine;Bacillus Calmette Guerin Vaccine;BCG
+MESH:D005657	Vaccine	fungal vaccines	fungal vaccine
+MESH:D006514	Vaccine	hepatitis b virus hbsag surface protein antigen	hepatitis b surface antigens;hepatitis-b surface antigen;hepatitis b antigen;hepatitis b surface antigen;hepatitis b surface antigen (rdna);hepatitis b surface antigen vaccine;hbsag
+MESH:D007252	Vaccine	influenza vaccine	influenza vaccines;flu jab;flu shot
+MESH:D008458	Vaccine	measles vaccine	measles vaccines
+MESH:D009108	Vaccine	mumps vaccine	mumps vaccines
+MESH:D010567	Vaccine	pertussis vaccine	whooping cough vaccine;whooping-cough vaccine;Wikipedia:WikiProject Medicine/Translation task force/RTT/Simple Pertussis vaccine
+MESH:D011054	Vaccine	Poliovirus Vaccine, Inactivated	Salk poliomyelitis vaccine;inactivated poliovirus vaccine (IPV);Salk Vaccine
+MESH:D011055	Vaccine	Sabin vaccine	oral polio vaccine;oral poliovirus vaccine;polio vaccine;Poliovirus Vaccine, Oral
+MESH:D011819	Vaccine	rabies vaccine	rabies vaccines;HDCV
+MESH:D012290	Vaccine	rickettsial vaccine	Rickettsial vaccine
+MESH:D012411	Vaccine	rubella vaccine	rubella virus vaccine;Simple Rubella vaccine
+MESH:D013209	Vaccine	staphylococcal vaccine	staphylococcal vaccines;staphylococcus vaccine;staphylococcus vaccines
+MESH:D013745	Vaccine	tetanus vaccine	tetanus toxoid;TT;Tetanus Toxoid
+MESH:D014121	Vaccine	toxoid	Anatoxin
+MESH:D014436	Vaccine	typhoid-paratyphoid vaccines	Typhoid-Paratyphoid vaccine
+MESH:D014613	Vaccine	attenuated vaccine	Vaccines, Attenuated;live attenuated vaccine;live vaccine;live-attenuated vaccine;Live virus vaccine
+MESH:D014614	Vaccine	synthetic vaccine	synthetic vaccines;Vaccines, Synthetic
+MESH:D014761	Vaccine	viral hepatitis vaccines	viral hepatitis vaccine
+MESH:D014765	Vaccine	viral vaccines	viral vaccine
+MESH:D015164	Vaccine	inactivated vaccine	killed vaccine
+MESH:D015721	Vaccine	DPT vaccine	Diphtheria-Tetanus-Pertussis Vaccine;DTP vaccine
+MESH:D016052	Vaccine	protozoan vaccines	protozoan vaccine;antiprotozoal vaccine
+MESH:D016915	Vaccine	HIV vaccine	HIV vaccines;AIDS Vaccines;AIDS Vaccine
+MESH:D017325	Vaccine	Hepatitis B vaccine	HBV vaccine;Hepatitis B vaccines
+MESH:D017778	Vaccine	combined vaccine	polyvalent vaccine;multivalent vaccine;Vaccines, Combined;combined vaccines;combination vaccine
+MESH:D017780	Vaccine	malaria vaccine	malaria vaccines
+MESH:D018073	Vaccine	Haemophilus vaccines	Haemophilus vaccine
+MESH:D018074	Vaccine	conjugate vaccine	conjugate vaccines
+MESH:D018449	Vaccine	SAIDS vaccines	SAIDS vaccine
+MESH:D019433	Vaccine	varicella vaccine	chickenpox vaccine
+MESH:D019444	Vaccine	DNA vaccine	vaccines, DNA;DNA-vaccine;DNA-based vaccine
+MESH:D019496	Vaccine	cancer vaccine	Cancer vaccines
+MESH:D022121	Vaccine	cholera vaccine	cholera vaccines
+MESH:D022123	Vaccine	Lyme Disease vaccines	Lyme Disease vaccine
+MESH:D022223	Vaccine	subunit vaccine	Vaccines, Subunit;subunit vaccine;Subunit vaccine
+MESH:D022241	Vaccine	parainfluenza vaccines	parainfluenza vaccine
+MESH:D022242	Vaccine	pneumococcal vaccine	pneumococcal vaccines
+MESH:D022243	Vaccine	rotavirus vaccine	rotavirus vaccines
+MESH:D022261	Vaccine	respiratory syncytial virus vaccines	respiratory syncytial virus vaccine
+MESH:D022281	Vaccine	Shigella vaccines	Shigella vaccine
+MESH:D022282	Vaccine	acellular vaccines	acellular vaccine
+MESH:D022283	Vaccine	Herpesvirus vaccines	Herpesvirus vaccine
+MESH:D022301	Vaccine	Herpes Simplex Virus vaccines	Herpes Simplex Virus vaccine
+MESH:D022321	Vaccine	Japanese encephalitis vaccine	Japanese encephalitis vaccines
+MESH:D022361	Vaccine	Escherichia coli vaccines	E. coli vaccine;E. coli vaccines;Escherichia coli vaccine
+MESH:D022362	Vaccine	hepatitis A vaccine	hepatitis A vaccines
+MESH:D022401	Vaccine	meningococcal vaccine	meningococcal vaccines
+MESH:D022482	Vaccine	Cytomegalovirus vaccine	Cytomegalovirus vaccines
+MESH:D022501	Vaccine	Marek Disease vaccines	Marek Disease vaccine
+MESH:D022541	Vaccine	streptococcal vaccines	streptococcal vaccine
+MESH:D022542	Vaccine	MMR vaccine	measles, mumps, and rubella vaccine;Measles-mumps-rubella vaccine;Measles-Mumps-Rubella Vaccine
+MESH:D022562	Vaccine	salmonella vaccines	salmonella vaccine
+MESH:D022642	Vaccine	contraceptive vaccines	contraceptive vaccine;Vaccines, Contraceptive
+MESH:D022681	Vaccine	Diphtheria-Tetanus-acellular Pertussis vaccines	DTaP vaccine;Diphtheria-Tetanus-acellular Pertussis vaccine
+MESH:D022721	Vaccine	Virosome vaccines	Virosome vaccine
+MESH:D023321	Vaccine	polio vaccine	live poliovirus vaccine;poliovirus vaccines;poliovirus vaccine;poliomyelitis vaccine;polio vaccines
+MESH:D023582	Vaccine	Alzheimer vaccines	Alzheimer vaccine
+MESH:D032581	Vaccine	tuberculosis vaccines	Tuberculosis
+MESH:D046129	Vaccine	Ebola vaccine	vaccine against Ebola
+MESH:D053059	Vaccine	dengue vaccine	dengue vaccines
+MESH:D053060	Vaccine	West Nile Virus vaccine	West Nile Virus vaccines
+MESH:D053061	Vaccine	herpes zoster vaccine	shingles vaccine;zoster vaccine
+MESH:D053918	Vaccine	HPV vaccine	human papillomavirus vaccine;Papillomavirus Vaccines;HPV vaccines;Gardasil
+MESH:D054332	Vaccine	Leishmaniasis vaccines	Leishmaniasis vaccine
+MESH:D054406	Vaccine	Pseudomonas vaccines	Pseudomonas vaccine
+MESH:D054991	Vaccine	autovaccine	autovaccination;autogenous vaccine
+MESH:D058425	Vaccine	virus-like particle vaccine	Vaccines, Virus-Like Particle;VLP vaccine;virus-like particle vaccines
