@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DATA_PATH="/home/kroll/zbmed/"
+DATA_PATH="/data/FID_Pharmazie_Services/zbmed/"
 
 ZBMED_JSON="$DATA_PATH"zbmed_updates.json
 ZBMED_PUBTATOR="$DATA_PATH"zbmed.json

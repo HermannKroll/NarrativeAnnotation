@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DATA_PATH="/data/pubmed/"
+DATA_PATH="/data/FID_Pharmazie_Services/pubmed/"
 
 PHARM_TECH_IDS="$DATA_PATH"/pharm_technology_ids.tsv
 ALL_PUBTATOR_PMIDS="$DATA_PATH"pubtator_pmids_all.txt
