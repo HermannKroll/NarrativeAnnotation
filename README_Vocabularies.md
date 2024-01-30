@@ -61,16 +61,16 @@ Export results as a TSV file and store the results to:
 resources/vocabularies/plant_family_genus/plant_family_wikidata.txt
 ```
 
-# Drugs + Targets (ChEMBL)
-We implemented crawlers to crawle the Drugs and Targets from the ChEMBL API.
+# Drugs + Organisms (ChEMBL)
+We implemented crawlers to crawle the Drugs and Organisms from the ChEMBL API.
 
 Update the drug vocabulary via:
 ```
 python src/narrant/vocabularies/drug_vocabulary.py
 ```
-Update the target vocabulary via:
+Update the organism vocabulary via:
 ```
-python src/narrant/vocabularies/target_vocabulary.py
+python src/narrant/vocabularies/organism_vocabulary.py
 ```
 Both scripts will update the vocabulary.tsv in the corresponding resources folders (drug + target). 
 
