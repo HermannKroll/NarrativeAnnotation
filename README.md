@@ -233,39 +233,18 @@ Configure the entity linking configuration for the project.
 ```
 cd NarrativeAnnotation/config/
 cp entity_linking.prod.json entity_linking.json
-nano preprocess.json
+nano entity_linking.json
 ```
 Enter your GNormPlus root path. TaggerOne does not need to be set.
 ```
 {
-  "taggerOne": {
-    "root": "/home/pubpharm/tools/tagger/TaggerOne-0.2.1",
-    "model": "models/model_BC5CDRJ_011.bin",
-    "batchSize": 10000,
-    "timeout": 10,
-    "max_retries": 1
-  },
+  ...
   "gnormPlus": {
     "root": "/home/pubpharm/tools/tagger/GNormPlusJava",
     "javaArgs": "-Xmx16G -Xms10G",
     "timeout": 10
   },
-  "dict": {
-    "max_words": 5,
-    "check_abbreviation": "true",
-    "custom_abbreviations": "true",
-    "min_full_tag_len": 5
-  },
-  "drug": {
-    "check_products": 0,
-    "max_per_product": 2,
-    "min_name_length": 3,
-    "ignore_excipient_terms": 1
-  },
-  "stanza": {
-    "document_batch_size": 1000,
-    "entity_type_blocked_list": ["ORDINAL", "QUANTITY", "PERCENT"]
-  }
+  ...
 }
 ```
 
@@ -319,11 +298,7 @@ Then edit the following **corenlp** path. We just need the corenlp path.
 ```
 {
   "corenlp": ".../stanford-corenlp-4.1.0/", # required for PathIE and CoreNLP OpenIE
-  "openie6": ".../openie6/", # Optional for OpenIE6
-  "openie5.1": { # Optional for OpenIE 5.1
-    "port": 8085,
-    "jar": ".../OpenIE-standalone/openie-assembly-5.0-SNAPSHOT.jar"
-  }
+  ...
 }
 ```
 If you want to use the other tools, see the following [Readme](https://github.com/HermannKroll/KGExtractionToolbox/blob/main/README_03_EXTRACTION.md) for details.

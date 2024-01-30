@@ -37,5 +37,5 @@ Note that you may adjust the script to enter your Postgres DB credentials.
 
 The [cleaning script](scripts/process_clean_extractions.sh) can be executed via:
 ```
-bash ~/NarrativeAnnotation/scripts/Fprocess_clean_extractions.sh
+bash ~/NarrativeAnnotation/scripts/process_clean_extractions.sh
 ```
