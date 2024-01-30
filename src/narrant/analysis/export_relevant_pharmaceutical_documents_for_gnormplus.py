@@ -5,7 +5,7 @@ from sqlalchemy import and_
 
 from kgextractiontoolbox.backend.database import Session
 from kgextractiontoolbox.backend.models import Document, Tag
-from narrant.preprocessing.enttypes import PLANT_FAMILY_GENUS, DRUG, SPECIES, GENE
+from narrant.entitylinking.enttypes import PLANT_FAMILY_GENUS, DRUG, SPECIES, GENE
 
 
 def main():

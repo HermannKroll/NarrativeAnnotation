@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DATA_PATH="/data/pubmed/"
+DATA_PATH="/data/FID_Pharmazie_Services/pubmed/"
 
 PHARM_TECH_IDS="$DATA_PATH"/pharm_technology_ids.tsv
 ALL_PUBTATOR_PMIDS="$DATA_PATH"pubtator_pmids_all.txt
@@ -80,7 +80,7 @@ if [[ $? != 0 ]]; then
 fi
 
 # Next, tag the documents with our PharmDictTagger
-python3 ~/NarrativeAnnotation/src/narrant/preprocessing/dictpreprocess.py -i $UPDATES_PUBTATOR -c PubMed --skip-load --workers 2
+python3 ~/NarrativeAnnotation/src/narrant/entitylinking/dictpreprocess.py -i $UPDATES_PUBTATOR -c PubMed --skip-load --workers 2
 if [[ $? != 0 ]]; then
     echo "Previous script returned exit code != 0 -> Stopping pipeline."
     exit -1

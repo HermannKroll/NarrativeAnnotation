@@ -1,6 +1,6 @@
 import unittest
 
-from narrant.preprocessing.pharmacy.dosage import DosageFormTagger
+from narrant.entitylinking.pharmacy.dosage import DosageFormTagger
 from narranttests.util import create_test_kwargs
 
 

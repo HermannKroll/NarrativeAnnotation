@@ -22,9 +22,9 @@ from kgextractiontoolbox.entitylinking.tagging.gnormplus import GNormPlus
 from kgextractiontoolbox.entitylinking.tagging.taggerone import TaggerOne
 from kgextractiontoolbox.multi_process_progress import MultiProcessProgress
 from narrant.config import PREPROCESS_CONFIG
-from narrant.preprocessing import enttypes
-from narrant.preprocessing.config import Config
-from narrant.preprocessing.enttypes import CHEMICAL, DISEASE, SPECIES, GENE
+from narrant.entitylinking import enttypes
+from narrant.entitylinking.config import Config
+from narrant.entitylinking.enttypes import CHEMICAL, DISEASE, SPECIES, GENE
 
 LOGGING_FORMAT = '%(asctime)s %(levelname)s %(threadName)s %(module)s:%(lineno)d %(message)s'
 
@@ -193,7 +193,7 @@ def run_preprocess(input_file, collection, config, skip_load, tagger_one, gnormp
         os.makedirs(log_dir)
     if not os.path.exists(in_dir):
         os.makedirs(in_dir)
-    logger = init_preprocess_logger(os.path.join(log_dir, "preprocessing.log"), loglevel)
+    logger = init_preprocess_logger(os.path.join(log_dir, "entitylinking.log"), loglevel)
     init_sqlalchemy_logger(os.path.join(log_dir, "sqlalchemy.log"), loglevel)
     logger.info("Project directory: {}".format(root_dir))
     logger.debug("Input directory: {}".format(in_dir))
@@ -237,7 +237,7 @@ def run_preprocess(input_file, collection, config, skip_load, tagger_one, gnormp
         if os.path.isfile(fn) and fn not in files_to_process:
             os.remove(fn)
 
-    # Run actual preprocessing
+    # Run actual entitylinking
     if workers > 1:
         # Otherwise the session created above will be inherits to the forked processes
         session = Session.get()
@@ -260,7 +260,7 @@ def run_preprocess(input_file, collection, config, skip_load, tagger_one, gnormp
             sub_root_dir = os.path.join(root_dir, f"worker{n}")
             sub_log_dir = os.path.join(log_dir, f"worker{n}")
             sub_logger = init_preprocess_logger(
-                os.path.join(sub_log_dir, "preprocessing.log"),
+                os.path.join(sub_log_dir, "entitylinking.log"),
                 loglevel,
                 worker_id=n,
                 log_format='%(asctime)s %(levelname)s %(name)s %(module)s:%(lineno)d %(message)s')
@@ -314,7 +314,7 @@ def main(arguments=None):
     group_settings.add_argument("--workdir", default=None)
     group_settings.add_argument("--skip-load", action='store_true',
                                 help="Skip bulk load of documents on start (expert setting)")
-    group_settings.add_argument("-w", "--workers", default=1, help="Number of processes for parallelized preprocessing",
+    group_settings.add_argument("-w", "--workers", default=1, help="Number of processes for parallelized entitylinking",
                                 type=int)
 
     parser.add_argument("input", help="Directory with PubTator files / PubTator file ", metavar="IN_DIR")

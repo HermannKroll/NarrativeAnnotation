@@ -8,7 +8,7 @@ from kgextractiontoolbox.backend.models import Document, Tag, DocumentMetadata, 
 from kgextractiontoolbox.document.document import TaggedEntity, TaggedDocument
 from kgextractiontoolbox.progress import Progress
 from narrant.entity.meshontology import MeSHOntology
-from narrant.preprocessing.enttypes import GENE, DISEASE
+from narrant.entitylinking.enttypes import GENE, DISEASE
 
 ZBMED_BULK_INSERT_AFTER_K = 1000
 

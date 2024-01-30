@@ -1,6 +1,6 @@
 from narrant import config
-from narrant.preprocessing import enttypes
-from narrant.preprocessing.tagging.indexed_dictagger import IndexedDictTagger
+from narrant.entitylinking import enttypes
+from narrant.entitylinking.tagging.indexed_dictagger import IndexedDictTagger
 from narrant.vocabularies.target_vocabulary import TargetVocabulary
 
 

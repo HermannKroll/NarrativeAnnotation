@@ -15,7 +15,7 @@ from kgextractiontoolbox.entitylinking.tagging.vocabulary import expand_vocabula
 from kgextractiontoolbox.progress import print_progress_with_eta
 from narrant import config
 from narrant.config import CHEMBL_BLACKLIST_FILE, DRUG_TAGGER_VOCAB
-from narrant.preprocessing.enttypes import DRUG
+from narrant.entitylinking.enttypes import DRUG
 from narrant.vocabularies.chembl_vocabulary import ChemblVocabulary
 
 

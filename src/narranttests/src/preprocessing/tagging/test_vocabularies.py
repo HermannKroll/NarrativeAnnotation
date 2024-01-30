@@ -1,6 +1,6 @@
 import unittest
 
-from narrant.preprocessing.enttypes import LAB_METHOD, METHOD
+from narrant.entitylinking.enttypes import LAB_METHOD, METHOD
 from narrant.vocabularies.method_vocabulary import MethodVocabulary
 from narrant.vocabularies.plant_family_genus import PlantFamilyGenusVocabulary
 

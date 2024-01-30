@@ -704,7 +704,7 @@ CHEMBL2367301	Organism	Echinochloa esculenta
 CHEMBL2367302	Organism	Rhynchophorus ferrugineus	
 CHEMBL2367303	Organism	Panicum dichotomiflorum	
 CHEMBL2367304	Organism	Stagonosporopsis cucurbitacearum	
-CHEMBL2367305	Organism	Pheretima sieboldi	
+CHEMBL2367305	Organism	Metaphire sieboldi	
 CHEMBL2367306	Organism	Claviceps purpurea	
 CHEMBL2367307	Organism	Ammi majus	
 CHEMBL2367308	Organism	Pseudomonas syringae pv. tabaci	
@@ -973,6 +973,34 @@ CHEMBL4888480	Organism	Human polyomavirus 1
 CHEMBL4888481	Organism	Valsa ambiens	
 CHEMBL4888482	Organism	Veillonella	
 CHEMBL4888483	Organism	Plasmodium	
+CHEMBL5169285	Organism	Treponema denticola	
+CHEMBL5169286	Organism	Cryptococcus gattii species complex	
+CHEMBL5209637	Organism	Aneurinibacillus migulanus	
+CHEMBL5209639	Organism	Borna disease virus	
+CHEMBL5209640	Organism	Clavibacter michiganensis subsp. sepedonicus	
+CHEMBL5209641	Organism	Deltapapillomavirus 4	
+CHEMBL5209642	Organism	Fannyhessea vaginae	
+CHEMBL5209643	Organism	Ross River virus	
+CHEMBL5209644	Organism	Bifidobacterium breve	
+CHEMBL5209646	Organism	Clostridium beijerinckii	
+CHEMBL5209647	Organism	Staphylococcus chromogenes	
+CHEMBL5209648	Organism	Staphylococcus coagulans	
+CHEMBL5209649	Organism	Phyllosticta citricarpa	
+CHEMBL5209650	Organism	Synechococcus elongatus	
+CHEMBL5209651	Organism	Talaromyces verruculosus	
+CHEMBL5209652	Organism	Vibrio natriegens	
+CHEMBL5209653	Organism	Peptococcus niger	
+CHEMBL5209655	Organism	Metarhizium anisopliae	
+CHEMBL5209656	Organism	Mobiluncus curtisii subsp. curtisii	
+CHEMBL5209657	Organism	Limimaricola hongkongensis	
+CHEMBL5209658	Organism	Trypanosoma vivax	
+CHEMBL5209659	Organism	Brevibacterium	
+CHEMBL5209660	Organism	Human adenovirus 7	
+CHEMBL5209661	Organism	Parainfluenza virus 5	
+CHEMBL5209662	Organism	Perkinsus sp.	
+CHEMBL5209663	Organism	Coxsackievirus A16	
+CHEMBL5209664	Organism	Murine coronavirus	
+CHEMBL5209665	Organism	Human coronavirus OC43	
 CHEMBL612234	Organism	Prevotella buccae	
 CHEMBL612235	Organism	Prevotella disiens	
 CHEMBL612236	Organism	Prevotella melaninogenica	
@@ -1882,7 +1910,7 @@ CHEMBL613555	Organism	Human coxsackievirus B5
 CHEMBL613556	Organism	Human poliovirus 1	
 CHEMBL613557	Organism	Human poliovirus 3	
 CHEMBL613558	Organism	Encephalomyocarditis virus	
-CHEMBL613713	Organism	Human rhinovirus 1B	
+CHEMBL613713	Organism	rhinovirus A1B	
 CHEMBL613714	Organism	African swine fever virus	
 CHEMBL613715	Organism	Human adenovirus type 2	
 CHEMBL613716	Organism	unidentified adenovirus	

@@ -1,8 +1,8 @@
 import unittest
 
 import kgextractiontoolbox.document.document as doc
-from narrant.preprocessing.enttypes import PLANT_FAMILY_GENUS
-from narrant.preprocessing.pharmacy.plantfamilygenus import PlantFamilyGenusTagger
+from narrant.entitylinking.enttypes import PLANT_FAMILY_GENUS
+from narrant.entitylinking.pharmacy.plantfamilygenus import PlantFamilyGenusTagger
 from narranttests.util import create_test_kwargs
 
 

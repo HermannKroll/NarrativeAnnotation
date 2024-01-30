@@ -1,7 +1,7 @@
 import logging
 
 from narrant.entity.entityresolver import EntityResolver
-from narrant.preprocessing.enttypes import GENE, SPECIES
+from narrant.entitylinking.enttypes import GENE, SPECIES
 
 
 def main():

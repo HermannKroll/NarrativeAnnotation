@@ -4,9 +4,9 @@ import kgextractiontoolbox.document.document as doc
 from kgextractiontoolbox.document.extract import read_tagged_documents
 from kgextractiontoolbox.entitylinking.tagging.dictagger import split_indexed_words, DictTagger
 from kgextractiontoolbox.entitylinking.tagging.vocabulary import expand_vocabulary_term
-from narrant.preprocessing.enttypes import DRUG
-from narrant.preprocessing.pharmacy.dosage import DosageFormTagger
-from narrant.preprocessing.pharmacy.drug import DrugTagger
+from narrant.entitylinking.enttypes import DRUG
+from narrant.entitylinking.pharmacy.dosage import DosageFormTagger
+from narrant.entitylinking.pharmacy.drug import DrugTagger
 from narranttests.util import create_test_kwargs, get_test_resource_filepath, resource_rel_path
 
 

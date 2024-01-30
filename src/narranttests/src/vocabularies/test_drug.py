@@ -1,6 +1,6 @@
 import unittest
 
-from narrant.preprocessing.pharmacy.drug import DrugTagger
+from narrant.entitylinking.pharmacy.drug import DrugTagger
 from kgextractiontoolbox.document.document import TaggedDocument
 from narranttests.util import create_test_kwargs
 

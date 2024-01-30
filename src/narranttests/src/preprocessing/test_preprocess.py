@@ -6,8 +6,8 @@ from kgextractiontoolbox.backend.retrieve import iterate_over_all_documents_in_c
 from kgextractiontoolbox.document.extract import read_tagged_documents
 from kgextractiontoolbox.document.document import TaggedDocument
 from kgextractiontoolbox.document.load_document import document_bulk_load
-from narrant.preprocessing import dictpreprocess
-from narrant.preprocessing.enttypes import PLANT_FAMILY_GENUS
+from narrant.entitylinking import dictpreprocess
+from narrant.entitylinking.enttypes import PLANT_FAMILY_GENUS
 from narranttests import util
 from narranttests.src.preprocessing.tagging.test_pharmdicttagger import assert_tags_pmc_4297_5600
 

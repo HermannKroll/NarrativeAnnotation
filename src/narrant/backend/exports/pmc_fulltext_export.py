@@ -7,7 +7,7 @@ from narrant.config import PREPROCESS_CONFIG
 from narrant.document.translation.pmc.collect import PMCCollector
 from narrant.document.translation.pmc.convertids import load_pmcids_to_pmid_index
 from narrant.document.translation.pmc.pmc import PMCConverter
-from narrant.preprocessing.config import Config
+from narrant.entitylinking.config import Config
 from narrant.pubtator.enrich_docs_with_tags import enrich_pubtator_documents_with_database_tags
 
 

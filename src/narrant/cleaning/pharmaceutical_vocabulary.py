@@ -1,5 +1,5 @@
 from narrant.entity.entity import Entity
-from narrant.preprocessing.enttypes import DISEASE, GENE, CHEMICAL, EXCIPIENT, DRUG, CHEMBL_CHEMICAL, \
+from narrant.entitylinking.enttypes import DISEASE, GENE, CHEMICAL, EXCIPIENT, DRUG, CHEMBL_CHEMICAL, \
     SPECIES, \
     PLANT_FAMILY_GENUS, LAB_METHOD, METHOD, HEALTH_STATUS, TARGET
 

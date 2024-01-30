@@ -30,7 +30,7 @@ For the first option, leave out the **-i test.json** argument and just specify a
 
 You can invoke our own dictionary-based tagger pipeline via:
 ```
-python3 src/narrant/preprocessing/dictpreprocess.py -i test.json --collection test
+python3 src/narrant/entitylinking/dictpreprocess.py -i test.json --collection test
 ```
 This call will invoke the pipeline to annotate all known entity types.
 The pipeline annotates Diseases, Dosage Forms, Drugs, Chemicals, Excipients, Methods, LebMethods and Plant Families.
@@ -42,17 +42,17 @@ You can may also speedup the tagging process.
 You invoke multiple parallel workers. 
 The number of parallel workers can be specified as follows:
 ```
-python3 src/narrant/preprocessing/dictpreprocess.py -i test.json --collection test --workers 10
+python3 src/narrant/entitylinking/dictpreprocess.py -i test.json --collection test --workers 10
 ```
 
 If you are certain that all documents are already in the database, you may skip the loading phase by:
 ```
-python3 src/narrant/preprocessing/dictpreprocess.py -i test.json --collection test --skip-load
+python3 src/narrant/entitylinking/dictpreprocess.py -i test.json --collection test --skip-load
 ```
 
 The pipeline will work in a temporary directory (random directory in /tmp/) and remove it if the task is completed. If you want to work in a specified directory, use
 ```
-python3 src/narrant/preprocessing/dictpreprocess.py -i test.json --collection test --workdir temp/
+python3 src/narrant/entitylinking/dictpreprocess.py -i test.json --collection test --workdir temp/
 ```
 If you specify a directory, the temporary created files and logs won't be removed automatically.
 
