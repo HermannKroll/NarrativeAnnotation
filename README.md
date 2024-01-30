@@ -5,10 +5,19 @@ Therefore it builds upon a subproject:
 - [KGExtractionToolbox](https://github.com/HermannKroll/KGExtractionToolbox): Basic entity linking methods / information extraction / pipelines for automatisation
 
 
-To use this project, clone this project and its submodules via:
+We will use the NarrativeAnnotation and NarrativeIntelligence package together for mining purposes.
+So first, check out NarrativeIntelligence. 
 ```
-git clone --recurse-submodules git@github.com:HermannKroll/NarrativeAnnotation.git
+cd ~
+git clone --recurse-submodules https://github.com/HermannKroll/NarrativeIntelligence.git
 ```
+
+Next, we create symbolic links to link NarrativeAnnotation to our home directory (and link the toolbox to NarrativeAnnotation).
+```
+ln -s ~/NarrativeIntelligence/lib/KGExtractionToolbox ~/NarrativeIntelligence/lib/NarrativeAnnotation/lib/KGExtractionToolbox
+ln -s ~/NarrativeIntelligence/lib/NarrativeAnnotation ~/NarrativeAnnotation
+```
+
 
 # Setup
 
@@ -153,7 +162,7 @@ Install python >= 3.7.
 Decider whether you want to work with a global python version or with a conda environment (see [tutorial](https://towardsdatascience.com/getting-started-with-python-environments-using-conda-32e9f2779307))
 E.g., a virtual environment on your machine via Conda.
 ```
-conda create --n narrant python=3.8
+conda create -n narrant python=3.8
 ```
 
 Activate the environment
@@ -164,8 +173,8 @@ conda activate narrant
 ## Dependencies
 Install all Python requirements:
 ```
-pip install -r requirements.txt
-pip install -r lib/KGExtractionToolbox/requirements.txt
+pip install -r ~/NarrativeAnnotation/requirements.txt
+pip install -r ~/NarrativeAnnotation/lib/KGExtractionToolbox/requirements.txt
 ```
 
 ## Setup Python Path
@@ -193,7 +202,7 @@ apt install wget zip
 ## Setup NLTK
 Please run the following script to configure NLTK:
 ```
-python lib/KGExtractionToolbox/src/kgextractiontoolbox/setup_nltk.py
+python ~/NarrativeAnnotation/lib/KGExtractionToolbox/src/kgextractiontoolbox/setup_nltk.py
 ```
 
 ## Download required data
@@ -201,7 +210,7 @@ Then,additional data must be downloaded.
 Switch to the NarrativeAnnotation directory and execute the bash script:
 ```
 cd NarrativeAnnotation/
-./download_data.sh
+bash download_data.sh
 ```
 
 
@@ -306,6 +315,13 @@ If you want to use the other tools, see the following [Readme](https://github.co
 Next, add the +x flag to our bash script to invoke PathIE. 
 ```
 chmod +x ~/NarrativeAnnotation/lib/KGExtractionToolbox/src/kgextractiontoolbox/extraction/pathie/run.sh
+```
+
+# Build Tagging Indexes
+Build all tagging indexes:
+```
+python ~/NarrativeAnnotation/src/narrant/build_all_indexes.py
+python ~/NarrativeAnnotation/src/narrant/build_all_tagging_indexes.py
 ```
 
 # General Remarks
