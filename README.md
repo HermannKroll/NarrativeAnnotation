@@ -41,7 +41,7 @@ We used V14.
 ## Configure Postgres
 
 ```
-sudo nano /etc/postgresql/14/main
+sudo nano /etc/postgresql/14/main/postgresql.conf
 ```
 
 Change the following settings. 
@@ -108,7 +108,7 @@ GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO mininguser;
 ## Database configuration
 Configure the database configuration in the project:
 ```
-cd config/
+cd ~/NarrativeAnnotation/config/
 cp backend.prod.json backend.json
 nano backend.json
 ```
@@ -156,9 +156,10 @@ If you did not run conda init, then run:
 eval "$(/home/pubpharm/anaconda3/bin/conda shell.bash hook)"
 conda init
 ```
+Otherwise, just log out of shell and log in again. 
+Init will happen automatically.
 
-
-Install python >= 3.7.
+Install python = 3.8.
 Decider whether you want to work with a global python version or with a conda environment (see [tutorial](https://towardsdatascience.com/getting-started-with-python-environments-using-conda-32e9f2779307))
 E.g., a virtual environment on your machine via Conda.
 ```
@@ -206,7 +207,7 @@ python ~/NarrativeAnnotation/lib/KGExtractionToolbox/src/kgextractiontoolbox/set
 ```
 
 ## Download required data
-Then,additional data must be downloaded.
+Then,additional data (e.g., MeSH and Gene vocabularies) must be downloaded.
 Switch to the NarrativeAnnotation directory and execute the bash script:
 ```
 cd NarrativeAnnotation/
@@ -223,6 +224,18 @@ mkdir ~/tools
 We use GNormPlus as an external annotation tool. 
 Download [GNormPlus](https://www.ncbi.nlm.nih.gov/research/bionlp/Tools/gnormplus/), unzip it and put it into the tools directory.
 
+Download GNormPlus via command line:
+```
+cd ~/tools
+wget https://www.ncbi.nlm.nih.gov/CBBresearch/Lu/Demo/tmTools/download/GNormPlus/GNormPlusJava.zip
+```
+
+Then unzip the software:
+```
+unzip GnormPlusJava.zip
+```
+
+Structure should now look like:
 ```
 tools/
   GNormPlusJava/
@@ -240,7 +253,7 @@ sudo apt install default-jre
 
 Configure the entity linking configuration for the project.
 ```
-cd NarrativeAnnotation/config/
+cd ~/NarrativeAnnotation/config/
 cp entity_linking.prod.json entity_linking.json
 nano entity_linking.json
 ```
@@ -288,10 +301,16 @@ If java is not installed, then install it via:
 sudo apt install default-jre
 ```
 
+First switch to the tools directory:
+```
+cd ~/tools
+```
+
 Download the tool and extract the tool.
 ```
 wget https://nlp.stanford.edu/software/stanford-corenlp-4.5.5.zip
 ```
+Unzip it.
 ```
 unzip stanford-corenlp-4.5.5.zip
 ```
@@ -299,8 +318,9 @@ Note, you can store the tool anywhere you want.
 
 Next, edit the nlp.conf in this directory.
 ```
-cp config/nlp.prod.conf config/nlp.conf 
-nano config/nlp.conf
+cd ~/NarrativeAnnotation/config
+cp nlp.prod.json nlp.json
+nano nlp.json
 ```
 
 Then edit the following **corenlp** path. We just need the corenlp path.
