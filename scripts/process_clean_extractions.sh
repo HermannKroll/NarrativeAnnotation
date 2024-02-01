@@ -1,5 +1,5 @@
 PREDICATION_CLEANING_SQL=/home/"$USER"/NarrativeAnnotation/sql/clean_predication.sql
-PREDICATION_MINIMUM_UPDATE_ID_FILE="~/NarrativeAnnotation/scripts/highest_predication_id.txt"
+PREDICATION_MINIMUM_UPDATE_ID_FILE=/home/"$USER"/db_highest_predication_id.txt
 PREDICATION_MINIMUM_UPDATE_ID=$(<"$PREDICATION_MINIMUM_UPDATE_ID_FILE")
 
 echo "Highest predication id is $PREDICATION_MINIMUM_UPDATE_ID"

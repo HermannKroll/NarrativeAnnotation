@@ -344,6 +344,14 @@ python ~/NarrativeAnnotation/src/narrant/build_all_indexes.py
 python ~/NarrativeAnnotation/src/narrant/build_all_tagging_indexes.py
 ```
 
+# Export highest predication id
+The pipeline is capable of only processing delta entries. 
+Therefore, we need to know what the last highest predication id was.
+Run:
+```
+bash ~/NarrativeAnnotation/scripts/export_highest_predication_id.sh
+```
+
 # General Remarks
 This repository contains methods to annotate entities in document text. We build the pipeline upon a relational database structure, i.e., 
 all relevant information will be stored in the database. For example, annotating documents will first insert the documents into the database and then insert the 
