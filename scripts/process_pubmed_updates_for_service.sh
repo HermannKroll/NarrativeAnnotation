@@ -11,7 +11,7 @@ fi
 
 DATA_PATH="/data/FID_Pharmazie_Services/narrative_data_update/pubmed/"
 
-mdkir -p $DATA_PATH
+mkdir -p $DATA_PATH
 
 PHARM_TECH_IDS="$DATA_PATH"/pharm_technology_ids.tsv
 ALL_PUBTATOR_PMIDS="$DATA_PATH"pubtator_pmids_all.txt
