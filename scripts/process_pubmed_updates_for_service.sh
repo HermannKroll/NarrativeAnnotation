@@ -1,6 +1,17 @@
 #!/bin/bash
 
-DATA_PATH="/data/FID_Pharmazie_Services/pubmed/"
+# load the db password
+source .secret
+if [[ $? != 0 ]]; then
+    echo "Previous script returned exit code != 0 -> Stopping pipeline."
+    exit -1
+fi
+
+
+
+DATA_PATH="/data/FID_Pharmazie_Services/narrative_data_update/pubmed/"
+
+mdkir -p $DATA_PATH
 
 PHARM_TECH_IDS="$DATA_PATH"/pharm_technology_ids.tsv
 ALL_PUBTATOR_PMIDS="$DATA_PATH"pubtator_pmids_all.txt
@@ -12,7 +23,15 @@ LONGCOVID_ID_FILE="$DATA_PATH"long_covid_ids.tsv
 UPDATES_PUBTATOR="$DATA_PATH"pubtator_updates.pubtator
 UPDATED_IDS="$DATA_PATH"pharmaceutical_relevant_ids.txt
 
-TAG_CLEANING_SQL=/home/"$USER"/NarrativeAnnotation/sql/clean_tags.sql
+if [ "$(id -u)" == 0 ]; then
+  TAG_CLEANING_SQL=/root/NarrativeAnnotation/sql/clean_tags.sql
+  echo "root"
+fi
+if [ "$(id -u)" -ne 0 ]; then
+  TAG_CLEANING_SQL=/home/$USER/NarrativeAnnotation/sql/clean_tags.sql
+  echo "not root"
+fi
+
 
 MEDLINE_BASELINE="$DATA_PATH"baseline/
 MEDLINE_UPDATES="$DATA_PATH"updates/
@@ -88,7 +107,7 @@ fi
 
 # Execute Cleaning Rules for Tagging
 echo 'cleaning Tag table with hand-written rules'
-psql "host=127.0.0.1 port=5432 dbname=fidpharmazie user=mininguser password=F2M>FAJL2ptVm)W" -f $TAG_CLEANING_SQL
+psql "host=127.0.0.1 port=5432 dbname=fidpharmazie user=mininguser password=$PSQLPW" -f $TAG_CLEANING_SQL
 if [[ $? != 0 ]]; then
     echo "Previous script returned exit code != 0 -> Stopping pipeline."
     exit -1
@@ -108,7 +127,7 @@ if [[ $? != 0 ]]; then
     exit -1
 fi
 
-python3 ~/NarrativeAnnotation/src/narrant/classification/apply_svm.py -i $UPDATES_PUBTATOR -c PubMed ~/pharmaceutical_technology_articles_svm.pkl --cls PharmaceuticalTechnology --workers 2
+python3 ~/NarrativeAnnotation/src/narrant/classification/apply_svm.py -i $UPDATES_PUBTATOR -c PubMed /data/FID_Pharmazie_Services/narrative_data_update/pharmaceutical_technology_articles_svm.pkl --cls PharmaceuticalTechnology --workers 2
 if [[ $? != 0 ]]; then
     echo "Previous script returned exit code != 0 -> Stopping pipeline."
     exit -1

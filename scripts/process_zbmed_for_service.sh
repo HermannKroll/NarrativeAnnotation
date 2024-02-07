@@ -1,13 +1,29 @@
 #!/bin/bash
 
-DATA_PATH="/data/FID_Pharmazie_Services/zbmed/"
+# load the db password
+source .secret
+if [[ $? != 0 ]]; then
+    echo "Previous script returned exit code != 0 -> Stopping pipeline."
+    exit -1
+fi
+
+
+DATA_PATH="/data/FID_Pharmazie_Services/narrative_data_update/zbmed/"
+
+mdkir -p $DATA_PATH
 
 ZBMED_JSON="$DATA_PATH"zbmed_updates.json
 ZBMED_PUBTATOR="$DATA_PATH"zbmed.json
 UPDATED_IDS="$DATA_PATH"updated_ids.txt
 
-TAG_CLEANING_SQL=/home/"$USER"/NarrativeAnnotation/sql/clean_tags.sql
-
+if [ "$(id -u)" == 0 ]; then
+  TAG_CLEANING_SQL=/root/NarrativeAnnotation/sql/clean_tags.sql
+  echo "root"
+fi
+if [ "$(id -u)" -ne 0 ]; then
+  TAG_CLEANING_SQL=/home/$USER/NarrativeAnnotation/sql/clean_tags.sql
+  echo "not root"
+fi
 
 ## Load everything
 # curl 'https://preview.zbmed.de/api/documents/' -X 'POST' -H 'Content-Type: application/json' -H 'Accept: application/json' --data-binary '{"size":40000,"from":0,"query":{"bool":{"must":[{"range":{"date":{"gte":"2019-12-01||/M","lt":"2021-12-18"}}}]}},"sort":[{"_score":{"order":"asc"}}],"track_total_hits":true}' >  $ZBMED_JSON
@@ -35,7 +51,7 @@ fi
 
 # Execute Cleaning Rules for Tagging
 echo 'cleaning Tag table with hand-written rules'
-psql "host=127.0.0.1 port=5432 dbname=fidpharmazie user=mininguser password=F2M>FAJL2ptVm)W" -f $TAG_CLEANING_SQL
+psql "host=127.0.0.1 port=5432 dbname=fidpharmazie user=mininguser password=$PSQLPW" -f $TAG_CLEANING_SQL
 if [[ $? != 0 ]]; then
     echo "Previous script returned exit code != 0 -> Stopping pipeline."
     exit -1
@@ -55,7 +71,7 @@ if [[ $? != 0 ]]; then
     exit -1
 fi
 
-python3 ~/NarrativeAnnotation/src/narrant/classification/apply_svm.py -c ZBMed ~/pharmaceutical_technology_articles_svm.pkl --cls PharmaceuticalTechnology --workers 2
+python3 ~/NarrativeAnnotation/src/narrant/classification/apply_svm.py -c ZBMed /data/FID_Pharmazie_Services/narrative_data_update/pharmaceutical_technology_articles_svm.pkl --cls PharmaceuticalTechnology --workers 2
 if [[ $? != 0 ]]; then
     echo "Previous script returned exit code != 0 -> Stopping pipeline."
     exit -1
