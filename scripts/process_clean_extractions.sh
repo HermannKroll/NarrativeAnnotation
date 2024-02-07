@@ -1,5 +1,5 @@
 # get the highest predication id
-PREDICATION_MINIMUM_UPDATE_ID_FILE="~/NarrativeAnnotation/scripts/highest_predication_id.txt"
+PREDICATION_MINIMUM_UPDATE_ID_FILE=/data/FID_Pharmazie_Services/narrative_data_update/db_highest_predication_id.txt
 PREDICATION_MINIMUM_UPDATE_ID=$(<"$PREDICATION_MINIMUM_UPDATE_ID_FILE")
 if [[ $? != 0 ]]; then
     echo "Previous script returned exit code != 0 -> Stopping pipeline."
