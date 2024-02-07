@@ -16,7 +16,7 @@ Open all scripts, adjust the paths and adjust the password of the database user:
 Create an environment file to set DB password as an env variable.
 ```
 cd ~/NarrativeAnnotation/scripts
-nano secrets
+nano .secret
 ```
 
 Paste the following content and replace the password:

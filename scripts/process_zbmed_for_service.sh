@@ -10,7 +10,7 @@ fi
 
 DATA_PATH="/data/FID_Pharmazie_Services/narrative_data_update/zbmed/"
 
-mdkir -p $DATA_PATH
+mkdir -p $DATA_PATH
 
 ZBMED_JSON="$DATA_PATH"zbmed_updates.json
 ZBMED_PUBTATOR="$DATA_PATH"zbmed.json
