@@ -175,6 +175,8 @@ def pubmed_medline_load_metadata_from_dictionary(directory, document_collection=
         DocumentMetadata.bulk_insert_values_into_table(session, metadata_to_insert, check_constraints=False)
         document_ids = document_ids - pmids_processed
 
+    logging.info('Finished')
+
 
 def main():
     parser = ArgumentParser()

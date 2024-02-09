@@ -41,27 +41,6 @@ cd $PUBMED_ROOT
 mkdir $MEDLINE_BASELINE
 mkdir $MEDLINE_UPDATES
 
-# Load the Metadata
-# Donwload the latest medline via
-# wget -m ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline/ -P $MEDLINE_BASELINE
-# Download the latest updates via
-wget -m ftp://ftp.ncbi.nlm.nih.gov/pubmed/updatefiles -P $MEDLINE_UPDATES
-if [[ $? != 0 ]]; then
-    echo "Previous script returned exit code != 0 -> Stopping pipeline."
-    exit -1
-fi
-
-# Load Updates
-python3 ~/NarrativeAnnotation/src/narrant/document/load_pubmed_metadata.py $MEDLINE_UPDATES -c PubMed
-if [[ $? != 0 ]]; then
-    echo "Previous script returned exit code != 0 -> Stopping pipeline."
-    exit -1
-fi
-# Load Baseline
-# python3 ~/NarrativeAnnotation/src/narrant/document/load_pubmed_metadata.py $MEDLINE_BASELINE -c PubMed
-
-
-
 
 # First get all PubMed Pubtator PMIDs
 wget https://ftp.ncbi.nlm.nih.gov/pub/lu/PubTatorCentral/AvailablePMIDsinPubTator.txt -O $ALL_PUBTATOR_PMIDS
@@ -127,7 +106,7 @@ if [[ $? != 0 ]]; then
     exit -1
 fi
 
-python3 ~/NarrativeAnnotation/src/narrant/classification/apply_svm.py -i $UPDATES_PUBTATOR -c PubMed /data/FID_Pharmazie_Services/narrative_data_update/pharmaceutical_technology_articles_svm.pkl --cls PharmaceuticalTechnology --workers 2
+python3 ~/NarrativeAnnotation/src/narrant/classification/apply_svm.py -i $UPDATES_PUBTATOR -c PubMed /data/FID_Pharmazie_Services/narrative_data_update/pharmaceutical_technology_articles_svm.pkl --cls PharmaceuticalTechnology --workers 10
 if [[ $? != 0 ]]; then
     echo "Previous script returned exit code != 0 -> Stopping pipeline."
     exit -1
@@ -180,10 +159,28 @@ if [[ $? != 0 ]]; then
 fi
 
 # Do the statement extraction via our Pipeline
-python3 ~/NarrativeAnnotation/src/narrant/extraction/pharmaceutical_pipeline.py -bs 50000 --idfile $UPDATED_IDS -c PubMed -et PathIE --workers 2 --relation_vocab ~/NarrativeAnnotation/resources/pharm_relation_vocab.json
+python3 ~/NarrativeAnnotation/src/narrant/extraction/pharmaceutical_pipeline.py -bs 50000 --idfile $UPDATED_IDS -c PubMed -et PathIE --workers 10 --relation_vocab ~/NarrativeAnnotation/resources/pharm_relation_vocab.json
 if [[ $? != 0 ]]; then
     echo "Previous script returned exit code != 0 -> Stopping pipeline."
     exit -1
 fi
 
 
+# Load the Metadata
+# Donwload the latest medline via
+# wget -m ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline/ -P $MEDLINE_BASELINE
+# Download the latest updates via
+wget -m ftp://ftp.ncbi.nlm.nih.gov/pubmed/updatefiles -P $MEDLINE_UPDATES
+if [[ $? != 0 ]]; then
+    echo "Previous script returned exit code != 0 -> Stopping pipeline."
+    exit -1
+fi
+
+# Load Updates
+python3 ~/NarrativeAnnotation/src/narrant/document/load_pubmed_metadata.py $MEDLINE_UPDATES -c PubMed
+if [[ $? != 0 ]]; then
+    echo "Previous script returned exit code != 0 -> Stopping pipeline."
+    exit -1
+fi
+# Load Baseline
+# python3 ~/NarrativeAnnotation/src/narrant/document/load_pubmed_metadata.py $MEDLINE_BASELINE -c PubMed
