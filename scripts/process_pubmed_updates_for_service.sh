@@ -152,7 +152,7 @@ if [[ $? != 0 ]]; then
 fi
 
 # Finally, all files have been tagged
-python3 ~/NarrativeAnnotation/narrant/analysis/export_relevant_pharmaceutical_documents.py $UPDATED_IDS -c PubMed
+python3 ~/NarrativeAnnotation/src/narrant/analysis/export_relevant_pharmaceutical_documents.py $UPDATED_IDS -c PubMed
 if [[ $? != 0 ]]; then
     echo "Previous script returned exit code != 0 -> Stopping pipeline."
     exit -1
