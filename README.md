@@ -251,6 +251,14 @@ If java is not installed, then install it via:
 sudo apt install default-jre
 ```
 
+Then GNormPlus needs to be installed. 
+Follow the readme.txt instructions inside the GNormPlus folder.
+Then set permissions +x for all files:
+```
+chmod +x -R ~/tools/GNormPlus/
+```
+If you follow the instruction and your last step was "su", make sure that you activate the Python environment and set the Python path again.
+
 Configure the entity linking configuration for the project.
 ```
 cd ~/NarrativeAnnotation/config/
