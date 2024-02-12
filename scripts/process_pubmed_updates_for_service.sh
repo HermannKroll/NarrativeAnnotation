@@ -38,8 +38,8 @@ MEDLINE_UPDATES="$DATA_PATH"updates/
 
 
 cd $PUBMED_ROOT
-mkdir $MEDLINE_BASELINE
-mkdir $MEDLINE_UPDATES
+mkdir -p $MEDLINE_BASELINE
+mkdir -p $MEDLINE_UPDATES
 
 
 # First get all PubMed Pubtator PMIDs
