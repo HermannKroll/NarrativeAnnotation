@@ -161,7 +161,7 @@ def main(arguments=None):
 
     if number_of_docs == 0:
         logger.info('No documents to process - stopping')
-        exit(1)
+        exit(0)
 
     logger.info(f'{number_of_docs} of documents have to be processed...')
     kwargs = dict(logger=logger, config=conf, collection=args.collection)
