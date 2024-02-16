@@ -8,7 +8,7 @@ fi
 
 
 if [ "$(id -u)" == 0 ]; then
-  PREDICATION_CLEANING_SQL=/home/NarrativeAnnotation/sql/clean_predication.sql
+  PREDICATION_CLEANING_SQL=/root/NarrativeAnnotation/sql/clean_predication.sql
   echo "root"
 fi
 if [ "$(id -u)" -ne 0 ]; then
@@ -44,7 +44,7 @@ fi
 
 # Execute Cleaning Rules for Predications
 echo 'cleaning predication table with hand-written rules'
-psql "host=127.0.0.1 port=5432 dbname=fidpharmazie user=mininguser password=PSQLPW" -f $PREDICATION_CLEANING_SQL
+psql "host=127.0.0.1 port=5432 dbname=fidpharmazie user=mininguser password=$PSQLPW" -f $PREDICATION_CLEANING_SQL
 if [[ $? != 0 ]]; then
     echo "Previous script returned exit code != 0 -> Stopping pipeline."
     exit -1
