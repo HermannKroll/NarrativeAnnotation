@@ -19,7 +19,7 @@ fi
 
 
 # load the db password
-source .secret
+source ~/NarrativeAnnotation/scripts/.secret
 if [[ $? != 0 ]]; then
     echo "Previous script returned exit code != 0 -> Stopping pipeline."
     exit -1

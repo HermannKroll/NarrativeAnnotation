@@ -183,7 +183,7 @@ def main():
     logging.info(f'Splitting task into {num_of_chunks} chunks...')
     for idx, batch_ids in enumerate(chunks(list(document_ids_to_process), args.batch_size)):
         logging.info('=' * 60)
-        logging.info(f'       Processing chunk {idx}/{num_of_chunks}...')
+        logging.info(f'       Processing chunk {idx+1}/{num_of_chunks}...')
         logging.info('=' * 60)
         logging.info(f'{len(batch_ids)} ids have to been processed in this batch')
         process_documents_ids_in_pipeline(batch_ids, args.collection, args.extraction_type, corenlp_config=args.config,
