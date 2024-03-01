@@ -15,13 +15,14 @@ from kgextractiontoolbox.cleaning.relation_vocabulary import RelationVocabulary
 from kgextractiontoolbox.config import NLP_CONFIG
 from kgextractiontoolbox.document.count import count_documents
 from kgextractiontoolbox.document.export import export
+from kgextractiontoolbox.extraction.cosentences.main import run_co_occurrences_in_sentences
 from kgextractiontoolbox.extraction.extraction_utils import filter_and_write_documents_to_tempdir
 from kgextractiontoolbox.extraction.loading.load_extractions import clean_and_load_predications_into_db
 from kgextractiontoolbox.extraction.loading.load_pathie_extractions import read_pathie_extractions_tsv
 from kgextractiontoolbox.extraction.pathie.main import pathie_run_corenlp, pathie_process_corenlp_output_parallelized
 from kgextractiontoolbox.extraction.pipeline import mark_document_as_processed_by_ie, retrieve_document_ids_to_process
 from kgextractiontoolbox.extraction.versions import PATHIE_EXTRACTION, OPENIE_EXTRACTION, PATHIE_STANZA_EXTRACTION, \
-    OPENIE6_EXTRACTION, OPENIE51_EXTRACTION
+    OPENIE6_EXTRACTION, OPENIE51_EXTRACTION, COSENTENCE_EXTRACTION
 from kgextractiontoolbox.util.helpers import chunks
 from narrant.extraction.loading.clean_load_genes import clean_and_translate_gene_ids
 
@@ -112,6 +113,11 @@ def process_documents_ids_in_pipeline(ids_to_process: Set[int], document_collect
             run_stanza_pathie(document_export_file, ie_output_file, predicate_vocabulary=pred_vocab,
                               consider_sections=consider_sections)
             logging.info((" done in {}".format(datetime.now() - start)))
+        elif extraction_type == COSENTENCE_EXTRACTION:
+            logging.info('Starting Co-Occurrence-based sentence extraction method...')
+            start = datetime.now()
+            run_co_occurrences_in_sentences(document_export_file, ie_output_file, consider_sections=consider_sections)
+            logging.info((" done in {}".format(datetime.now() - start)))
 
         logging.info('Loading extractions into database...')
         time_load = datetime.now()
@@ -183,7 +189,7 @@ def main():
     logging.info(f'Splitting task into {num_of_chunks} chunks...')
     for idx, batch_ids in enumerate(chunks(list(document_ids_to_process), args.batch_size)):
         logging.info('=' * 60)
-        logging.info(f'       Processing chunk {idx+1}/{num_of_chunks}...')
+        logging.info(f'       Processing chunk {idx + 1}/{num_of_chunks}...')
         logging.info('=' * 60)
         logging.info(f'{len(batch_ids)} ids have to been processed in this batch')
         process_documents_ids_in_pipeline(batch_ids, args.collection, args.extraction_type, corenlp_config=args.config,
