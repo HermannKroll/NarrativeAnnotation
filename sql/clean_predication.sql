@@ -14,3 +14,5 @@ DELETE FROM public.Predication AS p WHERE p.subject_id = p.object_id and p.subje
 
 -- Update all non-relations
 UPDATE public.Predication SET relation = 'associated' WHERE relation IS null;
+-- Ensure that all predication based on co-occurrences are mapped to associated
+UPDATE public.Predication SET relation = 'associated' WHERE extraction_type = 'COSentence';
