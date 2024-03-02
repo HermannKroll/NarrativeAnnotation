@@ -55,7 +55,7 @@ def process_documents_ids_in_pipeline(ids_to_process: Set[int], document_collect
 
     time_start = datetime.now()
     working_dir = tempfile.mkdtemp()
-    document_export_file = os.path.join(working_dir, 'document_export.json')
+    document_export_file = os.path.join(working_dir, 'document_export.jsonl')
     ie_input_dir = os.path.join(working_dir, 'ie')
     ie_filelist_file = os.path.join(working_dir, 'ie_filelist.txt')
     ie_output_file = os.path.join(working_dir, 'ie.output')
@@ -68,7 +68,7 @@ def process_documents_ids_in_pipeline(ids_to_process: Set[int], document_collect
     # export them with their tags
     logging.info(f'Exporting documents to: {document_export_file}')
     export(document_export_file, export_tags=True, document_ids=ids_to_process, collection=document_collection,
-           content=True, export_sections=consider_sections, export_format="json", export_classififcation=False)
+           content=True, export_sections=consider_sections, export_format="jsonl", export_classififcation=False)
 
     time_exported = datetime.now()
 
