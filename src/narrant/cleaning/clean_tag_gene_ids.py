@@ -13,12 +13,12 @@ def clean_gene_ids_in_tag():
     :return: nothing
     """
     session = Session.get()
-    logging.info('Counting the number of tags needed to be cleaned...')
+    logging.info('Counting the number of gene tags needed to be cleaned...')
     query = session.query(Tag)
     query = query.filter(Tag.ent_type == GENE)
     query = query.filter(Tag.ent_id.like('%;%'))
     tag_count = query.count()
-    logging.info(f'{tag_count} tags found')
+    logging.info(f'{tag_count} relevant gene tags (include ;) found')
     insert_list = []
     progress = Progress(total=tag_count, text="Computing cleaning of gene_ids...")
     progress.start_time()
@@ -34,10 +34,10 @@ def clean_gene_ids_in_tag():
                                     document_id=tag_row.document_id,
                                     document_collection=tag_row.document_collection))
     progress.done()
-    logging.info(f"Inserting {len(insert_list)} cleaned gene_ids.")
+    logging.info(f"Inserting {len(insert_list)} cleaned gene_ids...")
     Tag.bulk_insert_values_into_table(session, insert_list)
     insert_list.clear()
-    logging.info(f"Deleting {tag_count} old composed gene_ids.")
+    logging.info(f"Deleting {tag_count} old composed gene_ids...")
     query.delete(synchronize_session=False)
     session.commit()
     logging.info("Finished.")
