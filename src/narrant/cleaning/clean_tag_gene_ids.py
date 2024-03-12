@@ -18,6 +18,13 @@ def clean_gene_ids_in_tag():
     query = query.filter(Tag.ent_type == GENE)
     query = query.filter(Tag.ent_id.like('%;%'))
     tag_count = query.count()
+
+
+    if tag_count == 0:
+        logging.info(f'No gene tags found that need to be cleaned. Stopping.')
+        logging.info("Finished.")
+        return
+
     logging.info(f'{tag_count} relevant gene tags (include ;) found')
     insert_list = []
     progress = Progress(total=tag_count, text="Computing cleaning of gene_ids...")
