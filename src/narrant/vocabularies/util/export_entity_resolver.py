@@ -9,13 +9,13 @@ def main():
                         datefmt='%Y-%m-%d:%H:%M:%S',
                         level=logging.INFO)
 
-    resolver = EntityResolver.instance()
+    resolver = EntityResolver()
 
     lines = []
     with open("entities.tsv", 'wt') as f:
         ent2name = [('MESH:', resolver.mesh.desc2heading),
                     (GENE, resolver.gene.geneid2name),
-                    ('', resolver.chebml.chemblid2name),
+                    ('', resolver.chembl.chemblid2name),
                     (SPECIES, resolver.species.speciesid2name)]
         for prefix, e2name_dict in ent2name:
             for e_id, name in e2name_dict.items():

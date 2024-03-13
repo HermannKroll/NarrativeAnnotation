@@ -6,7 +6,7 @@ from narrant.atc.atc_tree import ATCTree
 class TestATCTree(unittest.TestCase):
 
     def setUp(self) -> None:
-        self.atc: ATCTree = ATCTree.instance()
+        self.atc: ATCTree = ATCTree()
 
     def test_drugs(self):
         biguanides_children = self.atc.get_drugs_for_atc_class('A10BA')

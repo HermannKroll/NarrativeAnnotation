@@ -200,7 +200,7 @@ class Descriptor(BaseNode):
     def parents(self):
         if not hasattr(self, "_parents"):
             parent_tns = [".".join(tn.split(".")[:-1]) for tn in self.tree_numbers if "." in tn]
-            parents = [MeSHDB.instance().desc_by_tree_number(tn) for tn in parent_tns]
+            parents = [MeSHDB().desc_by_tree_number(tn) for tn in parent_tns]
             setattr(self, "_parents", parents)
         return getattr(self, "_parents")
 
@@ -248,16 +248,17 @@ class MeSHDB:
     - desc_by_tree_number
     - descs_by_name
     - descs_by_term
-
-    Use the instance() method to get a MeSHDB instance.
     """
     __instance = None
 
-    @staticmethod
-    def instance():
-        if MeSHDB.__instance is None:
-            MeSHDB()
-        return MeSHDB.__instance
+    def __new__(cls):
+        if cls.__instance is None:
+            cls.__instance = super().__new__(cls)
+            cls.__instance.tree = None
+            cls.__instance._desc_by_id = dict()
+            cls.__instance._desc_by_tree_number = dict()
+            cls.__instance._desc_by_name = dict()
+        return cls.__instance
 
     def get_index(self):
         return dict(
@@ -269,16 +270,6 @@ class MeSHDB:
     def set_index(self, index):
         for key, value in index.items():
             setattr(self, key, value)
-
-    def __init__(self):
-        self.tree = None
-        self._desc_by_id = dict()
-        self._desc_by_tree_number = dict()
-        self._desc_by_name = dict()
-        if MeSHDB.__instance is not None:
-            raise Exception("This class is a singleton!")
-        else:
-            MeSHDB.__instance = self
 
     def load_xml(self, filename, prefetch_all=False, verbose=False, force_load=False):
         if not self._desc_by_id or force_load:

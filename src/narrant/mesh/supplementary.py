@@ -96,25 +96,16 @@ class MeSHDBSupplementary:
     - record_by_tree_number
     - records_by_name
     - records_by_term
-
-    Use the instance() method to get a MeSHSupplementary instance.
     """
     __instance = None
 
-    @staticmethod
-    def instance():
-        if MeSHDBSupplementary.__instance is None:
-            MeSHDBSupplementary()
-        return MeSHDBSupplementary.__instance
-
-    def __init__(self):
-        self.tree = None
-        self._desc_by_id = dict()
-        self._desc_by_name = dict()
-        if MeSHDBSupplementary.__instance is not None:
-            raise Exception("This class is a singleton!")
-        else:
-            MeSHDBSupplementary.__instance = self
+    def __new__(cls):
+        if cls.__instance is None:
+            cls.__instance = super().__new__(cls)
+            cls.__instance.tree = None
+            cls.__instance._desc_by_id = dict()
+            cls.__instance._desc_by_name = dict()
+        return cls.__instance
 
     def load_xml(self, filename, prefetch_all=False, verbose=False):
         if not self._desc_by_id:

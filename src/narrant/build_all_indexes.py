@@ -40,7 +40,7 @@ def build_entity_indexes(complete: bool, skip_mesh: bool, force: bool = False):
 
         if not skip_mesh:
             logging.info('Computing entity ontology index...')
-            entity_ontology = MeSHOntology.instance(load_index=False)
+            entity_ontology = MeSHOntology(load_index=False)
             entity_ontology.build_index_from_mesh()
             entity_ontology.store_index()
 
@@ -51,7 +51,7 @@ def build_entity_indexes(complete: bool, skip_mesh: bool, force: bool = False):
             logging.info('Skipping MeSH Index creation...')
 
         logging.info('Computing Gene Mapping index...')
-        gene_mapper = GeneMapper.instance(load_index=False)
+        gene_mapper = GeneMapper(load_index=False)
         gene_mapper.build_gene_mapper_index()
 
         logging.info('Computing Gene Resolver index...')

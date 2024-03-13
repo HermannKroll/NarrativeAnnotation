@@ -23,7 +23,7 @@ def main():
             if d not in desc2class:
                 missing_classes.add(d)
 
-    resolver = EntityResolver.instance()
+    resolver = EntityResolver()
 
     print('--' *60)
     print('Not classified methods:')

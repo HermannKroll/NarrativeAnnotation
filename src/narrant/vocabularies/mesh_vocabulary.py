@@ -11,7 +11,7 @@ class MeSHVocabulary:
 
     @staticmethod
     def create_mesh_vocab_from_desc(descriptors: Set[str], mesh_file=MESH_DESCRIPTORS_FILE, expand_terms=True):
-        meshdb = MeSHDB.instance()
+        meshdb = MeSHDB()
         meshdb.load_xml(mesh_file)
         desc_by_term = defaultdict(set)
 
@@ -34,7 +34,7 @@ class MeSHVocabulary:
     def create_mesh_vocab(subtrees: List[str], mesh_file=MESH_DESCRIPTORS_FILE, expand_terms=True):
         desc_by_term = defaultdict(set)
 
-        meshdb = MeSHDB.instance()
+        meshdb = MeSHDB()
         meshdb.load_xml(mesh_file)
         logging.info('Extracting MeSH information (terms) ...')
         for desc in meshdb.get_all_descs():

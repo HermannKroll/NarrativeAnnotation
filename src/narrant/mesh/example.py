@@ -4,7 +4,7 @@ This is an example file how to use the package.
 from narrant.config import MESH_DESCRIPTORS_FILE
 from narrant.mesh.data import MeSHDB
 
-db = MeSHDB.instance()
+db = MeSHDB()
 
 # Load XML file
 db.load_xml(MESH_DESCRIPTORS_FILE)

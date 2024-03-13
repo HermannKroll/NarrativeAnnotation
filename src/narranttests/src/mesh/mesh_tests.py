@@ -8,7 +8,7 @@ class Test(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.db = MeSHDB.instance()
+        cls.db = MeSHDB()
         cls.db.load_xml(MESH_DESCRIPTORS_FILE, verbose=True)
 
     def test_tree_numbers(self):

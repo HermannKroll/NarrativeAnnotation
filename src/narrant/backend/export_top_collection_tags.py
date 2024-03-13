@@ -43,7 +43,7 @@ def main(arguments=None):
 
         for count, ent_id, ent_type, ent_str in tags_query.all():
             try:
-                name = EntityResolver.instance().get_name_for_var_ent_id(ent_id, ent_type)
+                name = EntityResolver().get_name_for_var_ent_id(ent_id, ent_type)
                 export_data.append(f'{count}\t{ent_id}\t{name}\t{ent_str}')
             except Exception as e:
                 logging.error("Exception \"{}\" occurred while resolving id {} \"{}\""

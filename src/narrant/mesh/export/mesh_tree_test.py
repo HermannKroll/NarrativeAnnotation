@@ -3,7 +3,7 @@ from narrant.mesh.data import MeSHDB
 
 
 def main():
-    db = MeSHDB.instance()
+    db = MeSHDB()
     db.load_xml(MESH_DESCRIPTORS_FILE)
     disease_str = db.extract_disease_json()
     print(disease_str)
