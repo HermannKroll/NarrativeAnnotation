@@ -167,8 +167,7 @@ def main(arguments=None):
     kwargs = dict(logger=logger, config=conf, collection=args.collection)
 
     logger.info('================== Init Taggers ==================')
-    metafactory = PharmDictTagger(ent_types, kwargs)
-    metatag = metafactory.create_MetaDicTagger()
+    metatag = PharmDictTagger(ent_types, kwargs)
     metatag.prepare()
     metatag.base_insert_tagger()
 
