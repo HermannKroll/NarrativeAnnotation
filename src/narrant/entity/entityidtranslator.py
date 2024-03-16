@@ -13,10 +13,13 @@ class EntityIDTranslator:
         return cls._instance
 
     def translate_entity_id(self, entity_id, entity_type):
+        """
+        Translates a gene ids - > may throw an key error or value errror
+        :param entity_id:
+        :param entity_type:
+        :return:
+        """
         if entity_type == GENE:
-            try:
-                return self.generesolver.gene_id_to_symbol(entity_id).lower()
-            except (KeyError, ValueError):
-                print("Error at translating a gene ID to a gene Symbol.")
+            return self.generesolver.gene_id_to_symbol(entity_id).lower()
         else:
             return entity_id

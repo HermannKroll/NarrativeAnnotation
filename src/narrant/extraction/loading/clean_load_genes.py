@@ -24,11 +24,14 @@ def clean_and_translate_gene_ids(predications: List[PRED]):
     start_time = datetime.now()
     predications_len = len(predications)
     for idx, p in enumerate(predications):
-        subj_id = entityidtranslator.translate_entity_id(p.s_id, GENE)
-        obj_id = entityidtranslator.translate_entity_id(p.o_id, GENE)
-        p_cleaned = PRED(p.doc_id, p.subj, p.pred, p.pred_cleaned, p.obj, p.conf, p.sent, subj_id, p.s_str, p.s_type,
-                         obj_id, p.o_str, p.o_type)
-        predications_cleaned.append(p_cleaned)
+        try:
+            subj_id = entityidtranslator.translate_entity_id(p.s_id, GENE)
+            obj_id = entityidtranslator.translate_entity_id(p.o_id, GENE)
+            p_cleaned = PRED(p.doc_id, p.subj, p.pred, p.pred_cleaned, p.obj, p.conf, p.sent, subj_id, p.s_str, p.s_type,
+                             obj_id, p.o_str, p.o_type)
+            predications_cleaned.append(p_cleaned)
+        except (KeyError, ValueError):
+            pass
         print_progress_with_eta('cleaning gene ids...', idx, predications_len, start_time)
     logging.info('{} predications obtained'.format(len(predications_cleaned)))
     return predications_cleaned
