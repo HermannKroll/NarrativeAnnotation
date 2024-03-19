@@ -25,8 +25,8 @@ def clean_and_translate_gene_ids(predications: List[PRED]):
     predications_len = len(predications)
     for idx, p in enumerate(predications):
         try:
-            subj_id = entityidtranslator.translate_entity_id(p.s_id, GENE)
-            obj_id = entityidtranslator.translate_entity_id(p.o_id, GENE)
+            subj_id = entityidtranslator.translate_entity_id(p.s_id, p.s_type)
+            obj_id = entityidtranslator.translate_entity_id(p.o_id, p.o_type)
             p_cleaned = PRED(p.doc_id, p.subj, p.pred, p.pred_cleaned, p.obj, p.conf, p.sent, subj_id, p.s_str, p.s_type,
                              obj_id, p.o_str, p.o_type)
             predications_cleaned.append(p_cleaned)
