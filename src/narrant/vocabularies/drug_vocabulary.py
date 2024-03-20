@@ -57,9 +57,12 @@ class DrugVocabulary(ChemblVocabulary):
                                 skipped_synonyms += 1
                                 continue
                             if tc['molecule_synonym']:
-                                synonyms.append(tc['molecule_synonym'])
+                                # split by ';' to extract additional implicit synonyms, e.g.:
+                                # entity_id='CHEMBL2107855' heading='DENENICOKIN'
+                                # RIL-21; RECOMBINANT HUMAN INTERLEUKIN 21
+                                synonyms.append(tc['molecule_synonym'].replace(";", " "))
                             if tc['synonyms'] and tc['synonyms'].lower() != synonyms[-1].lower():
-                                synonyms.append(tc['synonyms'])
+                                synonyms.append(tc['synonyms'].replace(";", " "))
 
                     if len(synonyms) > 0:
                         syn_str = ";".join(synonyms)

@@ -76,10 +76,12 @@ class TargetVocabulary(ChemblVocabulary):
                     synonyms = list()
                     if t['target_components']:
                         for tc in t['target_components']:
+                            # split by ';' to extract additional implicit synonyms (example in drug_vocabulary.py)
                             if tc['component_description']:
-                                synonyms.append(tc['component_description'])
+                                synonyms.append(tc['component_description'].replace(";", " "))
                             if tc['target_component_synonyms']:
-                                synonyms.extend([syn['component_synonym'] for syn in tc['target_component_synonyms']])
+                                synonyms.extend([syn['component_synonym'].replace(";", " ")
+                                                 for syn in tc['target_component_synonyms']])
 
                     target2entry[entity_id] = (heading, synonyms)
                     target2no_of_synonyms[entity_id] = len(synonyms)
