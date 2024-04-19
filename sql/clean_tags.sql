@@ -45,6 +45,7 @@ DELETE FROM public.Tag as t WHERE t.ent_id = 'MESH:D013180' and t.ent_type = 'Di
 
 -- Delete tags without entity ids
 DELETE FROM public.Tag as t WHERE t.ent_id = '';
+DELETE FROM public.Tag as t WHERE t.ent_id = '-';
 
 -- Clean all tags against OMIM
 DELETE FROM public.tag as t WHERE t.ent_id like 'OMIM:%';
