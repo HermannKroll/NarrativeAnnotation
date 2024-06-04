@@ -38,7 +38,7 @@ def get_text(element, name, is_required=False):
     """
     try:
         return element.xpath(name)[0].text.strip()
-    except IndexError as e:
+    except (IndexError, AttributeError) as e:
         if is_required:
             raise ValueError(
                 "Error selecting {} from {}. Element is required. Base exception: {}".format(
