@@ -46,6 +46,33 @@ nano ~/NarrativeAnnotation/download_data.sh
 ```
 Update the file suffixes (e.g., 2024) to the current year.
 
+Some descriptors might have changed over time so we need to delete them. 
+Delete all old MeSH concepts that are not present in the DB anymore
+```
+python ~/NarrativeAnnotation/src/narrant/cleaning/clean_old_mesh_concepts.py 
+```
+
+
+New MeSH Methods need to be classified by hand (whether they are methods or lab methods). 
+Therefore, export the missing classified methods via:
+```
+python ~/NarrativeAnnotation/src/narrant/analysis/export_lab_method_classification.py
+```
+Copy the output, send it to some pharmacists. 
+Ask him to classify whether the method is about a lab method or a method.
+Then edit the following [file](resources/vocabularies/labmethod/method_classification.tsv):
+```
+nano ~/NarrativeAnnotation/resources/vocabularies/labmethod/method_classification.tsv
+```
+Add the remaining MeSH ids at the tail of the list. 
+Ids that are a LabMethod must have a "l" in the first spot, e.g.,
+```
+l	MESH:D000092025 <<< lab method
+	MESH:D000093182 <<< not a lab method
+```
+
+
+
 
 # Plant Family/Genus (Wikidata)
 Execute the following [query](https://query.wikidata.org/#%23Families%0ASELECT%20%3Ftaxonname%20WHERE%20%7B%0A%20%20%3Fitem%20wdt%3AP31%20wd%3AQ16521%20%3B%0A%20%20%20%20%20%20%20%20wdt%3AP105%20wd%3AQ35409%20%3B%0A%20%20%20%20%20%20%20%20wdt%3AP225%20%3Ftaxonname%20%3B%0A%20%20%20%20%20%20%20%20wdt%3AP1421%20%3FGRIN%20.%0A%20%20%0A%7D):
@@ -116,25 +143,6 @@ Build all translation indexes:
 ```
 python ~/NarrativeAnnotation/src/narrant/build_all_indexes.py
 ```
-
-New MeSH Methods need to be classified by hand (whether they are methods or lab methods). 
-Therefore export the missing classified methods via:
-```
-python ~/NarrativeAnnotation/src/narrant/analysis/export_lab_method_classification.py
-```
-Copy the output, send it to some pharmacists. 
-Ask him to classify whether the method is about a lab method or a method.
-Then edit the following [file](resources/vocabularies/labmethod/method_classification.tsv):
-```
-nano ~/NarrativeAnnotation/resources/vocabularies/labmethod/method_classification.tsv
-```
-Add the remaining MeSH ids at the tail of the list. 
-Ids that are a LabMethod must have a "l" in the first spot, e.g.,
-```
-l	MESH:D000092025 <<< lab method
-	MESH:D000093182 <<< not a lab method
-```
-
 
 Finally, build all tagging indexes:
 ```
