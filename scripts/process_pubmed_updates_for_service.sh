@@ -121,19 +121,6 @@ if [[ $? != 0 ]]; then
     exit -1
 fi
 
-# Load Pharmaceutical Journals as Pharmaceutical Technology
-python3 ~/NarrativeAnnotation/src/narrant/backend/export_article_ids_from_journals.py ~/NarrativeAnnotation/resources/classification/pharmaceutical_technology_journals.txt $PHARM_TECH_IDS -c PubMed
-if [[ $? != 0 ]]; then
-    echo "Previous script returned exit code != 0 -> Stopping pipeline."
-    exit -1
-fi
-
-python3 ~/NarrativeAnnotation/src/narrant/backend/load_classification_for_documents.py  $PHARM_TECH_IDS PharmaceuticalTechnology -c PubMed
-if [[ $? != 0 ]]; then
-    echo "Previous script returned exit code != 0 -> Stopping pipeline."
-    exit -1
-fi
-
 
 # Load all LitCOVID + Long Covid classifications
 wget https://www.ncbi.nlm.nih.gov/research/coronavirus-api/export/all/tsv -O $LITCOVID_ID_FILE
@@ -193,3 +180,17 @@ if [[ $? != 0 ]]; then
 fi
 # Load Baseline
 # python3 ~/NarrativeAnnotation/src/narrant/document/load_pubmed_metadata.py $MEDLINE_BASELINE -c PubMed
+
+
+# Load Pharmaceutical Journals as Pharmaceutical Technology
+python3 ~/NarrativeAnnotation/src/narrant/backend/export_article_ids_from_journals.py ~/NarrativeAnnotation/resources/classification/pharmaceutical_technology_journals.txt $PHARM_TECH_IDS -c PubMed
+if [[ $? != 0 ]]; then
+    echo "Previous script returned exit code != 0 -> Stopping pipeline."
+    exit -1
+fi
+
+python3 ~/NarrativeAnnotation/src/narrant/backend/load_classification_for_documents.py  $PHARM_TECH_IDS PharmaceuticalTechnology -c PubMed
+if [[ $? != 0 ]]; then
+    echo "Previous script returned exit code != 0 -> Stopping pipeline."
+    exit -1
+fi
