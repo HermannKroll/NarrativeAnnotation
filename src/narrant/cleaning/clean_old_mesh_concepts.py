@@ -16,11 +16,13 @@ def clean_old_mesh_concepts(force_deletion: bool):
     start = datetime.now()
     logging.info("Cleaning old mesh concepts [force deletion: {}]".format(force_deletion))
 
+    logging.info('Loading MeSH supplementary data...')
     supp = MeSHDBSupplementary()
-    supp.load_xml(MESH_SUPPLEMENTARY_FILE, prefetch_all=True, verbose=True)
+    supp.load_xml(MESH_SUPPLEMENTARY_FILE, prefetch_all=True)
 
+    logging.info('Loading MeSH data...')
     desc = MeSHDB()
-    desc.load_xml(MESH_DESCRIPTORS_FILE, prefetch_all=True, verbose=True)
+    desc.load_xml(MESH_DESCRIPTORS_FILE, prefetch_all=True)
 
     logging.info("Retrieve MeSH terms from tag table...")
     session = Session.get()
@@ -31,25 +33,16 @@ def clean_old_mesh_concepts(force_deletion: bool):
     old_mesh_terms = set()
     progress = Progress(query.count())
     progress.start_time()
+
+    known_mesh_ids = set()
+    known_mesh_ids.update({descriptor.unique_id for descriptor in desc.get_all_descs()})
+    known_mesh_ids.update({record.unique_id for record in supp.get_all_records()})
+    logging.info(f'Found {len(known_mesh_ids)} known MeSH ids')
+
     for idx, t in enumerate(query):
         entity_id = t.ent_id.split(":")[-1]
-        is_supp = False
-        is_desc = False
-
-        # check each type separately
-        try:
-            supp.record_by_id(entity_id)
-            is_supp = True
-        except ValueError:
-            pass
-        try:
-            desc.desc_by_id(entity_id)
-            is_desc = True
-        except ValueError:
-            pass
-
-        if is_supp or is_desc:
-            old_mesh_terms.add(t)
+        if entity_id not in known_mesh_ids:
+            old_mesh_terms.add(t.ent_id)
         progress.print_progress(idx)
     progress.done()
 
