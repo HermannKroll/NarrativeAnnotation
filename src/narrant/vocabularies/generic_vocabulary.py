@@ -16,7 +16,7 @@ def transform_term2entities_index_to_vocabulary(term2entities: {str: Set[str]}, 
     :param entity_type: the entity type to compute the heading
     :return: an vocabulary object
     """
-    resolver = EntityResolver.instance()
+    resolver = EntityResolver()
 
     # create vocabulary from reverse index
     entity2heading = {}

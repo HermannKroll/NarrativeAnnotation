@@ -61,7 +61,7 @@ class MeshResolver:
                     mesh_supp_file=MESH_SUPPLEMENTARY_FILE,
                     mesh_supp_index=MESH_SUPPLEMENTARY_ID_TO_HEADING_INDEX_FILE):
         logging.info('Reading mesh file: {}'.format(mesh_file))
-        meshdb = MeSHDB.instance()
+        meshdb = MeSHDB()
         meshdb.load_xml(mesh_file)
         for desc in meshdb.get_all_descs():
             self.desc2heading[desc.unique_id] = desc.heading
@@ -72,7 +72,7 @@ class MeshResolver:
             pickle.dump(self.desc2heading, f)
 
         logging.info('Reading mesh supplementary file: {}'.format(mesh_supp_file))
-        mesh_supplementary: MeSHDBSupplementary = MeSHDBSupplementary.instance()
+        mesh_supplementary: MeSHDBSupplementary = MeSHDBSupplementary()
         mesh_supplementary.load_xml(mesh_supp_file)
         for record in mesh_supplementary.get_all_records():
             self.supplement_desc2heading[record.unique_id] = record.name
@@ -362,37 +362,28 @@ class VaccineResolver:
 class EntityResolver:
     """
     EntityResolver translates an entity id and an entity type to it's corresponding name
-    EntityResolver is a singleton implementation, use EntityResolver.instance()
     Automatically loads and initialise the resolvers for MeSH, DrugbankIDs, Gene, Species and DosageForms
     """
 
     __instance = None
 
-    def __init__(self):
-        if EntityResolver.__instance is not None:
-            raise Exception('This class is a singleton - use EntityResolver.instance()')
-        else:
-            self.mesh = MeshResolver()
-            self.mesh.load_index()
-            self.gene = GeneResolver()
-            self.gene.load_index()
-            self.species = SpeciesResolver()
-            self.species.load_index()
-            self.dosageform = DosageFormResolver(self.mesh)
-            self.mesh_ontology = None
-            self.excipient = ExcipientResolver()
-            self.plantfamily = PlantFamilyResolver()
-            self.chebml = ChEMBLDatabaseResolver()
-            self.chebml.load_index()
-            self.vaccine = VaccineResolver(self.mesh)
-
-            EntityResolver.__instance = self
-
-    @staticmethod
-    def instance() -> EntityResolver:
-        if EntityResolver.__instance is None:
-            EntityResolver()
-        return EntityResolver.__instance
+    def __new__(cls):
+        if cls.__instance is None:
+            cls.__instance = super(EntityResolver, cls).__new__(cls)
+            cls.__instance.mesh = MeshResolver()
+            cls.__instance.mesh.load_index()
+            cls.__instance.gene = GeneResolver()
+            cls.__instance.gene.load_index()
+            cls.__instance.species = SpeciesResolver()
+            cls.__instance.species.load_index()
+            cls.__instance.dosageform = DosageFormResolver(cls.__instance.mesh)
+            cls.__instance.mesh_ontology = None
+            cls.__instance.excipient = ExcipientResolver()
+            cls.__instance.plantfamily = PlantFamilyResolver()
+            cls.__instance.chembl = ChEMBLDatabaseResolver()
+            cls.__instance.chembl.load_index()
+            cls.__instance.vaccine = VaccineResolver(cls.__instance.mesh)
+        return cls.__instance
 
     def get_name_for_var_ent_id(self, entity_id, entity_type, resolve_gene_by_id=True):
         """
@@ -403,12 +394,12 @@ class EntityResolver:
         :return: uses the corresponding resolver for the entity type
         """
         if entity_id.startswith('CHEMBL'):
-            return self.chebml.chemblid_to_name(entity_id)
+            return self.chembl.chemblid_to_name(entity_id)
         if entity_type in [CHEMICAL, DISEASE, DOSAGE_FORM, METHOD, LAB_METHOD] \
                 and not entity_id.startswith('MESH:') \
                 and not entity_id.startswith('FIDX'):
             if not self.mesh_ontology:
-                self.mesh_ontology = MeSHOntology.instance()
+                self.mesh_ontology = MeSHOntology()
             try:
                 entity_mesh_id = 'MESH:{}'.format(self.mesh_ontology.get_descriptor_for_tree_no(entity_id)[0])
                 return self.mesh.descriptor_to_heading(entity_mesh_id)

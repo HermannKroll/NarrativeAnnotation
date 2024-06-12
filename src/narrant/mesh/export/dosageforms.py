@@ -38,7 +38,7 @@ def main():
                         level=logging.INFO)
 
     print('load mesh file...')
-    meshdb = MeSHDB.instance()
+    meshdb = MeSHDB()
     meshdb.load_xml(MESH_DESCRIPTORS_FILE)
     print('beginning export...')
     nodes = _get_nodes_from_treenumbers(meshdb, DOSAGE_FORM_TREE_NUMBERS)

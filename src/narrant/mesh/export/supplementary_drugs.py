@@ -11,7 +11,7 @@ def main():
                         level=logging.INFO)
 
     logging.info('load MeSH Supplementary file...')
-    meshdb: MeSHDBSupplementary = MeSHDBSupplementary.instance()
+    meshdb: MeSHDBSupplementary = MeSHDBSupplementary()
     meshdb.load_xml(MESH_SUPPLEMENTARY_FILE)
 
     relevant_records = []
@@ -21,7 +21,7 @@ def main():
             relevant_records.append(record)
 
     logging.info('load mesh file...')
-    meshdb: MeSHDB = MeSHDB.instance()
+    meshdb: MeSHDB = MeSHDB()
     meshdb.load_xml(MESH_DESCRIPTORS_FILE)
 
     for desc in meshdb.get_all_descs():

@@ -14,13 +14,13 @@ from kgextractiontoolbox.document import count
 from kgextractiontoolbox.document.document import TaggedDocument, TaggedEntity
 from kgextractiontoolbox.document.extract import read_pubtator_documents
 from kgextractiontoolbox.document.load_document import document_bulk_load
+from kgextractiontoolbox.entitylinking.biomedical_entity_linking import get_untagged_doc_ids_by_tagger
+from kgextractiontoolbox.entitylinking.utils import init_sqlalchemy_logger, init_preprocess_logger
 from kgextractiontoolbox.progress import Progress
 from narrant.config import PREPROCESS_CONFIG
 from narrant.entitylinking.config import Config
 from narrant.entitylinking.enttypes import TAG_TYPE_MAPPING, DALL
 from narrant.entitylinking.pharmacy.pharmdicttagger import PharmDictTagger
-from narrant.entitylinking.preprocess import init_preprocess_logger, init_sqlalchemy_logger, \
-    get_untagged_doc_ids_by_tagger
 from narrant.util.multiprocessing.ConsumerWorker import ConsumerWorker
 from narrant.util.multiprocessing.ProducerWorker import ProducerWorker
 from narrant.util.multiprocessing.Worker import Worker
@@ -167,8 +167,7 @@ def main(arguments=None):
     kwargs = dict(logger=logger, config=conf, collection=args.collection)
 
     logger.info('================== Init Taggers ==================')
-    metafactory = PharmDictTagger(ent_types, kwargs)
-    metatag = metafactory.create_MetaDicTagger()
+    metatag = PharmDictTagger(ent_types, kwargs)
     metatag.prepare()
     metatag.base_insert_tagger()
 

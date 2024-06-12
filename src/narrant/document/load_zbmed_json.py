@@ -32,7 +32,7 @@ def derive_ent_id_and_type_from_concept_str(concept_str: str, concept_class: str
         if e_id.startswith('C'):
             return None, None
 
-        mesh_ontology = MeSHOntology.instance()
+        mesh_ontology = MeSHOntology()
         # its a mesh class
         try:
             e_types = mesh_ontology.get_entity_types_for_descriptor(e_id)

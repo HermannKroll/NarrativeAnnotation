@@ -13,7 +13,7 @@ def main():
                         level=logging.INFO)
 
     logging.info('load mesh file...')
-    meshdb: MeSHDB = MeSHDB.instance()
+    meshdb: MeSHDB = MeSHDB()
     meshdb.load_xml(MESH_DESCRIPTORS_FILE)
 
     logging.info('beginning export of descriptors...')

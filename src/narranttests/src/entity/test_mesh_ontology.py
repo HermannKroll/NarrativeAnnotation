@@ -7,7 +7,7 @@ from narrant.entitylinking.enttypes import DISEASE, METHOD, DOSAGE_FORM
 class MeSHOntologyTestCase(TestCase):
 
     def setUp(self) -> None:
-        self.ontology: MeSHOntology = MeSHOntology.instance()
+        self.ontology: MeSHOntology = MeSHOntology()
 
     def test_tree_number_to_entity_type(self):
         self.assertIn(DISEASE, MeSHOntology.tree_number_to_entity_type('C01.2351.23'))

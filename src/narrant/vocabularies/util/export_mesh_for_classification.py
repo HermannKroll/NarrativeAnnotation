@@ -46,7 +46,7 @@ def main():
                         datefmt='%Y-%m-%d:%H:%M:%S',
                         level=logging.INFO)
 
-    resolver = EntityResolver.instance()
+    resolver = EntityResolver()
 
     with open('to_classify.tsv', 'wt') as f:
         f.write("Class\tDescriptor\tHeading\tURL")

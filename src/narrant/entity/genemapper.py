@@ -15,24 +15,17 @@ class GeneMapper:
 
     __instance = None
 
-    def __init__(self, load_index=True):
-        if GeneMapper.__instance is not None:
-            raise Exception('This class is a singleton - use EntityResolver.instance()')
-        else:
-            self.human_gene_dict = {}
-            self.gene_to_human_id_dict = {}
+    def __new__(cls, load_index=True):
+        if cls.__instance is None:
+            cls.__instance = super().__new__(cls)
+            cls.__instance.human_gene_dict = {}
+            cls.__instance.gene_to_human_id_dict = {}
             if load_index:
                 try:
-                    self.load_index()
-                except FileExistsError and FileNotFoundError:
+                    cls.__instance.load_index()
+                except (FileExistsError, FileNotFoundError):
                     logging.warning('No GeneMapper Index file was found')
-            GeneMapper.__instance = self
-
-    @staticmethod
-    def instance(load_index=True):
-        if GeneMapper.__instance is None:
-            GeneMapper(load_index=load_index)
-        return GeneMapper.__instance
+        return cls.__instance
 
     def _build_human_gene_name_dict(self, gene_file=GENE_FILE):
         """

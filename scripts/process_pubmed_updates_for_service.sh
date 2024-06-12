@@ -77,6 +77,15 @@ if [[ $? != 0 ]]; then
     exit -1
 fi
 
+# Some gene annotations are composed (e.g, id = 123;345) this ids need to be split into multiple tag entries
+python3 ~/NarrativeAnnotation/src/narrant/cleaning/clean_tag_gene_ids.py
+if [[ $? != 0 ]]; then
+    echo "Previous script returned exit code != 0 -> Stopping pipeline."
+    exit -1
+fi
+
+
+
 # Next, tag the documents with our PharmDictTagger
 python3 ~/NarrativeAnnotation/src/narrant/entitylinking/dictpreprocess.py -i $UPDATES_PUBTATOR -c PubMed --skip-load --workers 2
 if [[ $? != 0 ]]; then
@@ -107,19 +116,6 @@ if [[ $? != 0 ]]; then
 fi
 
 python3 ~/NarrativeAnnotation/src/narrant/classification/apply_svm.py -i $UPDATES_PUBTATOR -c PubMed /data/FID_Pharmazie_Services/narrative_data_update/pharmaceutical_technology_articles_svm.pkl --cls PharmaceuticalTechnology --workers 10
-if [[ $? != 0 ]]; then
-    echo "Previous script returned exit code != 0 -> Stopping pipeline."
-    exit -1
-fi
-
-# Load Pharmaceutical Journals as Pharmaceutical Technology
-python3 ~/NarrativeAnnotation/src/narrant/backend/export_article_ids_from_journals.py ~/NarrativeAnnotation/resources/classification/pharmaceutical_technology_journals.txt $PHARM_TECH_IDS -c PubMed
-if [[ $? != 0 ]]; then
-    echo "Previous script returned exit code != 0 -> Stopping pipeline."
-    exit -1
-fi
-
-python3 ~/NarrativeAnnotation/src/narrant/backend/load_classification_for_documents.py  $PHARM_TECH_IDS PharmaceuticalTechnology -c PubMed
 if [[ $? != 0 ]]; then
     echo "Previous script returned exit code != 0 -> Stopping pipeline."
     exit -1
@@ -184,3 +180,17 @@ if [[ $? != 0 ]]; then
 fi
 # Load Baseline
 # python3 ~/NarrativeAnnotation/src/narrant/document/load_pubmed_metadata.py $MEDLINE_BASELINE -c PubMed
+
+
+# Load Pharmaceutical Journals as Pharmaceutical Technology
+python3 ~/NarrativeAnnotation/src/narrant/backend/export_article_ids_from_journals.py ~/NarrativeAnnotation/resources/classification/pharmaceutical_technology_journals.txt $PHARM_TECH_IDS -c PubMed
+if [[ $? != 0 ]]; then
+    echo "Previous script returned exit code != 0 -> Stopping pipeline."
+    exit -1
+fi
+
+python3 ~/NarrativeAnnotation/src/narrant/backend/load_classification_for_documents.py  $PHARM_TECH_IDS PharmaceuticalTechnology -c PubMed
+if [[ $? != 0 ]]; then
+    echo "Previous script returned exit code != 0 -> Stopping pipeline."
+    exit -1
+fi

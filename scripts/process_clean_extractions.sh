@@ -16,8 +16,6 @@ if [ "$(id -u)" -ne 0 ]; then
   echo "not root"
 fi
 
-
-
 # load the db password
 source ~/NarrativeAnnotation/scripts/.secret
 if [[ $? != 0 ]]; then

@@ -30,7 +30,7 @@ def write_doc_with_entity_source(doc: TaggedDocument, export_format: str, f, fir
         doc_dict = doc.to_dict(export_content=export_content, export_tags=export_tags)
         for t in doc_dict["tags"]:
             e_id, e_type = t["id"], t["type"]
-            entity_resolver = EntityResolver.instance()
+            entity_resolver = EntityResolver()
             name = entity_resolver.get_name_for_var_ent_id(entity_id=e_id, entity_type=e_type)
             source, URI_source = get_entity_source(e_id, e_type)
             t["name"] = name

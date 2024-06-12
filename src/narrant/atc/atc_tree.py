@@ -19,29 +19,19 @@ def _prepare_atc_class_name(atc_class_name: str):
 class ATCTree:
     __instance = None
 
-    @staticmethod
-    def instance(load_index=True):
-        if ATCTree.__instance is None:
-            ATCTree(load_index=load_index)
-        return ATCTree.__instance
-
-    def __init__(self, load_index=True):
-        if ATCTree.__instance is not None:
-            raise Exception('This class is a singleton - use ATCTree.instance()')
-        else:
-            self.atcclass2chembl = defaultdict(set)
-            self.atcclassname2chembl = defaultdict(set)
-            self.atcclass2name = {}
-
+    def __new__(cls, load_index=True):
+        if cls.__instance is None:
+            cls.__instance = super().__new__(cls)
+            cls.__instance.atcclass2chembl = defaultdict(set)
+            cls.__instance.atcclassname2chembl = defaultdict(set)
+            cls.__instance.atcclass2name = {}
             if load_index:
-                self.load_atc_tree()
-
-            self.chembl2atcclass = defaultdict(set)
-            for atc_class, chembl_ids in self.atcclass2chembl.items():
+                cls.__instance.load_atc_tree()
+            cls.__instance.chembl2atcclass = defaultdict(set)
+            for atc_class, chembl_ids in cls.__instance.atcclass2chembl.items():
                 for chembl in chembl_ids:
-                    self.chembl2atcclass[chembl].add(atc_class.upper())
-
-            ATCTree.__instance = self
+                    cls.__instance.chembl2atcclass[chembl].add(atc_class.upper())
+        return cls.__instance
 
     def get_classes_for_chembl_id(self, chembl_id: str) -> Set[str]:
         return self.chembl2atcclass[chembl_id]

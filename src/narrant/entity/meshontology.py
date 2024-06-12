@@ -48,26 +48,18 @@ MESH_TREE_TO_ENTITY_TYPE = [
 class MeSHOntology:
     """
     class to store the mesh ontology in a efficient tree structure
-    this class is a singleton - use MeSHOntology.instance()
     """
 
     __instance = None
 
-    def __init__(self, load_index=True):
-        if MeSHOntology.__instance is not None:
-            raise Exception('This class is a singleton - use EntityOntology.instance()')
-        else:
-            self.treeno2desc = {}
-            self.descriptor2treeno = {}
+    def __new__(cls, load_index=True):
+        if cls.__instance is None:
+            cls.__instance = super().__new__(cls)
+            cls.__instance.treeno2desc = {}
+            cls.__instance.descriptor2treeno = {}
             if load_index:
-                self.load_index()
-            MeSHOntology.__instance = self
-
-    @staticmethod
-    def instance(load_index=True):
-        if MeSHOntology.__instance is None:
-            MeSHOntology(load_index=load_index)
-        return MeSHOntology.__instance
+                cls.__instance.load_index()
+        return cls.__instance
 
     def _clear_index(self):
         """
@@ -195,7 +187,7 @@ class MeSHOntology:
         """
         self._clear_index()
         logging.info('Loading MeSH...')
-        mesh = MeSHDB.instance()
+        mesh = MeSHDB()
         mesh.load_xml(mesh_file)
         descs = mesh.get_all_descs()
         logging.info('Processing descriptors...')
@@ -279,7 +271,7 @@ def main():
                         level=logging.DEBUG)
 
     logging.info('Computing entity ontology index...')
-    entity_ontology = MeSHOntology.instance()
+    entity_ontology = MeSHOntology()
     entity_ontology.build_index_from_mesh()
     logging.info('Storing index to: {} '.format(MESH_ONTOLOGY_INDEX_FILE))
     entity_ontology.store_index()
