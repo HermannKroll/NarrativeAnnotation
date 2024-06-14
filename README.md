@@ -26,6 +26,14 @@ cd ~/NarrativeIntelligence/
 git pull --recurse-submodules
 ```
 
+Upgrade pip requirements:
+```
+conda activate narrant
+pip install --upgrade -r ~/NarrativeIntelligence/requirements.txt
+pip install --upgrade -r ~/NarrativeAnnotation/requirements.txt
+pip install --upgrade -r ~/NarrativeAnnotation/lib/KGExtractionToolbox/requirements.txt
+```
+
 
 # Setup
 
