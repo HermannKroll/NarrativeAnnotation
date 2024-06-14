@@ -18,6 +18,14 @@ ln -s ~/NarrativeIntelligence/lib/KGExtractionToolbox ~/NarrativeIntelligence/li
 ln -s ~/NarrativeIntelligence/lib/NarrativeAnnotation ~/NarrativeAnnotation
 ```
 
+# Update Mining Pipeline
+
+If you use it as a subrepo of NarrativeIntelligence (as introduced above):
+```
+cd ~/NarrativeIntelligence/
+git pull --recurse-submodules
+```
+
 
 # Setup
 
