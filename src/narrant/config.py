@@ -109,7 +109,7 @@ TISSUE_TAGGER_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, 'vocabularies/tissue'
 
 # CellLine Tagger
 CELL_LINE_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, 'vocabularies/cellline')
-CELL_LINE_CELLOSAURUS = os.path.join(CELL_LINE_VOCAB_DIRECTORY, 'cellosaurus.xml')
+CELL_LINE_CELLOSAURUS = os.path.join(DATA_DIR, 'cellosaurus.xml')
 CELL_LINE_VOCAB = os.path.join(CELL_LINE_VOCAB_DIRECTORY, "vocabulary.tsv")
 
 REGISTERED_VOCABULARIES = [
