@@ -49,7 +49,7 @@ class DrugVocabulary(ChemblVocabulary):
                         continue
 
                     entity_id = t['molecule_chembl_id']
-                    heading = t['pref_name']
+                    heading = t['pref_name'].strip().capitalize()
 
                     if t['molecule_synonyms']:
                         for tc in t['molecule_synonyms']:
