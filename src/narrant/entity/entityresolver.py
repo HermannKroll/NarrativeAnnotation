@@ -14,12 +14,10 @@ from kgextractiontoolbox.entitylinking.tagging.vocabulary import Vocabulary
 from narrant.config import GENE_FILE, GENE_INDEX_FILE, MESH_DESCRIPTORS_FILE, MESH_ID_TO_HEADING_INDEX_FILE, \
     TAXONOMY_INDEX_FILE, TAXONOMY_FILE, MESH_SUPPLEMENTARY_FILE, \
     MESH_SUPPLEMENTARY_ID_TO_HEADING_INDEX_FILE, DOSAGEFORM_TAGGER_VOCAB, VACCINE_TAGGER_VOCAB, \
-    DRUG_TAGGER_VOCAB, ORGANISM_TAGGER_VOCAB
-from narrant.entity.meshontology import MeSHOntology
+    DRUG_TAGGER_VOCAB, ORGANISM_TAGGER_VOCAB, REGISTERED_VOCABULARIES
+from narrant.entitylinking.enttypes import GENE, SPECIES, DOSAGE_FORM, LAB_METHOD, VACCINE
 from narrant.mesh.data import MeSHDB
 from narrant.mesh.supplementary import MeSHDBSupplementary
-from narrant.entitylinking.enttypes import GENE, CHEMICAL, DISEASE, SPECIES, DOSAGE_FORM, EXCIPIENT, PLANT_FAMILY_GENUS, \
-    LAB_METHOD, METHOD, VACCINE
 
 
 def get_gene_ids(session):
@@ -376,14 +374,20 @@ class EntityResolver:
             cls.__instance.gene.load_index()
             cls.__instance.species = SpeciesResolver()
             cls.__instance.species.load_index()
-            cls.__instance.dosageform = DosageFormResolver(cls.__instance.mesh)
-            cls.__instance.mesh_ontology = None
-            cls.__instance.excipient = ExcipientResolver()
-            cls.__instance.plantfamily = PlantFamilyResolver()
-            cls.__instance.chembl = ChEMBLDatabaseResolver()
-            cls.__instance.chembl.load_index()
-            cls.__instance.vaccine = VaccineResolver(cls.__instance.mesh)
+            cls.__instance._entity_id_to_heading = None
+            cls.__instance._load_registered_vocabularies()
         return cls.__instance
+
+    def _load_registered_vocabularies(self, registered_vocabs = REGISTERED_VOCABULARIES):
+        self._entity_id_to_heading = dict()
+        for vocab_file in registered_vocabs:
+            v = Vocabulary(vocab_file)
+            v.load_vocab(expand_terms=False)
+            for entry in v.vocabulary_entries:
+                if entry.entity_id.startswith('CHEMBL'):
+                    self._entity_id_to_heading[('CHEMBL', entry.entity_id)] = entry.heading
+                else:
+                    self._entity_id_to_heading[(entry.entity_type, entry.entity_id)] = entry.heading
 
     def get_name_for_var_ent_id(self, entity_id, entity_type, resolve_gene_by_id=True):
         """
@@ -393,18 +397,6 @@ class EntityResolver:
         :param resolve_gene_by_id:
         :return: uses the corresponding resolver for the entity type
         """
-        if entity_id.startswith('CHEMBL'):
-            return self.chembl.chemblid_to_name(entity_id)
-        if entity_type in [CHEMICAL, DISEASE, DOSAGE_FORM, METHOD, LAB_METHOD] \
-                and not entity_id.startswith('MESH:') \
-                and not entity_id.startswith('FIDX'):
-            if not self.mesh_ontology:
-                self.mesh_ontology = MeSHOntology()
-            try:
-                entity_mesh_id = 'MESH:{}'.format(self.mesh_ontology.get_descriptor_for_tree_no(entity_id)[0])
-                return self.mesh.descriptor_to_heading(entity_mesh_id)
-            except KeyError:
-                pass
         if entity_id.startswith('FIDXLM1') and entity_type == LAB_METHOD:
             return "Assay"
         if entity_id.startswith('MESH:'):
@@ -416,15 +408,17 @@ class EntityResolver:
                 return self.gene.gene_locus_to_description(entity_id)
         if entity_type == SPECIES:
             return self.species.species_id_to_name(entity_id)
-        if entity_type == DOSAGE_FORM:
-            return self.dosageform.dosage_form_to_name(entity_id)
-        if entity_type == EXCIPIENT:
-            return self.excipient.excipient_id_to_name(entity_id)
-        if entity_type == PLANT_FAMILY_GENUS:
-            return self.plantfamily.plant_family_id_to_name(entity_id)
-        if entity_type == VACCINE:
-            return self.vaccine.vaccine_to_heading(entity_id)
 
+        if entity_id.startswith('CHEMBL'):
+            key = ('CHEMBL', entity_id)
+        else:
+            key = (entity_type, entity_id)
+        try:
+            return self._entity_id_to_heading[key]
+        except KeyError:
+            pass
+
+        # if entity one of [EXCIPIENT, PLANT_FAMILY_GENUS] the name is equal to the entity_id
         return entity_id
 
 
