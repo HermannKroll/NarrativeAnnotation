@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# load the db password
+source ~/NarrativeAnnotation/scripts/.secret
+if [[ $? != 0 ]]; then
+    echo "Previous script returned exit code != 0 -> Stopping pipeline."
+    exit -1
+fi
+
 
 DATA_PATH="/data/FID_Pharmazie_Services/narrative_data_update/zbmed/"
 
@@ -35,10 +42,67 @@ if [[ $? != 0 ]]; then
     exit -1
 fi
 
-
-bash ~/NarrativeAnnotation/scripts/process_document_collection.sh "$ZBMED_JSON" "ZBMed"
+# Next, tag the documents with our PharmDictTagger
+python3 ~/NarrativeAnnotation/src/narrant/entitylinking/dictpreprocess.py -c ZBMed --skip-load --workers 5
 if [[ $? != 0 ]]; then
-      echo "Previous script returned exit code != 0 -> Stopping pipeline."
+    echo "Previous script returned exit code != 0 -> Stopping pipeline."
     exit -1
 fi
 
+# Execute Cleaning Rules for Tagging
+echo 'cleaning Tag table with hand-written rules'
+psql "host=127.0.0.1 port=5432 dbname=fidpharmazie user=mininguser password=$PSQLPW" -f $TAG_CLEANING_SQL
+if [[ $? != 0 ]]; then
+    echo "Previous script returned exit code != 0 -> Stopping pipeline."
+    exit -1
+fi
+
+
+# Perform classification
+python3 ~/NarrativeAnnotation/lib/KGExtractionToolbox/src/kgextractiontoolbox/entitylinking/classification.py -c ZBMed -r ~/NarrativeAnnotation/resources/classification/pharmaceutical_classification_rules.txt --cls Pharmaceutical -w 15 --skip-load
+if [[ $? != 0 ]]; then
+    echo "Previous script returned exit code != 0 -> Stopping pipeline."
+    exit -1
+fi
+
+python3 ~/NarrativeAnnotation/lib/KGExtractionToolbox/src/kgextractiontoolbox/entitylinking/classification.py -c ZBMed -r ~/NarrativeAnnotation/resources/classification/plant_specific_rules.txt --cls PlantSpecific -w 15 --skip-load
+if [[ $? != 0 ]]; then
+    echo "Previous script returned exit code != 0 -> Stopping pipeline."
+    exit -1
+fi
+
+python3 ~/NarrativeAnnotation/src/narrant/classification/apply_svm.py -c ZBMed /data/FID_Pharmazie_Services/narrative_data_update/pharmaceutical_technology_articles_svm.pkl --cls PharmaceuticalTechnology --workers 10
+if [[ $? != 0 ]]; then
+    echo "Previous script returned exit code != 0 -> Stopping pipeline."
+    exit -1
+fi
+
+
+# Export the document content
+python3 ~/NarrativeAnnotation/lib/KGExtractionToolbox/src/kgextractiontoolbox/document/export.py -d $ZBMED_PUBTATOR --collection ZBMed --format json
+if [[ $? != 0 ]]; then
+    echo "Previous script returned exit code != 0 -> Stopping pipeline."
+    exit -1
+fi
+
+# Run GNormPlus
+python3 ~/NarrativeAnnotation/lib/KGExtractionToolbox/src/kgextractiontoolbox/entitylinking/biomedical_entity_linking.py $ZBMED_PUBTATOR -c ZBMed --skip-load --workers 5 --gnormplus
+if [[ $? != 0 ]]; then
+    echo "Previous script returned exit code != 0 -> Stopping pipeline."
+    exit -1
+fi
+
+# Some gene annotations are composed (e.g, id = 123;345) this ids need to be split into multiple tag entries
+python3 ~/NarrativeAnnotation/src/narrant/cleaning/clean_tag_gene_ids.py
+if [[ $? != 0 ]]; then
+    echo "Previous script returned exit code != 0 -> Stopping pipeline."
+    exit -1
+fi
+
+
+# Do the statement extraction for all ZBMed documents via our Pipeline
+python3 ~/NarrativeAnnotation/src/narrant/extraction/pharmaceutical_pipeline.py -c ZBMed -et PathIE --workers 10 --relation_vocab ~/NarrativeAnnotation/resources/pharm_relation_vocab.json
+if [[ $? != 0 ]]; then
+    echo "Previous script returned exit code != 0 -> Stopping pipeline."
+    exit -1
+fi
