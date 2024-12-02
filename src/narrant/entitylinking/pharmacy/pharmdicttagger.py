@@ -6,7 +6,7 @@ from kgextractiontoolbox.entitylinking.tagging.dictagger import DictTagger
 from kgextractiontoolbox.entitylinking.tagging.metadictagger import MetaDicTagger
 from narrant.entitylinking import enttypes as et
 from narrant.entitylinking.pharmacy import chemical, drug, method, labmethod, excipient, plantfamilygenus, disease, \
-    dosage, vaccine, healthstatus, organism, tissue
+    dosage, vaccine, healthstatus, organism, tissue, cellline
 from narrant.entitylinking.tagging import indexed_dictagger as dt
 
 
@@ -26,7 +26,8 @@ class PharmDictTagger(MetaDicTagger):
         et.VACCINE: vaccine.VaccineTagger,
         et.HEALTH_STATUS: healthstatus.HealthStatusTagger,
         et.ORGANISM: organism.OrganismTagger,
-        et.TISSUE: tissue.TissueTagger
+        et.TISSUE: tissue.TissueTagger,
+        et.CELLLINE: cellline.CellLineTagger
     }
 
     ignored_tag_types_to_clean = {

@@ -107,6 +107,20 @@ ORGANISM_TAGGER_VOCAB = os.path.join(ORGANISM_TAGGER_VOCAB_DIRECTORY, "vocabular
 # Tissue Tagger
 TISSUE_TAGGER_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, 'vocabularies/tissue')
 
+# CellLine Tagger
+CELL_LINE_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, 'vocabularies/cellline')
+CELL_LINE_CELLOSAURUS = os.path.join(DATA_DIR, 'cellosaurus.xml')
+CELL_LINE_VOCAB = os.path.join(CELL_LINE_VOCAB_DIRECTORY, "vocabulary.tsv")
+
+REGISTERED_VOCABULARIES = [
+    DOSAGEFORM_TAGGER_VOCAB,
+    DRUG_TAGGER_VOCAB,
+    VACCINE_TAGGER_VOCAB,
+    TARGET_TAGGER_VOCAB,
+    ORGANISM_TAGGER_VOCAB,
+    CELL_LINE_VOCAB
+]
+
 # Relation Vocabulary File
 PHARM_RELATION_VOCABULARY = os.path.join(RESOURCE_DIR, "pharm_relation_vocab.json")
 # Constraint file
