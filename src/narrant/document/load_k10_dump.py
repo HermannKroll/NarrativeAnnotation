@@ -146,20 +146,20 @@ def write_file(work_dir: str, content: bytes, index: int, output_collection: str
             logging.debug(f'Skipping entry {document_data} because id and title are not filled.')
             continue
 
-        title = document_data["title"].strip()
+        title = document_data["title"][0].strip()
         doc_id = document_data["id"].strip()
         pubpharm_doi = "https://www.pubpharm.de/vufind/Record/" + doc_id
 
         if "abstract" in document_data:
-            abstract = document_data["abstract"].strip()
+            abstract = document_data["abstract"][0].strip()
         if "author-letter" in document_data:
-            authors = document_data["author-letter"].strip()
+            authors = document_data["author-letter"][0].strip()
         if "source" in document_data:
             journals = document_data["source"].strip()
         if "publishDate" in document_data:
             try:
                 # should be yyyy-mm-dd (but maybe mm and dd is missing)
-                publication_time_info = document_data["publishDate"].strip().split('-')
+                publication_time_info = document_data["publishDate"][0].strip().split('-')
                 if len(publication_time_info) >= 1:
                     # we assume year only
                     publication_year = int(publication_time_info[0])
