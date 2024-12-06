@@ -6,6 +6,7 @@ import os
 import time
 from collections import defaultdict
 from datetime import date
+from typing import Dict, List
 
 import requests
 
@@ -50,6 +51,9 @@ def crawl_k10_index(work_dir: str, collection: str, start_date: str, output_coll
     logging.info("start url  " + start_url)
     loop = True
     produced_doc_files = []
+
+
+    md5hash2id = defaultdict(list)
     # handle key error here
     while loop:
         if retry_counter > max_retries:
@@ -59,6 +63,7 @@ def crawl_k10_index(work_dir: str, collection: str, start_date: str, output_coll
         try:
             # make a pause to not overload the server
             time.sleep(10)
+            logging.info('Performing request:' + current_url)
             response = requests.get(current_url)
             if response.status_code == 200:
                 retry_counter = 0
@@ -66,7 +71,7 @@ def crawl_k10_index(work_dir: str, collection: str, start_date: str, output_coll
                 # first decode the json document data
                 content = json.loads(response.content.decode("utf-8"))
 
-                docfile = write_file(work_dir, content, counter, output_collection)
+                docfile = write_file(work_dir, content, counter, output_collection, md5hash2id)
                 # some requests may not carry any data
                 if docfile:
                     produced_doc_files.append(docfile)
@@ -87,6 +92,16 @@ def crawl_k10_index(work_dir: str, collection: str, start_date: str, output_coll
             pass
 
     logging.info("Crawling finished")
+
+    timestamp = calendar.timegm(time.gmtime())
+    file_path_collisions = os.path.join(f"{work_dir}", output_collection, f"{timestamp}.collisions.json")
+    logging.info('Writing final collsion data ' + file_path_collisions)
+    with open(file_path_collisions, "w") as f:
+        # only store collisions
+        md5hash2id = {k: v for k, v in md5hash2id.items() if len(v) > 1}
+        json.dump(md5hash2id, f)
+
+
     logging.info(f'Writing final document data to {output_file}')
     with open(output_file, "w") as f_out:
         for idx, docfile in enumerate(produced_doc_files):
@@ -105,7 +120,7 @@ def get_next_cursor(content):
     return nextCursor
 
 
-def write_file(work_dir: str, content, index: int, output_collection: str):
+def write_file(work_dir: str, content: Dict, index: int, output_collection: str, md5hash2id: Dict[str, List]):
     """
     Write current batch to file
     """
@@ -132,7 +147,6 @@ def write_file(work_dir: str, content, index: int, output_collection: str):
         logging.debug('No document data in response - skipping processing of request')
         return
 
-    md5hash2id = defaultdict(list)
     document_json_strings = list()
     for document_data in content["docs"]:
         abstract = ""
@@ -202,13 +216,6 @@ def write_file(work_dir: str, content, index: int, output_collection: str):
     with open(document_file_directory, "w") as f:
         out_string = "\n".join(document_json_strings)
         f.write(out_string)
-
-    file_path_collisions = os.path.join(f"{work_dir}", output_collection, f"{timestamp}.{index}.collisions.json")
-    logging.info('Write File ' + file_path_collisions)
-    with open(file_path_collisions, "w") as f:
-        # only store collisions
-        md5hash2id = {k: v for k, v in md5hash2id.items() if len(v) > 1}
-        json.dump(md5hash2id, f)
 
     return document_file_directory
 
