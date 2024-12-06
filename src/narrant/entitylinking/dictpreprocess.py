@@ -86,7 +86,7 @@ def main(arguments=None):
     group_settings.add_argument("-w", "--workers", default=1, help="Number of processes for parallelized entitylinking",
                                 type=int)
     parser.add_argument("-y", "--yes_force", help="skip prompt for workdir deletion", action="store_true")
-
+    parser.add_argument("-f", "--force-tag-all", help="Tag every document in the DB and do not skip already tagged documents.", action="store_true")
     parser.add_argument("-i", "--input", required=False, help="composite pubtator file", metavar="IN_DIR")
     parser.add_argument("--sections", action="store_true", default=False,
                         help="Should the section texts be considered when tagging?")
@@ -153,9 +153,12 @@ def main(arguments=None):
         # compute the already tagged documents
         document_ids = document_ids_in_db
         todo_ids = set()
-        logger.info('Retrieving documents that have been tagged before...')
-        todo_ids |= get_untagged_doc_ids_by_tagger(args.collection, document_ids, PharmDictTagger, logger)
-        document_ids = todo_ids
+
+        if not args.force_tag_all:
+            logger.info('Retrieving documents that have been tagged before...')
+            todo_ids |= get_untagged_doc_ids_by_tagger(args.collection, document_ids, PharmDictTagger, logger)
+            document_ids = todo_ids
+
         number_of_docs = len(document_ids)
         session.remove()
 
