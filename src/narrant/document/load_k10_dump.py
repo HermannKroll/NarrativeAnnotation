@@ -62,12 +62,16 @@ def crawl_k10_index(work_dir: str, collection: str, start_date: str, output_coll
             response = requests.get(current_url)
             if response.status_code == 200:
                 retry_counter = 0
-                docfile = write_file(work_dir, response.content, counter, output_collection)
+
+                # first decode the json document data
+                content = json.loads(response.content.decode("utf-8"))
+
+                docfile = write_file(work_dir, content, counter, output_collection)
                 # some requests may not carry any data
                 if docfile:
                     produced_doc_files.append(docfile)
 
-                next_cursor = get_next_cursor(response.content)
+                next_cursor = get_next_cursor(content)
                 if next_cursor != '' and current_cursor != next_cursor:
                     current_cursor = next_cursor
                     current_url = build_url(current_cursor, collection, start_date, base_url, url_filter)
@@ -96,14 +100,12 @@ def get_next_cursor(content):
     """
     Extract next cursor from json response
     """
-    json_string = content
-    obj = json.loads(json_string)
-    nextCursor = obj['nextCursorMark']
+    nextCursor = content['nextCursorMark']
     logging.info("Next cursor to fetch " + nextCursor)
     return nextCursor
 
 
-def write_file(work_dir: str, content: bytes, index: int, output_collection: str):
+def write_file(work_dir: str, content, index: int, output_collection: str):
     """
     Write current batch to file
     """
@@ -112,12 +114,9 @@ def write_file(work_dir: str, content: bytes, index: int, output_collection: str
     document_file_directory = os.path.join(f"{work_dir}", output_collection)
     os.makedirs(document_file_directory, exist_ok=True)
 
-    file_path_raw = os.path.join(f"{work_dir}", output_collection, f"{timestamp}.{index}.raw.jsonl")
+    file_path_raw = os.path.join(f"{work_dir}", output_collection, f"{timestamp}.{index}.raw.json")
     with open(file_path_raw, "w") as f:
-        f.write(str(content))
-
-    # first decode the json document data
-    content = json.loads(content.decode("utf-8"))
+        json.dump(content, f)
 
     if "response" not in content:
         logging.debug('No response data in response - - skipping processing of request')
