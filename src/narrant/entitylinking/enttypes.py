@@ -55,7 +55,7 @@ TARGET = "Target"
 ORGANISM = "Organism"
 TISSUE = "Tissue"
 
-ALL = (
+ALL = {
     DOSAGE_FORM,
     DRUG,
     CHEMICAL,
@@ -79,7 +79,7 @@ ALL = (
     TARGET,
     ORGANISM,
     TISSUE
-)
+}
 
 DALL = {
     DOSAGE_FORM,
@@ -93,11 +93,12 @@ DALL = {
     VACCINE,
     HEALTH_STATUS,
     ORGANISM,
-    TISSUE
+    TISSUE,
+    CELLLINE
 }
 
 # set of all tags which are supported by our taggers
-ENT_TYPES_SUPPORTED_BY_TAGGERS = (
+ENT_TYPES_SUPPORTED_BY_TAGGERS = {
     DOSAGE_FORM,
     DRUG,
     EXCIPIENT,
@@ -113,8 +114,9 @@ ENT_TYPES_SUPPORTED_BY_TAGGERS = (
     HEALTH_STATUS,
     TARGET,
     ORGANISM,
-    TISSUE
-)
+    TISSUE,
+    CELLLINE
+}
 
 TAG_TYPE_MAPPING = dict(
     DF=DOSAGE_FORM,

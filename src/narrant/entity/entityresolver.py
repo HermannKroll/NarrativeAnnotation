@@ -414,12 +414,12 @@ class EntityResolver:
         else:
             key = (entity_type, entity_id)
         try:
-            return self._entity_id_to_heading[key]
+            return self._entity_id_to_heading[key].capitalize()
         except KeyError:
             pass
 
         # if entity one of [EXCIPIENT, PLANT_FAMILY_GENUS] the name is equal to the entity_id
-        return entity_id
+        return entity_id.capitalize()
 
 
 def main():

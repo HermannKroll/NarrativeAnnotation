@@ -147,3 +147,59 @@ Then insert the information to our database via:
 ```
 python3 ~/NarrativeAnnotation/src/narrant/backend/load_classification_for_documents.py longcovid.tsv LongCovid -c PubMed
 ```
+
+
+# Create Datasets Based on Journal Lists
+
+
+This section explains how to use the provided script to create datasets from document IDs based on a list of journals. The script identifies relevant and non-relevant documents and generates datasets for training, validation, and testing.
+
+## Overview
+
+The script processes a list of journal names (in `.xlsx` or `.txt` format) and matches them with document metadata from the database to retrieve relevant and non-relevant document IDs. It can generate either a single dataset file or split the data into train, dev, and test datasets.
+
+## Input Files
+
+You can use the following input files for this script:
+- `pharmaceutical_technology_journals.txt`
+- `2023_Pharm_Chemie_Journals.xlsx`
+
+## Usage Instructions
+
+Run the script with the following command:
+
+```
+python ~/NarrativeAnnotation/src/narrant/backend/create_journal_based_dataset.py --input_file INPUT_FILE --output_dir OUTPUT_DIR [--split] [--sample_size SAMPLE_SIZE] [--random_seed RANDOM_SEED]
+```
+
+### Parameters
+
+- `--input_file`: **Required.** Path to the journal list file in `.xlsx` or `.txt` format.
+- `--output_dir`: **Required.** Directory where the resulting dataset(s) will be saved.
+- `--split`: Optional. If specified, the dataset will be split into train(75 %), dev(15 %), and test(15 %) sets.
+- `--sample_size`: Optional. Specifies the maximum number of samples for both relevant and non-relevant documents. Default is 10000.
+- `--random_seed`: Optional. Seed for random number generation to ensure reproducibility. Default is 42.
+
+## Examples
+
+### Example 1: Splitting the Dataset
+To process `pharmaceutical_technology_journals.txt` and split the dataset into train, dev, and test sets:
+
+```
+python ~/NarrativeAnnotation/src/narrant/backend/create_journal_based_dataset.py --input_file ~/NarrativeAnnotation/resources/classification/pharmaceutical_technology_journals.txt --output_dir ./pharm_tech_output --split --sample_size 5000 --random_seed 123
+```
+
+The output directory `./pharm_tech_output` will contain the following files:
+- `train_data.csv`
+- `dev_data.csv`
+- `test_data.csv`
+
+### Example 2: Generating a Single Dataset
+To process `2023_Pharm_Chemie_Journals.xlsx` and generate a single dataset file:
+
+```
+python ~/NarrativeAnnotation/src/narrant/backend/create_journal_based_dataset.py --input_file ~/NarrativeAnnotation/resources/classification/2023_Pharm_Chemie_Journals.xlsx --output_dir ./pharm_chem_output --sample_size 10000
+```
+
+The output directory `./pharm_chem_output` will contain the following file:
+- `dataset.csv`
