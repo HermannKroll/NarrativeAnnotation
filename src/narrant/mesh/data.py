@@ -2,7 +2,6 @@
 XML Documentation: https://www.nlm.nih.gov/mesh/xml_data_elements.html
 """
 import itertools
-import sys
 from datetime import datetime
 from typing import List
 
@@ -271,7 +270,7 @@ class MeSHDB:
         for key, value in index.items():
             setattr(self, key, value)
 
-    def load_xml(self, filename, prefetch_all=False, verbose=False, force_load=False):
+    def load_xml(self, filename, verbose=False, force_load=False):
         if not self._desc_by_id or force_load:
             start = datetime.now()
             with open(filename) as f:
@@ -279,30 +278,6 @@ class MeSHDB:
             end = datetime.now()
             if verbose:
                 print("XML loaded in {}".format(end - start))
-            if prefetch_all:
-                start = datetime.now()
-                self.prefetch_all(verbose)
-                end = datetime.now()
-                if verbose:
-                    print("All descriptors loaded in {}".format(end - start))
-
-    def prefetch_all(self, verbose=False):
-        records = self.tree.xpath(MESH_QUERY_DESCRIPTOR_RECORD)
-        total = len(records)
-        last = 0
-        if verbose:
-            sys.stdout.write("Indexing ...")
-            sys.stdout.flush()
-        for idx, record in enumerate(records):
-            desc = Descriptor.from_element(record)
-            self.add_desc(desc)
-            if verbose and int((idx + 1.0) / total * 100.0) > last:
-                last = int((idx + 1.0) / total * 100.0)
-                sys.stdout.write("\rIndexing ... {} %".format(last))
-                sys.stdout.flush()
-        if verbose:
-            sys.stdout.write("\rIndexing ... done\n")
-            sys.stdout.flush()
 
     def get_all_descs(self) -> List[Descriptor]:
         descs = []
