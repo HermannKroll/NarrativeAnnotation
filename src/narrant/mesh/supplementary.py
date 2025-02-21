@@ -109,8 +109,7 @@ class MeSHDBSupplementary:
     def load_xml(self, filename, verbose=False):
         if not self._desc_by_id:
             start = datetime.now()
-            with open(filename) as f:
-                self.tree = etree.parse(f)
+            self.tree = etree.parse(filename)
             end = datetime.now()
             if verbose:
                 print("XML loaded in {}".format(end - start))
