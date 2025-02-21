@@ -64,6 +64,7 @@ class MeSHOntology:
     def __init__(self):
         self.treeno2desc = {}
         self.descriptor2treeno = {}
+        self.load_index()
 
     def _clear_index(self):
         """
