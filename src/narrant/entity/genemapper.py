@@ -1,9 +1,11 @@
 import gzip
+import json
 import logging
-import pickle
 from itertools import islice
 
-from narrant.config import GENE_FILE, GENE_TO_HUMAN_ID_FILE
+from kgextractiontoolbox.backend.database import Session
+from kgextractiontoolbox.backend.models import EntityResolverData
+from narrant.config import GENE_FILE
 
 
 class GeneMapper:
@@ -11,21 +13,21 @@ class GeneMapper:
     important note: human taxonomy id is '9606'. Composition of components in GENE_FILE:
     components[0] = tax_id, components[1] = gene_id, components[2] = gene name
     """
+    NAME = "GeneMapper"
+
     HUMAN_SPECIES_ID = '9606'
 
     __instance = None
 
-    def __new__(cls, load_index=True):
+    def __new__(cls):
         if cls.__instance is None:
             cls.__instance = super().__new__(cls)
-            cls.__instance.human_gene_dict = {}
-            cls.__instance.gene_to_human_id_dict = {}
-            if load_index:
-                try:
-                    cls.__instance.load_index()
-                except (FileExistsError, FileNotFoundError):
-                    logging.warning('No GeneMapper Index file was found')
         return cls.__instance
+
+    def __init__(self):
+        self.human_gene_dict = {}
+        self.gene_to_human_id_dict = {}
+        self.load_index()
 
     def _build_human_gene_name_dict(self, gene_file=GENE_FILE):
         """
@@ -41,7 +43,7 @@ class GeneMapper:
                 if components[0] == self.HUMAN_SPECIES_ID and gene_name not in self.human_gene_dict:
                     self.human_gene_dict[gene_name] = gene_id
 
-    def build_gene_mapper_index(self, gene_file=GENE_FILE, index_file=GENE_TO_HUMAN_ID_FILE):
+    def build_gene_mapper_index(self, gene_file=GENE_FILE):
         """
         builds dictionary to map all gene ids to human gene ids, if possible
         :param gene_file:
@@ -58,19 +60,28 @@ class GeneMapper:
                 gene_id = int(gene_id)
                 if species_id != self.HUMAN_SPECIES_ID and gene_name in self.human_gene_dict:
                     self.gene_to_human_id_dict[gene_id] = self.human_gene_dict[gene_name]
-        with open(index_file, 'wb') as f:
-            pickle.dump(self.__dict__, f)
-        logging.info('Index stored in {}'.format(index_file))
 
-    def load_index(self, index_file=GENE_TO_HUMAN_ID_FILE):
+        logging.info('Writing index data to database...')
+        session = Session.get()
+        json_data = json.dumps(dict(human_gene_dict=self.human_gene_dict,
+                                    gene_to_human_id_dict=self.gene_to_human_id_dict))
+        EntityResolverData.overwrite_resolver_data(session, name=GeneMapper.NAME, json_data=json_data)
+
+    def load_index(self):
         """
         load the index back from file
         :param index_file:
         :return:
         """
-        with open(index_file, 'rb') as f:
-            self.__dict__ = pickle.load(f)
-        logging.info('Index for gene mapper load from {} ({} keys)'.format(index_file, len(self.gene_to_human_id_dict)))
+        session = Session.get()
+        data = EntityResolverData.load_data_from_json(session, name=GeneMapper.NAME)
+        if "human_gene_dict" in data and "gene_to_human_id_dict" in data:
+            self.human_gene_dict = data["human_gene_dict"]
+            self.gene_to_human_id_dict = data["gene_to_human_id_dict"]
+        else:
+            self.human_gene_dict = {}
+            self.gene_to_human_id_dict = {}
+        logging.info('Index for gene mapper load from database ({} keys)'.format(len(self.gene_to_human_id_dict)))
 
     def map_to_human_gene(self, gene_id):
         """
@@ -87,7 +98,7 @@ def main():
                         datefmt='%Y-%m-%d:%H:%M:%S',
                         level=logging.DEBUG)
 
-    gene_mapper = GeneMapper()
+    gene_mapper = GeneMapper(load_index=False)
     gene_mapper.build_gene_mapper_index()
 
 

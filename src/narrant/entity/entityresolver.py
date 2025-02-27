@@ -2,18 +2,18 @@ from __future__ import annotations
 
 import csv
 import gzip
+import json
 import logging
-import pickle
 from collections import defaultdict
 from datetime import datetime
 from itertools import islice
 
 from kgextractiontoolbox.backend.database import Session
-from kgextractiontoolbox.backend.models import Tag
+from kgextractiontoolbox.backend.models import Tag, EntityResolverData
 from kgextractiontoolbox.entitylinking.tagging.vocabulary import Vocabulary
-from narrant.config import GENE_FILE, GENE_INDEX_FILE, MESH_DESCRIPTORS_FILE, MESH_ID_TO_HEADING_INDEX_FILE, \
-    TAXONOMY_INDEX_FILE, TAXONOMY_FILE, MESH_SUPPLEMENTARY_FILE, \
-    MESH_SUPPLEMENTARY_ID_TO_HEADING_INDEX_FILE, DOSAGEFORM_TAGGER_VOCAB, VACCINE_TAGGER_VOCAB, \
+from narrant.config import GENE_FILE, MESH_DESCRIPTORS_FILE, TAXONOMY_FILE, \
+    MESH_SUPPLEMENTARY_FILE, \
+    DOSAGEFORM_TAGGER_VOCAB, VACCINE_TAGGER_VOCAB, \
     DRUG_TAGGER_VOCAB, ORGANISM_TAGGER_VOCAB, REGISTERED_VOCABULARIES
 from narrant.entitylinking.enttypes import GENE, SPECIES, DOSAGE_FORM, LAB_METHOD, VACCINE
 from narrant.mesh.data import MeSHDB
@@ -50,44 +50,44 @@ class MeshResolver:
     """
     MeSHResolver translates MeSH descriptor ids into strings / headings
     """
+    MESH_NAME = "MeSH"
+    MESH_SUPPLEMENT_NAME = "MeSH supplementary"
 
     def __init__(self):
         self.desc2heading = {}
         self.supplement_desc2heading = {}
 
-    def build_index(self, mesh_file=MESH_DESCRIPTORS_FILE, index_file=MESH_ID_TO_HEADING_INDEX_FILE,
-                    mesh_supp_file=MESH_SUPPLEMENTARY_FILE,
-                    mesh_supp_index=MESH_SUPPLEMENTARY_ID_TO_HEADING_INDEX_FILE):
+    def build_index(self, mesh_file=MESH_DESCRIPTORS_FILE, mesh_supp_file=MESH_SUPPLEMENTARY_FILE):
         logging.info('Reading mesh file: {}'.format(mesh_file))
         meshdb = MeSHDB()
         meshdb.load_xml(mesh_file)
         for desc in meshdb.get_all_descs():
             self.desc2heading[desc.unique_id] = desc.heading
 
-        logging.info('Writing index ({} keys) to: {}'.format(len(self.desc2heading.keys()),
-                                                             index_file))
-        with open(index_file, 'wb') as f:
-            pickle.dump(self.desc2heading, f)
+        session = Session.get()
+        json_data = json.dumps(self.desc2heading)
+        logging.info(f'Writing MeSH index ({len(json_data)} keys) to DB (entity_resolver_data table)')
+        EntityResolverData.overwrite_resolver_data(session, name=MeshResolver.MESH_NAME, json_data=json_data)
 
         logging.info('Reading mesh supplementary file: {}'.format(mesh_supp_file))
         mesh_supplementary: MeSHDBSupplementary = MeSHDBSupplementary()
         mesh_supplementary.load_xml(mesh_supp_file)
         for record in mesh_supplementary.get_all_records():
             self.supplement_desc2heading[record.unique_id] = record.name
-        logging.info('Writing index ({} keys) to: {}'.format(len(self.supplement_desc2heading.keys()),
-                                                             mesh_supp_index))
-        with open(mesh_supp_index, 'wb') as f:
-            pickle.dump(self.supplement_desc2heading, f)
 
-    def load_index(self, index_file=MESH_ID_TO_HEADING_INDEX_FILE,
-                   supp_index_file=MESH_SUPPLEMENTARY_ID_TO_HEADING_INDEX_FILE):
+        json_data = json.dumps(self.supplement_desc2heading)
+        logging.info(f'Writing MeSH Supplement index ({len(json_data)} keys) to DB (entity_resolver_data table)')
+        EntityResolverData.overwrite_resolver_data(session, name=MeshResolver.MESH_SUPPLEMENT_NAME, json_data=json_data)
+
+    def load_index(self):
         start_time = datetime.now()
-        with open(index_file, 'rb') as f:
-            self.desc2heading = pickle.load(f)
+        session = Session.get()
+        self.desc2heading = EntityResolverData.load_data_from_json(session, MeshResolver.MESH_NAME)
         logging.info('Mesh index ({} keys) load in {}s'.format(len(self.desc2heading), datetime.now() - start_time))
         start_time = datetime.now()
-        with open(supp_index_file, 'rb') as f:
-            self.supplement_desc2heading = pickle.load(f)
+
+        self.supplement_desc2heading = EntityResolverData.load_data_from_json(session,
+                                                                              MeshResolver.MESH_SUPPLEMENT_NAME)
         logging.info('Mesh Supplement index ({} keys) load in {}s'.format(len(self.supplement_desc2heading),
                                                                           datetime.now() - start_time))
 
@@ -109,6 +109,7 @@ class GeneResolver:
     """
     GeneResolver translates NCBI Gene ids to a gene focus + gene name
     """
+    NAME = "Gene"
 
     def __init__(self):
         self.geneid2name = {}
@@ -121,7 +122,7 @@ class GeneResolver:
             term2entity[gene_name.strip().lower()] = gene_focus.strip().lower()
         return term2entity
 
-    def build_index(self, gene_input=GENE_FILE, index_file=GENE_INDEX_FILE, query_db_gene_ids=True):
+    def build_index(self, gene_input=GENE_FILE, query_db_gene_ids=True):
         gene_ids_in_db = set()
         if query_db_gene_ids:
             gene_ids_in_db = get_gene_ids(Session.get())
@@ -136,14 +137,15 @@ class GeneResolver:
                 description = components[8]
                 self.geneid2name[gene_id] = (gene_symbol, description)
 
-        logging.info('Writing index with {} keys to: {}'.format(len(self.geneid2name), index_file))
-        with open(index_file, 'wb') as f:
-            pickle.dump(self.geneid2name, f)
+        logging.info('Writing index with {} keys to database'.format(len(self.geneid2name)))
+        session = Session.get()
+        json_data = json.dumps(self.geneid2name)
+        EntityResolverData.overwrite_resolver_data(session, name=GeneResolver.NAME, json_data=json_data)
 
-    def load_index(self, index_file=GENE_INDEX_FILE):
+    def load_index(self):
         start_time = datetime.now()
-        with open(index_file, 'rb') as f:
-            self.geneid2name = pickle.load(f)
+        session = Session.get()
+        self.geneid2name = EntityResolverData.load_data_from_json(session, GeneResolver.NAME)
         logging.info('Gene index ({} keys) load in {}s'.format(len(self.geneid2name), datetime.now() - start_time))
 
     def gene_id_to_name(self, gene_id):
@@ -200,7 +202,7 @@ class SpeciesResolver:
     """
     SpeciesResolver translates a NCBI Species ID to the Species' common and scientific name
     """
-
+    NAME = "Species"
     NAME_COMMON = 'genbank common name'
     NAME_COMMON_SHORTCUT = "c"
     NAME_SCIENTIFIC = "scientific name"
@@ -220,7 +222,7 @@ class SpeciesResolver:
                 s2n[n_dict[self.NAME_SCIENTIFIC_SHORTCUT]] = sid
         return s2n
 
-    def build_index(self, species_input=TAXONOMY_FILE, index_file=TAXONOMY_INDEX_FILE, query_db_species_ids=True):
+    def build_index(self, species_input=TAXONOMY_FILE, query_db_species_ids=True):
         species_ids_in_db = set()
         if query_db_species_ids:
             species_ids_in_db = get_species_ids(Session.get())
@@ -243,16 +245,17 @@ class SpeciesResolver:
                     else:
                         self.speciesid2name[species_id][self.NAME_SCIENTIFIC_SHORTCUT] = name
 
-        logging.info('Writing index to: {}'.format(index_file))
-        with open(index_file, 'wb') as f:
-            pickle.dump(self.speciesid2name, f)
+        logging.info('Writing index to database')
+        session = Session.get()
+        json_data = json.dumps(self.speciesid2name)
+        EntityResolverData.overwrite_resolver_data(session, SpeciesResolver.NAME, json_data)
 
-    def load_index(self, index_file=TAXONOMY_INDEX_FILE):
+    def load_index(self):
         start_time = datetime.now()
-        with open(index_file, 'rb') as f:
-            self.speciesid2name = pickle.load(f)
-        logging.info(
-            'Species index ({} keys) load in {}s'.format(len(self.speciesid2name), datetime.now() - start_time))
+        session = Session.get()
+        self.speciesid2name = EntityResolverData.load_data_from_json(session, SpeciesResolver.NAME)
+        logging.info('Species index ({} keys) load in {}s'.format(len(self.speciesid2name),
+                                                                  datetime.now() - start_time))
 
     def species_id_to_name(self, species_id):
         """
@@ -378,7 +381,7 @@ class EntityResolver:
             cls.__instance._load_registered_vocabularies()
         return cls.__instance
 
-    def _load_registered_vocabularies(self, registered_vocabs = REGISTERED_VOCABULARIES):
+    def _load_registered_vocabularies(self, registered_vocabs=REGISTERED_VOCABULARIES):
         self._entity_id_to_heading = dict()
         for vocab_file in registered_vocabs:
             v = Vocabulary(vocab_file)

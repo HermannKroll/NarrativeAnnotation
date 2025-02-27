@@ -1,5 +1,8 @@
+import json
 from unittest import TestCase
 
+from kgextractiontoolbox.backend.database import Session
+from kgextractiontoolbox.backend.models import EntityResolverData
 from narrant.entity.meshontology import MeSHOntology
 from narrant.entitylinking.enttypes import DISEASE, METHOD, DOSAGE_FORM
 
@@ -7,7 +10,21 @@ from narrant.entitylinking.enttypes import DISEASE, METHOD, DOSAGE_FORM
 class MeSHOntologyTestCase(TestCase):
 
     def setUp(self) -> None:
+        session = Session.get()
+        # fake ontology data
+        ontology_data = {
+            "descriptor2treeno" : {
+                "D016503": ["E02.319.300"],
+                "D053769": ['D26.255.260.575', 'E02.319.300.380.575', 'J01.637.512.600.575'],
+                "D015195": ['E05.290.563.250']
+            },
+            "treeno2desc": {}
+        }
+        ontology_data = json.dumps(ontology_data)
+        EntityResolverData.overwrite_resolver_data(session, name=MeSHOntology.NAME, json_data=ontology_data)
+
         self.ontology: MeSHOntology = MeSHOntology()
+
 
     def test_tree_number_to_entity_type(self):
         self.assertIn(DISEASE, MeSHOntology.tree_number_to_entity_type('C01.2351.23'))

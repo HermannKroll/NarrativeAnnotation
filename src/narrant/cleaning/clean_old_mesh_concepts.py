@@ -18,11 +18,11 @@ def clean_old_mesh_concepts(force_deletion: bool):
 
     logging.info('Loading MeSH supplementary data...')
     supp = MeSHDBSupplementary()
-    supp.load_xml(MESH_SUPPLEMENTARY_FILE, prefetch_all=True)
+    supp.load_xml(MESH_SUPPLEMENTARY_FILE)
 
     logging.info('Loading MeSH data...')
     desc = MeSHDB()
-    desc.load_xml(MESH_DESCRIPTORS_FILE, prefetch_all=True)
+    desc.load_xml(MESH_DESCRIPTORS_FILE)
 
     logging.info("Retrieve MeSH terms from tag table...")
     session = Session.get()

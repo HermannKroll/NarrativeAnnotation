@@ -1,5 +1,4 @@
 import itertools
-import sys
 from datetime import datetime
 from typing import List
 
@@ -107,38 +106,13 @@ class MeSHDBSupplementary:
             cls.__instance._desc_by_name = dict()
         return cls.__instance
 
-    def load_xml(self, filename, prefetch_all=False, verbose=False):
+    def load_xml(self, filename, verbose=False):
         if not self._desc_by_id:
             start = datetime.now()
-            with open(filename) as f:
-                self.tree = etree.parse(f)
+            self.tree = etree.parse(filename)
             end = datetime.now()
             if verbose:
                 print("XML loaded in {}".format(end - start))
-            if prefetch_all:
-                start = datetime.now()
-                self.prefetch_all(verbose)
-                end = datetime.now()
-                if verbose:
-                    print("All descriptors loaded in {}".format(end - start))
-
-    def prefetch_all(self, verbose=False):
-        records = self.tree.xpath(MESH_SUPP_QUERY_DESCRIPTOR_RECORD)
-        total = len(records)
-        last = 0
-        if verbose:
-            sys.stdout.write("Indexing ...")
-            sys.stdout.flush()
-        for idx, record in enumerate(records):
-            desc = SupplementaryRecord.from_element(record)
-            self.add_record(desc)
-            if verbose and int((idx + 1.0) / total * 100.0) > last:
-                last = int((idx + 1.0) / total * 100.0)
-                sys.stdout.write("\rIndexing ... {} %".format(last))
-                sys.stdout.flush()
-        if verbose:
-            sys.stdout.write("\rIndexing ... done\n")
-            sys.stdout.flush()
 
     def get_all_records(self) -> List[SupplementaryRecord]:
         descs = []

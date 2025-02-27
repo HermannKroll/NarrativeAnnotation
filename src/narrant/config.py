@@ -28,29 +28,18 @@ if not os.path.isdir(TMP_DIR):
 if not os.path.isdir(TMP_DIR_TAGGER):
     os.makedirs(TMP_DIR_TAGGER)
 
-# MeSH Ontology Index File
-MESH_ONTOLOGY_INDEX_FILE = os.path.join(TMP_DIR, "mesh_ontology_index.pkl")
-
 # MESH
 MESH_DESCRIPTORS_FILE = os.path.join(DATA_DIR, "desc.xml")
 MESH_SUPPLEMENTARY_FILE = os.path.join(DATA_DIR, "supp.xml")
-MESH_ID_TO_HEADING_INDEX_FILE = os.path.join(TMP_DIR, 'desc_id2heading.pkl')
-MESH_SUPPLEMENTARY_ID_TO_HEADING_INDEX_FILE = os.path.join(TMP_DIR, 'supp_id2heading.pkl')
-
-# CHEMBL
-# CHEMBL_DRUG_CSV = os.path.join(RESOURCE_DIR, "vocabularies/drug/chembl29.csv")
 
 # DrugBank
 DRUGBANK_XML_DUMP = os.path.join(DATA_DIR, "drugbank2021.xml")
 
 # GENE
 GENE_FILE = os.path.join(DATA_DIR, 'gene_info.gz')
-GENE_INDEX_FILE = os.path.join(TMP_DIR, 'gene_info_id2name.pkl')
-GENE_TO_HUMAN_ID_FILE = os.path.join(TMP_DIR, 'gene_to_human_id.pkl')
 
 # Taxonomy Names 2020
 TAXONOMY_FILE = os.path.join(RESOURCE_DIR, 'taxonomy_names_2020.gz')
-TAXONOMY_INDEX_FILE = os.path.join(TMP_DIR, 'taxonomy_name_index.pkl')
 
 # Preprocessing
 PREPROCESS_CONFIG = str(search_config(Path(CONFIG_DIR) / '..', Path('config'), Path('entity_linking.json')))

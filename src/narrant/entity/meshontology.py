@@ -1,11 +1,13 @@
+import json
 import logging
-import pickle
 from datetime import datetime
 
+from kgextractiontoolbox.backend.database import Session
+from kgextractiontoolbox.backend.models import EntityResolverData
 from kgextractiontoolbox.progress import print_progress_with_eta
-from narrant.config import MESH_DESCRIPTORS_FILE, MESH_ONTOLOGY_INDEX_FILE
-from narrant.mesh.data import MeSHDB
+from narrant.config import MESH_DESCRIPTORS_FILE
 from narrant.entitylinking.enttypes import DOSAGE_FORM, METHOD, DISEASE, VACCINE, HEALTH_STATUS, TISSUE, LAB_METHOD
+from narrant.mesh.data import MeSHDB
 
 MESH_TREE_NAMES = dict(
     A="Anatomy",
@@ -35,7 +37,7 @@ MESH_TREE_TO_ENTITY_TYPE = [
     ("J01.637.512.850", DOSAGE_FORM),  # Nanotubes
     ("J01.637.512.925", DOSAGE_FORM),  # Nanowires
     ("E", METHOD),
-    ("E", LAB_METHOD),   # Each method could be specified to a LabMethod. We don't know it here. 
+    ("E", LAB_METHOD),  # Each method could be specified to a LabMethod. We don't know it here.
     ("E", DOSAGE_FORM),
     ("C", DISEASE),
     ("F03", DISEASE),
@@ -50,16 +52,19 @@ class MeSHOntology:
     class to store the mesh ontology in a efficient tree structure
     """
 
+    NAME = "MeSHOntology"
+
     __instance = None
 
-    def __new__(cls, load_index=True):
+    def __new__(cls):
         if cls.__instance is None:
             cls.__instance = super().__new__(cls)
-            cls.__instance.treeno2desc = {}
-            cls.__instance.descriptor2treeno = {}
-            if load_index:
-                cls.__instance.load_index()
         return cls.__instance
+
+    def __init__(self):
+        self.treeno2desc = {}
+        self.descriptor2treeno = {}
+        self.load_index()
 
     def _clear_index(self):
         """
@@ -179,7 +184,7 @@ class MeSHOntology:
         else:
             raise KeyError(f'No entity type for tree number {tree_number} found')
 
-    def build_index_from_mesh(self, mesh_file=MESH_DESCRIPTORS_FILE):
+    def __build_index_from_mesh(self, mesh_file=MESH_DESCRIPTORS_FILE):
         """
         Builds the index from a raw MeSH XML file
         :param mesh_file: Path to a MeSH XML file (default is the default MeSH descriptor path in the project config)
@@ -200,27 +205,31 @@ class MeSHOntology:
             print_progress_with_eta("building mesh ontology", idx, descriptor_count, start_time, print_every_k=1)
         logging.info('MeSH Ontology complete')
 
-    def store_index(self, index_path=MESH_ONTOLOGY_INDEX_FILE):
+    def create_and_store_index(self):
         """
-        Pickles the whole MeSH ontology to a file
-        :param index_path: Path for index (default in project's config)
+        Stores the whole MeSH ontology into database
         :return: Nothing
         """
-        logging.info('Storing index to: {} '.format(index_path))
-        with open(index_path, 'wb') as f:
-            pickle.dump(self.__dict__, f)
+        self.__build_index_from_mesh(mesh_file=MESH_DESCRIPTORS_FILE)
 
-    def load_index(self, index_path=MESH_ONTOLOGY_INDEX_FILE):
+        logging.info('Storing index to database... ')
+        session = Session.get()
+        json_data = json.dumps(dict(treeno2desc=self.treeno2desc, descriptor2treeno=self.descriptor2treeno))
+        EntityResolverData.overwrite_resolver_data(session, name=MeSHOntology.NAME, json_data=json_data)
+
+    def load_index(self):
         """
-        Loads the whole ontology from a pickle dump
-        :param index_path: Path for pickle dump (default in project's config)
+        Loads the whole ontology from database
         :return: None
         """
-        try:
-            with open(index_path, 'rb') as f:
-                self.__dict__ = pickle.load(f)
-        except FileNotFoundError:
-            logging.warning('MeSH Ontology Index not found...')
+        session = Session.get()
+        json_data = EntityResolverData.load_data_from_json(session, name=MeSHOntology.NAME)
+        if "treeno2desc" in json_data and "descriptor2treeno" in json_data:
+            self.treeno2desc = json_data["treeno2desc"]
+            self.descriptor2treeno = json_data["descriptor2treeno"]
+        else:
+            self.treeno2desc = {}
+            self.descriptor2treeno = {}
 
     def retrieve_subdescriptors(self, decriptor_id: str) -> [(str)]:
         """
@@ -272,9 +281,7 @@ def main():
 
     logging.info('Computing entity ontology index...')
     entity_ontology = MeSHOntology()
-    entity_ontology.build_index_from_mesh()
-    logging.info('Storing index to: {} '.format(MESH_ONTOLOGY_INDEX_FILE))
-    entity_ontology.store_index()
+    entity_ontology.create_and_store_index()
     logging.info('Finished')
 
 
