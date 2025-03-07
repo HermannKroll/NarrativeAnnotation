@@ -79,6 +79,7 @@ class GeneMapper:
         if "human_gene_dict" in data and "gene_to_human_id_dict" in data:
             self.human_gene_dict = data["human_gene_dict"]
             self.gene_to_human_id_dict = data["gene_to_human_id_dict"]
+            self.gene_to_human_id_dict = {int(k): v for k, v in self.gene_to_human_id_dict.items()}
         else:
             self.human_gene_dict = {}
             self.gene_to_human_id_dict = {}
