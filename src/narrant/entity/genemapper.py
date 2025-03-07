@@ -98,7 +98,7 @@ def main():
                         datefmt='%Y-%m-%d:%H:%M:%S',
                         level=logging.DEBUG)
 
-    gene_mapper = GeneMapper(load_index=False)
+    gene_mapper = GeneMapper()
     gene_mapper.build_gene_mapper_index()
 
 
