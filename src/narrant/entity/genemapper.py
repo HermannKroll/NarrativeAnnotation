@@ -66,6 +66,7 @@ class GeneMapper:
         json_data = json.dumps(dict(human_gene_dict=self.human_gene_dict,
                                     gene_to_human_id_dict=self.gene_to_human_id_dict))
         EntityResolverData.overwrite_resolver_data(session, name=GeneMapper.NAME, json_data=json_data)
+        logging.info('Finished')
 
     def load_index(self):
         """
