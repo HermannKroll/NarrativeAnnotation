@@ -146,6 +146,7 @@ class GeneResolver:
         start_time = datetime.now()
         session = Session.get()
         self.geneid2name = EntityResolverData.load_data_from_json(session, GeneResolver.NAME)
+        self.geneid2name = {int(k): v for k,v in self.geneid2name.items()}
         logging.info('Gene index ({} keys) load in {}s'.format(len(self.geneid2name), datetime.now() - start_time))
 
     def gene_id_to_name(self, gene_id):
