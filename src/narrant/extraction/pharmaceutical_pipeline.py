@@ -1,146 +1,13 @@
 import argparse
-import json
 import logging
-import os
-import shutil
-import tempfile
-from datetime import datetime
-from typing import Set
 
-from spacy.lang.en import English
-
-from kgextractiontoolbox.backend.database import Session
-from kgextractiontoolbox.backend.models import Document
-from kgextractiontoolbox.cleaning.relation_vocabulary import RelationVocabulary
 from kgextractiontoolbox.config import NLP_CONFIG
-from kgextractiontoolbox.document.count import count_documents
-from kgextractiontoolbox.document.export import export
-from kgextractiontoolbox.extraction.cosentences.main import run_co_occurrences_in_sentences
-from kgextractiontoolbox.extraction.extraction_utils import filter_and_write_documents_to_tempdir
-from kgextractiontoolbox.extraction.loading.load_extractions import clean_and_load_predications_into_db
-from kgextractiontoolbox.extraction.loading.load_pathie_extractions import read_pathie_extractions_tsv
-from kgextractiontoolbox.extraction.pathie.main import pathie_run_corenlp, pathie_process_corenlp_output_parallelized
-from kgextractiontoolbox.extraction.pipeline import mark_document_as_processed_by_ie, retrieve_document_ids_to_process
+from kgextractiontoolbox.extraction.pipeline import invoke_pipeline_start
 from kgextractiontoolbox.extraction.versions import PATHIE_EXTRACTION, OPENIE_EXTRACTION, PATHIE_STANZA_EXTRACTION, \
     OPENIE6_EXTRACTION, OPENIE51_EXTRACTION, COSENTENCE_EXTRACTION
-from kgextractiontoolbox.util.helpers import chunks
 from narrant.extraction.loading.clean_load_genes import clean_and_translate_gene_ids
 
 DOCUMENTS_TO_PROCESS_IN_ONE_BATCH = 500000
-
-
-def process_documents_ids_in_pipeline(ids_to_process: Set[int], document_collection, extraction_type, workers=1,
-                                      corenlp_config=NLP_CONFIG,
-                                      relation_vocab: RelationVocabulary = None,
-                                      consider_sections=False):
-    """
-    Performs fact extraction for the given documents with the selected extraction type
-    The document texts and tags will be exported automatically
-    The extracted facts will be inserted into the predication table
-    Stores the processed document ids in the ProcessedbyIE table
-    :param ids_to_process: a set of document ids to process
-    :param document_collection: the corresponding document collection
-    :param extraction_type: the extraction type (e.g. PathIE)
-    :param workers: the number of parallel workers (if extraction method is parallelized)
-    :param corenlp_config: the nlp config
-    :param relation_vocab: the relation vocabulary for PathIE (optional)
-    :param consider_sections: Should document sections be considered for text generation?
-
-    :return: None
-    """
-    # Read config
-    with open(corenlp_config) as f:
-        conf = json.load(f)
-        core_nlp_dir = conf["corenlp"]
-
-    time_start = datetime.now()
-    working_dir = tempfile.mkdtemp()
-    document_export_file = os.path.join(working_dir, 'document_export.jsonl')
-    ie_input_dir = os.path.join(working_dir, 'ie')
-    ie_filelist_file = os.path.join(working_dir, 'ie_filelist.txt')
-    ie_output_file = os.path.join(working_dir, 'ie.output')
-    if not os.path.exists(working_dir):
-        os.mkdir(working_dir)
-    if not os.path.exists(ie_input_dir):
-        os.mkdir(ie_input_dir)
-
-    logging.info('Process will work in: {}'.format(working_dir))
-    # export them with their tags
-    logging.info(f'Exporting documents to: {document_export_file}')
-    export(document_export_file, export_tags=True, document_ids=ids_to_process, collection=document_collection,
-           content=True, export_sections=consider_sections, export_format="jsonl", export_classification=False)
-
-    time_exported = datetime.now()
-
-    logging.info('Counting documents...')
-    count_ie_files = count_documents(document_export_file)
-    time_filtered = datetime.now()
-    time_load = datetime.now()
-    if count_ie_files == 0:
-        logging.info('No files to process for IE - stopping')
-    else:
-        if extraction_type == PATHIE_EXTRACTION:
-            logging.info('Init spacy nlp...')
-            spacy_nlp = English()  # just the language with no model
-            spacy_nlp.add_pipe("sentencizer")
-
-            logging.info('Filtering documents...')
-            count_ie_files, doc2tags = filter_and_write_documents_to_tempdir(len(ids_to_process), document_export_file,
-                                                                             ie_input_dir, ie_filelist_file, spacy_nlp,
-                                                                             workers,
-                                                                             consider_sections=consider_sections)
-
-            corenlp_output_dir = os.path.join(working_dir, 'corenlp_output')
-            if not os.path.exists(corenlp_output_dir):
-                os.mkdir(corenlp_output_dir)
-
-            pathie_run_corenlp(core_nlp_dir, corenlp_output_dir, ie_filelist_file, worker_no=workers)
-
-            logging.info("Processing output ...")
-            start = datetime.now()
-
-            pred_vocab = relation_vocab.relation_dict if relation_vocab else None
-            # Process output
-            pathie_process_corenlp_output_parallelized(corenlp_output_dir, count_ie_files, ie_output_file, doc2tags,
-                                                       workers=workers, predicate_vocabulary=pred_vocab)
-            logging.info((" done in {}".format(datetime.now() - start)))
-        elif extraction_type == PATHIE_STANZA_EXTRACTION:
-            pred_vocab = relation_vocab.relation_dict if relation_vocab else None
-            logging.info('Starting PathIE Stanza...')
-            start = datetime.now()
-            # only import stanze if required
-            from kgextractiontoolbox.extraction.pathie_stanza.main import run_stanza_pathie
-            run_stanza_pathie(document_export_file, ie_output_file, predicate_vocabulary=pred_vocab,
-                              consider_sections=consider_sections)
-            logging.info((" done in {}".format(datetime.now() - start)))
-        elif extraction_type == COSENTENCE_EXTRACTION:
-            logging.info('Starting Co-Occurrence-based sentence extraction method...')
-            start = datetime.now()
-            run_co_occurrences_in_sentences(document_export_file, ie_output_file, consider_sections=consider_sections,
-                                            workers=workers)
-            logging.info((" done in {}".format(datetime.now() - start)))
-
-        logging.info('Loading extractions into database...')
-        time_load = datetime.now()
-        logging.info(f'Reading extraction from {ie_output_file}...')
-        predications = read_pathie_extractions_tsv(ie_output_file, load_symmetric=False)
-        logging.info('{} extractions read'.format(len(predications)))
-        logging.info('Cleaning gene ids...')
-        predications_cleaned = clean_and_translate_gene_ids(predications)
-        logging.info('Inserting {} predications'.format(len(predications_cleaned)))
-        clean_and_load_predications_into_db(predications_cleaned, document_collection, extraction_type)
-        logging.info('finished')
-
-    time_open_ie = datetime.now()
-    # add document as processed to database
-    mark_document_as_processed_by_ie(ids_to_process, document_collection, extraction_type)
-    logging.info('Process finished in {}s ({}s export, {}s filtering, {}s ie and {}s load)'
-                 .format(time_open_ie - time_start, time_exported - time_start, time_filtered - time_exported,
-                         time_open_ie - time_filtered, time_open_ie - time_load))
-
-    logging.info('Removing temp directory...')
-    shutil.rmtree(working_dir)
-    logging.info('Finished')
 
 
 def main():
@@ -165,37 +32,10 @@ def main():
                         datefmt='%Y-%m-%d:%H:%M:%S',
                         level=logging.INFO)
 
-    if args.relation_vocab:
-        relation_vocab = RelationVocabulary()
-        relation_vocab.load_from_json(args.relation_vocab)
-    else:
-        relation_vocab = None
-    document_ids = set()
-    if args.idfile:
-        logging.info('Reading id file: {}'.format(args.idfile))
-        with open(args.idfile, 'r') as f:
-            document_ids = set([int(line.strip()) for line in f])
-        logging.info(f'{len(document_ids)} documents in id file')
-    else:
-        logging.info(f'No id file given - query all known ids for document collection: {args.collection}')
-        session = Session.get()
-        for r in session.query(Document.id).filter(Document.collection == args.collection).distinct():
-            document_ids.add(r[0])
-        logging.info(f'{len(document_ids)} were found in db')
-    document_ids_to_process = retrieve_document_ids_to_process(args.collection, args.extraction_type,
-                                                               document_id_filter=document_ids)
-    logging.info('Sorting document ids...')
-    document_ids_to_process = sorted(list(document_ids_to_process))
-    num_of_chunks = int(len(document_ids_to_process) / args.batch_size) + 1
-    logging.info(f'Splitting task into {num_of_chunks} chunks...')
-    for idx, batch_ids in enumerate(chunks(list(document_ids_to_process), args.batch_size)):
-        logging.info('=' * 60)
-        logging.info(f'       Processing chunk {idx + 1}/{num_of_chunks}...')
-        logging.info('=' * 60)
-        logging.info(f'{len(batch_ids)} ids have to been processed in this batch')
-        process_documents_ids_in_pipeline(batch_ids, args.collection, args.extraction_type, corenlp_config=args.config,
-                                          workers=args.workers, relation_vocab=relation_vocab,
-                                          consider_sections=args.sections)
+    invoke_pipeline_start(relation_vocab_path=args.relation_vocab, idfile=args.idfile, collection=args.collection,
+                          extraction_type=args.extraction_type, batch_size=args.batch_size, workers=args.workers,
+                          config=args.config, entity_filter=args.entity_filter, sections=args.sections,
+                          cleaning_function=clean_and_translate_gene_ids)
 
 
 if __name__ == "__main__":
