@@ -73,10 +73,18 @@ if [[ $? != 0 ]]; then
 fi
 
 
-# Do the statement extraction via our Pipeline
+# Do the statement extraction via our PathIE Pipeline
 python3 ~/NarrativeAnnotation/src/narrant/extraction/pharmaceutical_pipeline.py -bs 50000 -c $COLLECTION -et PathIE --workers 10 --relation_vocab ~/NarrativeAnnotation/resources/pharm_relation_vocab.json
 if [[ $? != 0 ]]; then
     echo "Previous script returned exit code != 0 -> Stopping pipeline."
     exit -1
 fi
+
+# Do the statement extraction via Co-occurrence within a sentence for all PubMed documents via our Pipeline
+python3 ~/NarrativeAnnotation/src/narrant/extraction/pharmaceutical_pipeline.py -bs 50000 -c $COLLECTION -et COSentence --workers 10
+if [[ $? != 0 ]]; then
+    echo "Previous script returned exit code != 0 -> Stopping pipeline."
+    exit -1
+fi
+
 

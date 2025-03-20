@@ -100,8 +100,15 @@ if [[ $? != 0 ]]; then
 fi
 
 
-# Do the statement extraction for all ZBMed documents via our Pipeline
+# Do the statement extraction via PathIE for all ZBMed documents via our Pipeline
 python3 ~/NarrativeAnnotation/src/narrant/extraction/pharmaceutical_pipeline.py -c ZBMed -et PathIE --workers 10 --relation_vocab ~/NarrativeAnnotation/resources/pharm_relation_vocab.json
+if [[ $? != 0 ]]; then
+    echo "Previous script returned exit code != 0 -> Stopping pipeline."
+    exit -1
+fi
+
+# Do the statement extraction via Co-occurrence within a sentence for all ZBMed documents via our Pipeline
+python3 ~/NarrativeAnnotation/src/narrant/extraction/pharmaceutical_pipeline.py -c ZBMed -et COSentence --workers 10
 if [[ $? != 0 ]]; then
     echo "Previous script returned exit code != 0 -> Stopping pipeline."
     exit -1
