@@ -36,13 +36,12 @@ if [[ $? != 0 ]]; then
 fi
 
 # Some gene annotations are composed (e.g, id = 123;345) this ids need to be split into multiple tag entries
+# Composed annotations produced by GNormPlus which is invoked in the previous step
 python3 ~/NarrativeAnnotation/src/narrant/cleaning/clean_tag_gene_ids.py
 if [[ $? != 0 ]]; then
     echo "Previous script returned exit code != 0 -> Stopping pipeline."
     exit -1
 fi
-
-
 
 # Execute Cleaning Rules for Tagging
 echo 'cleaning Tag table with hand-written rules'
