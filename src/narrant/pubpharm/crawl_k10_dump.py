@@ -1,5 +1,6 @@
 import argparse
 import calendar
+import hashlib
 import json
 import logging
 import os
@@ -10,7 +11,12 @@ from typing import Dict, List
 import requests
 
 from kgextractiontoolbox.document.narrative_document import NarrativeDocument, NarrativeDocumentMetadata
-from narrant.document.md5_hasher import get_md5_hash_str
+
+
+def get_md5_hash_str(str_input):
+    m = hashlib.md5()
+    m.update(str_input.encode())
+    return m.hexdigest()
 
 
 def build_url(cursor: str, collection_filter: str, start_date: str, base_url: str):
@@ -236,4 +242,3 @@ if __name__ == "__main__":
 
     crawl_k10_index(args.workdir, args.collection_filter, args.date, args.collection, args.base_url, args.max_retries,
                     args.output)
-
