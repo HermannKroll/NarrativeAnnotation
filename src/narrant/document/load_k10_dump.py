@@ -91,6 +91,10 @@ def crawl_k10_index(work_dir: str, collection: str, start_date: str, output_coll
             # if no next cursor exists
             pass
 
+        except (requests.exceptions.ConnectionError, ConnectionRefusedError):
+            # if connection problem with K10 exist
+            retry_counter += 1
+
     logging.info("Crawling finished")
 
     timestamp = calendar.timegm(time.gmtime())
