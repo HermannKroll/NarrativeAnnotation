@@ -11,6 +11,10 @@ from narrant.config import PREPROCESS_CONFIG
 
 test_dir = 'src/narranttests/'
 
+logging.basicConfig(format='%(asctime)s,%(msecs)d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
+                    datefmt='%Y-%m-%d:%H:%M:%S',
+                    level=logging.INFO)
+
 
 def create_test_kwargs():
     config = cnf.Config(PREPROCESS_CONFIG)
