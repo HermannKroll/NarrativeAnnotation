@@ -7,8 +7,24 @@ if [[ $? != 0 ]]; then
     exit -1
 fi
 
-DOC_UPDATES=$1
-COLLECTION=$2
+BASE_URL=$1
+COLLECTION_FILTER=$2
+DATE=$3
+COLLECTION=$4
+
+echo "PubPharm script was called with the following arguments"
+echo $BASE_URL
+echo $COLLECTION_FILTER
+echo $DATE
+echo $COLLECTION
+
+DATA_PATH="/data/FID_Pharmazie_Services/narrative_data_update/pubpharm/"
+DOC_UPDATES="$DATA_PATH"/documents.json
+
+# make sure directory is empty and exists
+rm -rf $DATA_PATH
+mkdir -p $DATA_PATH
+
 
 if [ "$(id -u)" == 0 ]; then
   TAG_CLEANING_SQL=/root/NarrativeAnnotation/sql/clean_tags.sql
@@ -19,6 +35,20 @@ if [ "$(id -u)" -ne 0 ]; then
   echo "not root"
 fi
 
+
+python3 ~/NarrativeAnnotation/src/narrant/pubpharm/crawl_k10_dump.py $DOC_UPDATES --workdir $DATA_PATH --collection-filter $COLLECTION_FILTER --collection $COLLECTION --date $DATE --base-url $BASE_URL
+if [[ $? != 0 ]]; then
+    echo "Previous script returned exit code != 0 -> Stopping pipeline."
+    exit -1
+fi
+
+
+# This will also replace existing documents by deleting old document data and inserting new one via replace_existing argument
+python3 ~/NarrativeAnnotation/lib/KGExtractionToolbox/src/kgextractiontoolbox/document/load_narrative_documents.py $DOC_UPDATES --collection $COLLECTION --artifical_document_ids --replace_existing
+if [[ $? != 0 ]]; then
+    echo "Previous script returned exit code != 0 -> Stopping pipeline."
+    exit -1
+fi
 
 
 # Next, tag the documents with our PharmDictTagger
