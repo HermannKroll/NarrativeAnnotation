@@ -7,7 +7,7 @@ from datetime import datetime
 from itertools import islice
 
 from kgextractiontoolbox.document.count import count_documents
-from kgextractiontoolbox.document.extract import read_pubtator_documents
+from kgextractiontoolbox.document.extract import read_documents
 from kgextractiontoolbox.document.regex import DOCUMENT_ID, TAG_LINE_NORMAL
 from kgextractiontoolbox.progress import print_progress_with_eta
 from narrant.entitylinking.config import Config
@@ -54,7 +54,7 @@ def convert_pmcids_files_to_pmid_files(input, output, pmcid2pmid):
     skipped = 0
     start_time = datetime.now()
     eta = "N/A"
-    for idx, pubtator_content in enumerate(read_pubtator_documents(input)):
+    for idx, pubtator_content in enumerate(read_documents(input)):
         # skip empty documents
         if pubtator_content == "":
             continue

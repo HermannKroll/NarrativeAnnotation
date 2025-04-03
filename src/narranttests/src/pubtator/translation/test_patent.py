@@ -4,7 +4,7 @@ from kgextractiontoolbox.backend.database import Session
 from kgextractiontoolbox.document.export import export
 from kgextractiontoolbox.backend.models import Document, DocumentTranslation
 from kgextractiontoolbox.document.document import TaggedDocument
-from kgextractiontoolbox.document.extract import read_pubtator_documents
+from kgextractiontoolbox.document.extract import read_documents
 from kgextractiontoolbox.document.doctranslation import run_document_translation
 from narrant.document.translation.patent import PatentConverter
 from narranttests.util import get_test_resource_filepath, tmp_rel_path
@@ -18,7 +18,7 @@ class TestPatentConverter(unittest.TestCase):
 
         run_document_translation(filename, outfile, PatentConverter, collection="PatentTest")
         doc = None
-        for content in read_pubtator_documents(outfile):
+        for content in read_documents(outfile):
             doc = TaggedDocument(content)
 
         patent_content = None
@@ -53,7 +53,7 @@ class TestPatentConverter(unittest.TestCase):
         trans_doc_ids = set([r[0] for r in session.query(DocumentTranslation.document_id)
                             .filter(DocumentTranslation.document_collection == "PatentTest")])
 
-        for content in read_pubtator_documents(outfile):
+        for content in read_documents(outfile):
             doc = TaggedDocument(content)
             self.assertIn(doc.title, patent_content)
             self.assertIn(doc.abstract, patent_content)
@@ -85,7 +85,7 @@ class TestPatentConverter(unittest.TestCase):
         trans_doc_ids = set([r[0] for r in session.query(DocumentTranslation.document_id)
                             .filter(DocumentTranslation.document_collection == "PatentTest")])
 
-        for content in read_pubtator_documents(outfile):
+        for content in read_documents(outfile):
             doc = TaggedDocument(content)
             self.assertIn(doc.title, patent_content)
             self.assertIn(doc.abstract, patent_content)
@@ -109,7 +109,7 @@ class TestPatentConverter(unittest.TestCase):
 
         export(outfile, collection="PatentTest1", content=True, translate_document_ids=True, export_format="pubtator")
 
-        for content in read_pubtator_documents(outfile):
+        for content in read_documents(outfile):
             doc = TaggedDocument(content)
             self.assertIn(doc.id, patent_ids)
             self.assertIn(doc.title, patent_content)
@@ -130,7 +130,7 @@ class TestPatentConverter(unittest.TestCase):
 
         export(outfile, collection="PatentTest2", content=True, translate_document_ids=True, export_format="json")
 
-        for content in read_pubtator_documents(outfile):
+        for content in read_documents(outfile):
             doc = TaggedDocument(content)
             self.assertIn(doc.id, patent_ids)
             self.assertIn(doc.title, patent_content)

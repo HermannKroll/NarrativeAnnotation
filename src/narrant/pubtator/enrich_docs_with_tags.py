@@ -5,7 +5,7 @@ from collections import defaultdict
 from kgextractiontoolbox.backend.database import Session
 from kgextractiontoolbox.backend.models import Document, Tag
 from kgextractiontoolbox.document.export import create_tag_query
-from kgextractiontoolbox.document.extract import read_pubtator_documents
+from kgextractiontoolbox.document.extract import read_documents
 from kgextractiontoolbox.document.regex import CONTENT_ID_TIT_ABS
 from narrant.entitylinking.enttypes import TAG_TYPE_MAPPING
 
@@ -43,7 +43,7 @@ def enrich_pubtator_documents_with_database_tags(input_dir, output_file, documen
     """
     logging.info('Scanning for documents...')
     doc_ids = set()
-    for idx, pubtator_content in enumerate(read_pubtator_documents(input_dir)):
+    for idx, pubtator_content in enumerate(read_documents(input_dir)):
         match = CONTENT_ID_TIT_ABS.match(pubtator_content)
         if match:
             doc_id, doc_title, doc_content = match.group(1, 2, 3)
@@ -53,7 +53,7 @@ def enrich_pubtator_documents_with_database_tags(input_dir, output_file, documen
 
     logging.info('Producing new output in {}'.format(output_file))
     with open(output_file, 'wt') as f:
-        for idx, pubtator_content in enumerate(read_pubtator_documents(input_dir)):
+        for idx, pubtator_content in enumerate(read_documents(input_dir)):
             match = CONTENT_ID_TIT_ABS.match(pubtator_content)
             if match:
                 doc_id, doc_title, doc_content = match.group(1, 2, 3)
