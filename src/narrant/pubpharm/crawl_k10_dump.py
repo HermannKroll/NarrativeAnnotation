@@ -5,7 +5,6 @@ import logging
 import os
 import time
 from collections import defaultdict
-from datetime import date
 from typing import Dict, List
 
 import requests
@@ -13,38 +12,23 @@ import requests
 from kgextractiontoolbox.document.narrative_document import NarrativeDocument, NarrativeDocumentMetadata
 from narrant.document.md5_hasher import get_md5_hash_str
 
-# Static part of directory
-BASE_DIR = "./k10Plus_Dump"
 
-
-def build_dir():
-    """
-    Setup working directory.
-    """
-    today = str(date.today())
-    download_dir = BASE_DIR + today
-    if not os.path.exists(download_dir):
-        os.makedirs(download_dir, exist_ok=True)
-    logging.info("Write dumps to " + download_dir)
-    return download_dir
-
-
-def build_url(cursor: str, collection: str, start_date: str, base_url: str, url_filter: str):
+def build_url(cursor: str, collection_filter: str, start_date: str, base_url: str):
     """
     Build request wih a given cursor.
     """
-    url = base_url.format(collection, start_date, cursor) + url_filter
+    url = base_url.format(cursor, collection_filter, f'{start_date}T00:00:00Z')
     return url
 
 
-def crawl_k10_index(work_dir: str, collection: str, start_date: str, output_collection: str, base_url: str,
-                    url_filter: str,
+def crawl_k10_index(work_dir: str, collection_filter: str, start_date: str, collection: str, base_url: str,
                     max_retries: int, output_file: str):
     """
     Dumping loop
     """
     current_cursor = "*"
-    start_url = build_url(current_cursor, collection, start_date, base_url, url_filter)
+    start_url = build_url(current_cursor, collection_filter, start_date, base_url)
+    logging.info(f"Starting with URL {start_url}")
     counter = 0
     retry_counter = 0
     current_url = start_url
@@ -52,8 +36,12 @@ def crawl_k10_index(work_dir: str, collection: str, start_date: str, output_coll
     loop = True
     produced_doc_files = []
 
+    # check whether working directory exists
+    if not os.path.isdir(work_dir):
+        os.makedirs(work_dir, exist_ok=True)
 
     md5hash2id = defaultdict(list)
+    logging.info("Starting crawling loop...")
     # handle key error here
     while loop:
         if retry_counter > max_retries:
@@ -71,15 +59,16 @@ def crawl_k10_index(work_dir: str, collection: str, start_date: str, output_coll
                 # first decode the json document data
                 content = json.loads(response.content.decode("utf-8"))
 
-                docfile = write_file(work_dir, content, counter, output_collection, md5hash2id)
+                docfile = write_file(work_dir, content, counter, collection, md5hash2id)
                 # some requests may not carry any data
                 if docfile:
                     produced_doc_files.append(docfile)
 
                 next_cursor = get_next_cursor(content)
+                logging.info(f"Next cursor: {next_cursor}")
                 if next_cursor != '' and current_cursor != next_cursor:
                     current_cursor = next_cursor
-                    current_url = build_url(current_cursor, collection, start_date, base_url, url_filter)
+                    current_url = build_url(current_cursor, collection_filter, start_date, base_url)
                     counter = counter + 1
                 else:
                     loop = False
@@ -88,23 +77,23 @@ def crawl_k10_index(work_dir: str, collection: str, start_date: str, output_coll
                 retry_counter += 1
                 # retry
         except KeyError:
-            # if no next cursor exists
-            pass
+            logging.debug(f'Key error in request - retrying...')
 
         except (requests.exceptions.ConnectionError, ConnectionRefusedError):
+            logging.debug(f'Connection refused - retrying...')
+
             # if connection problem with K10 exist
             retry_counter += 1
 
     logging.info("Crawling finished")
 
     timestamp = calendar.timegm(time.gmtime())
-    file_path_collisions = os.path.join(f"{work_dir}", output_collection, f"{timestamp}.collisions.json")
+    file_path_collisions = os.path.join(f"{work_dir}", collection, f"{timestamp}.collisions.json")
     logging.info('Writing final collsion data ' + file_path_collisions)
     with open(file_path_collisions, "w") as f:
         # only store collisions
         md5hash2id = {k: v for k, v in md5hash2id.items() if len(v) > 1}
         json.dump(md5hash2id, f)
-
 
     logging.info(f'Writing final document data to {output_file}')
     with open(output_file, "w") as f_out:
@@ -115,6 +104,7 @@ def crawl_k10_index(work_dir: str, collection: str, start_date: str, output_coll
                 f_out.write(f_in.read())
     logging.info('Data written. Finished.')
 
+
 def get_next_cursor(content):
     """
     Extract next cursor from json response
@@ -124,16 +114,16 @@ def get_next_cursor(content):
     return nextCursor
 
 
-def write_file(work_dir: str, content: Dict, index: int, output_collection: str, md5hash2id: Dict[str, List]):
+def write_file(work_dir: str, content: Dict, index: int, collection: str, md5hash2id: Dict[str, List]):
     """
     Write current batch to file
     """
     # first write json data to raw file
     timestamp = calendar.timegm(time.gmtime())
-    document_file_directory = os.path.join(f"{work_dir}", output_collection)
+    document_file_directory = os.path.join(f"{work_dir}", collection)
     os.makedirs(document_file_directory, exist_ok=True)
 
-    file_path_raw = os.path.join(f"{work_dir}", output_collection, f"{timestamp}.{index}.raw.json")
+    file_path_raw = os.path.join(f"{work_dir}", collection, f"{timestamp}.{index}.raw.json")
     with open(file_path_raw, "w") as f:
         json.dump(content, f)
 
@@ -169,14 +159,14 @@ def write_file(work_dir: str, content: Dict, index: int, output_collection: str,
 
         if "abstract" in document_data:
             abstract = document_data["abstract"][0].strip()
-        if "author-letter" in document_data:
-            authors = document_data["author-letter"][0].strip()
-        if "source" in document_data:
-            journals = document_data["source"].strip()
-        if "publishDate" in document_data:
+        if "author_browse" in document_data:
+            authors = '|'.join([a.strip() for a in document_data["author_browse"]])
+        if "container_title" in document_data:
+            journals = document_data["container_title"].strip()
+        if "publishDateDaySort_date" in document_data:
             try:
                 # should be yyyy-mm-dd (but maybe mm and dd is missing)
-                publication_time_info = document_data["publishDate"][0].strip().split('-')
+                publication_time_info = document_data["publishDateDaySort_date"].strip().split('-')
                 if len(publication_time_info) >= 1:
                     # we assume year only
                     publication_year = int(publication_time_info[0])
@@ -185,17 +175,19 @@ def write_file(work_dir: str, content: Dict, index: int, output_collection: str,
                     publication_month = int(publication_time_info[1])
                 # days are ignored
             except ValueError:
-                logging.debug(f'{document_data["publishDate"]} is not an integer')
+                logging.debug(f'{document_data["publishDateDaySort_date"]} is not an integer')
         else:
             logging.debug(f'Skipping entry {doc_id} - no publishDate info given')
             continue
 
         if publication_year < 1000 or publication_year > 9999:
-            logging.debug(f'Skipping entry {doc_id} - publication year ({publication_year}) not in range [1000, 9999]')
+            logging.debug(f'Skipping entry {doc_id} - publication year ({publication_year}) not in range [1000, 9999] '
+                          f'(info: {document_data["publishDateDaySort_date"]})')
             continue
         # 0 is the default month if missing
         if publication_month < 0 or publication_month > 12:
-            logging.debug(f'Skipping entry {doc_id} - publication month ({publication_month}) not in range [0, 12]')
+            logging.debug(f'Skipping entry {doc_id} - publication month ({publication_month}) not in range [0, 12] '
+                          f'(info: {document_data["publishDateDaySort_date"]})')
             continue
 
         metadata = NarrativeDocumentMetadata(publication_year, publication_month, authors, journals, pubpharm_doi)
@@ -215,7 +207,7 @@ def write_file(work_dir: str, content: Dict, index: int, output_collection: str,
                                          export_classification=False)
         document_json_strings.append(json.dumps(document_dict))
 
-    document_file_directory = os.path.join(f"{work_dir}", output_collection, f"{timestamp}.{index}.jsonl")
+    document_file_directory = os.path.join(f"{work_dir}", collection, f"{timestamp}.{index}.jsonl")
     logging.info("Write File " + document_file_directory)
     with open(document_file_directory, "w") as f:
         out_string = "\n".join(document_json_strings)
@@ -227,20 +219,21 @@ def write_file(work_dir: str, content: Dict, index: int, output_collection: str,
 if __name__ == "__main__":
     logging.basicConfig(format='%(asctime)s,%(msecs)d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
                         datefmt='%Y-%m-%d:%H:%M:%S',
-                        level=logging.INFO)
+                        level=logging.DEBUG)
 
     argparse = argparse.ArgumentParser()
     argparse.add_argument("output", type=str, help="File path where there crawled document data should be stored.")
-    argparse.add_argument("-c", "--collection", required=True, type=str, help="Collection name to crawl.")
-    argparse.add_argument("-o", "--out-collection", required=True, type=str, help="Output collection name.")
+    argparse.add_argument("--workdir", type=str, required=True,
+                          help="Working directory where crawled document data should be stored.")
+    argparse.add_argument("-cf", "--collection-filter", required=True, type=str, help="Collection name to crawl.")
+    argparse.add_argument("-c", "--collection", required=True, type=str, help="Collection name for our pipeline")
     argparse.add_argument("-d", "--date", type=str, required=True,
                           help="Data since when updated should be retrieved. (YYYY-MM-DD)")
     argparse.add_argument("-b", "--base-url", type=str, required=True, help="Data source base URL.")
-    argparse.add_argument("-f", "--url-filter", type=str, required=True, help="Data source specific filter")
     argparse.add_argument("--max-retries", type=int, default=10,
                           help="How many retries should be made if request fails")
     args = argparse.parse_args()
 
-    cwd = build_dir()
-    crawl_k10_index(cwd, args.collection, args.date, args.out_collection, args.base_url, args.url_filter,
-                    args.max_retries, args.output)
+    crawl_k10_index(args.workdir, args.collection_filter, args.date, args.collection, args.base_url, args.max_retries,
+                    args.output)
+
