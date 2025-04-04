@@ -95,7 +95,7 @@ def crawl_k10_index(work_dir: str, collection_filter: str, start_date: str, coll
 
     timestamp = calendar.timegm(time.gmtime())
     file_path_collisions = os.path.join(f"{work_dir}", collection, f"{timestamp}.collisions.json")
-    logging.info('Writing final collsion data ' + file_path_collisions)
+    logging.info('Writing final collision data ' + file_path_collisions)
     with open(file_path_collisions, "w") as f:
         # only store collisions
         md5hash2id = {k: v for k, v in md5hash2id.items() if len(v) > 1}
