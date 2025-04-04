@@ -19,7 +19,7 @@ echo $DATE
 echo $COLLECTION
 
 DATA_PATH="/data/FID_Pharmazie_Services/narrative_data_update/pubpharm/"
-DOC_UPDATES="$DATA_PATH"/documents.json
+DOC_UPDATES="$DATA_PATH"/documents.jsonl
 
 # make sure directory is empty and exists
 rm -rf $DATA_PATH
