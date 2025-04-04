@@ -6,7 +6,7 @@ import logging
 import os
 import time
 from collections import defaultdict
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 import requests
 
@@ -47,6 +47,7 @@ def crawl_k10_index(work_dir: str, collection_filter: str, start_date: str, coll
         os.makedirs(work_dir, exist_ok=True)
 
     md5hash2id = defaultdict(list)
+    md5hash2most_information_docid = {}
     logging.info("Starting crawling loop...")
     # handle key error here
     while loop:
@@ -65,7 +66,7 @@ def crawl_k10_index(work_dir: str, collection_filter: str, start_date: str, coll
                 # first decode the json document data
                 content = json.loads(response.content.decode("utf-8"))
 
-                docfile = write_file(work_dir, content, counter, collection, md5hash2id)
+                docfile = write_file(work_dir, content, counter, collection, md5hash2id, md5hash2most_information_docid)
                 # some requests may not carry any data
                 if docfile:
                     produced_doc_files.append(docfile)
@@ -101,13 +102,23 @@ def crawl_k10_index(work_dir: str, collection_filter: str, start_date: str, coll
         md5hash2id = {k: v for k, v in md5hash2id.items() if len(v) > 1}
         json.dump(md5hash2id, f)
 
+    # create a set of document ids that we want to export
+    most_information_document_ids = {str(docid) for docid, _ in md5hash2most_information_docid.values()}
     logging.info(f'Writing final document data to {output_file}')
+    first_line = True
     with open(output_file, "w") as f_out:
-        for idx, docfile in enumerate(produced_doc_files):
+        for docfile in produced_doc_files:
             with open(docfile, "r") as f_in:
-                if idx > 0:
-                    f_out.write('\n')
-                f_out.write(f_in.read())
+                for line in f_in:
+                    # check whether this document was the most informed one
+                    doc_entry = json.loads(line)
+                    if str(doc_entry["id"]) in most_information_document_ids:
+                        if first_line:
+                            f_out.write(line)
+                            first_line = False
+                        else:
+                            f_out.write('\n' + line)
+
     logging.info('Data written. Finished.')
 
 
@@ -120,7 +131,8 @@ def get_next_cursor(content):
     return nextCursor
 
 
-def write_file(work_dir: str, content: Dict, index: int, collection: str, md5hash2id: Dict[str, List]):
+def write_file(work_dir: str, content: Dict, index: int, collection: str, md5hash2id: Dict[str, List],
+               md5hash2most_information_docid: Dict[str, Tuple[str, int]]):
     """
     Write current batch to file
     """
@@ -208,10 +220,19 @@ def write_file(work_dir: str, content: Dict, index: int, collection: str, md5has
         md5hash2id[md5hash].append(doc_id)
 
         # we use the md5hash to remove duplicates
-        document = NarrativeDocument(md5hash, title, abstract, metadata)
+        document = NarrativeDocument(doc_id, title, abstract, metadata)
         document_dict = document.to_dict(export_content=True, export_tags=False, export_sections=False,
                                          export_classification=False)
-        document_json_strings.append(json.dumps(document_dict))
+        document_json_string = json.dumps(document_dict)
+        document_json_strings.append(document_json_string)
+
+        # in the end, we want to export the document with the most information per md5hash
+        # information are mostly based on journals and publication data information
+        if md5hash not in md5hash2most_information_docid:
+            md5hash2most_information_docid[md5hash] = (doc_id, len(document_json_string))
+        else:
+            if len(document_json_string) > md5hash2most_information_docid[md5hash][1]:
+                md5hash2most_information_docid[md5hash] = (doc_id, len(document_json_string))
 
     document_file_directory = os.path.join(f"{work_dir}", collection, f"{timestamp}.{index}.jsonl")
     logging.info("Write File " + document_file_directory)
