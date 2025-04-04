@@ -166,7 +166,7 @@ def write_file(work_dir: str, content: Dict, index: int, collection: str, md5has
         if "abstract" in document_data:
             abstract = document_data["abstract"][0].strip()
         if "author_browse" in document_data:
-            authors = '|'.join([a.strip() for a in document_data["author_browse"]])
+            authors = ' | '.join([a.strip() for a in document_data["author_browse"]])
         if "container_title" in document_data:
             journals = document_data["container_title"].strip()
         if "publishDateDaySort_date" in document_data:
