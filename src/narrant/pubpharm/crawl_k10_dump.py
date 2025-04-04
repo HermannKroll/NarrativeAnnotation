@@ -85,10 +85,11 @@ def crawl_k10_index(work_dir: str, collection_filter: str, start_date: str, coll
                 # retry
         except KeyError:
             logging.debug(f'Key error in request - retrying...')
+            # if connection problem with K10 exist
+            retry_counter += 1
 
         except (requests.exceptions.ConnectionError, ConnectionRefusedError):
             logging.debug(f'Connection refused - retrying...')
-
             # if connection problem with K10 exist
             retry_counter += 1
 
