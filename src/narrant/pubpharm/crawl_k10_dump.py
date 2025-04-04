@@ -57,7 +57,7 @@ def crawl_k10_index(work_dir: str, collection_filter: str, start_date: str, coll
 
         try:
             # make a pause to not overload the server
-            time.sleep(10)
+            time.sleep(8)
             logging.info('Performing request:' + current_url)
             response = requests.get(current_url)
             if response.status_code == 200:
