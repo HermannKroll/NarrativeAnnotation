@@ -54,15 +54,9 @@ bash ~/NarrativeAnnotation/scripts/process_pubmed_updates_for_service.sh
 ```
 
 
-# ZB MED Script
+# PubPharm
+We implemented a similar [script for the PubPharm VZG crawling and processing](scripts/process_pubpharm_document_collection.sh). 
 
-We implemented a similar [script for the ZB MED pre-prints](scripts/process_zbmed_for_service.sh). 
-New pre-prints are crawled, transformed, loaded, tagged, classified and statements are extracted from them.
-
-
-```
-bash ~/NarrativeAnnotation/scripts/process_zbmed_for_service.sh
-```
 
 # Clean Data
 
