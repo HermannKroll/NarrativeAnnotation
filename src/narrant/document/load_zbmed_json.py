@@ -4,7 +4,7 @@ from argparse import ArgumentParser
 from datetime import datetime
 
 from kgextractiontoolbox.backend.database import Session
-from kgextractiontoolbox.backend.models import Document, Tag, DocumentMetadata, DocumentTranslation
+from kgextractiontoolbox.backend.models import Document, Tag, DocumentMetadata
 from kgextractiontoolbox.document.document import TaggedEntity, TaggedDocument
 from kgextractiontoolbox.progress import Progress
 from narrant.entity.meshontology import MeSHOntology
@@ -56,7 +56,7 @@ def derive_ent_id_and_type_from_concept_str(concept_str: str, concept_class: str
 def zbmed_load_json_file_to_database(json_file: str, document_collection: str) -> None:
     """
     Loads the ZBMed JSON file to the database
-    Extracts information for the following tables: Document, DocumentTranslation, Tag and DocumentMetadata
+    Extracts information for the following tables: Document, Tag and DocumentMetadata
     :param json_file: path to the ZBMed json file
     :param document_collection: the corresponding document collection
     :return: None
@@ -72,14 +72,14 @@ def zbmed_load_json_file_to_database(json_file: str, document_collection: str) -
     session = Session.get()
     logging.info(f'Querying known source ids for document collection: {document_collection}')
     known_source_ids = set()
-    q = session.query(DocumentTranslation.document_id, DocumentTranslation.source_doc_id) \
-        .filter(DocumentTranslation.document_collection == document_collection).distinct()
-    last_known_translated_id = 0
+    q = session.query(Document.id, Document.source_id)
+    q = q.filter(Document.collection == document_collection).distinct()
 
+    last_known_translated_id = 1
     for row in q:
-        if row[0] > last_known_translated_id:
-            last_known_translated_id = row[0]
-        known_source_ids.add(row[1])
+        if row.id > last_known_translated_id:
+            last_known_translated_id = row.id
+        known_source_ids.add(row.source_id)
 
     logging.info(f'{len(known_source_ids)} source ids are already known. '
                  f'Last highest document id was: {last_known_translated_id}')
@@ -136,22 +136,15 @@ def zbmed_load_json_file_to_database(json_file: str, document_collection: str) -
                                                        end=a_end + title_offset,
                                                        ent_type=e_type, ent_id=e_id, text=a_text))
 
-        tagged_doc = TaggedDocument(title=title, abstract=abstract, id=art_doc_id)
+        tagged_doc = TaggedDocument(title=title, abstract=abstract, id=art_doc_id, source_id=doc_original_id)
         tagged_doc.tags = entity_annotations
         tagged_doc.sort_tags()
 
         doc_inserts.append(dict(id=art_doc_id,
                                 collection=document_collection,
                                 title=title,
-                                abstract=abstract))
-
-        content = tagged_doc.get_text_content()
-        doc_translation_inserts.append(dict(document_id=art_doc_id,
-                                            document_collection=document_collection,
-                                            source_doc_id=doc_original_id,
-                                            md5=DocumentTranslation.text_to_md5_hash(content),
-                                            source=publication_link,
-                                            date_inserted=datetime.now()))
+                                abstract=abstract,
+                                source_id=doc_original_id))
 
         for tag in tagged_doc.tags:
             tag_inserts.append(dict(document_id=art_doc_id,
@@ -173,7 +166,6 @@ def zbmed_load_json_file_to_database(json_file: str, document_collection: str) -
 
         if (idx + 1) % ZBMED_BULK_INSERT_AFTER_K == 0:
             Document.bulk_insert_values_into_table(session, doc_inserts)
-            DocumentTranslation.bulk_insert_values_into_table(session, doc_translation_inserts)
             Tag.bulk_insert_values_into_table(session, tag_inserts)
             DocumentMetadata.bulk_insert_values_into_table(session, metadata_inserts)
 
@@ -184,7 +176,6 @@ def zbmed_load_json_file_to_database(json_file: str, document_collection: str) -
 
     # Insert remaining
     Document.bulk_insert_values_into_table(session, doc_inserts)
-    DocumentTranslation.bulk_insert_values_into_table(session, doc_translation_inserts)
     Tag.bulk_insert_values_into_table(session, tag_inserts)
     DocumentMetadata.bulk_insert_values_into_table(session, metadata_inserts)
 
