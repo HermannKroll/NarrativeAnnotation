@@ -7,7 +7,7 @@ from narrant.vocabularies.chemical_vocabulary import ChemicalVocabulary
 class ChemicalTagger(IndexedDictTagger):
     TYPES = (enttypes.CHEMICAL,)
     __name__ = "ChemicalTagger"
-    __version__ = "2.1.0"
+    __version__ = "2.2.0"
 
     def __init__(self, *args, **kwargs):
         super().__init__("chemical", "ChemicalTagger", ChemicalTagger.__version__,

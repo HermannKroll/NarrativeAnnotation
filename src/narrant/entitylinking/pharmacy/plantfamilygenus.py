@@ -9,7 +9,7 @@ from narrant.vocabularies.plant_family_genus import PlantFamilyGenusVocabulary
 class PlantFamilyGenusTagger(IndexedDictTagger):
     TYPES = (enttypes.PLANT_FAMILY_GENUS,)
     __name__ = "PlantFamilyTagger"
-    __version__ = "2.0.0"
+    __version__ = "2.1.0"
     PLANT_CLASSIFICATION = "PlantSpecific"
 
     def __init__(self, *args, **kwargs):

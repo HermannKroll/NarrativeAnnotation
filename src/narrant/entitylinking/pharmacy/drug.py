@@ -14,7 +14,7 @@ from narrant.vocabularies.drug_vocabulary import DrugVocabulary
 class DrugTagger(IndexedDictTagger):
     TYPES = (enttypes.DRUG,)
     __name__ = "DrugTagger"
-    __version__ = "2.1.0"
+    __version__ = "2.2.0"
 
     def __init__(self, *args, **kwargs):
         super().__init__("drug", "DrugTagger", DrugTagger.__version__,

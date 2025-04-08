@@ -7,7 +7,7 @@ from narrant.vocabularies.excipient_vocabulary import ExcipientVocabulary
 class ExcipientTagger(IndexedDictTagger):
     TYPES = (enttypes.EXCIPIENT,)
     __name__ = "ExcipientTagger"
-    __version__ = "2.1.0"
+    __version__ = "2.2.0"
 
     def __init__(self, *args, **kwargs):
         super().__init__("excipient", "ExcipientTagger", ExcipientTagger.__version__,

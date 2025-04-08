@@ -7,7 +7,7 @@ from narrant.vocabularies.disease_vocabulary import DiseaseVocabulary
 class DiseaseTagger(IndexedDictTagger):
     TYPES = (enttypes.DISEASE,)
     __name__ = "DiseaseTagger"
-    __version__ = "1.0.0"
+    __version__ = "1.1.0"
 
     def __init__(self, *args, **kwargs):
         super().__init__("disease", "DiseaseTagger", DiseaseTagger.__version__,

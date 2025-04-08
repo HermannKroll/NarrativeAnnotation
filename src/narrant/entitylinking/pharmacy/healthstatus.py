@@ -11,7 +11,7 @@ from narrant.vocabularies.healthstatus_vocabulary import HealthStatusVocabulary
 class HealthStatusTagger(IndexedDictTagger):
     TYPES = (enttypes.HEALTH_STATUS,)
     __name__ = "HealthStatusTagger"
-    __version__ = "1.0.0"
+    __version__ = "1.1.0"
 
     def __init__(self, *args, **kwargs):
         super().__init__("healthstatus", "HealthStatusTagger", HealthStatusTagger.__version__,

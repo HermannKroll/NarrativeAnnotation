@@ -7,7 +7,7 @@ from narrant.vocabularies.method_vocabulary import MethodVocabulary
 class MethodTagger(IndexedDictTagger):
     TYPES = (enttypes.METHOD,)
     __name__ = "MethodTagger"
-    __version__ = "1.0.0"
+    __version__ = "1.1.0"
 
     def __init__(self, *args, **kwargs):
         super().__init__("method", "MethodTagger", MethodTagger.__version__,
