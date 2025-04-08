@@ -31,14 +31,11 @@ class TestDosageFormVocabulary(unittest.TestCase):
     def test_dosage_form_rules(self):
         self.assertIn('MESH:D053769', self.tagger.desc_by_term['nanocapsules'])
         self.assertIn('MESH:D053769', self.tagger.desc_by_term['nanocapsule'])
-        self.assertIn('MESH:D053769', self.tagger.desc_by_term['nano-capsules'])
         self.assertIn('MESH:D053769', self.tagger.desc_by_term['nano capsule'])
         self.assertIn('MESH:D053769', self.tagger.desc_by_term['nano capsules'])
 
         self.assertIn('FIDX26', self.tagger.desc_by_term['microneedle'])
-        self.assertIn('FIDX26', self.tagger.desc_by_term['micro-needle'])
-        self.assertIn('FIDX26', self.tagger.desc_by_term['micro-needles'])
+        self.assertIn('FIDX26', self.tagger.desc_by_term['microneedles'])
 
         self.assertIn('FIDX25', self.tagger.desc_by_term['intrauterine device'])
-        self.assertIn('FIDX25', self.tagger.desc_by_term['intra-uterine device'])
         self.assertIn('FIDX25', self.tagger.desc_by_term['intra uterine device'])

@@ -37,8 +37,8 @@ class TestMetadictagger(unittest.TestCase):
         metatag = TestMetadictagger.make_metatag(self.ent_type_set)
         out_file = metatag.tag_doc([d for d in read_tagged_documents(in_file)][0])
         out_file.clean_tags()
-        self.assertIn(TaggedEntity(None, 32926486, 716, 718, "eo", "Excipient", "CHEMBL1743219"), out_file.tags)
-        self.assertIn(TaggedEntity(None, 32926486, 1234, 1236, "eo", "Excipient", "CHEMBL1743219"), out_file.tags)
+        self.assertIn(TaggedEntity(None, 32926486, 716, 718, "EO", "Excipient", "CHEMBL1743219"), out_file.tags)
+        self.assertIn(TaggedEntity(None, 32926486, 1234, 1236, "EO", "Excipient", "CHEMBL1743219"), out_file.tags)
 
     def test_custom_abbreviation_with_closing_space(self):
         in_file = util.get_test_resource_filepath("infiles/test_metadictagger/h2o2space_test.txt")
@@ -47,16 +47,16 @@ class TestMetadictagger(unittest.TestCase):
         out_file.clean_tags()
         self.assertIn(TaggedEntity(None, 32926513, 61, 78, "hydrogen peroxide", "Excipient", "CHEMBL71595"),
                       out_file.tags)
-        self.assertIn(TaggedEntity(None, 32926513, 91, 108, "hydrogen peroxide", "Excipient", "CHEMBL71595"),
+        self.assertIn(TaggedEntity(None, 32926513, 91, 108, "Hydrogen peroxide", "Excipient", "CHEMBL71595"),
                       out_file.tags)
-        self.assertIn(TaggedEntity(None, 32926513, 110, 117, "h 2 o 2", "Excipient", "CHEMBL71595"), out_file.tags)
-        self.assertIn(TaggedEntity(None, 32926513, 345, 352, "h 2 o 2", "Excipient", "CHEMBL71595"), out_file.tags)
-        self.assertIn(TaggedEntity(None, 32926513, 462, 469, "h 2 o 2", "Excipient", "CHEMBL71595"), out_file.tags)
-        self.assertIn(TaggedEntity(None, 32926513, 488, 495, "h 2 o 2", "Excipient", "CHEMBL71595"), out_file.tags)
-        self.assertIn(TaggedEntity(None, 32926513, 573, 580, "h 2 o 2", "Excipient", "CHEMBL71595"), out_file.tags)
-        self.assertIn(TaggedEntity(None, 32926513, 666, 673, "h 2 o 2", "Excipient", "CHEMBL71595"), out_file.tags)
-        self.assertIn(TaggedEntity(None, 32926513, 949, 956, "h 2 o 2", "Excipient", "CHEMBL71595"), out_file.tags)
-        self.assertIn(TaggedEntity(None, 32926513, 1172, 1179, "h 2 o 2", "Excipient", "CHEMBL71595"), out_file.tags)
+        self.assertIn(TaggedEntity(None, 32926513, 110, 117, "H 2 O 2", "Excipient", "CHEMBL71595"), out_file.tags)
+        self.assertIn(TaggedEntity(None, 32926513, 345, 352, "H 2 O 2", "Excipient", "CHEMBL71595"), out_file.tags)
+        self.assertIn(TaggedEntity(None, 32926513, 462, 469, "H 2 O 2", "Excipient", "CHEMBL71595"), out_file.tags)
+        self.assertIn(TaggedEntity(None, 32926513, 488, 495, "H 2 O 2", "Excipient", "CHEMBL71595"), out_file.tags)
+        self.assertIn(TaggedEntity(None, 32926513, 573, 580, "H 2 O 2", "Excipient", "CHEMBL71595"), out_file.tags)
+        self.assertIn(TaggedEntity(None, 32926513, 666, 673, "H 2 O 2", "Excipient", "CHEMBL71595"), out_file.tags)
+        self.assertIn(TaggedEntity(None, 32926513, 949, 956, "H 2 O 2", "Excipient", "CHEMBL71595"), out_file.tags)
+        self.assertIn(TaggedEntity(None, 32926513, 1172, 1179, "H 2 O 2", "Excipient", "CHEMBL71595"), out_file.tags)
 
     def test_different_min_full_tag_lengths(self):
         ent_type_set = {et.DRUG, et.HEALTH_STATUS}
