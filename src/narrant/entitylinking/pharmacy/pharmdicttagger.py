@@ -12,7 +12,7 @@ from narrant.entitylinking.tagging import indexed_dictagger as dt
 
 class PharmDictTagger(MetaDicTagger):
     __name__ = "PharmDictTagger"
-    __version__ = "1.0"
+    __version__ = "1.1.0"
 
     tagger_by_type: Dict[str, dt.IndexedDictTagger] = {
         et.DRUG: drug.DrugTagger,
