@@ -34,8 +34,7 @@ def main():
 
     invoke_pipeline_start(relation_vocab_path=args.relation_vocab, idfile=args.idfile, collection=args.collection,
                           extraction_type=args.extraction_type, batch_size=args.batch_size, workers=args.workers,
-                          config=args.config, entity_filter=args.entity_filter, sections=args.sections,
-                          cleaning_function=clean_and_translate_gene_ids)
+                          config=args.config, sections=args.sections, cleaning_function=clean_and_translate_gene_ids)
 
 
 if __name__ == "__main__":
