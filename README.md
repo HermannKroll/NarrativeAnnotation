@@ -4,21 +4,11 @@ This repository brings all the pharmaceutical specific entity linking, text clas
 Therefore it builds upon a subproject:
 - [KGExtractionToolbox](https://github.com/HermannKroll/KGExtractionToolbox): Basic entity linking methods / information extraction / pipelines for automatisation
 
+We recommend having at least 16GB of RAM available and 100GB of disk space. 
+Our annotation and extraction methods will work in a temporary directory in /tmp/ (so please make sure to have at least 100GB available).
 
-We will use the NarrativeAnnotation and NarrativeIntelligence package together for mining purposes.
-So first, check out NarrativeIntelligence. 
-```
-cd ~
-git clone --recurse-submodules https://github.com/HermannKroll/NarrativeIntelligence.git
-```
 
-Next, we create symbolic links to link NarrativeAnnotation to our home directory (and link the toolbox to NarrativeAnnotation).
-```
-ln -s ~/NarrativeIntelligence/lib/KGExtractionToolbox ~/NarrativeIntelligence/lib/NarrativeAnnotation/lib/KGExtractionToolbox
-ln -s ~/NarrativeIntelligence/lib/NarrativeAnnotation ~/NarrativeAnnotation
-```
-
-# Update Mining Pipeline
+# Update Existing Mining Pipeline
 
 If you use it as a subrepo of NarrativeIntelligence (as introduced above):
 ```
@@ -34,12 +24,20 @@ pip install --upgrade -r ~/NarrativeAnnotation/requirements.txt
 pip install --upgrade -r ~/NarrativeAnnotation/lib/KGExtractionToolbox/requirements.txt
 ```
 
+# Setup Pipeline
+We will use the NarrativeAnnotation and NarrativeIntelligence package together for mining purposes.
+So first, check out NarrativeIntelligence. 
+```
+cd ~
+git clone --recurse-submodules https://github.com/HermannKroll/NarrativeIntelligence.git
+```
 
-# Setup
+Next, we create symbolic links to link NarrativeAnnotation to our home directory (and link the toolbox to NarrativeAnnotation).
+```
+ln -s ~/NarrativeIntelligence/lib/KGExtractionToolbox ~/NarrativeIntelligence/lib/NarrativeAnnotation/lib/KGExtractionToolbox
+ln -s ~/NarrativeIntelligence/lib/NarrativeAnnotation ~/NarrativeAnnotation
+```
 
-### Hardware Requirements
-We recommend having at least 16GB of RAM available and 100GB of disk space. 
-Our annotation and extraction methods will work in a temporary directory in /tmp/ (so please make sure to have at least 100GB available).
 
 # Database Setup
 The project was tested on SQLlite and PostgresDB databases. 
@@ -182,7 +180,7 @@ Install python = 3.8.
 Decider whether you want to work with a global python version or with a conda environment (see [tutorial](https://towardsdatascience.com/getting-started-with-python-environments-using-conda-32e9f2779307))
 E.g., a virtual environment on your machine via Conda.
 ```
-conda create -n narrant python=3.8
+conda create -n narrant python=3.10
 ```
 
 Activate the environment
