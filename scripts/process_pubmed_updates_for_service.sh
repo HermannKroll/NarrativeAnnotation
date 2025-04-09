@@ -1,13 +1,5 @@
 #!/bin/bash
 
-# load the db password
-source ~/NarrativeAnnotation/scripts/.secret
-if [[ $? != 0 ]]; then
-    echo "Previous script returned exit code != 0 -> Stopping pipeline."
-    exit -1
-fi
-
-
 
 DATA_PATH="/data/FID_Pharmazie_Services/narrative_data_update/pubmed/"
 
@@ -94,8 +86,7 @@ if [[ $? != 0 ]]; then
 fi
 
 # Execute Cleaning Rules for Tagging
-echo 'cleaning Tag table with hand-written rules'
-psql "host=127.0.0.1 port=5432 dbname=fidpharmazie user=mininguser password=$PSQLPW" -f $TAG_CLEANING_SQL
+python3 ~/NarrativeAnnotation/src/narrant/cleaning/clean_tag_sql.py
 if [[ $? != 0 ]]; then
     echo "Previous script returned exit code != 0 -> Stopping pipeline."
     exit -1
