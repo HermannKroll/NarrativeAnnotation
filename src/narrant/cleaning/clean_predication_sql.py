@@ -15,6 +15,9 @@ def main():
         logging.info('Executing cleaning sql statement...')
         # execute statement by statement
         for sql_stmt in content.split(';'):
+            # skip empty lines
+            if not sql_stmt.strip():
+                continue
             session.execute(sql_stmt)
             session.commit()
 
