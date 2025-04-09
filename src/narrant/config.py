@@ -21,6 +21,7 @@ RESOURCE_DIR = os.path.join(GIT_ROOT_DIR, "resources")
 CONFIG_DIR = os.path.join(GIT_ROOT_DIR, "config")
 TMP_DIR = os.path.join(GIT_ROOT_DIR, "tmp")
 TMP_DIR_TAGGER = os.path.join(TMP_DIR, 'tagger')
+SQL_DIR = os.path.join(GIT_ROOT_DIR, "sql")
 
 if not os.path.isdir(TMP_DIR):
     os.makedirs(TMP_DIR)
@@ -117,3 +118,8 @@ PHARM_RELATION_CONSTRAINTS = os.path.join(RESOURCE_DIR, "pharm_relation_type_con
 
 # CHEMBL ATC Classification
 CHEMBL_ATC_CLASSIFICATION_FILE = os.path.join(RESOURCE_DIR, "chembl_atc_classification.csv")
+
+
+# SQL Files for cleaning
+SQL_CLEANING_TAG = os.path.join(SQL_DIR, "clean_tags.sql")
+SQL_CLEANING_PREDICATION = os.path.join(SQL_DIR, "clean_predication.sql")
