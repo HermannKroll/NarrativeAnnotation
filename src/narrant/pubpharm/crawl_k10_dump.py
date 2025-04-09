@@ -221,7 +221,8 @@ def write_file(work_dir: str, content: Dict, index: int, collection: str, md5has
         md5hash2id[md5hash].append(doc_id)
 
         # we use the md5hash to remove duplicates
-        document = NarrativeDocument(doc_id, title, abstract, metadata)
+        # set the artificial ID
+        document = NarrativeDocument(doc_id, title, abstract, metadata, source_id=doc_id)
         document_dict = document.to_dict(export_content=True, export_tags=False, export_sections=False,
                                          export_classification=False)
         document_json_string = json.dumps(document_dict)
