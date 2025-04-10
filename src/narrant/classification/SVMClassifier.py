@@ -119,8 +119,11 @@ class SVMClassifier(BaseClassifier):
                      f'({SVMClassifier.TRAIN_RATIO}/{SVMClassifier.TEST_RATIO})')
 
         logging.info(f'Training SVM with Hyper-Parameter search (on train with cv = 10 and {no_workers} workers)...')
-        param_grid = {'C': [0.1, 1, 100], 'kernel': ['rbf', 'poly', 'sigmoid'],
-                      'degree': [1, 2, 3, 4, 5, 6]}
+        param_grid = [
+            {'kernel': ['rbf'], 'C': [0.1, 1, 100]},
+            {'kernel': ['sigmoid'], 'C': [0.1, 1, 100]},
+            {'kernel': ['poly'], 'C': [0.1, 1, 100], 'degree': [1, 2, 3, 4, 5, 6]}
+        ]
         grid = GridSearchCV(svm.SVC(), param_grid, cv=4, n_jobs=no_workers, verbose=10)
         grid.fit(x_train, y_train)
 
