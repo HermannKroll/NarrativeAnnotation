@@ -17,13 +17,14 @@ from kgextractiontoolbox.document.load_document import document_bulk_load
 from kgextractiontoolbox.entitylinking.biomedical_entity_linking import get_untagged_doc_ids_by_tagger
 from kgextractiontoolbox.entitylinking.utils import init_sqlalchemy_logger, init_preprocess_logger
 from kgextractiontoolbox.progress import Progress
+from kgextractiontoolbox.util.multiprocessing.ConsumerWorker import ConsumerWorker
+from kgextractiontoolbox.util.multiprocessing.ProducerWorker import ProducerWorker
+from kgextractiontoolbox.util.multiprocessing.Worker import Worker
 from narrant.config import PREPROCESS_CONFIG
 from narrant.entitylinking.config import Config
 from narrant.entitylinking.enttypes import TAG_TYPE_MAPPING, DALL
 from narrant.entitylinking.pharmacy.pharmdicttagger import PharmDictTagger
-from narrant.util.multiprocessing.ConsumerWorker import ConsumerWorker
-from narrant.util.multiprocessing.ProducerWorker import ProducerWorker
-from narrant.util.multiprocessing.Worker import Worker
+
 
 BULK_INSERT_AFTER_K = 1000
 
