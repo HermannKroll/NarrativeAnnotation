@@ -7,7 +7,7 @@ import requests
 
 from kgextractiontoolbox.document.document import TaggedDocument
 from kgextractiontoolbox.progress import Progress
-from narrant.util.helpers import chunks
+from kgextractiontoolbox.util.helpers import chunks
 
 DOWNLOAD_BATCH_SIZE = 950
 PUBTATOR_DOWNLOAD_URL = 'https://www.ncbi.nlm.nih.gov/research/pubtator3-api/publications/export/pubtator'
