@@ -49,7 +49,7 @@ if [[ $? != 0 ]]; then
 fi
 
 # Compute the open ids (known PubTator ids but NOT in database)
-python3 ~/NarrativeAnnotation/src/narrant/util/compute_id_file_diff.py $ALL_PUBTATOR_PMIDS $PMIDS_IN_DB $IDS_TO_DOWNLOAD
+python3 ~/NarrativeAnnotation/lib/KGExtractionToolbox/src/kgextractiontoolbox/util/compute_id_file_diff.py $ALL_PUBTATOR_PMIDS $PMIDS_IN_DB $IDS_TO_DOWNLOAD
 if [[ $? != 0 ]]; then
     echo "Previous script returned exit code != 0 -> Stopping pipeline."
     exit -1
