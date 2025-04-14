@@ -43,8 +43,8 @@ def enrich_pubtator_documents_with_database_tags(input_dir, output_file, documen
     """
     logging.info('Scanning for documents...')
     doc_ids = set()
-    for idx, pubtator_content in enumerate(read_documents(input_dir)):
-        match = CONTENT_ID_TIT_ABS.match(pubtator_content)
+    for idx, document_content in enumerate(read_documents(input_dir)):
+        match = CONTENT_ID_TIT_ABS.match(document_content)
         if match:
             doc_id, doc_title, doc_content = match.group(1, 2, 3)
             doc_ids.add(doc_id)
@@ -53,8 +53,8 @@ def enrich_pubtator_documents_with_database_tags(input_dir, output_file, documen
 
     logging.info('Producing new output in {}'.format(output_file))
     with open(output_file, 'wt') as f:
-        for idx, pubtator_content in enumerate(read_documents(input_dir)):
-            match = CONTENT_ID_TIT_ABS.match(pubtator_content)
+        for idx, document_content in enumerate(read_documents(input_dir)):
+            match = CONTENT_ID_TIT_ABS.match(document_content)
             if match:
                 doc_id, doc_title, doc_content = match.group(1, 2, 3)
                 doc_id = int(doc_id)
