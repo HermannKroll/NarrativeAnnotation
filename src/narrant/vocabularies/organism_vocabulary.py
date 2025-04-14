@@ -10,7 +10,7 @@ from narrant.vocabularies.target_vocabulary import TargetVocabulary
 class OrganismVocabulary(TargetVocabulary):
 
     def __init__(self):
-        super().__init__(ORGANISM_TAGGER_VOCAB, entity_type_in_vocab=ORGANISM)
+        super().__init__(ORGANISM_TAGGER_VOCAB, ORGANISM,  entity_type_in_vocab=ORGANISM)
         self.ignored_target_types = {}
         self.allowed_target_types = {'organism'}
         self.use_headings_as_key = False

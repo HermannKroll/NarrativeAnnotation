@@ -86,10 +86,6 @@ VACCINE_TAGGER_VOCAB = os.path.join(VACCINE_TAGGER_VOCAB_DIRECTORY, "vocabulary.
 # HealthStatus Tagger
 HEALTH_STATUS_TAGGER_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, 'vocabularies/healthstatus')
 
-# Target Tagger
-TARGET_TAGGER_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, 'vocabularies/target')
-TARGET_TAGGER_VOCAB = os.path.join(TARGET_TAGGER_VOCAB_DIRECTORY, "vocabulary.tsv")
-
 # Organism Tagger
 ORGANISM_TAGGER_VOCAB_DIRECTORY = os.path.join(RESOURCE_DIR, 'vocabularies/organism')
 ORGANISM_TAGGER_VOCAB = os.path.join(ORGANISM_TAGGER_VOCAB_DIRECTORY, "vocabulary.tsv")
@@ -106,7 +102,6 @@ REGISTERED_VOCABULARIES = [
     DOSAGEFORM_TAGGER_VOCAB,
     DRUG_TAGGER_VOCAB,
     VACCINE_TAGGER_VOCAB,
-    TARGET_TAGGER_VOCAB,
     ORGANISM_TAGGER_VOCAB,
     CELL_LINE_VOCAB
 ]
@@ -118,7 +113,6 @@ PHARM_RELATION_CONSTRAINTS = os.path.join(RESOURCE_DIR, "pharm_relation_type_con
 
 # CHEMBL ATC Classification
 CHEMBL_ATC_CLASSIFICATION_FILE = os.path.join(RESOURCE_DIR, "chembl_atc_classification.csv")
-
 
 # SQL Files for cleaning
 SQL_CLEANING_TAG = os.path.join(SQL_DIR, "clean_tags.sql")

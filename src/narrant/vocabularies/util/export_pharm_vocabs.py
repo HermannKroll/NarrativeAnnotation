@@ -2,7 +2,7 @@ import logging
 
 from kgextractiontoolbox.entitylinking.tagging.vocabulary import Vocabulary
 from narrant.entitylinking.enttypes import DRUG, VACCINE, CHEMICAL, DOSAGE_FORM, DISEASE, EXCIPIENT, PLANT_FAMILY_GENUS, \
-    METHOD, LAB_METHOD, HEALTH_STATUS, TARGET
+    METHOD, LAB_METHOD, HEALTH_STATUS
 from narrant.vocabularies.chemical_vocabulary import ChemicalVocabulary
 from narrant.vocabularies.disease_vocabulary import DiseaseVocabulary
 from narrant.vocabularies.dosageform_vocabulary import DosageFormVocabulary
@@ -13,7 +13,6 @@ from narrant.vocabularies.healthstatus_vocabulary import HealthStatusVocabulary
 from narrant.vocabularies.labmethod_vocabulary import LabMethodVocabulary
 from narrant.vocabularies.method_vocabulary import MethodVocabulary
 from narrant.vocabularies.plant_family_genus import PlantFamilyGenusVocabulary
-from narrant.vocabularies.target_vocabulary import TargetVocabulary
 from narrant.vocabularies.vaccine_vocabulary import VaccineVocabulary
 
 
@@ -81,12 +80,6 @@ def main():
     healthstatus_vocabulary.export_vocabulary_as_tsv("pubpharm_health_status_2022.tsv")
     logging.info(f'HealthStatus Vocabulary has: {healthstatus_vocabulary.count_distinct_entities()} unique ids '
                  f'and {healthstatus_vocabulary.count_distinct_terms()} unique terms')
-
-    target_term2entities = TargetVocabulary.create_target_vocabulary(expand_by_s_and_e=False)
-    target_vocabulary = transform_term2entities_index_to_vocabulary(target_term2entities, TARGET)
-    target_vocabulary.export_vocabulary_as_tsv("pubpharm_target_2022.tsv")
-    logging.info(f'Target Vocabulary has: {target_vocabulary.count_distinct_entities()} unique ids '
-                 f'and {target_vocabulary.count_distinct_terms()} unique terms')
 
     pubpharm_vocab_all = Vocabulary("")
     pubpharm_vocab_all.add_vocabulary(chemical_vocabulary, expand_terms=False)
