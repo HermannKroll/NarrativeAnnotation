@@ -15,15 +15,6 @@ LONGCOVID_ID_FILE="$DATA_PATH"long_covid_ids.tsv
 UPDATES_PUBTATOR="$DATA_PATH"pubtator_updates.pubtator
 UPDATED_IDS="$DATA_PATH"pharmaceutical_relevant_ids.txt
 
-if [ "$(id -u)" == 0 ]; then
-  TAG_CLEANING_SQL=/root/NarrativeAnnotation/sql/clean_tags.sql
-  echo "root"
-fi
-if [ "$(id -u)" -ne 0 ]; then
-  TAG_CLEANING_SQL=/home/$USER/NarrativeAnnotation/sql/clean_tags.sql
-  echo "not root"
-fi
-
 
 MEDLINE_BASELINE="$DATA_PATH"baseline/
 MEDLINE_UPDATES="$DATA_PATH"updates/
