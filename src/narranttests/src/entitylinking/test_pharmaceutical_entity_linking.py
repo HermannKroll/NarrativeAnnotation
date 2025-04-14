@@ -140,7 +140,7 @@ class TestPreprocess(unittest.TestCase):
         pharmaceutical_entity_linking.main(args)
         session = Session.get()
         docs = list(iterate_over_all_documents_in_collection(session, "PREPTEST_ISSUE_NLTK", consider_tag=True))
-        self.assertNotEquals(0, len(docs[0].tags))
+        self.assertNotEqual(0, len(docs[0].tags))
         util.clear_database()
 
 

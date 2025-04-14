@@ -127,9 +127,9 @@ def get_next_cursor(content):
     """
     Extract next cursor from json response
     """
-    nextCursor = content['nextCursorMark']
-    logging.info("Next cursor to fetch " + nextCursor)
-    return nextCursor
+    next_cursor = content['nextCursorMark']
+    logging.info("Next cursor to fetch " + next_cursor)
+    return next_cursor
 
 
 def write_file(work_dir: str, content: Dict, index: int, collection: str, md5hash2id: Dict[str, List],

@@ -2,17 +2,14 @@ import unittest
 
 import kgextractiontoolbox.document.document as doc
 from kgextractiontoolbox.document.extract import read_tagged_documents
-from kgextractiontoolbox.entitylinking.tagging.dictagger import split_indexed_words, DictTagger
-from kgextractiontoolbox.entitylinking.tagging.vocabulary import expand_vocabulary_term
 from narrant.entitylinking.enttypes import DRUG
+from narrant.entitylinking.pharmacy.disease import DiseaseTagger
 from narrant.entitylinking.pharmacy.dosage import DosageFormTagger
 from narrant.entitylinking.pharmacy.drug import DrugTagger
-from narrant.entitylinking.pharmacy.disease import DiseaseTagger
 from narranttests.util import create_test_kwargs, get_test_resource_filepath, resource_rel_path
 
 
 class TestDictagger(unittest.TestCase):
-
 
     def test_tag(self):
         tagger = DosageFormTagger(**create_test_kwargs())
@@ -71,7 +68,6 @@ class TestDictagger(unittest.TestCase):
 
         self.assertIn("<Entity 52,61,Metformin,Drug,Desc2>", tag_strings)
         self.assertNotIn("ASA", tag_strings)
-
 
     def test_text_tagging_simvastatin(self):
         text = "Simvastatin (ST) is a drug. Simvastatin is cool. Cool is also simVAStatin. ST is simvastatine."

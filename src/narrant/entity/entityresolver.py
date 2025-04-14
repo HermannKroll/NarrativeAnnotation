@@ -146,7 +146,7 @@ class GeneResolver:
         start_time = datetime.now()
         session = Session.get()
         self.geneid2name = EntityResolverData.load_data_from_json(session, GeneResolver.NAME)
-        self.geneid2name = {int(k): v for k,v in self.geneid2name.items()}
+        self.geneid2name = {int(k): v for k, v in self.geneid2name.items()}
         logging.info('Gene index ({} keys) load in {}s'.format(len(self.geneid2name), datetime.now() - start_time))
 
     def gene_id_to_name(self, gene_id):
@@ -302,17 +302,16 @@ class DosageFormResolver:
 
 class ExcipientResolver:
 
-    def excipient_id_to_name(self, excipient_id: str):
+    @staticmethod
+    def excipient_id_to_name(excipient_id: str):
         # the id is already the name
         return excipient_id
 
 
 class PlantFamilyResolver:
 
-    def __init__(self):
-        pass
-
-    def plant_family_id_to_name(self, plant_family_to_name):
+    @staticmethod
+    def plant_family_id_to_name(plant_family_to_name):
         return plant_family_to_name
 
 

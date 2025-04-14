@@ -5,7 +5,6 @@ import tempfile
 import narrant.entitylinking.config as cnf
 from kgextractiontoolbox.backend.database import Session
 from kgextractiontoolbox.document.document import TaggedEntity
-from kgextractiontoolbox.backend.database import Session
 from narrant.config import GIT_ROOT_DIR
 from narrant.config import PREPROCESS_CONFIG
 

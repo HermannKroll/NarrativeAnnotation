@@ -5,7 +5,6 @@ from typing import List
 
 from kgextractiontoolbox.progress import print_progress_with_eta
 from narrant.entity.entityidtranslator import EntityIDTranslator
-from narrant.entitylinking.enttypes import GENE
 
 PRED = namedtuple('Predication', ['doc_id', 'subj', 'pred', 'pred_cleaned', 'obj', 'conf', 'sent', 's_id', 's_str',
                                   's_type', 'o_id', 'o_str', 'o_type'])
@@ -27,7 +26,8 @@ def clean_and_translate_gene_ids(predications: List[PRED]):
         try:
             subj_id = entityidtranslator.translate_entity_id(p.s_id, p.s_type)
             obj_id = entityidtranslator.translate_entity_id(p.o_id, p.o_type)
-            p_cleaned = PRED(p.doc_id, p.subj, p.pred, p.pred_cleaned, p.obj, p.conf, p.sent, subj_id, p.s_str, p.s_type,
+            p_cleaned = PRED(p.doc_id, p.subj, p.pred, p.pred_cleaned, p.obj, p.conf, p.sent, subj_id, p.s_str,
+                             p.s_type,
                              obj_id, p.o_str, p.o_type)
             predications_cleaned.append(p_cleaned)
         except (KeyError, ValueError):

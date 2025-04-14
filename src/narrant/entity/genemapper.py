@@ -45,9 +45,8 @@ class GeneMapper:
 
     def build_gene_mapper_index(self, gene_file=GENE_FILE):
         """
-        builds dictionary to map all gene ids to human gene ids, if possible
-        :param gene_file:
-        :param index_file:
+        builds dictionary to map all gene ids to human gene ids, if possible. Stores index in DB
+        :param gene_file: gele file from NLM
         :return:
         """
         logging.info('Computing index...')
@@ -70,8 +69,7 @@ class GeneMapper:
 
     def load_index(self):
         """
-        load the index back from file
-        :param index_file:
+        load the index back from DB
         :return:
         """
         session = Session.get()

@@ -3,10 +3,10 @@ import logging
 from collections import defaultdict
 
 from kgextractiontoolbox.backend.database import Session
-from kgextractiontoolbox.backend.models import Document, Tag
-from kgextractiontoolbox.document.export import create_tag_query
+from kgextractiontoolbox.backend.models import Document, Tag, BULK_MAX_NO_OF_IN_VALUES
 from kgextractiontoolbox.document.extract import read_documents
 from kgextractiontoolbox.document.regex import CONTENT_ID_TIT_ABS
+from kgextractiontoolbox.util.helpers import chunks
 from narrant.entitylinking.enttypes import TAG_TYPE_MAPPING
 
 
@@ -19,15 +19,20 @@ def load_all_tags_for_doc_ids(doc_ids, collection, tag_types):
     :return: a dict mapping document ids to tuples (ent_id, ent_str, ent_type)
     """
     session = Session.get()
-    # get all tags for the given doc_ids
-    query = create_tag_query(session, collection, doc_ids, tag_types=tag_types)
-
     doc2tags = defaultdict(list)
     counter = 0
-    for tag in query:
-        t = (tag.ent_id, tag.ent_str, tag.ent_type, tag.start, tag.end)
-        doc2tags[int(tag.document_id)].append(t)
-        counter += 1
+    for doc_ids_chunk in chunks(list(doc_ids), BULK_MAX_NO_OF_IN_VALUES):
+        # get all tags for the given doc_ids
+        query = session.query(Tag)
+        query = query.filter(Tag.document_collection == collection)
+        query = query.filter(Tag.ent_type.in_(tag_types))
+        query = query.filter(Tag.document_id.in_(doc_ids_chunk))
+        # retrieve the tag information
+        for tag in query:
+            t = (tag.ent_id, tag.ent_str, tag.ent_type, tag.start, tag.end)
+            doc2tags[int(tag.document_id)].append(t)
+            counter += 1
+
     logging.info('{} tags load from db'.format(counter))
     return doc2tags
 

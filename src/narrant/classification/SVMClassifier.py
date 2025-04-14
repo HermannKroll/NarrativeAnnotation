@@ -89,8 +89,8 @@ class SVMClassifier(BaseClassifier):
         max_sample_size = min([len(pos_document_ids), len(neg_document_ids), train_sample_size])
         logging.info(f'Working with sample size {max_sample_size}')
 
-        pos_document_ids = random.sample(pos_document_ids, k=max_sample_size)
-        neg_document_ids = random.sample(neg_document_ids, k=max_sample_size)
+        pos_document_ids = random.sample(list(pos_document_ids), k=max_sample_size)
+        neg_document_ids = random.sample(list(neg_document_ids), k=max_sample_size)
         logging.info(f'Computed {len(pos_document_ids)} positive / {len(neg_document_ids)} negative examples')
 
         logging.info('Retrieving texts from database....')

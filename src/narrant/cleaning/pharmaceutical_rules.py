@@ -79,7 +79,8 @@ def insert_predication_ids_to_delete(predication_ids: [int]):
 def dosage_form_rule(document_collection=None, predicate_id_minimum=None):
     """
     Any relation between a Chemical/Disease and a DosageForm will be updated to DOSAGE_FORM_PREDICATE
-    :param predication_id_minimum: only predication ids above this will be updated (note: statistics will be computed on the whole table)
+    :param document_collection: the collection of documents
+    :param predicate_id_minimum: only predication ids above this will be updated (note: statistics will be computed on the whole table)
     :return: None
     """
     logging.info('Applying DosageForm rule...')
@@ -101,7 +102,8 @@ def dosage_form_rule(document_collection=None, predicate_id_minimum=None):
 def method_rule(document_collection=None, predicate_id_minimum=None):
     """
     Any relation between a Chemical/Disease and a DosageForm will be updated to DOSAGE_FORM_PREDICATE
-    :param predication_id_minimum: only predication ids above this will be updated (note: statistics will be computed on the whole table)
+    :param document_collection: the collection of documents
+    :param predicate_id_minimum: only predication ids above this will be updated (note: statistics will be computed on the whole table)
     :return: None
     """
     logging.info('Applying Method rule...')
@@ -146,7 +148,9 @@ def check_type_constraints(reorder_tuples=True, document_collection: str = None,
     Checks the type constraints
     If subject and object could be swapped to meet the constraint - they will be swapped
     Otherwise the extraction will be mapped to associate
-    :param predication_id_minimum: only predication ids above this will be updated (note: statistics will be computed on the whole table)
+    :param predicate_id_minimum: only predication ids above this will be updated (note: statistics will be computed on the whole table)
+    :param document_collection: the collection of documents
+    :param reorder_tuples: whether to reorder tuples
     :return: None
     """
     preds_to_associate = set()
