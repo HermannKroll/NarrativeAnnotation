@@ -1,31 +1,36 @@
 import logging
 import random
-import pandas as pd
 import argparse
 import os
+import csv
 from kgextractiontoolbox.backend.models import DocumentMetadata
 from kgextractiontoolbox.backend.database import Session
 from kgextractiontoolbox.backend.retrieve import iterate_over_all_documents_in_collection
 
 COLLECTION = 'PubMed'
 
-
 def export_document_ids_from_journal_list(journal_list_file: str, document_collection: str, random_seed: int, sample_size: int):
     logging.info(f"Reading journal list from: {journal_list_file}")
     journal_names = set()
-    if journal_list_file.endswith('.xlsx'):
-        df = pd.read_excel(journal_list_file, engine='openpyxl', header=None)
-        for index, row in df.iterrows():
-            for column in row:
-                if pd.notnull(column):
-                    name = str(column).strip().lower()
+
+    if journal_list_file.endswith('.csv'):
+        with open(journal_list_file, mode='r', newline='', encoding='utf-8') as csvfile:
+            reader = csv.reader(csvfile)
+            for row in reader:
+                for column in row:
+                    name = column.strip().lower()
+                    if name:
+                        journal_names.add(name)
+    elif journal_list_file.endswith('.txt'):
+        with open(journal_list_file, 'rt', encoding='utf-8') as f:
+            for line in f:
+                name = line.strip().lower()
+                if name:
                     journal_names.add(name)
     else:
-        with open(journal_list_file, 'rt') as f:
-            for line in f:
-                journal_names.add(line.strip().lower())
+        raise ValueError("Only .csv and .txt files are supported")
 
-    logging.info(f'Querying document id journal mappings from DocumentMetadata table ')
+    logging.info(f'Querying document id journal mappings from DocumentMetadata table')
     session = Session.get()
     journal_q = session.query(DocumentMetadata.document_id, DocumentMetadata.journals)
     journal_q = journal_q.filter(DocumentMetadata.document_collection == document_collection)
@@ -52,12 +57,12 @@ def export_document_ids_from_journal_list(journal_list_file: str, document_colle
 
     return relevant_document_ids_sample, not_relevant_document_ids_sample
 
-
 def build_dataset(relevant_document_ids, not_relevant_document_ids, document_collection, random_seed: int):
     logging.info('Retrieving texts from database....')
     session = Session.get()
     doc_ids = relevant_document_ids + not_relevant_document_ids
     x_data, y_data, pmids_data = [], [], []
+
     for doc in iterate_over_all_documents_in_collection(session=session, collection=document_collection, document_ids=doc_ids):
         text = doc.get_text_content(sections=False)
         x_data.append(text)
@@ -84,16 +89,17 @@ def build_dataset(relevant_document_ids, not_relevant_document_ids, document_col
 
     return train_data, dev_data, test_data
 
-
 def save_dataset_to_csv(data, filename):
-    df = pd.DataFrame(data, columns=['pmid', 'text', 'label'])
-    df.to_csv(filename, index=False)
+    with open(filename, mode='w', encoding='utf-8', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(['pmid', 'text', 'label'])
+        for row in data:
+            writer.writerow(row)
     logging.info(f'Saved dataset to {filename}')
-
 
 def main():
     parser = argparse.ArgumentParser(description='Export and process document IDs based on journal list.')
-    parser.add_argument('--input_file', type=str, required=True, help='Path to the journal list file (xlsx or txt).')
+    parser.add_argument('--input_file', type=str, required=True, help='Path to the journal list file (csv or txt).')
     parser.add_argument('--output_dir', type=str, required=True, help='Output directory to save datasets.')
     parser.add_argument('--split', action='store_true', help='Split the dataset into train, dev, and test sets if specified.')
     parser.add_argument('--sample_size', type=int, default=10000, help='Sample size for relevant and non-relevant documents.')
@@ -117,9 +123,9 @@ def main():
         save_dataset_to_csv(dev_data, os.path.join(args.output_dir, 'dev_data.csv'))
         save_dataset_to_csv(test_data, os.path.join(args.output_dir, 'test_data.csv'))
     else:
-        all_data = [(pmid, text, label) for pmid, text, label in zip(relevant_document_ids + not_relevant_document_ids, [None]*len(relevant_document_ids + not_relevant_document_ids), [1]*len(relevant_document_ids) + [0]*len(not_relevant_document_ids))]
+        all_data = [(pmid, None, label) for pmid, label in zip(relevant_document_ids + not_relevant_document_ids,
+                                                               [1] * len(relevant_document_ids) + [0] * len(not_relevant_document_ids))]
         save_dataset_to_csv(all_data, os.path.join(args.output_dir, 'dataset.csv'))
-
 
 if __name__ == "__main__":
     main()

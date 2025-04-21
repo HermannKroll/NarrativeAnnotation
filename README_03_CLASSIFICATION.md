@@ -156,13 +156,13 @@ This section explains how to use the provided script to create datasets from doc
 
 ## Overview
 
-The script processes a list of journal names (in `.xlsx` or `.txt` format) and matches them with document metadata from the database to retrieve relevant and non-relevant document IDs. It can generate either a single dataset file or split the data into train, dev, and test datasets.
+The script processes a list of journal names (in `.csv` or `.txt` format) and matches them with document metadata from the database to retrieve relevant and non-relevant document IDs. It can generate either a single dataset file or split the data into train, dev, and test datasets.
 
 ## Input Files
 
 You can use the following input files for this script:
-- `pharmaceutical_technology_journals.txt`
-- `2023_Pharm_Chemie_Journals.xlsx`
+- [pharmaceutical_technology_journals.txt](resources/classification/pharmaceutical_technology_journals.txt)
+- [2023_Pharm_Chemie_Journals.csv](resources/classification/2023_Pharm_Chemie_Journals.csv)
 
 ## Usage Instructions
 
