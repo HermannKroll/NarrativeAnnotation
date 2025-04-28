@@ -84,7 +84,13 @@ if [[ $? != 0 ]]; then
     exit -1
 fi
 
-python3 ~/NarrativeAnnotation/src/narrant/classification/apply_svm.py -i $DOC_UPDATES_TRANSLATED -c $COLLECTION /data/FID_Pharmazie_Services/narrative_data_update/pharmaceutical_technology_articles_svm.pkl --cls PharmaceuticalTechnology --workers 10
+python3 ~/NarrativeAnnotation/src/narrant/classification/apply_svm.py -i $DOC_UPDATES_TRANSLATED -c $COLLECTION /data/FID_Pharmazie_Services/narrative_data_update/pharmaceutical_technology_svm.pkl --cls PharmaceuticalTechnology --workers 10
+if [[ $? != 0 ]]; then
+    echo "Previous script returned exit code != 0 -> Stopping pipeline."
+    exit -1
+fi
+
+python3 ~/NarrativeAnnotation/src/narrant/classification/apply_svm.py -i $DOC_UPDATES_TRANSLATED -c $COLLECTION /data/FID_Pharmazie_Services/narrative_data_update/pharmaceutical_chemistry_svm.pkl --cls PharmaceuticalChemistry --workers 10
 if [[ $? != 0 ]]; then
     echo "Previous script returned exit code != 0 -> Stopping pipeline."
     exit -1
