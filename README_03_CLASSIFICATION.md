@@ -162,7 +162,7 @@ The script processes a list of journal names (in `.csv` or `.txt` format) and ma
 
 You can use the following input files for this script:
 - [pharmaceutical_technology_journals.txt](resources/classification/pharmaceutical_technology_journals.txt)
-- [2023_Pharm_Chemie_Journals.csv](resources/classification/2023_Pharm_Chemie_Journals.csv)
+- [pharmaceutical_chemistry_journals.txt](resources/classification/pharmaceutical_chemistry_journals.txt)
 
 ## Usage Instructions
 

@@ -6,6 +6,7 @@ DATA_PATH="/data/FID_Pharmazie_Services/narrative_data_update/pubmed/"
 mkdir -p $DATA_PATH
 
 PHARM_TECH_IDS="$DATA_PATH"/pharm_technology_ids.tsv
+PHARM_CHEM_IDS="$DATA_PATH"/pharm_chemistry_ids.tsv
 ALL_PUBTATOR_PMIDS="$DATA_PATH"pubtator_pmids_all.txt
 PMIDS_IN_DB="$DATA_PATH"pmids_in_db.txt
 IDS_TO_DOWNLOAD="$DATA_PATH"pubtator_pmids_to_download.txt
@@ -181,6 +182,19 @@ if [[ $? != 0 ]]; then
 fi
 
 python3 ~/NarrativeAnnotation/src/narrant/backend/load_classification_for_documents.py  $PHARM_TECH_IDS PharmaceuticalTechnology -c PubMed
+if [[ $? != 0 ]]; then
+    echo "Previous script returned exit code != 0 -> Stopping pipeline."
+    exit -1
+fi
+
+# Load Pharmaceutical Journals as Pharmaceutical Chemistry
+python3 ~/NarrativeAnnotation/src/narrant/backend/export_article_ids_from_journals.py ~/NarrativeAnnotation/resources/classification/pharmaceutical_chemistry_journals.txt $PHARM_CHEM_IDS -c PubMed
+if [[ $? != 0 ]]; then
+    echo "Previous script returned exit code != 0 -> Stopping pipeline."
+    exit -1
+fi
+
+python3 ~/NarrativeAnnotation/src/narrant/backend/load_classification_for_documents.py  $PHARM_CHEM_IDS PharmaceuticalChemistry -c PubMed
 if [[ $? != 0 ]]; then
     echo "Previous script returned exit code != 0 -> Stopping pipeline."
     exit -1
