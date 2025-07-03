@@ -49,7 +49,7 @@ if [[ $? != 0 ]]; then
 fi
 
 # Run GNormPlus
-python3 ~/NarrativeAnnotation/lib/KGExtractionToolbox/src/kgextractiontoolbox/entitylinking/biomedical_entity_linking.py $DOC_UPDATES_TRANSLATED -c $COLLECTION --skip-load --workers 5 --gnormplus
+python3 ~/NarrativeAnnotation/lib/KGExtractionToolbox/src/kgextractiontoolbox/entitylinking/biomedical_entity_linking.py $DOC_UPDATES_TRANSLATED -c $COLLECTION --skip-load --workers 8 --gnormplus
 if [[ $? != 0 ]]; then
     echo "Previous script returned exit code != 0 -> Stopping pipeline."
     exit -1
