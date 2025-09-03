@@ -122,27 +122,6 @@ def method_rule(document_collection=None, predicate_id_minimum=None):
     session.commit()
 
 
-def associated_rule(document_collection=None, predicate_id_minimum=None):
-    """
-    Any non relation should be mapped to
-    :param document_collection:
-    :param predicate_id_minimum:
-    :return:
-    """
-    logging.info('Applying Method rule...')
-    session = Session.get()
-    logging.info(f'{document_collection}: updating predicate to "{ASSOCIATED_PREDICATE_UNSURE}" where relation is null')
-    stmt_1 = update(Predication).where(Predication.relation.is_(None))
-    if document_collection:
-        stmt_1 = stmt_1.where(Predication.document_collection == document_collection)
-    if predicate_id_minimum:
-        stmt_1 = stmt_1.where(Predication.id >= predicate_id_minimum)
-
-    stmt_1 = stmt_1.values(relation=ASSOCIATED_PREDICATE_UNSURE)
-    session.execute(stmt_1)
-    session.commit()
-
-
 def check_type_constraints(reorder_tuples=True, document_collection: str = None, predicate_id_minimum: int = None):
     """
     Checks the type constraints
@@ -273,7 +252,6 @@ def main():
     # Must be applied after checking
     dosage_form_rule(document_collection=document_collection, predicate_id_minimum=args.predicate_id_minimum)
     method_rule(document_collection=document_collection, predicate_id_minimum=args.predicate_id_minimum)
-    associated_rule(document_collection=document_collection, predicate_id_minimum=args.predicate_id_minimum)
     logging.info('Finished...')
 
 
