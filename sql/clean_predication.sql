@@ -8,9 +8,8 @@ DELETE FROM public.Predication AS p WHERE p.subject_id = p.object_id and p.subje
 -- DELETE NER things
 DELETE FROM public.Predication AS p where p.subject_id = '-' or p.object_id = '-';
 
--- PathIE associated relations can now
-UPDATE public.Predication SET relation = null WHERE extraction_type = 'PathIE' and relation = 'associated';
 -- Delete associations that were extracted from PathIE
+DELETE FROM public.Predication WHERE relation = 'associated' and extraction_type = 'PathIE' ;
 DELETE FROM public.Predication WHERE relation IS NULL and extraction_type = 'PathIE';
 -- Ensure that all predication based on co-occurrences are mapped to associated
 UPDATE public.Predication SET relation = 'associated' WHERE relation is NULL and extraction_type = 'COSentence';
