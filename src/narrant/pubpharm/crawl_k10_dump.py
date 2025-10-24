@@ -211,7 +211,8 @@ def write_file(work_dir: str, content: Dict, index: int, collection: str, md5has
                           f'(info: {document_data["publishDateDaySort_date"]})')
             continue
 
-        metadata = NarrativeDocumentMetadata(publication_year, publication_month, authors, journals, pubpharm_doi)
+        metadata = NarrativeDocumentMetadata(publication_year, publication_month, authors, journals, pubpharm_doi,
+                                             document_id_original=doc_id)
 
         # match key for purposes
         # md5sum title + abstract + author
