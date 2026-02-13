@@ -28,7 +28,7 @@ fi
 
 
 # This will also replace existing documents by deleting old document data and inserting new one via replace_existing argument
-python3 ~/NarrativeAnnotation/lib/KGExtractionToolbox/src/kgextractiontoolbox/document/load_narrative_documents.py $DOC_UPDATES --collection $COLLECTION --artificial_document_ids --replace_existing
+python3 ~/NarrativeAnnotation/lib/KGExtractionToolbox/src/kgextractiontoolbox/document/load_narrative_documents.py $DOC_UPDATES --collection $COLLECTION --artificial_document_ids --replace_if_changed
 if [[ $? != 0 ]]; then
     echo "Previous script returned exit code != 0 -> Stopping pipeline."
     exit -1

@@ -1,6 +1,5 @@
 import argparse
 import calendar
-import hashlib
 import json
 import logging
 import os
@@ -11,12 +10,7 @@ from typing import Dict, List, Tuple
 import requests
 
 from kgextractiontoolbox.document.narrative_document import NarrativeDocument, NarrativeDocumentMetadata
-
-
-def get_md5_hash_str(str_input):
-    m = hashlib.md5()
-    m.update(str_input.encode())
-    return m.hexdigest()
+from kgextractiontoolbox.util.md5 import get_md5hash_from_str
 
 
 def build_url(cursor: str, collection_filter: str, start_date: str, base_url: str):
@@ -217,7 +211,7 @@ def write_file(work_dir: str, content: Dict, index: int, collection: str, md5has
         # match key for purposes
         # md5sum title + abstract + author
         matching_key = f'{title}___{abstract}___{authors}'
-        md5hash = get_md5_hash_str(matching_key)
+        md5hash = get_md5hash_from_str(matching_key)
 
         # collisions speichern / statistics
         # md5hash + [doc1 , doc2, doc3] / min. 2 docs
