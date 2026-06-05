@@ -51,7 +51,12 @@ class ChemblVocabulary(ABC):
 
         root_dir = tempfile.mkdtemp()
         logging.info("Using tmp dir {}.".format(root_dir))
-        num_targets = self._request_chembl_jsons(root_dir)
+        num_targets, has_error = self._request_chembl_jsons(root_dir)
+
+        if has_error:
+            logging.error("Crawling of Chembl Data failed (see previous messages)...".format(self.vocab_type))
+            shutil.rmtree(root_dir)
+            return
 
         if num_targets == 0:
             logging.error("No {} data available. Removing tmp dir. Stopping...".format(self.vocab_type))
@@ -70,13 +75,14 @@ class ChemblVocabulary(ABC):
         num_files = 0
         p = None
         next_req = URL_PATH.format(self.url_path_kw, "&".join([f"{k}={v}" for k, v in self.url_params.items()]))
-
+        has_error = False
         logging.info('Start requesting data {}{}'.format(URL, next_req))
 
         while True:
             response = requests.get("{}{}".format(URL, next_req))
             if not response.ok:
                 logging.error('An error occurred in the {} api request.'.format(iteration))
+                has_error = True
                 break
 
             result = response.json()
@@ -106,4 +112,4 @@ class ChemblVocabulary(ABC):
         p.done()
         logging.info("Retrieved {} from {} total targets in {}/{} requests."
                      .format(actual_targets, total_requests, iteration, num_files))
-        return actual_targets
+        return actual_targets, has_error
