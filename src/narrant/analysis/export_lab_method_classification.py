@@ -1,4 +1,3 @@
-import argparse
 import logging
 
 from narrant.config import METHOD_TAGGER_VOCAB_DIRECTORY
@@ -25,14 +24,13 @@ def main():
 
     resolver = EntityResolver()
 
-    print('--' *60)
+    print('--' * 60)
     print('Not classified methods:')
-    print('--' *60)
+    print('--' * 60)
     for ms in missing_classes:
         print(f'{ms}\t{resolver.get_name_for_var_ent_id(ms, LAB_METHOD)}')
 
-    print('--' *60)
-
+    print('--' * 60)
 
 
 if __name__ == "__main__":

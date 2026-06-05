@@ -5,7 +5,6 @@ import logging
 from kgextractiontoolbox.document.document import TaggedDocument
 from kgextractiontoolbox.document.export import export
 from narrant.entity.entityresolver import EntityResolver
-from narrant.entitylinking import enttypes
 from narrant.entitylinking.enttypes import get_entity_source
 
 
@@ -45,13 +44,8 @@ def write_doc_with_entity_source(doc: TaggedDocument, export_format: str, f, fir
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("output")
-    parser.add_argument("--ids", nargs="*", metavar="DOC_ID")
-    parser.add_argument("--idfile", help='file containing document ids (one id per line)')
     parser.add_argument("-c", "--collection", help="Collection(s)", default=None)
     parser.add_argument("-d", "--document", action="store_true", help="Export content of document")
-    parser.add_argument("--translate_ids", help="force the translation of document ids via DocumentTranslation",
-                        required=False, action="store_true")
-    parser.add_argument("--sqllog", action="store_true", help='logs sql commands')
     args = parser.parse_args()
 
     if args.ids and args.idfile:
@@ -60,25 +54,9 @@ def main():
     logging.basicConfig(format='%(asctime)s,%(msecs)d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
                         datefmt='%Y-%m-%d:%H:%M:%S',
                         level=logging.INFO)
-    logger = logging.getLogger("export")
-    if args.sqllog:
-        logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
 
-    tag_types = enttypes.ALL
-    export_tags = True
-
-    if args.ids:
-        document_ids = [int(x) for x in args.ids]
-    elif args.idfile:
-        logger.info('reading id file: {}'.format(args.idfile))
-        with open(args.idfile, 'r') as f:
-            document_ids = list(set([int(line.strip()) for line in f]))
-        logger.info('{} ids retrieved from id file..'.format(len(document_ids)))
-    else:
-        document_ids = None
-    export(args.output, tag_types=tag_types, export_tags=export_tags,
-           document_ids=document_ids, collection=args.collection, content=args.document, logger=logging,
-           export_format="json", write_doc=write_doc_with_entity_source, translate_document_ids=args.translate_ids)
+    export(args.output, export_tags=True, collection=args.collection, content=args.document, logger=logging,
+           export_format="json", write_doc=write_doc_with_entity_source)
     logging.info('Finished')
 
 

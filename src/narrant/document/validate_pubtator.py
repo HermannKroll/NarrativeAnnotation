@@ -5,17 +5,17 @@ from kgextractiontoolbox.document.document import TaggedDocument
 
 
 def validate_pubtator_file(input_file: str):
-    from kgextractiontoolbox.document.extract import read_pubtator_documents
-    for idx, pubtator_content in enumerate(read_pubtator_documents(input_file)):
-        if not pubtator_content:
+    from kgextractiontoolbox.document.extract import read_documents
+    for idx, document_content in enumerate(read_documents(input_file)):
+        if not document_content:
             continue
-        doc = TaggedDocument(pubtator_content)
+        doc = TaggedDocument(document_content)
 
         if not doc:
-            logging.warning(f'Document could not be parsed from: {pubtator_content}')
+            logging.warning(f'Document could not be parsed from: {document_content}')
 
         if not doc.title and not doc.abstract:
-            logging.warning(f'Document title and abstract NOT found in: {pubtator_content}')
+            logging.warning(f'Document title and abstract NOT found in: {document_content}')
 
 
 def main(args=None):

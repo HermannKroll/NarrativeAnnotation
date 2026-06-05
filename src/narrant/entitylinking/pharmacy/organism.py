@@ -7,7 +7,7 @@ from narrant.vocabularies.organism_vocabulary import OrganismVocabulary
 class OrganismTagger(IndexedDictTagger):
     TYPES = (enttypes.ORGANISM,)
     __name__ = "OrganismTagger"
-    __version__ = "1.0.0"
+    __version__ = "1.1.0"
 
     def __init__(self, *args, **kwargs):
         super().__init__("organism", "OrganismTagger", OrganismTagger.__version__,

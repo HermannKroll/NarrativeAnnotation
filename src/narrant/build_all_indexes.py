@@ -49,16 +49,16 @@ def build_entity_indexes(complete: bool, skip_mesh: bool, force: bool = False):
         else:
             logging.info('Skipping MeSH Index creation...')
 
-        logging.info('Computing Gene Mapping index...')
-        gene_mapper = GeneMapper()
-        gene_mapper.build_gene_mapper_index()
-
         logging.info('Computing Gene Resolver index...')
         gene = GeneResolver()
         if complete:
             gene.build_index(query_db_gene_ids=False)
         else:
             gene.build_index()
+
+        logging.info('Computing Gene Mapping index...')
+        gene_mapper = GeneMapper()
+        gene_mapper.build_gene_mapper_index()
 
         logging.info('Computing Species Resolver index...')
         species = SpeciesResolver()

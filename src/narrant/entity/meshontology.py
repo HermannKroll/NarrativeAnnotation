@@ -231,7 +231,7 @@ class MeSHOntology:
             self.treeno2desc = {}
             self.descriptor2treeno = {}
 
-    def retrieve_subdescriptors(self, decriptor_id: str) -> [(str)]:
+    def retrieve_subdescriptors(self, decriptor_id: str) -> [str]:
         """
         retrieves a list of all sub-descriptors for a given descriptor
         :param decriptor_id: a mesh descriptor id
@@ -244,7 +244,7 @@ class MeSHOntology:
                 sub_descriptors.add(res)
         return sub_descriptors
 
-    def retrieve_superdescriptors(self, decriptor_id: str) -> [(str)]:
+    def retrieve_superdescriptors(self, decriptor_id: str) -> [str]:
         """
         retrieves a list of all super-descriptors for a given descriptor
         :param decriptor_id: a mesh descriptor id

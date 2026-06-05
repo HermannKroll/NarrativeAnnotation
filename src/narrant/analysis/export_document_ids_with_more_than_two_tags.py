@@ -21,17 +21,7 @@ def main():
 
     logging.info('Querying relevant document ids...')
     session = Session.get()
-    # subquery_drug = session.query(Tag.document_id).filter(and_(Tag.document_collection == collection,
-    #                                                           Tag.ent_type.in_(
-    #                                                               [DRUG, PLANT_FAMILY_GENUS]))).distinct()
 
-    # subquery_pharm = session.query(DocumentClassification.document_id).filter(
-    #    and_(DocumentClassification.document_collection == collection,
-    #         DocumentClassification.classification.in_(['LitCovid', 'LongCovid', 'Pharmaceutical']))).distinct()
-
-    # query = session.query(Document.id).filter(Document.collection == collection).filter(
-    #    or_(Document.id.in_(subquery_drug),
-    #        Document.id.in_(subquery_pharm)))
 
     query = session.query(Tag.document_id).filter(Tag.document_collection == collection).group_by(
         Tag.document_id).having(func.count(Tag.document_id) > 1)

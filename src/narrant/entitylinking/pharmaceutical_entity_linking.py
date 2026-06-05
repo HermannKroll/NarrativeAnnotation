@@ -12,18 +12,19 @@ from kgextractiontoolbox.backend.models import DocTaggedBy, Document
 from kgextractiontoolbox.backend.retrieve import iterate_over_all_documents_in_collection
 from kgextractiontoolbox.document import count
 from kgextractiontoolbox.document.document import TaggedDocument, TaggedEntity
-from kgextractiontoolbox.document.extract import read_pubtator_documents
+from kgextractiontoolbox.document.extract import read_documents
 from kgextractiontoolbox.document.load_document import document_bulk_load
 from kgextractiontoolbox.entitylinking.biomedical_entity_linking import get_untagged_doc_ids_by_tagger
 from kgextractiontoolbox.entitylinking.utils import init_sqlalchemy_logger, init_preprocess_logger
 from kgextractiontoolbox.progress import Progress
+from kgextractiontoolbox.util.multiprocessing.ConsumerWorker import ConsumerWorker
+from kgextractiontoolbox.util.multiprocessing.ProducerWorker import ProducerWorker
+from kgextractiontoolbox.util.multiprocessing.Worker import Worker
 from narrant.config import PREPROCESS_CONFIG
 from narrant.entitylinking.config import Config
 from narrant.entitylinking.enttypes import TAG_TYPE_MAPPING, DALL
 from narrant.entitylinking.pharmacy.pharmdicttagger import PharmDictTagger
-from narrant.util.multiprocessing.ConsumerWorker import ConsumerWorker
-from narrant.util.multiprocessing.ProducerWorker import ProducerWorker
-from narrant.util.multiprocessing.Worker import Worker
+
 
 BULK_INSERT_AFTER_K = 1000
 
@@ -179,7 +180,7 @@ def main(arguments=None):
 
     def generate_tasks():
         if input_file_given:
-            for doc in read_pubtator_documents(in_file):
+            for doc in read_documents(in_file):
                 t_doc = TaggedDocument(doc, ignore_tags=True)
                 if t_doc and t_doc.id in document_ids and t_doc.has_content():
                     yield t_doc
@@ -226,7 +227,7 @@ def main(arguments=None):
     task_queue = multiprocessing.Queue()
     result_queue = multiprocessing.Queue()
     producer = ProducerWorker(task_queue, generate_tasks, args.workers, max_tasks=100000)
-    workers = [Worker(task_queue, result_queue, do_task) for n in range(args.workers)]
+    workers = [Worker(task_queue, result_queue, do_task) for _ in range(args.workers)]
     consumer = ConsumerWorker(result_queue, consume_task, args.workers, shutdown=shutdown_consumer)
 
     producer.start()

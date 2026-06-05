@@ -3,16 +3,11 @@ import json
 import logging
 import os
 from collections import defaultdict
-from datetime import datetime
 from typing import Set
-
-from lxml import etree as ET
 
 import narrant.vocabularies.chemical_vocabulary as chem_vocab
 import narrant.vocabularies.excipient_vocabulary as exc_vocab
-from kgextractiontoolbox.entitylinking.tagging.dictagger import clean_vocab_word_by_split_rules
 from kgextractiontoolbox.entitylinking.tagging.vocabulary import expand_vocabulary_term, Vocabulary
-from kgextractiontoolbox.progress import print_progress_with_eta
 from narrant import config
 from narrant.config import CHEMBL_BLACKLIST_FILE, DRUG_TAGGER_VOCAB
 from narrant.entitylinking.enttypes import DRUG

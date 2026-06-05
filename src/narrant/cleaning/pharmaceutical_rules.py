@@ -1,6 +1,5 @@
 import argparse
 import logging
-from collections import defaultdict
 from datetime import datetime
 from io import StringIO
 
@@ -8,11 +7,11 @@ from sqlalchemy import update, or_, delete
 from sqlalchemy.cimmutabledict import immutabledict
 
 from kgextractiontoolbox.backend.database import Session
-from kgextractiontoolbox.backend.models import Predication, PredicationToDelete, Sentence
+from kgextractiontoolbox.backend.models import Predication, PredicationToDelete
 from kgextractiontoolbox.progress import print_progress_with_eta
 from narrant.cleaning.pharmaceutical_vocabulary import DOSAGE_FORM_PREDICATE, METHOD_PREDICATE, \
     ASSOCIATED_PREDICATE_UNSURE
-from narrant.cleaning.pharmaceutical_vocabulary import SYMMETRIC_PREDICATES, PREDICATE_TYPING, sort_symmetric_arguments, \
+from narrant.cleaning.pharmaceutical_vocabulary import SYMMETRIC_PREDICATES, PREDICATE_TYPING, \
     are_subject_and_object_correctly_ordered
 from narrant.entitylinking.enttypes import DOSAGE_FORM, LAB_METHOD, METHOD
 
@@ -77,99 +76,11 @@ def insert_predication_ids_to_delete(predication_ids: [int]):
     logging.debug(f'{len(predication_ids)} ids have been inserted')
 
 
-def clean_redundant_predicate_tuples(session, symmetric_relation: str):
-    logging.info('Counting predication...')
-    predication_count = Predication.query_predication_count(session, symmetric_relation)
-    logging.info('Querying relevant predication entries...')
-    query = session.query(Predication.id, Predication.sentence_id,
-                          Predication.subject_id, Predication.subject_type,
-                          Predication.predicate,
-                          Predication.object_id, Predication.object_type) \
-        .filter(Predication.relation == symmetric_relation)
-
-    sentence2pred = defaultdict(set)
-    preds2delete = set()
-    start_time = datetime.now()
-    logging.info('Computing duplicated values...')
-    for idx, row in enumerate(session.execute(query)):
-        p_id, sent_id, subj_id, subj_type, predicate, obj_id, obj_type = int(row[0]), int(row[1]), row[2], row[3], row[
-            4], row[5], row[6]
-
-        # symmetric relation - delete one direction
-        sorted_arguments = sort_symmetric_arguments(subj_id, subj_type, obj_id, obj_type)
-        if sorted_arguments[0] == subj_id:  # are the arguments sorted correctly?
-            key = sorted_arguments[0], sorted_arguments[1], predicate, sorted_arguments[2], sorted_arguments[3]
-            # yes - does the fact exists multiple times?
-            if key not in sentence2pred[sent_id]:
-                # no - everything is fine
-                sentence2pred[sent_id].add(key)
-            else:
-                # predication is duplicated, can be deleted
-                preds2delete.add(p_id)
-        else:
-            # arguments are not in the correct order
-            preds2delete.add(p_id)
-
-        print_progress_with_eta(f"computing duplicated {symmetric_relation} values...",
-                                idx, predication_count, start_time)
-
-    if predication_count > 0:
-        percentage = len(preds2delete) / predication_count
-    else:
-        percentage = 0
-    logging.info(f'Delete {len(preds2delete)} of {predication_count} ({percentage})')
-    insert_predication_ids_to_delete(preds2delete)
-
-
-def clean_redundant_symmetric_predicates():
-    session = Session.get()
-    clean_predication_to_delete_table(session)
-
-    logging.info(f'Cleaning the following predicates: {SYMMETRIC_PREDICATES}')
-    for predicate in SYMMETRIC_PREDICATES:
-        logging.info(f'Cleaning {predicate} entries...')
-        clean_redundant_predicate_tuples(session, predicate)
-
-    logging.info('Deleting all predications which should be deleted...')
-    subquery = session.query(PredicationToDelete.predication_id).subquery()
-    stmt = delete(Predication).where(Predication.id.in_(subquery))
-    session.execute(stmt)
-    logging.info('Commiting...')
-    session.commit()
-    clean_predication_to_delete_table(session)
-
-
-def clean_unreferenced_sentences():
-    session = Session.get()
-    logging.info('Querying all sentence ids...')
-    all_sent_ids = set()
-    for r in session.execute(session.query(Sentence.id)):
-        all_sent_ids.add(int(r[0]))
-    logging.info(f'{len(all_sent_ids)} sentence ids are in sentence table')
-    logging.info('Querying referenced sentence ids...')
-    ref_sent_ids = set()
-    for r in session.execute(session.query(Predication.sentence_id)):
-        ref_sent_ids.add(int(r[0]))
-    logging.info(f'{len(ref_sent_ids)} sentence ids are used in predication table')
-    sent_ids_to_delete = all_sent_ids - ref_sent_ids
-    logging.info(f'{len(sent_ids_to_delete)} sentences will be deleted')
-
-    insert_predication_ids_to_delete(sent_ids_to_delete)
-    logging.info(f'{len(sent_ids_to_delete)} ids have been inserted')
-
-    logging.info('Deleting all sentences which should be deleted...')
-    subquery = session.query(PredicationToDelete.predication_id).subquery()
-    stmt = delete(Sentence).where(Sentence.id.in_(subquery))
-    session.execute(stmt)
-    logging.info('Committing...')
-    session.commit()
-    clean_predication_to_delete_table(session)
-
-
 def dosage_form_rule(document_collection=None, predicate_id_minimum=None):
     """
     Any relation between a Chemical/Disease and a DosageForm will be updated to DOSAGE_FORM_PREDICATE
-    :param predication_id_minimum: only predication ids above this will be updated (note: statistics will be computed on the whole table)
+    :param document_collection: the collection of documents
+    :param predicate_id_minimum: only predication ids above this will be updated (note: statistics will be computed on the whole table)
     :return: None
     """
     logging.info('Applying DosageForm rule...')
@@ -191,7 +102,8 @@ def dosage_form_rule(document_collection=None, predicate_id_minimum=None):
 def method_rule(document_collection=None, predicate_id_minimum=None):
     """
     Any relation between a Chemical/Disease and a DosageForm will be updated to DOSAGE_FORM_PREDICATE
-    :param predication_id_minimum: only predication ids above this will be updated (note: statistics will be computed on the whole table)
+    :param document_collection: the collection of documents
+    :param predicate_id_minimum: only predication ids above this will be updated (note: statistics will be computed on the whole table)
     :return: None
     """
     logging.info('Applying Method rule...')
@@ -210,33 +122,14 @@ def method_rule(document_collection=None, predicate_id_minimum=None):
     session.commit()
 
 
-def associated_rule(document_collection=None, predicate_id_minimum=None):
-    """
-    Any non relation should be mapped to
-    :param document_collection:
-    :param predicate_id_minimum:
-    :return:
-    """
-    logging.info('Applying Method rule...')
-    session = Session.get()
-    logging.info(f'{document_collection}: updating predicate to "{ASSOCIATED_PREDICATE_UNSURE}" where relation is null')
-    stmt_1 = update(Predication).where(Predication.relation.is_(None))
-    if document_collection:
-        stmt_1 = stmt_1.where(Predication.document_collection == document_collection)
-    if predicate_id_minimum:
-        stmt_1 = stmt_1.where(Predication.id >= predicate_id_minimum)
-
-    stmt_1 = stmt_1.values(relation=ASSOCIATED_PREDICATE_UNSURE)
-    session.execute(stmt_1)
-    session.commit()
-
-
 def check_type_constraints(reorder_tuples=True, document_collection: str = None, predicate_id_minimum: int = None):
     """
     Checks the type constraints
     If subject and object could be swapped to meet the constraint - they will be swapped
     Otherwise the extraction will be mapped to associate
-    :param predication_id_minimum: only predication ids above this will be updated (note: statistics will be computed on the whole table)
+    :param predicate_id_minimum: only predication ids above this will be updated (note: statistics will be computed on the whole table)
+    :param document_collection: the collection of documents
+    :param reorder_tuples: whether to reorder tuples
     :return: None
     """
     preds_to_associate = set()
@@ -283,7 +176,7 @@ def check_type_constraints(reorder_tuples=True, document_collection: str = None,
 
     logging.info(f'Mapping {len(preds_to_associate)} predications to associate...')
     insert_predication_ids_to_delete(preds_to_associate)
-    subquery = session.query(PredicationToDelete.predication_id).subquery()
+    subquery = session.query(PredicationToDelete.predication_id)
     stmt = update(Predication).where(Predication.id.in_(subquery)).values(relation=ASSOCIATED_PREDICATE_UNSURE)
     session.execute(stmt, execution_options=immutabledict({"synchronize_session": 'fetch'}))
     logging.debug('Committing...')
@@ -320,7 +213,7 @@ def check_type_constraints(reorder_tuples=True, document_collection: str = None,
         logging.info(f'Insert {len(predication_values)} reordered predications to database')
         Predication.bulk_insert_values_into_table(session, predication_values, check_constraints=False)
         logging.info(f'Deleting {len(preds_to_reorder)} old and wrongly ordered predications')
-        subquery = session.query(PredicationToDelete.predication_id).subquery()
+        subquery = session.query(PredicationToDelete.predication_id)
         stmt = delete(Predication).where(Predication.id.in_(subquery))
         session.execute(stmt, execution_options=immutabledict({"synchronize_session": 'fetch'}))
         logging.debug('Committing...')
@@ -359,10 +252,6 @@ def main():
     # Must be applied after checking
     dosage_form_rule(document_collection=document_collection, predicate_id_minimum=args.predicate_id_minimum)
     method_rule(document_collection=document_collection, predicate_id_minimum=args.predicate_id_minimum)
-    associated_rule(document_collection=document_collection, predicate_id_minimum=args.predicate_id_minimum)
-    #
-    #  clean_redundant_symmetric_predicates()
-    #   clean_unreferenced_sentences()
     logging.info('Finished...')
 
 

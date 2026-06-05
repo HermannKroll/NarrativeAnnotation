@@ -1,9 +1,8 @@
 from narrant.config import TISSUE_TAGGER_VOCAB_DIRECTORY
 from narrant.vocabularies.generic_vocabulary import GenericVocabulary
-from narrant.vocabularies.target_vocabulary import TargetVocabulary
 
 
-class TissueVocabulary(TargetVocabulary):
+class TissueVocabulary:
 
     @staticmethod
     def create_tissue_vocabulary(expand_by_s_and_e=True):

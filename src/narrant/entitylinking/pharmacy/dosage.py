@@ -7,7 +7,7 @@ from narrant.vocabularies.dosageform_vocabulary import DosageFormVocabulary
 class DosageFormTagger(IndexedDictTagger):
     TYPES = (enttypes.DOSAGE_FORM,)
     __name__ = "DosageFormTagger"
-    __version__ = "1.0.0"
+    __version__ = "1.1.0"
 
     def __init__(self, *args, **kwargs):
         super().__init__("dosage", "DosageFormTagger", DosageFormTagger.__version__,

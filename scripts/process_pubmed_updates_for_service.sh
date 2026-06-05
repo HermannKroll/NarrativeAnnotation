@@ -1,19 +1,12 @@
 #!/bin/bash
 
-# load the db password
-source ~/NarrativeAnnotation/scripts/.secret
-if [[ $? != 0 ]]; then
-    echo "Previous script returned exit code != 0 -> Stopping pipeline."
-    exit -1
-fi
-
-
 
 DATA_PATH="/data/FID_Pharmazie_Services/narrative_data_update/pubmed/"
 
 mkdir -p $DATA_PATH
 
 PHARM_TECH_IDS="$DATA_PATH"/pharm_technology_ids.tsv
+PHARM_CHEM_IDS="$DATA_PATH"/pharm_chemistry_ids.tsv
 ALL_PUBTATOR_PMIDS="$DATA_PATH"pubtator_pmids_all.txt
 PMIDS_IN_DB="$DATA_PATH"pmids_in_db.txt
 IDS_TO_DOWNLOAD="$DATA_PATH"pubtator_pmids_to_download.txt
@@ -22,15 +15,6 @@ LONGCOVID_ID_FILE="$DATA_PATH"long_covid_ids.tsv
 
 UPDATES_PUBTATOR="$DATA_PATH"pubtator_updates.pubtator
 UPDATED_IDS="$DATA_PATH"pharmaceutical_relevant_ids.txt
-
-if [ "$(id -u)" == 0 ]; then
-  TAG_CLEANING_SQL=/root/NarrativeAnnotation/sql/clean_tags.sql
-  echo "root"
-fi
-if [ "$(id -u)" -ne 0 ]; then
-  TAG_CLEANING_SQL=/home/$USER/NarrativeAnnotation/sql/clean_tags.sql
-  echo "not root"
-fi
 
 
 MEDLINE_BASELINE="$DATA_PATH"baseline/
@@ -57,7 +41,7 @@ if [[ $? != 0 ]]; then
 fi
 
 # Compute the open ids (known PubTator ids but NOT in database)
-python3 ~/NarrativeAnnotation/src/narrant/util/compute_id_file_diff.py $ALL_PUBTATOR_PMIDS $PMIDS_IN_DB $IDS_TO_DOWNLOAD
+python3 ~/NarrativeAnnotation/lib/KGExtractionToolbox/src/kgextractiontoolbox/util/compute_id_file_diff.py $ALL_PUBTATOR_PMIDS $PMIDS_IN_DB $IDS_TO_DOWNLOAD
 if [[ $? != 0 ]]; then
     echo "Previous script returned exit code != 0 -> Stopping pipeline."
     exit -1
@@ -87,15 +71,14 @@ fi
 
 
 # Next, tag the documents with our PharmDictTagger
-python3 ~/NarrativeAnnotation/src/narrant/entitylinking/dictpreprocess.py -i $UPDATES_PUBTATOR -c PubMed --skip-load --workers 2
+python3 ~/NarrativeAnnotation/src/narrant/entitylinking/pharmaceutical_entity_linking.py -i $UPDATES_PUBTATOR -c PubMed --skip-load --workers 2
 if [[ $? != 0 ]]; then
     echo "Previous script returned exit code != 0 -> Stopping pipeline."
     exit -1
 fi
 
 # Execute Cleaning Rules for Tagging
-echo 'cleaning Tag table with hand-written rules'
-psql "host=127.0.0.1 port=5432 dbname=fidpharmazie user=mininguser password=$PSQLPW" -f $TAG_CLEANING_SQL
+python3 ~/NarrativeAnnotation/src/narrant/cleaning/clean_tag_sql.py
 if [[ $? != 0 ]]; then
     echo "Previous script returned exit code != 0 -> Stopping pipeline."
     exit -1
@@ -115,11 +98,19 @@ if [[ $? != 0 ]]; then
     exit -1
 fi
 
-python3 ~/NarrativeAnnotation/src/narrant/classification/apply_svm.py -i $UPDATES_PUBTATOR -c PubMed /data/FID_Pharmazie_Services/narrative_data_update/pharmaceutical_technology_articles_svm.pkl --cls PharmaceuticalTechnology --workers 10
+python3 ~/NarrativeAnnotation/src/narrant/classification/apply_svm.py -i $UPDATES_PUBTATOR -c PubMed /data/FID_Pharmazie_Services/narrative_data_update/pharmaceutical_technology_svm.pkl --cls PharmaceuticalTechnology --workers 10
 if [[ $? != 0 ]]; then
     echo "Previous script returned exit code != 0 -> Stopping pipeline."
     exit -1
 fi
+
+python3 ~/NarrativeAnnotation/src/narrant/classification/apply_svm.py -i $UPDATES_PUBTATOR -c PubMed /data/FID_Pharmazie_Services/narrative_data_update/pharmaceutical_chemistry_svm.pkl --cls PharmaceuticalChemistry --workers 10
+if [[ $? != 0 ]]; then
+    echo "Previous script returned exit code != 0 -> Stopping pipeline."
+    exit -1
+fi
+
+
 
 
 # Load all LitCOVID + Long Covid classifications
@@ -147,15 +138,16 @@ if [[ $? != 0 ]]; then
     exit -1
 fi
 
-# Finally, all files have been tagged
-python3 ~/NarrativeAnnotation/src/narrant/analysis/export_relevant_pharmaceutical_documents.py $UPDATED_IDS -c PubMed
+
+# Do the statement extraction via PathIE via our Pipeline
+python3 ~/NarrativeAnnotation/src/narrant/extraction/pharmaceutical_pipeline.py -bs 50000 -c PubMed -et PathIE --workers 10 --relation_vocab ~/NarrativeAnnotation/resources/pharm_relation_vocab.json
 if [[ $? != 0 ]]; then
     echo "Previous script returned exit code != 0 -> Stopping pipeline."
     exit -1
 fi
 
-# Do the statement extraction via our Pipeline
-python3 ~/NarrativeAnnotation/src/narrant/extraction/pharmaceutical_pipeline.py -bs 50000 --idfile $UPDATED_IDS -c PubMed -et PathIE --workers 10 --relation_vocab ~/NarrativeAnnotation/resources/pharm_relation_vocab.json
+# Do the statement extraction via Co-occurrence within a sentence for all PubMed documents via our Pipeline
+python3 ~/NarrativeAnnotation/src/narrant/extraction/pharmaceutical_pipeline.py -bs 50000 -c PubMed -et COSentence --workers 10
 if [[ $? != 0 ]]; then
     echo "Previous script returned exit code != 0 -> Stopping pipeline."
     exit -1
@@ -190,6 +182,19 @@ if [[ $? != 0 ]]; then
 fi
 
 python3 ~/NarrativeAnnotation/src/narrant/backend/load_classification_for_documents.py  $PHARM_TECH_IDS PharmaceuticalTechnology -c PubMed
+if [[ $? != 0 ]]; then
+    echo "Previous script returned exit code != 0 -> Stopping pipeline."
+    exit -1
+fi
+
+# Load Pharmaceutical Journals as Pharmaceutical Chemistry
+python3 ~/NarrativeAnnotation/src/narrant/backend/export_article_ids_from_journals.py ~/NarrativeAnnotation/resources/classification/pharmaceutical_chemistry_journals.txt $PHARM_CHEM_IDS -c PubMed
+if [[ $? != 0 ]]; then
+    echo "Previous script returned exit code != 0 -> Stopping pipeline."
+    exit -1
+fi
+
+python3 ~/NarrativeAnnotation/src/narrant/backend/load_classification_for_documents.py  $PHARM_CHEM_IDS PharmaceuticalChemistry -c PubMed
 if [[ $? != 0 ]]; then
     echo "Previous script returned exit code != 0 -> Stopping pipeline."
     exit -1

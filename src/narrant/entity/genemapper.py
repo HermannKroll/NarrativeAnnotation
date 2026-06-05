@@ -45,9 +45,8 @@ class GeneMapper:
 
     def build_gene_mapper_index(self, gene_file=GENE_FILE):
         """
-        builds dictionary to map all gene ids to human gene ids, if possible
-        :param gene_file:
-        :param index_file:
+        builds dictionary to map all gene ids to human gene ids, if possible. Stores index in DB
+        :param gene_file: gele file from NLM
         :return:
         """
         logging.info('Computing index...')
@@ -66,11 +65,11 @@ class GeneMapper:
         json_data = json.dumps(dict(human_gene_dict=self.human_gene_dict,
                                     gene_to_human_id_dict=self.gene_to_human_id_dict))
         EntityResolverData.overwrite_resolver_data(session, name=GeneMapper.NAME, json_data=json_data)
+        logging.info('Finished')
 
     def load_index(self):
         """
-        load the index back from file
-        :param index_file:
+        load the index back from DB
         :return:
         """
         session = Session.get()
@@ -78,6 +77,7 @@ class GeneMapper:
         if "human_gene_dict" in data and "gene_to_human_id_dict" in data:
             self.human_gene_dict = data["human_gene_dict"]
             self.gene_to_human_id_dict = data["gene_to_human_id_dict"]
+            self.gene_to_human_id_dict = {int(k): v for k, v in self.gene_to_human_id_dict.items()}
         else:
             self.human_gene_dict = {}
             self.gene_to_human_id_dict = {}
@@ -98,7 +98,7 @@ def main():
                         datefmt='%Y-%m-%d:%H:%M:%S',
                         level=logging.DEBUG)
 
-    gene_mapper = GeneMapper(load_index=False)
+    gene_mapper = GeneMapper()
     gene_mapper.build_gene_mapper_index()
 
 

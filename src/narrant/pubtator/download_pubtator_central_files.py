@@ -7,13 +7,13 @@ import requests
 
 from kgextractiontoolbox.document.document import TaggedDocument
 from kgextractiontoolbox.progress import Progress
-from narrant.util.helpers import chunks
+from kgextractiontoolbox.util.helpers import chunks
 
 DOWNLOAD_BATCH_SIZE = 950
 PUBTATOR_DOWNLOAD_URL = 'https://www.ncbi.nlm.nih.gov/research/pubtator3-api/publications/export/pubtator'
 
 
-def download_pubtator_files_from_pubtator_central(pmids: Set[int], output_file: str):
+def download_pubtator_files_from_pubtator_central(pmids: Set[str], output_file: str):
     logging.info(f'{len(pmids)} documents must be downloaded from PubTator Central...')
 
     pmid_list = sorted(list(pmids))

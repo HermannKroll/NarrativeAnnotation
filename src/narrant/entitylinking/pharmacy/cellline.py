@@ -7,7 +7,7 @@ from narrant.vocabularies.cellline_vocabulary import CellLineVocabulary
 class CellLineTagger(IndexedDictTagger):
     TYPES = (enttypes.CELLLINE,)
     __name__ = "CellLineTagger"
-    __version__ = "1.0.0"
+    __version__ = "1.1.0"
 
     def __init__(self, *args, **kwargs):
         super().__init__("cellline", "CellLineTagger", CellLineTagger.__version__,

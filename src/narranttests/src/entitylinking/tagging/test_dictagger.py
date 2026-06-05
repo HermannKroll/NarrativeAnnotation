@@ -2,16 +2,14 @@ import unittest
 
 import kgextractiontoolbox.document.document as doc
 from kgextractiontoolbox.document.extract import read_tagged_documents
-from kgextractiontoolbox.entitylinking.tagging.dictagger import split_indexed_words, DictTagger
-from kgextractiontoolbox.entitylinking.tagging.vocabulary import expand_vocabulary_term
 from narrant.entitylinking.enttypes import DRUG
+from narrant.entitylinking.pharmacy.disease import DiseaseTagger
 from narrant.entitylinking.pharmacy.dosage import DosageFormTagger
 from narrant.entitylinking.pharmacy.drug import DrugTagger
 from narranttests.util import create_test_kwargs, get_test_resource_filepath, resource_rel_path
 
 
 class TestDictagger(unittest.TestCase):
-
 
     def test_tag(self):
         tagger = DosageFormTagger(**create_test_kwargs())
@@ -30,8 +28,7 @@ class TestDictagger(unittest.TestCase):
             for tag in d.tags:
                 tag_strings.append(repr(tag))
 
-        self.assertIn("<Entity 0,8,proteins,DosageForm,Desc1>", tag_strings)
-        self.assertIn("<Entity 1104,1112,proteins,DosageForm,Desc1>", tag_strings)
+        self.assertIn("<Entity 0,8,Proteins,DosageForm,Desc1>", tag_strings)
         self.assertIn("<Entity 1104,1112,proteins,DosageForm,Desc1>", tag_strings)
         self.assertIn("<Entity 1609,1626,protein secretion,DosageForm,Desc4>", tag_strings)
 
@@ -49,9 +46,9 @@ class TestDictagger(unittest.TestCase):
             for tag in d.tags:
                 tag_strings.append(repr(tag))
 
-        self.assertIn("<Entity 21,28,aspirin,Drug,Desc1>", tag_strings)
-        self.assertIn("<Entity 30,33,asa,Drug,Desc1>", tag_strings)
-        self.assertIn("<Entity 52,55,asa,Drug,Desc1>", tag_strings)
+        self.assertIn("<Entity 21,28,Aspirin,Drug,Desc1>", tag_strings)
+        self.assertIn("<Entity 30,33,ASA,Drug,Desc1>", tag_strings)
+        self.assertIn("<Entity 52,55,ASA,Drug,Desc1>", tag_strings)
 
     def test_abbreviation_not_allowed_check(self):
         tagger = DrugTagger(**create_test_kwargs())
@@ -69,9 +66,8 @@ class TestDictagger(unittest.TestCase):
             for tag in d.tags:
                 tag_strings.append(repr(tag))
 
-        self.assertIn("<Entity 52,61,metformin,Drug,Desc2>", tag_strings)
+        self.assertIn("<Entity 52,61,Metformin,Drug,Desc2>", tag_strings)
         self.assertNotIn("ASA", tag_strings)
-
 
     def test_text_tagging_simvastatin(self):
         text = "Simvastatin (ST) is a drug. Simvastatin is cool. Cool is also simVAStatin. ST is simvastatine."
@@ -198,6 +194,20 @@ class TestDictagger(unittest.TestCase):
             # space between each section
             self.assertEqual(positions[idx][0] + 7, tag.start)
             self.assertEqual(positions[idx][1] + 7, tag.end)
+
+    def test_tagging_carcinoma(self):
+        text = "non-small-cell lung cancer (NSCLC)."
+        tagger = DiseaseTagger(**create_test_kwargs())
+        tagger.desc_by_term = {
+            "non small cell lung cancer": {"MESH:D002289"}
+        }
+
+        doc1 = doc.TaggedDocument(title="", abstract=text, id=1)
+        tagger.tag_doc(doc1)
+        ent_ids = []
+        for idx, tag in enumerate(doc1.tags):
+            ent_ids.append(tag.ent_id)
+        self.assertIn("MESH:D002289", ent_ids)
 
 
 if __name__ == '__main__':

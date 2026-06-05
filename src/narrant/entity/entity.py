@@ -1,4 +1,11 @@
-from narrant.entity.meshontology import MeSHOntology
+def get_unique_entity_key(entity_type: str, entity_id: str) -> str:
+    """
+    Generates a unique entity key as a string
+    :param entity_type: entity type
+    :param entity_id: entity id
+    :return: unique entity key
+    """
+    return '___'.join([entity_type, entity_id])
 
 
 class Entity:
@@ -10,7 +17,7 @@ class Entity:
         self.entity_class = entity_class
 
     def __hash__(self):
-        return f'{self.entity_type}||{self.entity_id}'.__hash__()
+        return hash(self.get_unique_key())
 
     def __eq__(self, other):
         return other.entity_id == self.entity_id and other.entity_type == self.entity_type
@@ -21,17 +28,8 @@ class Entity:
     def __repr__(self):
         return '{} ({})'.format(self.entity_id, self.entity_type)
 
-    def get_meshs(self) -> {str}:
-        """
-        Lookup all (sub-)mesh-descriptors, if type is 'MESH_ONTOLOGY'. Defaults to entity_id
-        :return: {str}
-        """
-        mesh_ontology = MeSHOntology()
-        if self.entity_type == 'MESH_ONTOLOGY':
-            mesh_descs = set(mesh_ontology.find_descriptors_start_with_tree_no(self.entity_id))
-            return map(lambda d: 'MESH:{}'.format(d[0]), mesh_descs)
-        else:
-            return {self.entity_id}
-
     def to_dict(self):
         return dict(entity_id=self.entity_id, entity_type=self.entity_type, entity_name=self.entity_name)
+
+    def get_unique_key(self):
+        return get_unique_entity_key(entity_type=self.entity_type, entity_id=self.entity_id)
