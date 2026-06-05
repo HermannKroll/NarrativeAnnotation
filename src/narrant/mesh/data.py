@@ -155,7 +155,7 @@ class Descriptor(BaseNode):
         consider_also=(get_text, "ConsiderAlso"),
         date_created=(get_datetime, "DateCreated"),
         date_revised=(get_datetime, "DateRevised"),
-        date_established=(get_datetime, "DateEstablished", True),
+        date_established=(get_datetime, "DateEstablished", False),
         descriptor_class=(get_attr, "DescriptorClass"),
         _name=(get_text, "DescriptorName/String", True),
         history_note=(get_text, "HistoryNote"),
