@@ -22,13 +22,12 @@ def main():
             if d not in desc2class:
                 missing_classes.add(d)
 
-    resolver = EntityResolver()
 
     print('--' * 60)
     print('Not classified methods:')
     print('--' * 60)
     for ms in missing_classes:
-        print(f'{ms}\t{resolver.get_name_for_var_ent_id(ms, LAB_METHOD)}')
+        print(f'{ms}')
 
     print('--' * 60)
 
