@@ -44,6 +44,27 @@ class DrugVocabulary(ChemblVocabulary):
                         continue
 
                     entity_id = t['molecule_chembl_id']
+                    # heading = t['pref_name'].strip().capitalize()
+                    #
+                    # if t['molecule_synonyms']:
+                    #     for tc in t['molecule_synonyms']:
+                    #         if tc['syn_type'] and tc['syn_type'] == 'TRADE_NAME':
+                    #             skipped_synonyms += 1
+                    #             continue
+                    #         if tc['molecule_synonym']:
+                    #             # split by ';' to extract additional implicit synonyms, e.g.:
+                    #             # entity_id='CHEMBL2107855' heading='DENENICOKIN'
+                    #             # RIL-21; RECOMBINANT HUMAN INTERLEUKIN 21
+                    #             synonyms.append(tc['molecule_synonym'].replace(";", " "))
+                    #         if tc['synonyms'] and tc['synonyms'].lower() != synonyms[-1].lower():
+                    #             synonyms.append(tc['synonyms'].replace(";", " "))
+                    #
+                    # if len(synonyms) > 0:
+                    #     syn_str = ";".join(synonyms)
+                    #     synonyms.clear()
+                    # else:
+                    #     syn_str = ""
+
                     heading = t['pref_name'].strip().capitalize()
 
                     if t['molecule_synonyms']:
@@ -56,7 +77,7 @@ class DrugVocabulary(ChemblVocabulary):
                                 # entity_id='CHEMBL2107855' heading='DENENICOKIN'
                                 # RIL-21; RECOMBINANT HUMAN INTERLEUKIN 21
                                 synonyms.append(tc['molecule_synonym'].replace(";", " "))
-                            if tc['synonyms'] and tc['synonyms'].lower() != synonyms[-1].lower():
+                            if tc.get('synonyms') and synonyms and tc['synonyms'].lower() != synonyms[-1].lower():
                                 synonyms.append(tc['synonyms'].replace(";", " "))
 
                     if len(synonyms) > 0:
@@ -64,6 +85,8 @@ class DrugVocabulary(ChemblVocabulary):
                         synonyms.clear()
                     else:
                         syn_str = ""
+
+
 
                     vocabulary.add_vocab_entry(entity_id, self.internal_type, heading, syn_str)
 

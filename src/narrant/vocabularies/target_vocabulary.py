@@ -37,8 +37,13 @@ class TargetVocabulary(ChemblVocabulary):
 
             with open(file_name) as file:
                 for t in json.load(file):
-                    if not (t['target_chembl_id'] or t['component_description']):
+                    # FIX: component_description existiert nicht direkt im Target
+                    # Es ist in target_components enthalten
+                    if not t.get('target_chembl_id'):
                         continue
+
+                    # if not (t['target_chembl_id'] or t['component_description']):
+                    #     continue
                     # ignore certain target types
                     if len(self.ignored_target_types) > 0 \
                             and t["target_type"].strip().lower() in self.ignored_target_types:
@@ -62,15 +67,27 @@ class TargetVocabulary(ChemblVocabulary):
                         organism = "unknown organism"
                     target2organism[entity_id] = organism
 
+                    # synonyms = list()
+                    # if t['target_components']:
+                    #     for tc in t['target_components']:
+                    #         # split by ';' to extract additional implicit synonyms (example in drug_vocabulary.py)
+                    #         if tc['component_description']:
+                    #             synonyms.append(tc['component_description'].replace(";", " "))
+                    #         if tc['target_component_synonyms']:
+                    #             synonyms.extend([syn['component_synonym'].replace(";", " ")
+                    #                              for syn in tc['target_component_synonyms']])
+
+
                     synonyms = list()
-                    if t['target_components']:
+                    if t.get('target_components'):
                         for tc in t['target_components']:
                             # split by ';' to extract additional implicit synonyms (example in drug_vocabulary.py)
-                            if tc['component_description']:
+                            if tc.get('component_description'):
                                 synonyms.append(tc['component_description'].replace(";", " "))
-                            if tc['target_component_synonyms']:
+                            if tc.get('target_component_synonyms'):
                                 synonyms.extend([syn['component_synonym'].replace(";", " ")
                                                  for syn in tc['target_component_synonyms']])
+
 
                     target2entry[entity_id] = (heading, synonyms)
                     target2no_of_synonyms[entity_id] = len(synonyms)
